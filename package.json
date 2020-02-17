@@ -1,0 +1,24 @@
+{
+  "name": "eartensifier",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "canvas": "^2.6.1",
+    "common-tags": "^1.8.0",
+    "discord.js": "git+https://github.com/discordjs/discord.js.git",
+    "enmap": "^5.2.4",
+    "erela.js": "^1.0.8",
+    "moment": "^2.24.0",
+    "mongoose": "^5.8.11",
+    "quick.db": "^7.0.0-b22",
+    "quickdb": "^1.0.5",
+    "snekfetch": "^4.0.4",
+    "winston": "^3.2.1"
+  }
+}
