@@ -5,3 +5,7 @@ eval.js
 lavalink
 start-bot.bat
 json.sqlite
+*.bat
+.vs/slnx.sqlite
+.vs/Typecord/v16/.suo
+.vs/VSWorkspaceState.json
