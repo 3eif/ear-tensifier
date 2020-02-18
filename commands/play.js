@@ -17,6 +17,7 @@ module.exports = {
     description: "Plays a song",
     args: true,
     usage: "<song>",
+    aliases: ["p"],
     async execute(client, message, args) {
         const voiceChannel = message.member.voice.channel;;
         if (!voiceChannel) return message.channel.send("You need to be in a voice channel to play music");

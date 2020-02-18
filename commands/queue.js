@@ -6,6 +6,7 @@ const { Utils } = require("erela.js");
 module.exports = {
     name: "queue",
     description: "Displays the queue.",
+    aliases: ["q"],
     async execute(client, message, args) {
         const voiceChannel = message.member.voice.channel;
         const player = client.music.players.get(message.guild.id);

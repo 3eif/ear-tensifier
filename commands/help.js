@@ -8,7 +8,7 @@ const commandsFile = fs.readdirSync("./commands").filter(file => file.endsWith("
 module.exports = {
   name: "help",
   description: "Sends you a dm of detailed list of Ear Tensifier's commands.",
-  aliases: ["commands"],
+  aliases: ["commands", "list"],
   cooldown: "30",
   usage: `[command name]`,
   async execute (client, message, args) {

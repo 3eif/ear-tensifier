@@ -9,6 +9,7 @@ module.exports = {
     cooldown: "10",
     args: true,
     usage: "<seconds>",
+    aliases: ["skipto"],
     async execute(client, message, args) {
         const voiceChannel = message.member.voice.channel;
         const player = client.music.players.get(message.guild.id);
