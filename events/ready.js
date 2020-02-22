@@ -7,9 +7,10 @@ const Event = require('../Event');
 const tokens = require("../tokens.json");
 const mongoose = require("mongoose");
 const bot = require("../models/bot.js");
+const { webhooks } = require("../tokens.json");
 
-const webhookClient = new Discord.WebhookClient(tokens.webhookID, tokens.webhookToken);
-const webhookClient2 = new Discord.WebhookClient(tokens.streamID, tokens.streamToken);
+const webhookClient = new Discord.WebhookClient(webhooks["webhookID"], webhooks["webhookToken"]);
+const webhookClient2 = new Discord.WebhookClient(webhooks["streamID"], webhooks["streamToken"]);
 
 mongoose.connect(`mongodb+srv://${tokens.mongoUsername}:${encodeURIComponent(tokens.mongoPass)}@tetracyl-unhxi.mongodb.net/test?retryWrites=true&w=majority`, {
     useNewUrlParser: true,
