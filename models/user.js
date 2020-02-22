@@ -8,6 +8,9 @@ const userSchema = mongoose.Schema({
   commandsUsed: Number,
   blocked: Boolean,
   supporter: Boolean,
+  supporterPlus: Boolean,
+  supporterPlusPlus: Boolean,
+  supporterInfinite: Boolean,
   mod: Boolean,
   developer: Boolean,
 });

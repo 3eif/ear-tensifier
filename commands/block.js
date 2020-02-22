@@ -41,6 +41,9 @@ module.exports = {
                     commandsUsed: 0,
                     blocked: true,
                     supporter: false,
+                    supporterPlus: false,
+                    supporterPlusPlus: false,
+                    supporterInfinite: false,
                     mod: false,
                     developer: false,
                 });

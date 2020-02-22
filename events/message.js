@@ -69,6 +69,9 @@ module.exports = class Message extends Event {
             commandsUsed: 1,
             blocked: false,
             supporter: false,
+            supporterPlus: false,
+            supporterPlusPlus: false,
+            supporterInfinite: false,
             mod: false,
             developer: false,
           });
