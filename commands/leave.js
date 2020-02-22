@@ -5,7 +5,7 @@ const { Utils } = require("erela.js");
 
 module.exports = {
     name: "leave",
-    description: "Plays a song",
+    description: "The bot leaves the voice channel it is currently in.",
     aliases: ["disconnect"],
     cooldown: "10",
     async execute(client, message, args) {
