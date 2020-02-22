@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema({
   authorID: String,
-  userName: String,
+  authorName: String,
   bio: String,
   songsPlayed: Number, 
   commandsUsed: Number,
