@@ -11,7 +11,6 @@ const userSchema = mongoose.Schema({
   supporterPlus: Boolean,
   supporterPlusPlus: Boolean,
   supporterInfinite: Boolean,
-  mod: Boolean,
   developer: Boolean,
 });
 

@@ -44,7 +44,6 @@ module.exports = {
                     supporterPlus: false,
                     supporterPlusPlus: false,
                     supporterInfinite: false,
-                    mod: false,
                     developer: false,
                 });
                 newUser.save().catch(e => console.log(e));

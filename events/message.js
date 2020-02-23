@@ -72,7 +72,6 @@ module.exports = class Message extends Event {
             supporterPlus: false,
             supporterPlusPlus: false,
             supporterInfinite: false,
-            mod: false,
             developer: false,
           });
           newUser.save().catch(e => console.log(e));
@@ -84,6 +83,7 @@ module.exports = class Message extends Event {
             u.commandsUsed += 1;
           }
         }
+        await u.save().catch(e => console.log(e));
 
         if (ignoreMsg) return;
 

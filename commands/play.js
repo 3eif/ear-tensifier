@@ -5,6 +5,7 @@ const { Utils } = require("erela.js");
 
 const mongoose = require("mongoose");
 const bot = require("../models/bot.js");
+const users = require("../models/user.js");
 const { mongoUsername, mongoPass } = require("../tokens.json");
 
 mongoose.connect(`mongodb+srv://${mongoUsername}:${mongoPass}@tetracyl-unhxi.mongodb.net/test?retryWrites=true&w=majority`, {
@@ -43,6 +44,15 @@ module.exports = {
 
             b.songsPlayed += 1;
             await b.save().catch(e => console.log(e));
+        });
+
+        users.findOne({
+            authorID: message.author.id
+        }, async (err, u) => {
+            if (err) console.log(err);
+
+            u.songsPlayed += 1;
+            await u.save().catch(e => console.log(e));
         });
 
         client.music.search(args.join(" "), message.author).then(async res => {

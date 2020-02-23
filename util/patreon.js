@@ -27,7 +27,6 @@ module.exports = async (user, pledge) => {
                         supporterPlus: false,
                         supporterPlusPlus: false,
                         supporterInfinite: false,
-                        mod: false,
                         developer: false,
                     });
                     newUser.save().catch(e => console.log(e));
@@ -58,7 +57,6 @@ module.exports = async (user, pledge) => {
                         supporterPlus: false,
                         supporterPlusPlus: false,
                         supporterInfinite: false,
-                        mod: false,
                         developer: false,
                     });
                     newUser.save().catch(e => console.log(e));
@@ -89,7 +87,6 @@ module.exports = async (user, pledge) => {
                         supporterPlus: true,
                         supporterPlusPlus: false,
                         supporterInfinite: false,
-                        mod: false,
                         developer: false,
                     });
                     newUser.save().catch(e => console.log(e));
@@ -121,7 +118,6 @@ module.exports = async (user, pledge) => {
                         supporterPlus: true,
                         supporterPlusPlus: true,
                         supporterInfinite: false,
-                        mod: false,
                         developer: false,
                     });
                     newUser.save().catch(e => console.log(e));
@@ -153,7 +149,6 @@ module.exports = async (user, pledge) => {
                         supporterPlus: true,
                         supporterPlusPlus: true,
                         supporterInfinite: true,
-                        mod: false,
                         developer: false,
                     });
                     newUser.save().catch(e => console.log(e));
