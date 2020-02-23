@@ -1,7 +1,7 @@
 {
-  "name": "eartensifier",
+  "name": "EarTensifier",
   "version": "1.0.0",
-  "description": "",
+  "description": "Discord music bot written in javascript using discord.js https://eartensifier.net",
   "main": "index.js",
   "dependencies": {
     "canvas": "^2.6.1",
@@ -27,8 +27,8 @@
     "type": "git",
     "url": "git+https://github.com/EarTensifier/EarTensifier.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Tetracyl#0001",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/EarTensifier/EarTensifier/issues"
   },
