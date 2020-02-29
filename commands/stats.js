@@ -28,8 +28,8 @@ module.exports = {
                 let mins = Math.floor((totalSeconds / 60) % 60);
 
                 const promises = [
-                    client.shard.fetchClientValues('guilds.size'),
-                    client.shard.broadcastEval('this.guilds.reduce((prev, guild) => prev + guild.memberCount, 0)'),
+                    client.shard.fetchClientValues('guilds.cache.size'),
+                    client.shard.broadcastEval('this.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0)'),
                 ];
 
                 bot.findOne({
@@ -55,7 +55,6 @@ module.exports = {
                         .addField(`Memory Used`, `${Math.round(used * 100) / 100}MB`, true)
                         .addField(`Messages Sent`, `${b.messagesSent} messages`, true)
                         .addField(`Songs Played`, `${b.songsPlayed} songs`, true)
-                        .addField("CPU", `${os.cpus()[0].model}`)
                         .addField(`Uptime`, `${days} days, ${hours} hours, ${mins} minutes, and ${realTotalSecs} seconds`)
                         .setFooter(`Latency ${msg.createdTimestamp - message.createdTimestamp}ms`)
                         .setTimestamp()
