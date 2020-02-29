@@ -15,8 +15,6 @@ module.exports = class GuildCreate extends Event {
     async run(guild) {
         this.client.shard.fetchClientValues('guilds.size').then(guilds => {
 
-            this.client.user.setActivity(`ear help | ${require('util').inspect(guilds.reduce((prev, val) => prev + val, 0))} servers`);
-
             const embed = new Discord.MessageEmbed()
                 .setAuthor(`Ear Tensifier | Guild ID: ${guild.id}`, this.client.user.displayAvatarURL())
                 .setColor(colors.online)
@@ -34,7 +32,7 @@ module.exports = class GuildCreate extends Event {
                 avatarURL: this.client.settings.avatar,
                 embeds: [embed],
             });
-            
+
             //   const dbl = new DBL(config.dblToken, this.client)
             //   snekfetch.post(`https://discordbots.org/api/bots/472714545723342848/stats`)
             //   .set('Authorization', config.dblToken)

@@ -60,12 +60,16 @@ module.exports = class Ready extends Event {
                 this.client.shard.broadcastEval('this.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0)'),
             ];
 
-
             return Promise.all(promises)
                 .then(async results => {
                     const totalGuilds = results[0].reduce((prev, guildCount) => prev + guildCount, 0);
                     const totalMembers = results[1].reduce((prev, memberCount) => prev + memberCount, 0);
                     console.log(`Ear Tensifier is online: ${this.client.shard.count} shards, ${totalGuilds} servers and ${totalMembers} members.`)
+                    this.client.user.setActivity(`ear help | ${totalGuilds}} servers`);
+
+                    setInterval(() => {
+                        this.client.user.setActivity(`ear help | ${totalGuilds}} servers`);
+                    }, 1800000);
 
                     const embed = new Discord.MessageEmbed()
                         .setAuthor("Ear Tensifier", this.client.settings.avatar)
@@ -81,20 +85,6 @@ module.exports = class Ready extends Event {
                         avatarURL: this.client.settings.avatar,
                         embeds: [embed],
                     });
-
-                    setInterval(() => {
-                        const embed = new Discord.MessageEmbed()
-                            .setAuthor("Ear Tensifier", this.client.settings.avatar)
-                            .setColor(colors.main)
-                            .setDescription(`Ear Tensifier is currently playing on **${this.client.music.players.size} server(s)**.`)
-                            .setTimestamp()
-
-                        webhookClient2.send({
-                            username: 'Ear Tensifier',
-                            avatarURL: this.client.settings.avatar,
-                            embeds: [embed],
-                        });
-                    }, 3000000);
                 });
         }
     }
