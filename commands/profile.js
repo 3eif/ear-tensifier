@@ -18,7 +18,7 @@ module.exports = {
   async execute (client, message, args) {
     const msg = await message.channel.send(`${emojis.loading} Fetching profile...`);
 
-    const user = message.mentions.members.first() || message.guild.members.get(args[0]) || message.member;
+    const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.member;
     if (!user) return msg.edit(replies.noUser);
 
     users.findOne({

@@ -25,7 +25,7 @@ module.exports = {
 
         const msg = await message.channel.send(`${emojis.loading} Blocked user from bot...`);
 
-        const user = message.mentions.members.first() || message.guild.members.get(args[0]);
+        const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
         if (!user) return msg.edit("Not a valid user.");
 
         users.findOne({
