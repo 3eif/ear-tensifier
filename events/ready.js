@@ -12,6 +12,12 @@ const { webhooks } = require("../tokens.json");
 const webhookClient = new Discord.WebhookClient(webhooks["webhookID"], webhooks["webhookToken"]);
 const webhookClient2 = new Discord.WebhookClient(webhooks["streamID"], webhooks["streamToken"]);
 
+const nodes = [{
+    host: "localhost",
+    port: 25566,
+    password: "youshallnotpass",
+}]
+
 mongoose.connect(`mongodb+srv://${tokens.mongoUsername}:${encodeURIComponent(tokens.mongoPass)}@tetracyl-unhxi.mongodb.net/test?retryWrites=true&w=majority`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -24,7 +30,7 @@ module.exports = class Ready extends Event {
 
     async run(client) {
 
-        this.client.music = new ErelaClient(this.client, tokens.nodes)
+        this.client.music = new ErelaClient(this.client, nodes)
             .on("nodeError", console.log)
             .on("nodeConnect", () => console.log)
             .on("queueEnd", player => {

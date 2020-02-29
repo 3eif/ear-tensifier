@@ -13,12 +13,13 @@
     "mongoose": "^5.8.11",
     "quick.db": "^7.0.0-b22",
     "quickdb": "^1.0.5",
+    "radio-browser": "^1.5.3",
     "snekfetch": "^4.0.4",
     "winston": "^3.2.1"
   },
   "devDependencies": {},
-  "publishConfig": { 
-    "registry": "https://npm.pkg.github.com/" 
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
