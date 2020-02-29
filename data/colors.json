@@ -1,5 +1,7 @@
 {
     "main": "#2F3136",
+    "online": "#7BCBA7",
+    "offline": "#9EA5AF",
     "acidgreen": "b0bf1a",
     "aero": "7cb9e8",
     "aeroblue": "c9ffe5",

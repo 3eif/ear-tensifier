@@ -3,6 +3,9 @@ const moment = require("moment");
 const Event = require('../Event');
 const colors = require("../data/colors.json")
 const channel = require("../data/channels.json")
+const { webhooks } = require("../tokens.json");
+
+const webhookClient = new Discord.WebhookClient(webhooks["guildID"], webhooks["guildToken"]);
 
 module.exports = class GuildCreate extends Event {
     constructor(...args) {
@@ -14,9 +17,9 @@ module.exports = class GuildCreate extends Event {
 
             this.client.user.setActivity(`ear help | ${require('util').inspect(guilds.reduce((prev, val) => prev + val, 0))} servers`);
 
-            let guildEmbed = new Discord.MessageEmbed()
+            const embed = new Discord.MessageEmbed()
                 .setAuthor(`Ear Tensifier | Guild ID: ${guild.id}`, this.client.user.displayAvatarURL())
-                .setColor(colors.main)
+                .setColor(colors.online)
                 .setThumbnail(guild.iconURL())
                 .setDescription("Ear Tensifier has been **ADDED** to a server.")
                 .addField("Guild", `${guild.name}`, true)
@@ -26,8 +29,12 @@ module.exports = class GuildCreate extends Event {
                 .setFooter(`Created On - ${moment(guild.createdAt).format('LLLL')}`, guild.iconURL())
                 .setTimestamp();
 
-            this.client.channels.get(channel.guildEvents).send(guildEmbed);
-
+            webhookClient.send({
+                username: 'Ear Tensifier',
+                avatarURL: this.client.settings.avatar,
+                embeds: [embed],
+            });
+            
             //   const dbl = new DBL(config.dblToken, this.client)
             //   snekfetch.post(`https://discordbots.org/api/bots/472714545723342848/stats`)
             //   .set('Authorization', config.dblToken)
