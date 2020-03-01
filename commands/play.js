@@ -59,8 +59,9 @@ module.exports = {
             if (data.type == "playlist" || data.type == "album") {
                 await data.tracks.items.forEach(song => {
                     play(`${song.track.name} ${song.track.artists[0].name}`, true);
-                }),
-                message.channel.send(`**${data.title}** (${data.tracks.items.length} tracks) has been added to the queue by **${message.author}**`)
+                });
+                let playlistInfo = await getPreview(args.join(" "));
+                message.channel.send(`**${playlistInfo.title}** (${data.tracks.items.length} tracks) has been added to the queue by **${message.author.tag}**`)
             } else if (data.type == "track") {
 
             }
