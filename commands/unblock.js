@@ -4,12 +4,8 @@ const colors = require("../data/colors.json")
 const users = require("../models/user.js");
 const mongoose = require("mongoose");
 const { modlog } = require("../data/channels.json");
-const { mongoUsername, mongoPass } = require("../tokens.json");
 
-mongoose.connect(`mongodb+srv://${mongoUsername}:${mongoPass}@tetracyl-unhxi.mongodb.net/test?retryWrites=true&w=majority`, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
+
 
 module.exports = {
     name: "unblock",

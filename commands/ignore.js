@@ -3,13 +3,9 @@ const { loading } = require("../data/emojis.json");
 const colors = require("../data/colors.json")
 const servers = require("../models/server.js");
 const mongoose = require("mongoose");
-const { mongoUsername, mongoPass } = require("../tokens.json");
 const emojis = require("../data/emojis.json");
 
-mongoose.connect(`mongodb+srv://${mongoUsername}:${mongoPass}@tetracyl-unhxi.mongodb.net/test?retryWrites=true&w=majority`, {
-    useNewUrlParser: true, 
-    useUnifiedTopology: true
-});
+
 
 module.exports = {
   name: "ignore",

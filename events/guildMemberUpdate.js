@@ -17,7 +17,7 @@ module.exports = class GuildMemberUpdate extends Event {
 
         if (oldMember.roles !== newMember.roles) {
 
-            if (oldMember.roles.find(r => r.name === "Supporter") && !newMember.roles.find(r => r.name === "Supporter")) {
+            if (oldMember.roles.cache.find(r => r.name === "Supporter") && !newMember.roles.cache.find(r => r.name === "Supporter")) {
                 const embed = new Discord.MessageEmbed()
                     .setAuthor("Deleted Patreon", "https://cdn.discordapp.com/avatars/216303189073461248/00a6db63b09480d1613877bf40e98bea.webp?size=2048")
                     .setColor(colors.main)
@@ -32,9 +32,9 @@ module.exports = class GuildMemberUpdate extends Event {
                 });
 
                 return patreon(newMember.user, "Remove")
-            } //else if (oldMember.roles.find(r => r.name === "Supporter")) return;
+            } //else if (oldMember.roles.cache.find(r => r.name === "Supporter")) return;
 
-            if (!newMember.roles.find(r => r.name === "Supporter") && !newMember.roles.find(r => r.name === "Supporter+") && !newMember.roles.find(r => r.name === "Supporter++") && !newMember.roles.find(r => r.name === "Supporter ∞")) return;
+            if (!newMember.roles.cache.find(r => r.name === "Supporter") && !newMember.roles.cache.find(r => r.name === "Supporter+") && !newMember.roles.cache.find(r => r.name === "Supporter++") && !newMember.roles.cache.find(r => r.name === "Supporter ∞")) return;
 
             const embed = new Discord.MessageEmbed()
                 .setAuthor("New Patreon!", "https://cdn.discordapp.com/avatars/216303189073461248/00a6db63b09480d1613877bf40e98bea.webp?size=2048")
@@ -43,25 +43,25 @@ module.exports = class GuildMemberUpdate extends Event {
                 .setDescription(`**${newMember.user.tag}** (${newMember.user.id}) is now a Patreon supporter!`)
                 .setTimestamp()
 
-            if (newMember.roles.find(r => r.name === "Supporter ∞")) {
+            if (newMember.roles.cache.find(r => r.name === "Supporter ∞")) {
                 embed.addField("Tier", "Supporter ∞", true)
                 embed.addField("Pledge", patreonData.sinfinite, true)
 
                 patreon(newMember.user, "Supporter ∞");
 
-            } else if (newMember.roles.find(r => r.name === "Supporter++")) {
+            } else if (newMember.roles.cache.find(r => r.name === "Supporter++")) {
                 embed.addField("Tier", "Supporter++", true)
                 embed.addField("Pledge", patreonData.splusplus, true)
 
                 patreon(newMember.user, "Supporter++");
 
-            } else if (newMember.roles.find(r => r.name === "Supporter+")) {
+            } else if (newMember.roles.cache.find(r => r.name === "Supporter+")) {
                 embed.addField("Tier", "Supporter+", true)
                 embed.addField("Pledge", patreonData.splus, true)
 
                 patreon(newMember.user, "Supporter+");
 
-            } else if (newMember.roles.find(r => r.name === "Supporter")) {
+            } else if (newMember.roles.cache.find(r => r.name === "Supporter")) {
                 embed.addField("Tier", "Supporter", true)
                 embed.addField("Pledge", patreonData.s, true)
 

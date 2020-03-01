@@ -5,12 +5,8 @@ const mongoose = require("mongoose");
 const moment = require("moment");
 const bot = require("../models/bot.js");
 const columnify = require('columnify')
-const { mongoUsername, mongoPass } = require("../tokens.json");
 
-mongoose.connect(`mongodb+srv://${mongoUsername}:${mongoPass}@tetracyl-unhxi.mongodb.net/test?retryWrites=true&w=majority`, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
+
 
 module.exports = {
   name: 'shards',

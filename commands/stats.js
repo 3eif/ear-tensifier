@@ -3,12 +3,8 @@ const colors = require("../data/colors.json")
 const { loading } = require("../data/emojis.json");
 const mongoose = require("mongoose");
 const bot = require("../models/bot.js");
-const { mongoUsername, mongoPass } = require("../tokens.json");
 
-mongoose.connect(`mongodb+srv://${mongoUsername}:${mongoPass}@tetracyl-unhxi.mongodb.net/test?retryWrites=true&w=majority`, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
+
 
 module.exports = {
     name: 'stats',

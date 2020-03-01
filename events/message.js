@@ -8,13 +8,6 @@ const servers = require("../models/server.js");
 const bot = require("../models/bot.js");
 const commandsSchema = require("../models/command.js");
 
-const mongoose = require("mongoose");
-const { mongoUsername, mongoPass } = require("../tokens.json");
-mongoose.connect(`mongodb+srv://${mongoUsername}:${mongoPass}@tetracyl-unhxi.mongodb.net/test?retryWrites=true&w=majority`, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
-
 module.exports = class Message extends Event {
   constructor(...args) {
     super(...args)

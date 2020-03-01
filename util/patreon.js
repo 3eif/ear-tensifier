@@ -1,12 +1,8 @@
 const Discord = require("discord.js");
 const mongoose = require("mongoose");
-const { mongoUsername, mongoPass } = require("../tokens.json");
 const users = require("../models/user.js");
 
-mongoose.connect(`mongodb+srv://${mongoUsername}:${mongoPass}@tetracyl-unhxi.mongodb.net/test?retryWrites=true&w=majority`, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
+
 
 module.exports = async (user, pledge) => {
     switch (pledge) {

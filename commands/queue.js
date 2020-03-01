@@ -19,7 +19,7 @@ module.exports = {
         const queueEmbed = new Discord.MessageEmbed()
             .setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
             .setColor(colors.discord)
-            .setDescription(`**Now Playing** - [${title}](${uri}) (${Utils.formatTime(duration, true)}) by ${author}.\n\n${player.queue.slice(1, 10).map(song => `**${index++}** - [${song.title}](${song.uri}) (${Utils.formatTime(song.duration, true)}) by ${song.author}.`).join("\n")}`)
+            .setDescription(`**Now Playing** - [${title}](${uri}) (${Utils.formatTime(duration, true)}) by ${author}.\n\n${player.queue.slice(1, 11).map(song => `**${index++}** - [${song.title}](${song.uri}) (${Utils.formatTime(song.duration, true)}) by ${song.author}.`).join("\n")}`)
             .setColor(colors.main)
             .setFooter(`${player.queue.size} songs | ${Utils.formatTime(player.queue.duration, true)} total duration`)
         message.channel.send(queueEmbed);

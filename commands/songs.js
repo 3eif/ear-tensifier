@@ -5,12 +5,8 @@ const { Utils } = require("erela.js");
 
 const mongoose = require("mongoose");
 const users = require("../models/user.js");
-const { mongoUsername, mongoPass } = require("../tokens.json");
 
-mongoose.connect(`mongodb+srv://${mongoUsername}:${mongoPass}@tetracyl-unhxi.mongodb.net/test?retryWrites=true&w=majority`, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
+
 
 module.exports = {
     name: "songs",

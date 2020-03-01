@@ -6,12 +6,10 @@ const { Utils } = require("erela.js");
 const mongoose = require("mongoose");
 const bot = require("../models/bot.js");
 const users = require("../models/user.js");
-const { mongoUsername, mongoPass } = require("../tokens.json");
 
-mongoose.connect(`mongodb+srv://${mongoUsername}:${mongoPass}@tetracyl-unhxi.mongodb.net/test?retryWrites=true&w=majority`, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
+let { getData, getPreview } = require("spotify-url-info");
+
+
 
 module.exports = {
     name: "play",
@@ -55,29 +53,52 @@ module.exports = {
             await u.save().catch(e => console.log(e));
         });
 
-        client.music.search(args.join(" "), message.author).then(async res => {
-            switch (res.loadType) {
+        let searchQuery;
+        if (args[0].startsWith("https://open.spotify.com")) {
+            const data = await getData(args.join(" "));
+            if (data.type == "playlist" || data.type == "album") {
+                await data.tracks.items.forEach(song => {
+                    play(`${song.track.name} ${song.track.artists[0].name}`, true);
+                }),
+                message.channel.send(`**${data.title}** (${data.tracks.items.length} tracks) has been added to the queue by **${message.author}**`)
+            } else if (data.type == "track") {
 
-                case "TRACK_LOADED":
-                    player.queue.add(res.tracks[0]);
-                    msg.edit(`**${res.tracks[0].title}** (${Utils.formatTime(res.tracks[0].duration, true)}) has been added to the queue by **${res.tracks[0].requester.tag}**`);
-                    if (!player.playing) player.play();
-                    break;
-
-                case "SEARCH_RESULT":
-                    player.queue.add(res.tracks[0]);
-                    msg.edit(`**${res.tracks[0].title}** (${Utils.formatTime(res.tracks[0].duration, true)}) has been added to the queue by **${res.tracks[0].requester.tag}**`);
-                    if (!player.playing) player.play();
-                    break;
-
-                case "PLAYLIST_LOADED":
-                    // res.playlist.tracks.forEach(track => player.queue.add(track));
-                    // const duration = Utils.formatTime(res.playlist.tracks.reduce((acc, cure) => ({ duration: acc.duration + cure.duration })).duration, true);
-                    // msg.edit(`**${res.playlist.info.name}** (${duration}) (${res.playlist.tracks.length} tracks) has been added to the queue by **${res.playlist.tracks.requester}**`);
-                    // if (!player.playing) player.play()
-                    return message.channel.send("Playlist functionality is currently disabled. Please try again later.")
-                    break;
             }
-        }).catch(err => message.channel.send(err.message))
+        } else {
+            searchQuery = args.join(" ")
+            play(searchQuery, false);
+        }
+
+        async function play(searchQuery, playlist) {
+            client.music.search(searchQuery, message.author).then(async res => {
+                switch (res.loadType) {
+
+                    case "TRACK_LOADED":
+                        player.queue.add(res.tracks[0]);
+                        if (!playlist) msg.edit(`**${res.tracks[0].title}** (${Utils.formatTime(res.tracks[0].duration, true)}) has been added to the queue by **${res.tracks[0].requester.tag}**`);
+                        if (!player.playing) player.play();
+                        break;
+
+                    case "SEARCH_RESULT":
+                        player.queue.add(res.tracks[0]);
+                        if (!playlist) msg.edit(`**${res.tracks[0].title}** (${Utils.formatTime(res.tracks[0].duration, true)}) has been added to the queue by **${res.tracks[0].requester.tag}**`);
+                        if (!player.playing) player.play();
+                        break;
+
+                    case "PLAYLIST_LOADED":
+                        // res.playlist.tracks.forEach(track => player.queue.add(track));
+                        // const duration = Utils.formatTime(res.playlist.tracks.reduce((acc, cure) => ({ duration: acc.duration + cure.duration })).duration, true);
+                        // msg.edit(`**${res.playlist.info.name}** (${duration}) (${res.playlist.tracks.length} tracks) has been added to the queue by **${res.playlist.tracks.requester}**`);
+                        // if (!player.playing) player.play()
+                        return message.channel.send("Playlist functionality is currently disabled. Please try again later.")
+                        break;
+                    
+                }
+                return;
+            }).catch(err => { 
+                if (playlist) return;
+                message.channel.send(err.message) 
+            })
+        }
     },
 };
