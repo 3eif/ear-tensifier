@@ -4,6 +4,7 @@ const songSchema = mongoose.Schema({
   songID: String,
   songName: String,
   songAuthor: String,
+  songDuration: Number,
   timesPlayed: Number, 
   timesAdded: Number,
 });

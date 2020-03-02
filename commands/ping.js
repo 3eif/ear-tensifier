@@ -10,7 +10,7 @@ module.exports = {
 
         const embed = new Discord.MessageEmbed()
             .setAuthor("Pong!", client.settings.avatar)
-            .setDescription(`Latency \`${msg.createdTimestamp - message.createdTimestamp}ms\`. API Latency \`${Math.round(client.ping)}ms\``)
+            .setDescription(`Latency \`${msg.createdTimestamp - message.createdTimestamp}ms\`. API Latency \`${Math.round(client.ws.ping)}ms\``)
             .setColor(colors.main)
             .setTimestamp();
         msg.edit("", embed);

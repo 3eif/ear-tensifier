@@ -1,7 +1,5 @@
 const { ErelaClient, Utils } = require("erela.js");
-const emojis = require("../data/emojis.json");
 const colors = require("../data/colors.json");
-const channels = require("../data/channels.json");
 const Discord = require('discord.js');
 const Event = require('../Event');
 const tokens = require("../tokens.json");
@@ -10,7 +8,6 @@ const bot = require("../models/bot.js");
 const { webhooks } = require("../tokens.json");
 
 const webhookClient = new Discord.WebhookClient(webhooks["webhookID"], webhooks["webhookToken"]);
-const webhookClient2 = new Discord.WebhookClient(webhooks["streamID"], webhooks["streamToken"]);
 
 mongoose.connect(`mongodb+srv://${tokens.mongoUsername}:${encodeURIComponent(tokens.mongoPass)}@tetracyl-unhxi.mongodb.net/test?retryWrites=true&w=majority`, {
     useNewUrlParser: true,
@@ -48,6 +45,8 @@ module.exports = class Ready extends Event {
             .set("medium", 0.15)
             .set("high", 0.25);
 
+        this.client.user.setActivity(`ear help`);
+
         if (this.client.shard.ids == this.client.shard.count - 1) {
             const promises = [
                 this.client.shard.fetchClientValues('guilds.cache.size'),
@@ -59,10 +58,9 @@ module.exports = class Ready extends Event {
                     const totalGuilds = results[0].reduce((prev, guildCount) => prev + guildCount, 0);
                     const totalMembers = results[1].reduce((prev, memberCount) => prev + memberCount, 0);
                     console.log(`Ear Tensifier is online: ${this.client.shard.count} shards, ${totalGuilds} servers and ${totalMembers} members.`)
-                    this.client.user.setActivity(`ear help | ${totalGuilds}} servers`);
 
                     setInterval(() => {
-                        this.client.user.setActivity(`ear help | ${totalGuilds}} servers`);
+                        this.client.user.setActivity(`ear help | ${totalGuilds} servers`);
                     }, 1800000);
 
                     const embed = new Discord.MessageEmbed()
