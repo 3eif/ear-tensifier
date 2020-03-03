@@ -7,6 +7,11 @@ const users = require("../models/user.js")
 const servers = require("../models/server.js");
 const bot = require("../models/bot.js");
 const commandsSchema = require("../models/command.js");
+const colors = require("../data/colors.json");
+
+const { webhooks } = require("../tokens.json");
+
+const webhookClient = new Discord.WebhookClient(webhooks["messageID"], webhooks["messageToken"]);
 
 module.exports = class Message extends Event {
   constructor(...args) {
@@ -130,6 +135,18 @@ module.exports = class Message extends Event {
         });
 
         console.log(`${cmd.name} used by ${message.author.tag} (${message.author.id}) from ${message.guild.name} (${message.guild.id})`)
+        const embed = new Discord.MessageEmbed()
+          .setAuthor(`${message.author.username}`, message.author.displayAvatarURL())
+          .setColor(colors.main)
+          .setDescription(`**${cmd.name}** command used by **${message.author.tag}** (${message.author.id})`)
+          .setFooter(`${message.guild.name} (${message.guild.id})`, message.guild.iconURL())
+          .setTimestamp()
+
+        webhookClient.send({
+          username: 'Ear Tensifier',
+          avatarURL: this.client.settings.avatar,
+          embeds: [embed],
+        });
 
         if (!cooldowns.has(command.name)) {
           cooldowns.set(command.name, new Discord.Collection());
