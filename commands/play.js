@@ -32,7 +32,7 @@ module.exports = {
 
         if (player.pause == "paused") return message.channel.send(`Cannot play/queue songs while paused. Do \`${client.settings.prefix} resume\` to play.`);
 
-        const msg = await message.channel.send(`${emojis.cd}  Searching for <${args.join(" ")}>...`)
+        const msg = await message.channel.send(`${emojis.cd}  Searching for \`${args.join(" ")}\`...`)
 
         bot.findOne({
             clientID: client.user.id

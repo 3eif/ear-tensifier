@@ -20,7 +20,7 @@ module.exports = {
         if(!permissions.has("CONNECT")) return message.channel.send("I do not have permission to join your voice channel.");
         if(!permissions.has("SPEAK")) return message.channel.send("I do not have permission to speak in your voice channel.");
 
-        const msg = await message.channel.send(`${emojis.cd}  Searching for ${args.join(" ")}...`)
+        const msg = await message.channel.send(`${emojis.cd}  Searching for \`${args.join(" ")}\`...`)
 
         bot.findOne({
             clientID: client.user.id
