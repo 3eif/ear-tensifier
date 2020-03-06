@@ -1,8 +1,4 @@
-const Discord = require("discord.js");
-const mongoose = require("mongoose");
 const users = require("../models/user.js");
-
-
 
 module.exports = async (user, pledge) => {
     switch (pledge) {
@@ -25,7 +21,7 @@ module.exports = async (user, pledge) => {
                         supporterInfinite: false,
                         developer: false,
                     });
-                    newUser.save().catch(e => console.log(e));
+                    await newUser.save().catch(e => console.log(e));
                 } else {
                     u.supporter = false;
                     u.supporterPlus = false;
@@ -55,7 +51,7 @@ module.exports = async (user, pledge) => {
                         supporterInfinite: false,
                         developer: false,
                     });
-                    newUser.save().catch(e => console.log(e));
+                    await newUser.save().catch(e => console.log(e));
                 } else {
                     u.supporter = true;
                     u.supporterPlus = false;
@@ -85,7 +81,7 @@ module.exports = async (user, pledge) => {
                         supporterInfinite: false,
                         developer: false,
                     });
-                    newUser.save().catch(e => console.log(e));
+                    await newUser.save().catch(e => console.log(e));
                 } else {
                     u.supporter = true;
                     u.supporterPlus = true;
@@ -94,7 +90,6 @@ module.exports = async (user, pledge) => {
                 }
                 await u.save().catch(e => console.log(e));
             });
-            break;
             break;
         }
         case 'Supporter++': {
@@ -116,7 +111,7 @@ module.exports = async (user, pledge) => {
                         supporterInfinite: false,
                         developer: false,
                     });
-                    newUser.save().catch(e => console.log(e));
+                    await newUser.save().catch(e => console.log(e));
                 } else {
                     u.supporter = true;
                     u.supporterPlus = true;
@@ -147,7 +142,7 @@ module.exports = async (user, pledge) => {
                         supporterInfinite: true,
                         developer: false,
                     });
-                    newUser.save().catch(e => console.log(e));
+                    await newUser.save().catch(e => console.log(e));
                 } else {
                     u.supporter = true;
                     u.supporterPlus = true;

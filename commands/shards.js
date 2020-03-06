@@ -38,7 +38,7 @@ module.exports = {
     shardInfo.forEach(i => {
       const status = i[1] === 'process' ? online : offline;
       embed.addField(`${status} Shard ${i[0]}`, `\`\`\`js
-Servers: ${i[2]}\nChannels: ${i[3]}\nUsers: ${i[4]}\nMemory: ${i[5]}\nMusic Streams: ${i[6]}\`\`\``, true)
+Servers: ${i[2]}\nChannels: ${i[3]}\nUsers: ${i[4]}\nMemory: ${i[5]} mb\nMusic Streams: ${i[6]}\`\`\``, true)
       totalMusicStreams += i[6]
     })
 

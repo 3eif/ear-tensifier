@@ -1,7 +1,7 @@
-const Discord = require("discord.js");
-const emojis = require("../data/emojis.json");
-const colors = require("../data/colors.json");
-const { Utils } = require("erela.js");
+const premium = require('../util/premium.js');
+const emojis = require('../data/emojis.json');
+const colors = require('../data/colors.json');
+const Discord = require('discord.js');
 
 module.exports = {
     name: "bassboost",
@@ -29,9 +29,21 @@ module.exports = {
         }
 
         if(isNaN(args[0])) return message.channel.send("Amount must be a real number.")
-        if(args[0] > 10 || args[0] < -10) return message.channel.send("Amount must be between -10 and 10.");
-        player.setEQ(Array(6).fill(0).map((n, i) => ({ band: i, gain: args[0]/10 })));
-        return message.channel.send(`Setting bassboost to **${args[0]}dB**. This may take a few seconds...`);
 
+        const delay = ms => new Promise(res => setTimeout(res, ms));
+        if(args[0] > 10 || args[0] < -10) {
+            if(!premium(message.author.id, "Supporter")) {
+                return message.channel.send(`Only **Premium** users can set the bassboost higher. Click here to get premium: https://www.patreon.com/join/eartensifier`)
+            } else player.setEQ(Array(6).fill(0).map((n, i) => ({ band: i, gain: args[0]/10 })));
+        } else player.setEQ(Array(6).fill(0).map((n, i) => ({ band: i, gain: args[0]/10 })));
+
+        let msg = await message.channel.send(`${emojis.loading} Setting bassboost to **${args[0]}dB**. This may take a few seconds...`)
+        const embed = new Discord.MessageEmbed()
+        .setAuthor(message.guild.name, message.guild.iconURL())
+        .setDescription(`Bassboost set to: **${args[0]}dB**`)
+        .setFooter(`Default bassboost: 0`)
+        .setColor(colors.main);
+        await delay(5000);
+        return msg.edit("", embed);
     }
 }

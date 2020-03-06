@@ -1,7 +1,5 @@
 const Discord = require("discord.js");
-const emojis = require("../data/emojis.json");
 const colors = require("../data/colors.json");
-const { Utils } = require("erela.js");
 
 module.exports = {
     name: "volume",
@@ -21,9 +19,14 @@ module.exports = {
 
         if(args[0].toLowerCase() == "reset") {
             player.setVolume(Number(client.settings.normal));
-            return message.channel.send("Volume has been reseted back to normal.")
+            return message.channel.send("Volume has been reset back to normal.")
         }
         player.setVolume(Number(args[0]));
-        return message.channel.send(`Set the volume to **${args[0]}**. (Default volume is 100)`)
+        const embed = new Discord.MessageEmbed()
+        .setAuthor(message.guild.name, message.guild.iconURL())
+        .setDescription(`Volume set to: **${args[0]}**`)
+        .setFooter(`Default volume: 100`)
+        .setColor(colors.main);
+        return message.channel.send(embed)
     }
 }

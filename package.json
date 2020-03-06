@@ -12,6 +12,7 @@
     "erela.js": "^1.0.8",
     "moment": "^2.24.0",
     "mongoose": "^5.8.11",
+    "novelcovid": "^1.0.4",
     "quick.db": "^7.0.0-b22",
     "quickdb": "^1.0.5",
     "radio-browser": "^1.5.3",
