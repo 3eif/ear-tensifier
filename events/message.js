@@ -72,16 +72,13 @@ module.exports = class Message extends Event {
             supporterInfinite: false,
             developer: false,
           });
-          newUser.save().catch(e => console.log(e));
+          await newUser.save().catch(e => console.log(e));
         } else {
           if (u.blocked == null) u.blocked = false;
-          if (u.blocked) {
-            ignoreMsg = true;
-          } else if (!u.blocked) {
-            u.commandsUsed += 1;
-          }
+          if (u.blocked) ignoreMsg = true;
+          else if (!u.blocked) u.commandsUsed += 1;
+          await u.save().catch(e => console.log(e));
         }
-        await u.save().catch(e => console.log(e));
 
         if (ignoreMsg) return;
 
