@@ -1,7 +1,5 @@
 const Discord = require("discord.js");
-const emojis = require("../data/emojis.json");
 const colors = require("../data/colors.json");
-const { Utils } = require("erela.js");
 
 module.exports = {
     name: "volume",
@@ -28,6 +26,7 @@ module.exports = {
         .setAuthor(message.guild.name, message.guild.iconURL())
         .setDescription(`Volume set to: **${args[0]}**`)
         .setFooter(`Default volume: 100`)
+        .setColor(colors.main);
         return message.channel.send(embed)
     }
 }
