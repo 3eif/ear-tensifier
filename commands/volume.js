@@ -24,6 +24,10 @@ module.exports = {
             return message.channel.send("Volume has been reset back to normal.")
         }
         player.setVolume(Number(args[0]));
-        return message.channel.send(`Set the volume to **${args[0]}**. (Default volume is 100)`)
+        const embed = new Discord.MessageEmbed()
+        .setAuthor(message.guild.name, message.guild.iconURL())
+        .setDescription(`Volume set to: **${args[0]}**`)
+        .setFooter(`Default volume: 100`)
+        return message.channel.send(embed)
     }
 }
