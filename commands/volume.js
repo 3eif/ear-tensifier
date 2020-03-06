@@ -21,7 +21,7 @@ module.exports = {
 
         if(args[0].toLowerCase() == "reset") {
             player.setVolume(Number(client.settings.normal));
-            return message.channel.send("Volume has been reseted back to normal.")
+            return message.channel.send("Volume has been reset back to normal.")
         }
         player.setVolume(Number(args[0]));
         return message.channel.send(`Set the volume to **${args[0]}**. (Default volume is 100)`)

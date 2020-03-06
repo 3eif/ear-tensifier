@@ -27,7 +27,7 @@ module.exports = {
         this.channels.cache.size,
         this.users.cache.size,
         (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2),
-        this.music.players.size
+        this.music.playersPlayers.size
       ]`)
 
     const embed = new Discord.MessageEmbed()

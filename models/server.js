@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const serverSchema = mongoose.Schema({
-  serverID: Number,
+  serverID: String,
   serverName: String,
   prefix: String,
   ignore: Array,
