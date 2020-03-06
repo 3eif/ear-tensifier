@@ -27,7 +27,7 @@ module.exports = {
         this.channels.cache.size,
         this.users.cache.size,
         (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2),
-        this.music.playersPlayers.size
+        this.music.players.size
       ]`)
 
     const embed = new Discord.MessageEmbed()
@@ -38,7 +38,7 @@ module.exports = {
     shardInfo.forEach(i => {
       const status = i[1] === 'process' ? online : offline;
       embed.addField(`${status} Shard ${i[0]}`, `\`\`\`js
-Servers: ${i[2]}\nChannels: ${i[3]}\nUsers: ${i[4]}\nMemory: ${i[5]}\nMusic Streams: ${i[6]}\`\`\``, true)
+Servers: ${i[2]}\nChannels: ${i[3]}\nUsers: ${i[4]}\nMemory: ${i[5]} mb\nMusic Streams: ${i[6]}\`\`\``, true)
       totalMusicStreams += i[6]
     })
 
