@@ -6,7 +6,7 @@ const { Utils } = require("erela.js");
 const mongoose = require("mongoose");
 const bot = require("../models/bot.js");
 const users = require("../models/user.js");
-
+const premium = require('../util/premium.js');
 
 module.exports = {
     name: "search",
@@ -49,11 +49,13 @@ module.exports = {
         client.music.search(args.join(" "), message.author).then(async res => {
             switch(res.loadType){
                 case "TRACK_LOADED" :
+                    if(!premium(message.author.id, "Supporter") && res.tracks[0].duration > 18000000) return msg.edit(`Only **Premium** users can play songs longer than 5 hours. Click here to get premium: https://www.patreon.com/join/eartensifier`)
                     player.queue.add(res.tracks[0]);
                     msg.edit(`**${res.tracks[0].title}** (${Utils.formatTime(res.tracks[0].duration, true)}) has been added to the queue by **${res.playlist.tracks.requester}**`);
                     if(!player.playing) player.play();
                     break;
                 case "SEARCH_RESULT" :
+                    if(!premium(message.author.id, "Supporter") && res.tracks[0].duration > 18000000) return msg.edit(`Only **Premium** users can play songs longer than 5 hours. Click here to get premium: https://www.patreon.com/join/eartensifier`)
                     let index = 1;
                     const tracks = res.tracks.slice(0, 5);
                     const embed = new Discord.MessageEmbed()
