@@ -19,32 +19,20 @@ module.exports = {
 
         if(!player) return message.channel.send("There is nothing currently playing to seek.")
 
-        if(!args[0]){
-            player.seek(player.position + fastForwardNum*1000)
-            return message.channel.send(`Fast-forwarded to ${Utils.formatTime(player.position, true)}`);
-        }
-
-        if(args[0]){
-            player.seek(player.position + args[0]*1000)
-            return message.channel.send(`Fast-forwarded to ${Utils.formatTime(player.position, true)}`);
-        } else if(isNaN(args[0])) return message.reply(`Invalid number.\nCorrect Usage: \`${client.settings.prefix}forward <seconds>\``)
-        return message.channel.send("Cannot rewind beyond 00:00.")
+        if(args[0] && !isNaN(args[0])){
+            if((player.position + args[0]*1000) < player.queue[0].duration){
+                player.seek(player.position + args[0]*1000)
+                return message.channel.send(`Fast-forwarded to ${Utils.formatTime(player.position, true)}`);
+            } else return message.channel.send("Cannot forward beyond the song's duration.");
+        } else if(args[0] && isNaN(args[0])) return message.reply(`Invalid argument, must be a number.\nCorrect Usage: \`${client.settings.prefix}forward <seconds>\``);
 
         if(!args[0]){
-            if((player.position + fastForwardNum*1000) > player.queue[0].duration){
+            if((player.position + fastForwardNum*1000) < player.queue[0].duration){
                 player.seek(player.position + fastForwardNum*1000)
-                if(player.position < 60*1000) return message.channel.send(`Fast-forwarded to 00:${Utils.formatTime(player.position, true)}`);
-                if(player.position >= 60*1000) return message.channel.send(`Fast-forwarded to ${Utils.formatTime(player.position, true)}`);
+                return message.channel.send(`Fast-forwarded to ${Utils.formatTime(player.position, true)}`);
             } else {
                 return message.channel.send("Cannot forward beyond the song's duration.")
             }
-        } else if(!isNaN(args[0]) && (player.position + args[0]*1000) > player.queue[0].duration){
-            player.seek(player.position - args[0]*1000)
-            if(player.position < 60*1000) return message.channel.send(`Rewinding to 00:${Utils.formatTime(player.position, true)}`);
-            if(player.position >= 60*1000) return message.channel.send(`Rewinding to ${Utils.formatTime(player.position, true)}`);
-        } else {
-            if(isNaN(args[0])) return message.reply(`Invalid number.\nCorrect Usage: \`${client.settings.prefix}forward <seconds>\``)
-            return message.channel.send("Cannot forward beyond the song's duration.")
         }
     }
 }

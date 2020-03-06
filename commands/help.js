@@ -26,7 +26,7 @@ module.exports = {
         for(let i = 1; i < commandsFile.length; i++){
             let c = commandsFile[i].split('.')[0];
             let comInfo = commands.get(c);
-            if(comInfo.permission != "dev") helpCommands.push(`**${c}** - ${comInfo.description.toLowerCase()}`);
+            if(comInfo.permission != "dev" && (comInfo.description != null || comInfo.description != undefined)) helpCommands.push(`**${c}** - ${comInfo.description.toLowerCase()}`);
         }
 
         for(let i = 0; i < helpCommands.length; i++){
