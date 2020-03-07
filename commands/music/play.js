@@ -1,12 +1,5 @@
-const Discord = require("discord.js");
 const emojis = require("../../recourses/emojis.json");
-const colors = require("../../recourses/colors.json");
-const { Utils } = require("erela.js");
-
-const bot = require("../../models/bot.js");
-const users = require("../../models/user.js");
-const songs = require("../../models/song.js");
-const premium = require('../../utils/premium.js');
+const play = require("../../handlers/search.js")
 
 let { getData, getPreview } = require("spotify-url-info");
 
@@ -42,18 +35,18 @@ module.exports = {
             if (data.type == "playlist" || data.type == "album") {
                 if (data.type == "playlist") {
                     await data.tracks.items.forEach(song => {
-                        play(`${song.track.name} ${song.track.artists[0].name}`, true);
+                        play(client, message, msg, player, `${song.track.name} ${song.track.artists[0].name}`, true);
                     });
                 } else {
                     await data.tracks.items.forEach(song => {
-                        play(`${song.name} ${song.artists[0].name}`, true);
+                        play(client, message, msg, player, `${song.name} ${song.artists[0].name}`, true);
                     });
                 }
                 let playlistInfo = await getPreview(args.join(" "));
                 msg.edit(`**${playlistInfo.title}** (${data.tracks.items.length} tracks) has been added to the queue by **${message.author.tag}**`)
             } else if (data.type == "track") {
                 const track = await getPreview(args.join(" "))
-                play(`${track.title} ${track.artist}`, false);
+                play(client, message, msg, player, `${track.title} ${track.artist}`, false);
             }
         } else {
             searchQuery = args.join(" ")
@@ -63,40 +56,7 @@ module.exports = {
                     query: args.slice(1).join(" ")
                 }
             }
-            play(searchQuery, false);
-        }
-
-        async function play(searchQuery, playlist) {
-            client.music.search(searchQuery, message.author).then(async res => {
-                switch (res.loadType) {
-                    case "TRACK_LOADED":
-                        if (!premium(message.author.id, "Supporter") && res.tracks[0].duration > 18000000) return msg.edit(`Only **Premium** users can play songs longer than 5 hours. Click here to get premium: https://www.patreon.com/join/eartensifier`)
-                        player.queue.add(res.tracks[0]);
-                        if (!playlist) msg.edit(`**${res.tracks[0].title}** (${Utils.formatTime(res.tracks[0].duration, true)}) has been added to the queue by **${res.tracks[0].requester.tag}**`);
-                        if (!player.playing) player.play();
-                        break;
-
-                    case "SEARCH_RESULT":
-                        if (!premium(message.author.id, "Supporter") && res.tracks[0].duration > 18000000) return msg.edit(`Only **Premium** users can play songs longer than 5 hours. Click here to get premium: https://www.patreon.com/join/eartensifier`)
-                        player.queue.add(res.tracks[0]);
-                        if (!playlist) msg.edit(`**${res.tracks[0].title}** (${Utils.formatTime(res.tracks[0].duration, true)}) has been added to the queue by **${res.tracks[0].requester.tag}**`);
-                        if (!player.playing) player.play();
-                        break;
-
-                    case "PLAYLIST_LOADED":
-                        // res.playlist.tracks.forEach(track => player.queue.add(track));
-                        // const duration = Utils.formatTime(res.playlist.tracks.reduce((acc, cure) => ({ duration: acc.duration + cure.duration })).duration, true);
-                        // msg.edit(`**${res.playlist.info.name}** (${duration}) (${res.playlist.tracks.length} tracks) has been added to the queue by **${res.playlist.tracks.requester}**`);
-                        // if (!player.playing) player.play()
-                        return msg.edit("Playlist functionality is currently disabled. Please try again later.")
-                        break;
-
-                }
-                return;
-            }).catch(err => {
-                if (playlist) return;
-                msg.edit(err.message)
-            })
+            play(client, message, msg, player, searchQuery, false);
         }
     },
 };
