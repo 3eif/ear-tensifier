@@ -15,7 +15,7 @@ module.exports = {
         if(voiceChannel != message.guild.members.cache.get(client.user.id).voice.channel) return message.channel.send("You are not in the same voice channel as the bot.");
 
 
-        player.pause(player.playing);
-        return message.channel.send(`Stopped...`)
+        if(player) client.music.players.destroy(message.guild.id);
+        return message.channel.send(`Stopped the queue.`)
     }
 }

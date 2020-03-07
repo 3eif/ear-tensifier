@@ -12,7 +12,7 @@ const userSchema = mongoose.Schema({
   supporterPlusPlus: Boolean,
   supporterInfinite: Boolean,
   developer: Boolean,
-  favoriteSongs: Array,
+  favorites: Array,
 });
 
 module.exports = mongoose.model("users", userSchema);

@@ -19,7 +19,7 @@ module.exports = {
         if(voiceChannel != message.guild.members.cache.get(client.user.id).voice.channel) return message.channel.send("You are not in the same voice channel as the bot.");
 
         if(!player) return message.channel.send("There is nothing currently playing to seek.")
-        if(args[0] >= player.queue[0].duration ||args[0] < 0) return message.channel.send(`Cannot seek beyond length of song.`);
+        if(args[0]*1000 >= player.queue[0].duration ||args[0] < 0) return message.channel.send(`Cannot seek beyond length of song.`);
 
         player.seek(args[0]*1000); 
         return message.channel.send(`Seeked to ${Utils.formatTime(player.position, true)}`);

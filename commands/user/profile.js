@@ -2,10 +2,6 @@ const Discord = require("discord.js");
 const { main } = require("../../recourses/colors.json");
 const emojis = require("../../recourses/emojis.json");
 const users = require("../../models/user.js");
-const mongoose = require("mongoose");
-const { modlog } = require("../../recourses/channels.json");
-
-
 
 module.exports = {
   name: "profile",
