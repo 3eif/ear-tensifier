@@ -9,7 +9,7 @@
     "common-tags": "^1.8.0",
     "discord.js": "github:discordjs/discord.js",
     "enmap": "^5.2.4",
-    "erela.js": "^1.1.4",
+    "erela.js": "^1.1.7",
     "ksoft.js": "^3.1.4",
     "moment": "^2.24.0",
     "mongoose": "^5.8.11",
