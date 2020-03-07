@@ -52,20 +52,56 @@ module.exports = class Ready extends Event {
                 });
 
                 const embed = new Discord.MessageEmbed()
-                    .setTitle(author)
-                    .setThumbnail(thumbnail)
-                    .setDescription(`[${title}](${uri})`)
-                    .addField('Duration', `${Utils.formatTime(duration, true)}`, true)
-                    .addField('Requested by', requester.tag, true)
-                    .setColor(colors.main);
+                .setTitle(author)
+                if (uri.includes("youtube")) {
+                    embed.setThumbnail(thumbnail)
+                }
+                if (uri.includes("soundcloud")) {
+                    embed.attachFiles(['./assets/soundcloud.PNG'])
+                    embed.setThumbnail('attachment://soundcloud.PNG')
+                    embed.setFooter("SoundCloud")
+                }
+                if (uri.includes("bandcamp")) {
+                    embed.attachFiles(['./assets/bandcamp.PNG'])
+                    embed.setThumbnail('attachment://bandcamp.PNG')
+                    embed.setFooter("bandcamp")
+                }
+                if (uri.includes("mixer")) { 
+                    embed.attachFiles(['./assets/mixer.PNG'])
+                    embed.setThumbnail('attachment://mixer.PNG')
+                    embed.setFooter("Mixer")
+                }
+                if (uri.includes("twitch")) {
+                    embed.attachFiles(['./assets/twitch.PNG'])
+                    embed.setThumbnail('attachment://twitch.PNG')
+                    embed.setFooter("Twitch")
+                }
+
+                embed.setDescription(`[${title}](${uri})`)
+                embed.addField('Duration', `${Utils.formatTime(duration, true)}`, true)
+                embed.addField('Requested by', requester.tag, true)
+                embed.setColor(colors.main)
+                embed.setTimestamp()
                 textChannel.send(embed);
             })
 
         function addDB(id, title, author, duration, url, thumbnail) {
             let songType = "";
-            if (url.includes("youtube")) songType = "youtube";
-            if (url.includes("soundcloud")) songType = "soundcloud";
-            if (url.includes("bandcamp")) songType = "bandcamp";
+            if (url.includes("youtube")) {
+                songType = "youtube";
+            }
+            if (url.includes("soundcloud")) {
+                songType = "soundcloud";
+            }
+            if (url.includes("bandcamp")) {
+                songType = "bandcamp";
+            }
+            if (url.includes("mixer")) { 
+                songType = "mixer"; 
+            }
+            if (url.includes("twitch")) {
+                songType = "twitch";
+            }
 
             songs.findOne({
                 songID: id,

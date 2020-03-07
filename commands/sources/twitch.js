@@ -8,15 +8,11 @@ const users = require("../../models/user.js");
 const songs = require("../../models/song.js");
 const premium = require('../../util/premium.js');
 
-let { getData, getPreview } = require("spotify-url-info");
-
 module.exports = {
-    name: "play",
-    description: "Plays a song",
+    name: "twitch",
+    description: "Plays a stream from Twitch.",
     args: true,
-    usage: "<search query>",
-    aliases: ["p"],
-    cooldown: '5',
+    usage: "<stream link>",
     async execute(client, message, args) {
         const voiceChannel = message.member.voice.channel;;
         if (!voiceChannel) return message.channel.send("You need to be in a voice channel to play music");
@@ -35,49 +31,25 @@ module.exports = {
 
         const msg = await message.channel.send(`${emojis.cd}  Searching for \`${args.join(" ")}\`...`)
 
-        let searchQuery;
-        if (args[0].startsWith("https://open.spotify.com")) {
-            const data = await getData(args.join(" "));
-            console.log(data);
-            if (data.type == "playlist" || data.type == "album") {
-                if (data.type == "playlist") {
-                    await data.tracks.items.forEach(song => {
-                        play(`${song.track.name} ${song.track.artists[0].name}`, true);
-                    });
-                } else {
-                    await data.tracks.items.forEach(song => {
-                        play(`${song.name} ${song.artists[0].name}`, true);
-                    });
-                }
-                let playlistInfo = await getPreview(args.join(" "));
-                msg.edit(`**${playlistInfo.title}** (${data.tracks.items.length} tracks) has been added to the queue by **${message.author.tag}**`)
-            } else if (data.type == "track") {
-                const track = await getPreview(args.join(" "))
-                play(`${track.title} ${track.artist}`, false);
-            }
-        } else {
-            searchQuery = args.join(" ")
-            if (["youtube", "soundcloud", "bandcamp", "mixer", "twitch"].includes(args[0].toLowerCase())) {
-                searchQuery = {
-                    source: args[0],
-                    query: args.slice(1).join(" ")
-                }
-            }
-            play(searchQuery, false);
+        let searchQuery = args.join(" ")
+        searchQuery = {
+            source: "twitch",
+            query: args.slice(0).join(" ")
         }
-
+        play(searchQuery, false);
+    
         async function play(searchQuery, playlist) {
             client.music.search(searchQuery, message.author).then(async res => {
                 switch (res.loadType) {
                     case "TRACK_LOADED":
-                        if (!premium(message.author.id, "Supporter") && res.tracks[0].duration > 18000000) return msg.edit(`Only **Premium** users can play songs longer than 5 hours. Click here to get premium: https://www.patreon.com/join/eartensifier`)
+                        if(!premium(message.author.id, "Supporter") && res.tracks[0].duration > 18000000) return msg.edit(`Only **Premium** users can play songs longer than 5 hours. Click here to get premium: https://www.patreon.com/join/eartensifier`)
                         player.queue.add(res.tracks[0]);
                         if (!playlist) msg.edit(`**${res.tracks[0].title}** (${Utils.formatTime(res.tracks[0].duration, true)}) has been added to the queue by **${res.tracks[0].requester.tag}**`);
                         if (!player.playing) player.play();
                         break;
 
                     case "SEARCH_RESULT":
-                        if (!premium(message.author.id, "Supporter") && res.tracks[0].duration > 18000000) return msg.edit(`Only **Premium** users can play songs longer than 5 hours. Click here to get premium: https://www.patreon.com/join/eartensifier`)
+                        if(!premium(message.author.id, "Supporter") && res.tracks[0].duration > 18000000) return msg.edit(`Only **Premium** users can play songs longer than 5 hours. Click here to get premium: https://www.patreon.com/join/eartensifier`)
                         player.queue.add(res.tracks[0]);
                         if (!playlist) msg.edit(`**${res.tracks[0].title}** (${Utils.formatTime(res.tracks[0].duration, true)}) has been added to the queue by **${res.tracks[0].requester.tag}**`);
                         if (!player.playing) player.play();
