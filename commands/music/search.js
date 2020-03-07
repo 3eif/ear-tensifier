@@ -11,7 +11,7 @@ const premium = require('../../util/premium.js');
 module.exports = {
     name: "search",
     description: "Provides a variety of search results for a song.",
-    usage: "<song>",
+    usage: "<search query>",
     async execute(client, message, args) {
         const voiceChannel = message.member.voice.channel;;
         if(!voiceChannel) return message.channel.send("You need to be in a voice channel to play music");

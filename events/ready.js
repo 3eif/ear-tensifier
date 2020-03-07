@@ -31,7 +31,7 @@ module.exports = class Ready extends Event {
                 return this.client.music.players.destroy(player.guild.id)
             })
             .on("trackStart", ({ textChannel }, { title, duration, thumbnail, author, uri, requester }) => {
-                addDB(uri.split("v=")[1], title, author, duration, uri, thumbnail);
+                addDB(uri, title, author, duration, uri, thumbnail);
 
                 bot.findOne({
                     clientID: this.client.user.id
@@ -61,19 +61,19 @@ module.exports = class Ready extends Event {
                 textChannel.send(embed);
             })
 
-        function addDB(videoID, title, author, duration, url, thumbnail) {
+        function addDB(id, title, author, duration, url, thumbnail) {
             let songType = "";
             if (url.includes("youtube")) songType = "youtube";
             if (url.includes("soundcloud")) songType = "soundcloud";
-            if (url.includes("bandcamp")) sontType = "bancamp";
+            if (url.includes("bandcamp")) songType = "bandcamp";
 
             songs.findOne({
-                songID: videoID,
+                songID: id,
             }, async (err, s) => {
                 if (err) console.log(err);
                 if (!s) {
                     const newSong = new songs({
-                        songID: videoID,
+                        songID: id,
                         songName: title,
                         songAuthor: author,
                         type: songType,

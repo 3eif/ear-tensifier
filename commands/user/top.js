@@ -21,7 +21,7 @@ module.exports = {
             }
         
             const embed = new Discord.MessageEmbed()
-              .setAuthor("Top Charts", client.user.avatar)
+              .setAuthor("Top Charts", client.settings.avatar)
               .addField('Top Songs', `${songsArr.join("\n")}`)
               .setTimestamp()
               .setColor(colors.main);

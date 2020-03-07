@@ -14,7 +14,7 @@ module.exports = {
     name: "play",
     description: "Plays a song",
     args: true,
-    usage: "<song>",
+    usage: "<search query>",
     aliases: ["p"],
     cooldown: '5',
     async execute(client, message, args) {
@@ -57,7 +57,7 @@ module.exports = {
             }
         } else {
             searchQuery = args.join(" ")
-            if (["youtube", "soundcloud"].includes(args[0].toLowerCase())) {
+            if (["youtube", "soundcloud", "bandcamp"].includes(args[0].toLowerCase())) {
                 searchQuery = {
                     source: args[0],
                     query: args.slice(1).join(" ")

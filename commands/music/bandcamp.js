@@ -9,8 +9,8 @@ const songs = require("../../models/song.js");
 const premium = require('../../util/premium.js');
 
 module.exports = {
-    name: "soundcloud",
-    description: "Plays a song from soundcloud.",
+    name: "bandcamp",
+    description: "Plays a song from bandcamp.",
     args: true,
     usage: "<search query>",
     async execute(client, message, args) {
@@ -33,7 +33,7 @@ module.exports = {
 
         let searchQuery = args.join(" ")
         searchQuery = {
-            source: "soundcloud",
+            source: "bandcamp",
             query: args.slice(0).join(" ")
         }
         play(searchQuery, false);
