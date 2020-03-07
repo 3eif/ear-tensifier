@@ -1,0 +1,25 @@
+{
+    "discordToken": "",
+    "ksoftToken": "",
+    "mongoUsername": "",
+    "mongoPass": "",
+    "webhookID": "",
+    "webhookToken": "",
+    "streamID": "",
+    "streamToken": "",
+    "patreonWebhookID": "",
+    "patreonWebhookToken": "",
+    "webhooks": {
+        "webhookID": "",
+        "webhookToken": "",
+        "streamID": "",
+        "streamToken": "",
+        "patreonWebhookID": "",
+        "patreonWebhookToken": "",
+        "guildID": "",
+        "guildToken": "",
+        "messageID": "",
+        "messageToken": ""
+    },
+    "nodes": [{ "host": "", "port": 2556, "password": "" }]
+}
