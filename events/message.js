@@ -105,8 +105,8 @@ module.exports = class Message extends Event {
             const newClient = new bot({
               clientID: this.client.user.id,
               clientName: this.client.user.name,
-              messagesSent: 612134,
-              songsPlayed: 392678,
+              messagesSent: 0,
+              songsPlayed: 0,
             });
             await newClient.save().catch(e => console.log(e));
           }

@@ -37,6 +37,7 @@ module.exports = {
         let searchQuery;
         if (args[0].startsWith("https://open.spotify.com")) {
             const data = await getData(args.join(" "));
+            console.log(data);
             if (data.type == "playlist" || data.type == "album") {
                 if (data.type == "playlist") {
                     await data.tracks.items.forEach(song => {
@@ -44,7 +45,7 @@ module.exports = {
                     });
                 } else {
                     await data.tracks.items.forEach(song => {
-                        play(`${song.title} ${song.artists[0].name}`, true);
+                        play(`${song.name} ${song.artists[0].name}`, true);
                     });
                 }
                 let playlistInfo = await getPreview(args.join(" "));
