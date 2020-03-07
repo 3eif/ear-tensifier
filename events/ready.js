@@ -1,5 +1,5 @@
 const { ErelaClient, Utils } = require("erela.js");
-const colors = require("../data/colors.json");
+const colors = require("../recourses/colors.json");
 const Discord = require('discord.js');
 const Event = require('./Event');
 const tokens = require("../tokens.json");

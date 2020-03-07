@@ -1,6 +1,6 @@
 const Discord = require("discord.js"); 
-const { typing } = require("../../data/emojis.json");
-const { main } = require("../../data/colors.json");
+const { typing } = require("../../recourses/emojis.json");
+const { main } = require("../../recourses/colors.json");
 const servers = require("../../models/server.js");
 const mongoose = require("mongoose");
 

@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
-const { typing } = require("../../data/emojis.json");
+const { typing } = require("../../recourses/emojis.json");
 const fs = require("fs");
-const colors = require(`../../data/colors.json`)
+const colors = require(`../../recourses/colors.json`)
 const categories = fs.readdirSync(`./commands/`);
 
 module.exports = {

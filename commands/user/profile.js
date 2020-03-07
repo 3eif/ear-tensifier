@@ -1,9 +1,9 @@
 const Discord = require("discord.js");
-const { main } = require("../../data/colors.json");
-const emojis = require("../../data/emojis.json");
+const { main } = require("../../recourses/colors.json");
+const emojis = require("../../recourses/emojis.json");
 const users = require("../../models/user.js");
 const mongoose = require("mongoose");
-const { modlog } = require("../../data/channels.json");
+const { modlog } = require("../../recourses/channels.json");
 
 
 

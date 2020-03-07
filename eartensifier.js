@@ -5,11 +5,11 @@ client.commands = new Discord.Collection();
 client.settings = require("./settings.js");
 
 ["commands","events"].forEach(handler => {
-  require(`./util/${handler}`)(client)
+  require(`./handlers/${handler}`)(client)
 })
 
-client.responses = require('./util/responses.js');
-client.errors = require('./util/errors.js');
+client.responses = require('./utils/responses.js');
+client.errors = require('./utils/errors.js');
 
 const tokens = require("./tokens.json");
 

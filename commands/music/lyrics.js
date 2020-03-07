@@ -1,7 +1,7 @@
 const Discord = require('discord.js')
 const { KSoftClient } = require('ksoft.js');
-const { loading } = require("../../data/emojis.json");
-const colors = require("../../data/colors.json");
+const { loading } = require("../../recourses/emojis.json");
+const colors = require("../../recourses/colors.json");
 var { ksoftToken } = require('../../tokens.json')
 const ksoft = new KSoftClient(ksoftToken);
 

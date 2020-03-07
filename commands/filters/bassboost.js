@@ -1,6 +1,6 @@
-const premium = require('../../util/premium.js');
-const emojis = require('../../data/emojis.json');
-const colors = require('../../data/colors.json');
+const premium = require('../../utils/premium.js');
+const emojis = require('../../recourses/emojis.json');
+const colors = require('../../recourses/colors.json');
 const Discord = require('discord.js');
 
 module.exports = {

@@ -1,4 +1,4 @@
-const premium = require('../../util/premium.js');
+const premium = require('../../utils/premium.js');
 
 module.exports = {
     name: "eq",

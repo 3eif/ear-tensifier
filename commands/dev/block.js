@@ -1,10 +1,10 @@
 const Discord = require("discord.js");
-const { loading } = require("../../data/emojis.json");
-const colors = require("../../data/colors.json")
+const { loading } = require("../../recourses/emojis.json");
+const colors = require("../../recourses/colors.json")
 const users = require("../../models/user.js");
 const mongoose = require("mongoose");
-const { modlog } = require("../../data/channels.json");
-const emojis = require("../../data/emojis.json");
+const { modlog } = require("../../recourses/channels.json");
+const emojis = require("../../recourses/emojis.json");
 
 
 

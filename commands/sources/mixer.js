@@ -1,12 +1,12 @@
 const Discord = require("discord.js");
-const emojis = require("../../data/emojis.json");
-const colors = require("../../data/colors.json");
+const emojis = require("../../recourses/emojis.json");
+const colors = require("../../recourses/colors.json");
 const { Utils } = require("erela.js");
 
 const bot = require("../../models/bot.js");
 const users = require("../../models/user.js");
 const songs = require("../../models/song.js");
-const premium = require('../../util/premium.js');
+const premium = require('../../utils/premium.js');
 
 module.exports = {
     name: "mixer",

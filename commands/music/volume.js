@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const colors = require("../../data/colors.json");
+const colors = require("../../recourses/colors.json");
 
 module.exports = {
     name: "volume",
