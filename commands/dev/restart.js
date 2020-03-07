@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 const emojis = require("../../data/emojis.json")
 const colors = require("../../data/colors.json")
-const { discordToken, testingToken } =  require("../../tokens.json");
+const { discordToken } =  require("../../tokens.json");
 
 module.exports = {
     name: "restart",
@@ -13,15 +13,9 @@ module.exports = {
         try{
             resetBot(message.channel);
             function resetBot(channel) {
-                if(client.settings.testing){
-                    message.react('✅')
-                    .then(message => client.destroy())
-                    .then(() => client.login(testingToken));
-                } else {
-                    message.react('✅')
-                    .then(message => client.destroy())
-                    .then(() => client.login(discordToken));
-                }
+                message.react('✅')
+                .then(message => client.destroy())
+                .then(() => client.login(discordToken));
             }
         } catch(e) {
             client.error(e, true, msg);
