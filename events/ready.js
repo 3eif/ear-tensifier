@@ -5,6 +5,7 @@ const Event = require('../Event');
 const tokens = require("../tokens.json");
 const mongoose = require("mongoose");
 const bot = require("../models/bot.js");
+const users = require("../models/user.js");
 const { webhooks } = require("../tokens.json");
 
 const webhookClient = new Discord.WebhookClient(webhooks["webhookID"], webhooks["webhookToken"]);
@@ -29,6 +30,24 @@ module.exports = class Ready extends Event {
                 return this.client.music.players.destroy(player.guild.id)
             })
             .on("trackStart", ({ textChannel }, { title, duration, thumbnail, author, uri, requester }) => {
+                bot.findOne({
+                    clientID: this.client.user.id
+                }, async (err, b) => {
+                    if (err) console.log(err);
+        
+                    b.songsPlayed += 1;
+                    await b.save().catch(e => console.log(e));
+                });
+        
+                users.findOne({
+                    authorID: requester.id
+                }, async (err, u) => {
+                    if (err) console.log(err);
+        
+                    u.songsPlayed += 1;
+                    await u.save().catch(e => console.log(e));
+                });
+
                 const embed = new Discord.MessageEmbed()
                     .setTitle(author)
                     .setThumbnail(thumbnail)
