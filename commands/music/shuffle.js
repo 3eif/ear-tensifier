@@ -7,7 +7,7 @@ module.exports = {
     name: "shuffle",
     description: "Shuffles the queue.",
     aliases: ["mix"],
-    cooldown: '10',
+    cooldown: 10,
     async execute(client, message, args) {
         const voiceChannel = message.member.voice.channel;
         const player = client.music.players.get(message.guild.id);

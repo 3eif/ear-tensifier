@@ -49,9 +49,9 @@ module.exports = class Message extends Event {
       }
 
       if (ignoreMsg) return;
-      if(prefix == this.client.settings.prefix){
-        if (message.content.toLowerCase().indexOf(this.client.settings.prefix) !== 0 && message.content.toLowerCase().indexOf(prefix.slice(0,-1)) !== 0 ) return;
-      } else if (message.content.toLowerCase().indexOf(prefix) !== 0 && message.content.toLowerCase().indexOf(prefix+" ") !== 0 ) return;
+      if (prefix == this.client.settings.prefix) {
+        if (message.content.toLowerCase().indexOf(this.client.settings.prefix) !== 0 && message.content.toLowerCase().indexOf(prefix.slice(0, -1)) !== 0) return;
+      } else if (message.content.toLowerCase().indexOf(prefix) !== 0 && message.content.toLowerCase().indexOf(prefix + " ") !== 0) return;
       const args = message.content.slice(prefix.length).trim().split(/ +/g);
 
       users.findOne({
@@ -145,37 +145,37 @@ module.exports = class Message extends Event {
           embeds: [embed],
         });
 
-        if (!cooldowns.has(command.name)) {
-          cooldowns.set(command.name, new Discord.Collection());
+        if (!cooldowns.has(cmd.name)) {
+          cooldowns.set(cmd.name, new Discord.Collection());
         }
         if (cmd.permission === "dev" && !this.client.settings.devs.includes(message.author.id)) return this.client.responses("noPerms", message);
 
         if (cmd && !message.guild && cmd.guildOnly) return message.channel.send("I can't execute that command inside DMs!. Please run this command in a server.");
 
-        if (!cooldowns.has(command.name)) {
-          cooldowns.set(command.name, new Discord.Collection());
-        }
-
-        const now = Date.now();
-        const timestamps = cooldowns.get(command.name);
-        const cooldownAmount = cmd.cooldown * 100;
-
-        //if (!mods.includes(message.author.id)) {
-        if (!timestamps.has(message.author.id)) {
-          timestamps.set(message.author.id, now);
-          setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-        }
-        else {
-          const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
-          if (now < expirationTime) {
-            const timeLeft = (expirationTime - now) / 1000;
-            return message.reply(`Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${cmd.name}\` command.`);
+        if (!this.client.settings.devs.includes(message.author.id)) {
+          if (!cooldowns.has(cmd.name)) {
+            cooldowns.set(cmd.name, new Discord.Collection());
           }
-          timestamps.set(message.author.id, now);
-          setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+          const now = Date.now();
+          const timestamps = cooldowns.get(cmd.name);
+          const cooldownAmount = (cmd.cooldown || 5) * 1000;
+          if (!timestamps.has(message.author.id)) {
+            timestamps.set(message.author.id, now);
+            setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+          }
+          else {
+            const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+            if (now < expirationTime) {
+              const timeLeft = (expirationTime - now) / 1000;
+              return message.reply(`Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${cmd.name}\` command.`);
+            }
+            timestamps.set(message.author.id, now);
+            setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+          }
         }
 
-        if (cmd && !args.length && cmd.args === true) return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`${prefix}${cmd.name} ${cmd.usage}\``);
+        if (prefix == this.client.settings.prefix) if (cmd && !args.length && cmd.args === true) return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`ear ${cmd.name} ${cmd.usage}\``);
+        else if (cmd && !args.length && cmd.args === true) return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`${prefix}${cmd.name} ${cmd.usage}\``);
 
         try {
           cmd.execute(this.client, message, args);
