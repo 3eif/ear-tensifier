@@ -1,7 +1,7 @@
 const fs = require("fs");
 const Discord = require("discord.js");
 const cooldowns = new Discord.Collection();
-const Event = require('../Event');
+const Event = require('./Event');
 
 const users = require("../models/user.js")
 const servers = require("../models/server.js");

@@ -4,7 +4,7 @@ const jsevents = events.filter(c => c.split('.').pop() === 'js');
 if (!events.length) throw Error('No event files found!');
 
 module.exports = (client) => {
-    for (let i = 0; i < jsevents.length; i++) {
+    for (let i = 1; i < jsevents.length; i++) {
         if (!jsevents.length) throw Error('No javascript event files found!');
         const file = require(`../events/${jsevents[i]}`);
         const event = new file(client, file);

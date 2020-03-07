@@ -2,7 +2,7 @@ const { ErelaClient, Utils } = require("erela.js");
 const emojis = require("../data/emojis.json");
 const colors = require("../data/colors.json");
 const Discord = require('discord.js');
-const Event = require('../Event');
+const Event = require('./Event');
 const { nodes } = require("../tokens.json");
 const channel = require("../data/channels.json");
 

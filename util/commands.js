@@ -1,5 +1,7 @@
 const fs = require("fs");
 const categories = fs.readdirSync('./commands/');
+let commandsNum = 0;
+let categoriesNum = 0;
 
 module.exports = client => {
     try {

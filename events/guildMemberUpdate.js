@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const Event = require('../Event');
+const Event = require('./Event');
 const colors = require("../data/colors.json")
 const channel = require("../data/channels.json")
 const patreonData = require("../data/patreon.json");
