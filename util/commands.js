@@ -1,7 +1,5 @@
 const fs = require("fs");
-const { promisify } = require("util");
 const categories = fs.readdirSync('./commands/');
-let commandNum = 0;
 
 module.exports = client => {
     try {
@@ -13,7 +11,6 @@ module.exports = client => {
                     for (const file of commands) {
                         const command = require(`../commands/${category}/${file}`);
                         client.commands.set(command.name, command);
-                        commandNum++;
                     }
                 };
                 init();

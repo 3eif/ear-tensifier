@@ -1,9 +1,8 @@
-const Discord = require ("discord.js"); 
+const Discord = require("discord.js");
 const { typing } = require("../../data/emojis.json");
 const fs = require("fs");
-const { promisify } = require("util");
-const readdir = promisify(require("fs").readdir);
-const commandsFile = fs.readdirSync("./commands").filter(file => file.endsWith(".js"));
+const colors = require(`../../data/colors.json`)
+const categories = fs.readdirSync(`./commands/`);
 
 module.exports = {
   name: "help",
@@ -11,47 +10,41 @@ module.exports = {
   aliases: ["commands", "list"],
   cooldown: "30",
   usage: `[command name]`,
-  async execute (client, message, args) {
-      
+  async execute(client, message, args) {
+
     const msg = await message.channel.send(`${typing} Sending a list of my commands...`);
 
-    const user = message.member;    
+    const user = message.member;
     const { commands } = message.client;
     const data = [];
 
-    let helpCommands = [];
-    let helpStr2 = "";
+    const embed = new Discord.MessageEmbed()
+      .setAuthor(`Commands`, client.settings.avatar)
+      .setDescription(`A detailed list of commands can be found [here](https://eartensifier.net/commands)\nJoin the [support server](${client.settings.server}) for more help`)
+      .setFooter(`For more information: ${client.settings.prefix}help <command>`)
+      .setColor(colors.main);
 
-    if (!args.length) {      
-        for(let i = 1; i < commandsFile.length; i++){
-            let c = commandsFile[i].split('.')[0];
-            let comInfo = commands.get(c);
-            if(comInfo.permission != "dev" && (comInfo.description != null || comInfo.description != undefined)) helpCommands.push(`**${c}** - ${comInfo.description.toLowerCase()}`);
+    if (!args.length) {
+
+      categories.forEach(async (category) => {
+        if (category == "dev") return;
+
+        let helpCommands = [];
+        let categoryCommands = "";
+        const commandsFile = fs.readdirSync(`./commands/${category}`).filter(file => file.endsWith(".js"));
+        
+        for (let i = 0; i < commandsFile.length; i++) {
+          let commandName = commandsFile[i].split('.')[0];
+          helpCommands.push(`\`${commandName}\`  `);
         }
 
-        for(let i = 0; i < helpCommands.length; i++){
-            helpStr2 += helpCommands[i] + "\n";
-        }
+        for (let i = 0; i < helpCommands.length; i++) categoryCommands += helpCommands[i];
+        let categoryName = category.charAt(0).toUpperCase() + category.slice(1);
+        embed.addField(`${categoryName} (${commandsFile.length})`, categoryCommands);
+      });
 
-      const helpStr = 
-`
-**List of available commands**
-Type \`${client.settings.prefix}<command>\` to use a command. 
-To get more info on a specific command do \`${client.settings.prefix}help <command>\`
+      await msg.edit("", embed);
 
-${helpStr2}
-Need more help? Join the support server: ${client.settings.server}
-Website: https://eartensifier.com
-`;
-
-      try {
-        await user.send(helpStr);
-        msg.edit(`Sent you a dm with my commands <@${message.author.id}>!`);
-      } catch (e) {
-        return msg.edit(`Your dms are disabled  <@${message.author.id}>, here are my commands:
-${helpStr}
-          `);
-      }
     } else {
 
       if (!commands.has(args[0])) {
