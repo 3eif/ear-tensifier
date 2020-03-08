@@ -1,6 +1,5 @@
-![](./assets/banner.jpg)
+![](./assets/eartensifier.png)
 [![Discord](https://discordapp.com/api/guilds/473426453204172811/embed.png?style=shield)](https://discord.gg/xKgKMAP)
-![](https://botlist.space/bot/472714545723342848/badge?property=tag&style=flat-square&color=7089da)
 ![](https://botlist.space/bot/472714545723342848/badge?property=servers&style=flat-square&color=7089da)
 ![](https://botlist.space/bot/472714545723342848/badge?property=shards&style=flat-square&color=7089da)
 ![](https://botlist.space/bot/472714545723342848/badge?property=status&style=flat-square&color=7089da)
