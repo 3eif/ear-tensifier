@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="https://eartensifier.net/images/eartensifier.png" style="width: 150px; height: 150px;" /><br>
+    <img src="https://eartensifier.net/images/eartensifier.png" style="width: 125px; height: 125px;" /><br>
 </div>
 
 [![Discord](https://discordapp.com/api/guilds/473426453204172811/embed.png?style=shield)](https://discord.gg/xKgKMAP)
