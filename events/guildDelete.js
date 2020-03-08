@@ -1,11 +1,11 @@
 const Discord = require("discord.js");
 const moment = require("moment");
-const Event = require('./Event');
+const Event = require('../structures/Event');
 const colors = require("../recourses/colors.json")
 const channel = require("../recourses/channels.json")
-const { webhooks } = require("../tokens.json");
+const webhooks = require("../recourses/webhooks.json");
 
-const webhookClient = new Discord.WebhookClient(webhooks["guildID"], webhooks["guildToken"]);
+const webhookClient = new Discord.WebhookClient(webhooks.guildID, webhooks.guildToken);
 
 module.exports = class GuildCreate extends Event {
     constructor(...args) {

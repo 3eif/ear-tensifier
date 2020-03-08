@@ -1,4 +1,4 @@
-const premium = require('../utils/premium.js');
+const premium = require('./premium.js');
 const { Utils } = require("erela.js");
 
 module.exports = async(client, message, msg, player, searchQuery, playlist) => {

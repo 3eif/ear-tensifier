@@ -1,7 +1,7 @@
 const fs = require("fs");
 const Discord = require("discord.js");
 const cooldowns = new Discord.Collection();
-const Event = require('./Event');
+const Event = require('../structures/Event');
 
 const users = require("../models/user.js")
 const servers = require("../models/server.js");
@@ -9,9 +9,9 @@ const bot = require("../models/bot.js");
 const commandsSchema = require("../models/command.js");
 const colors = require("../recourses/colors.json");
 
-const { webhooks } = require("../tokens.json");
+const webhooks = require("../recourses/webhooks.json");
 
-const webhookClient = new Discord.WebhookClient(webhooks["messageID"], webhooks["messageToken"]);
+const webhookClient = new Discord.WebhookClient(webhooks.messageID, webhooks.messageToken);
 
 module.exports = class Message extends Event {
   constructor(...args) {
@@ -19,6 +19,7 @@ module.exports = class Message extends Event {
   }
 
   async run(message) {
+    return;
     if (message.author.bot) return;
     if (message.channel.type === "text") {
       if (!message.channel.permissionsFor(message.guild.me).missing("SEND_MESSAGES")) return;

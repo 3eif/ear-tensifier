@@ -1,11 +1,11 @@
 const Discord = require("discord.js");
-const Event = require('./Event');
+const Event = require('../structures/Event');
 const colors = require("../recourses/colors.json")
 const channel = require("../recourses/channels.json")
 const patreonData = require("../recourses/patreon.json");
-const { webhooks } = require("../tokens.json");
+const webhooks = require("../recourses/webhooks.json");
 const patreon = require('../utils/patreon.js');
-const webhookClient = new Discord.WebhookClient(webhooks["patreonWebhookID"], webhooks["patreonWebhookToken"]);
+const webhookClient = new Discord.WebhookClient(webhooks.patreonWebhookID, webhooks.patreonWebhookToken);
 
 module.exports = class GuildMemberUpdate extends Event {
     constructor(...args) {

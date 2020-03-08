@@ -1,5 +1,5 @@
 const emojis = require("../../recourses/emojis.json");
-const play = require("../../handlers/search.js")
+const play = require("../../utils/search.js")
 
 module.exports = {
     name: "twitch",

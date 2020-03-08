@@ -1,4 +1,4 @@
-const Event = require('./Event');
+const Event = require('../structures/Event');
 const emojis = require("../recourses/emojis.json");
 
 module.exports = class VoiceStateUpdate extends Event {

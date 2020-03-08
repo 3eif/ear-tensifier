@@ -1,15 +1,18 @@
 const { ErelaClient, Utils } = require("erela.js");
-const colors = require("../recourses/colors.json");
 const Discord = require('discord.js');
-const Event = require('./Event');
+
+const colors = require("../recourses/colors.json");
+const Event = require('../structures/Event');
 const tokens = require("../tokens.json");
 const mongoose = require("mongoose");
 const bot = require("../models/bot.js");
 const users = require("../models/user.js");
-const { webhooks } = require("../tokens.json");
+const webhooks = require("../recourses/webhooks.json");
 const songs = require("../models/song.js");
 
-const webhookClient = new Discord.WebhookClient(webhooks["webhookID"], webhooks["webhookToken"]);
+const postHandler = require("../utils/handlers/post.js");
+
+const webhookClient = new Discord.WebhookClient(webhooks.webhookID, webhooks.webhookToken);
 
 mongoose.connect(`mongodb+srv://${tokens.mongoUsername}:${encodeURIComponent(tokens.mongoPass)}@tetracyl-unhxi.mongodb.net/test?retryWrites=true&w=majority`, {
     useNewUrlParser: true,
@@ -52,7 +55,7 @@ module.exports = class Ready extends Event {
                 });
 
                 const embed = new Discord.MessageEmbed()
-                .setTitle(author)
+                    .setTitle(author)
                 if (uri.includes("youtube")) {
                     embed.setThumbnail(thumbnail)
                 }
@@ -66,7 +69,7 @@ module.exports = class Ready extends Event {
                     embed.setThumbnail('attachment://bandcamp.PNG')
                     embed.setFooter("bandcamp")
                 }
-                if (uri.includes("mixer")) { 
+                if (uri.includes("mixer")) {
                     embed.attachFiles(['./assets/mixer.PNG'])
                     embed.setThumbnail('attachment://mixer.PNG')
                     embed.setFooter("Mixer")
@@ -96,8 +99,8 @@ module.exports = class Ready extends Event {
             if (url.includes("bandcamp")) {
                 songType = "bandcamp";
             }
-            if (url.includes("mixer")) { 
-                songType = "mixer"; 
+            if (url.includes("mixer")) {
+                songType = "mixer";
             }
             if (url.includes("twitch")) {
                 songType = "twitch";
@@ -164,6 +167,8 @@ module.exports = class Ready extends Event {
                         avatarURL: this.client.settings.avatar,
                         embeds: [embed],
                     });
+
+                    if(this.client.user.id == '472714545723342848') postHandler(this.client, totalGuilds, this.client.shard.count, this.client.shard.id, totalMembers);
                 });
         }
     }
