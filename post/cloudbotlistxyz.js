@@ -10,7 +10,6 @@ module.exports = async (client, servers, shards, shardID, users) => {
         },
         body: JSON.stringify({ guilds: servers, users: users })
     }).then(res => {
-        res.json()
         console.log("Posted bot stats to cloud-botlist.xyz")
     });
 }
