@@ -10,7 +10,7 @@ Ear Tensifier is a powerful discord bot written in javascript using the discord.
 ## Add to Discord
 Click [here](https://eartensifier.net/invite) to invite Ear Tensifier to your server. 
 
-By default, Ear Tensifier's prefix is set to `ear ` and can be changed by doing `ear prefix <new prefix>`. For a full list of commands, type `ear help` or `ear help <command>` for specific details on a command. A detailed list of commands can be found [here](https://eartensifier.com/commands).
+By default, Ear Tensifier's prefix is set to `ear `  and can be changed by doing `ear prefix <new prefix>`. For a full list of commands, type `ear help` or `ear help <command>` for specific details on a command. A detailed list of commands can be found [here](https://eartensifier.com/commands).
 
 ## License
 
