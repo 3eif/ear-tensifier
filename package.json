@@ -10,6 +10,7 @@
     "cloudlist.js": "^1.2.5",
     "columnify": "^1.5.4",
     "common-tags": "^1.8.0",
+    "dblapi.js": "^2.4.0",
     "ddblapi.js": "^1.0.0",
     "discord.bots.gg": "^0.3.0-v1.2",
     "discord.js": "github:discordjs/discord.js",

@@ -12,7 +12,6 @@ module.exports = async (client, servers, shards, shardID, users) => {
     })
     .then(res => res.json())
     .then(async response => {
-        console.log(response)
         console.log("Posted bot stats to cloudlist.xyz")
     })
 }
