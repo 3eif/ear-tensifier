@@ -8,3 +8,4 @@ json.sqlite
 *.bat
 .vs
 radio.js
+webhook.json
