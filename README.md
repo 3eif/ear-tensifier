@@ -1,4 +1,6 @@
-![](./assets/eartensifier.png)
+<div align="center">
+    <p align="center"><img src="./assets/eartensifier.png)" style="width: 50px; height: 50px;"></p><br>
+</div>
 [![Discord](https://discordapp.com/api/guilds/473426453204172811/embed.png?style=shield)](https://discord.gg/xKgKMAP)
 ![](https://botlist.space/bot/472714545723342848/badge?property=servers&style=flat-square&color=7089da)
 ![](https://botlist.space/bot/472714545723342848/badge?property=shards&style=flat-square&color=7089da)
