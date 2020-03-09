@@ -149,7 +149,7 @@ module.exports = class Message extends Event {
         if (!cooldowns.has(cmd.name)) {
           cooldowns.set(cmd.name, new Discord.Collection());
         }
-        if (cmd.permission === "dev" && !this.client.settings.devs.includes(message.author.id)) return this.client.responses("noPerms", message);
+        if (cmd.permission === "dev" && !this.client.settings.devs.includes(message.author.id)) return;;
 
         if (cmd && !message.guild && cmd.guildOnly) return message.channel.send("I can't execute that command inside DMs!. Please run this command in a server.");
 
