@@ -8,7 +8,6 @@ client.settings = require("./settings.js");
   require(`./utils/handlers/${handler}`)(client)
 })
 
-client.responses = require('./utils/responses.js');
 client.errors = require('./utils/errors.js');
 
 const tokens = require("./tokens.json");

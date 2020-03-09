@@ -12,12 +12,12 @@ module.exports = {
     const player = client.music.players.get(message.guild.id);
     if (!player) return message.channel.send("No songs playing.")
 
-    let { title, author, duration, thumbnail, requester, uri } = player.queue[0];
+    let { title, author, duration, requester, uri } = player.queue[0];
     if (player.position < 5000) {
       const embed = new Discord.MessageEmbed()
         .setColor(colors.main)
         .setTitle(player.playing ? "Now Playing" : "Paused")
-        .setThumbnail(thumbnail)
+        .setThumbnail(player.queue[0].displayThumbnail("default"))
         .setDescription(`[${title}](${uri})`)
         .addField("Duration", Utils.formatTime(duration, true), true)
         .addField("Requested by", requester, true)
@@ -29,7 +29,7 @@ module.exports = {
       const embed = new Discord.MessageEmbed()
         .setColor(colors.main)
         .setTitle(player.playing ? "Now Playing" : "Paused")
-        .setThumbnail(thumbnail)
+        .setThumbnail(player.queue[0].displayThumbnail("default"))
         .setDescription(`[${title}](${uri})\n\n${amount}   ${"▬".repeat(part) + "⚪" + "▬".repeat(10 - part)}   ${Utils.formatTime(duration, true)}`)
         .addField("Author", author, true)
         .addField("Requested by", requester, true)

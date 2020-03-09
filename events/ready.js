@@ -33,7 +33,8 @@ module.exports = class Ready extends Event {
                 //player.textChannel.send("");
                 return this.client.music.players.destroy(player.guild.id)
             })
-            .on("trackStart", ({ textChannel }, { title, duration, thumbnail, author, uri, requester }) => {
+            .on("trackStart", ({ textChannel }, { title, duration, author, uri, requester }) => {
+                let thumbnail = this.client.music.players.get(textChannel.guild.id).queue[0].displayThumbnail("default");
                 addDB(uri, title, author, duration, uri, thumbnail);
 
                 bot.findOne({
@@ -56,28 +57,24 @@ module.exports = class Ready extends Event {
 
                 const embed = new Discord.MessageEmbed()
                     .setTitle(author)
-                if (uri.includes("youtube")) {
-                    embed.setThumbnail(thumbnail)
-                }
                 if (uri.includes("soundcloud")) {
                     embed.attachFiles(['./assets/soundcloud.PNG'])
                     embed.setThumbnail('attachment://soundcloud.PNG')
                     embed.setFooter("SoundCloud")
-                }
-                if (uri.includes("bandcamp")) {
+                } else if (uri.includes("bandcamp")) {
                     embed.attachFiles(['./assets/bandcamp.PNG'])
                     embed.setThumbnail('attachment://bandcamp.PNG')
                     embed.setFooter("bandcamp")
-                }
-                if (uri.includes("mixer")) {
+                } else if (uri.includes("mixer")) {
                     embed.attachFiles(['./assets/mixer.PNG'])
                     embed.setThumbnail('attachment://mixer.PNG')
                     embed.setFooter("Mixer")
-                }
-                if (uri.includes("twitch")) {
+                } else if (uri.includes("twitch")) {
                     embed.attachFiles(['./assets/twitch.PNG'])
                     embed.setThumbnail('attachment://twitch.PNG')
                     embed.setFooter("Twitch")
+                } else {
+                    embed.setThumbnail(thumbnail)
                 }
 
                 embed.setDescription(`[${title}](${uri})`)
