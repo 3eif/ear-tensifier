@@ -13,7 +13,7 @@ module.exports = {
         
         if(!voiceChannel) return message.channel.send("You need to be in a voice channel to use this command");
         if(!player) return message.channel.send("There is nothing currently playing to seek.")
-        if(voiceChannel != message.guild.members.cache.get(client.user.id).voice.channel) return message.channel.send("You are not in the same voice channel as the bot.");
+        if(voiceChannel != message.guild.members.cache.get(client.user.id).voice.id) return message.channel.send("You are not in the same voice channel as the bot.");
 
         player.seek(0); 
         return message.channel.send(`Replayed song...`);
