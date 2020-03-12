@@ -15,10 +15,10 @@ module.exports = {
         const player = client.music.players.get(message.guild.id);
 
         if(isNaN(args[0])) return message.channel.send(`Invalid number.`)
-        if(!voiceChannel) return message.channel.send("You need to be in a voice channel to use this command");
-        if(voiceChannel.id != message.guild.members.cache.get(client.user.id).voice.channel.id) return message.channel.send("You are not in the same voice channel as the bot.");
+        if(!voiceChannel) return client.responses('noVoiceChannel', message);
+        if(voiceChannel.id != message.guild.members.cache.get(client.user.id).voice.channel.id) return client.responses('sameVoiceChannel', message);
 
-        if(!player) return message.channel.send("There is nothing currently playing to shuffle.")
+        if(!player) return client.responses('noSongsPlaying', message)
 
         if(args[0] == 0) message.channel.send(`Cannot remove a song that is already playing. To skip the song type \`${client.settings.prefix}\ skip\``)
 

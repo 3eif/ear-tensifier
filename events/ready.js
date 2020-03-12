@@ -75,6 +75,7 @@ module.exports = class Ready extends Event {
                     embed.setFooter("Twitch")
                 } else {
                     embed.setThumbnail(thumbnail)
+                    embed.setFooter("Youtube")
                 }
 
                 embed.setDescription(`[${title}](${uri})`)

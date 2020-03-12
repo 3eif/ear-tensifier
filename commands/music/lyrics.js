@@ -18,7 +18,7 @@ module.exports = {
             .catch(err => {
                 return message.channel.send(err.message)
             });
-        if (data.lyrics.length > 2048) return message.reply("Lyrics were too long.")
+        if (data.lyrics.length > 2048) return msg.edit("Lyrics were too long.")
         const embed = new Discord.MessageEmbed()
             .setTitle(`${data.name}`)
             .setAuthor(`${data.artist.name}`)

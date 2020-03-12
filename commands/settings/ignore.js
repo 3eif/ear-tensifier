@@ -14,8 +14,6 @@ module.exports = {
   args: true,
   async execute (client, message, args) {
     if (!message.member.hasPermission("MANAGE_CHANNELS")) return message.channel.send(`You must have the \`Manage Channels\` permission to use this command.`);
-
-    const msg = await message.channel.send(`${loading} Ignoring commands from channel...`);
     
     let channel;
     if(message.mentions.channels.first() === undefined){
@@ -24,6 +22,8 @@ module.exports = {
     } else {
         channel = message.mentions.channels.first().id;
     }
+
+    const msg = await message.channel.send(`${loading} Ignoring commands from channel...`);
 
     servers.findOne({
         serverID: message.guild.id

@@ -19,10 +19,10 @@ module.exports = {
         const reason = args.slice(1).join(" ");
         if (!reason) return message.channel.send(`Please specify a reason for blocking this user.`);
 
-        const msg = await message.channel.send(`${emojis.loading} Blocked user from bot...`);
-
         const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
-        if (!user) return msg.edit("Not a valid user.");
+        if (!user) return message.channel.send("Not a valid user.");
+
+        const msg = await message.channel.send(`${emojis.loading} Blocking user from bot...`);
 
         users.findOne({
             authorID: user.id

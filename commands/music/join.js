@@ -10,7 +10,7 @@ module.exports = {
     async execute(client, message, args) {
         const voiceChannel = message.member.voice.channel;
 
-        if(!voiceChannel) return message.channel.send("You need to be in a voice channel to use this command");
+        if(!voiceChannel) return client.responses('noVoiceChannel', message);
         
         voiceChannel.join();
         return message.channel.send(`Joined ${emojis.voice}**${voiceChannel}**`)
