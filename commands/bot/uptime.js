@@ -1,12 +1,12 @@
 const Discord = require("discord.js");
-const emojis = require("../../recourses/emojis.json")
-const colors = require("../../recourses/colors.json")
+
+
 
 module.exports = {
     name: "uptime",
     description: "Displays the bot's uptime.",
     async execute(client, message, args) {
-        const msg = await message.channel.send(`${emojis.loading} Fetching uptime...`);
+        const msg = await message.channel.send(`${client.emojiList.loading} Fetching uptime...`);
 
         const totalSeconds = process.uptime();
         const realTotalSecs = Math.floor(totalSeconds % 60);

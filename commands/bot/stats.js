@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
-const colors = require("../../recourses/colors.json")
-const { loading } = require("../../recourses/emojis.json");
+
+
 const mongoose = require("mongoose");
 const bot = require("../../models/bot.js");
 
@@ -12,7 +12,7 @@ module.exports = {
     cooldown: '5',
     async execute(client, message, args) {
 
-        const msg = await message.channel.send(`${loading} Gathering stats...`);
+        const msg = await message.channel.send(`${client.emojiList.loading} Gathering stats...`);
         const os = require('os');
         const arch = os.arch();
         const used = process.memoryUsage().heapUsed / 1024 / 1024;
@@ -38,7 +38,7 @@ module.exports = {
 
                     const statsEmbed = new Discord.MessageEmbed()
                         .setAuthor("Ear Tensifier", client.user.displayAvatarURL())
-                        .setColor(colors.main)
+                        .setColor(client.colors.main)
                         .setThumbnail(client.settings.avatar)
                         .addField("Born On", client.user.createdAt)
                         .addField("Current Version", client.settings.version, true)

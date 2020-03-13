@@ -1,9 +1,9 @@
 const Discord = require("discord.js");
 const moment = require("moment");
 const Event = require('../structures/Event');
-const colors = require("../recourses/colors.json")
-const channel = require("../recourses/channels.json")
-const webhooks = require("../recourses/webhooks.json");
+
+
+const webhooks = require("../resources/webhooks.json");
 
 const webhookClient = new Discord.WebhookClient(webhooks.guildID, webhooks.guildToken);
 

@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
-const colors = require("../../recourses/colors.json");
-const { loading } = require("../../recourses/emojis.json");
+
+
 const songs = require("../../models/song.js");
 
 module.exports = {
@@ -24,7 +24,7 @@ module.exports = {
               .setAuthor("Top Charts", client.settings.avatar)
               .addField('Top Songs', `${songsArr.join("\n")}`)
               .setTimestamp()
-              .setColor(colors.main);
+              .setColor(client.colors.main);
             msg.edit("", embed);
           });
     }

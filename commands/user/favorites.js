@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
-const emojis = require("../../recourses/emojis.json");
-const colors = require("../../recourses/colors.json");
+;
+
 const users = require("../../models/user.js");
 const { Utils } = require("erela.js");
 let { getData, getPreview } = require("spotify-url-info");
@@ -9,7 +9,7 @@ module.exports = {
     name: "favorites",
     description: "Displays a list of your favorite songs.",
     async execute(client, message, args) {
-        const msg = await message.channel.send(`${emojis.loading} Fetching favorites...`);
+        const msg = await message.channel.send(`${client.emojiList.loading} Fetching favorites...`);
 
         users.findOne({
             authorID: message.author.id
@@ -53,7 +53,7 @@ module.exports = {
                     .setAuthor(message.author.tag, message.author.displayAvatarURL())
                     .setTitle("Favorite Songs")
                     .setDescription(str)
-                    .setColor(colors.main)
+                    .setColor(client.colors.main)
                     .setTimestamp()
                 msg.edit("", embed);
                 await u.save().catch(e => console.log(e));

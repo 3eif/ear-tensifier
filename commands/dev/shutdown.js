@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
-const emojis = require("../../recourses/emojis.json")
-const colors = require("../../recourses/colors.json")
+
+
 
 module.exports = {
     name: "shutdown",

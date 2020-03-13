@@ -1,9 +1,9 @@
 const Discord = require("discord.js");
 const Event = require('../structures/Event');
-const colors = require("../recourses/colors.json")
-const channel = require("../recourses/channels.json")
-const patreonData = require("../recourses/patreon.json");
-const webhooks = require("../recourses/webhooks.json");
+
+
+const patreonData = require("../resources/patreon.json");
+const webhooks = require("../resources/webhooks.json");
 const patreon = require('../utils/patreon.js');
 const webhookClient = new Discord.WebhookClient(webhooks.patreonWebhookID, webhooks.patreonWebhookToken);
 
@@ -20,7 +20,7 @@ module.exports = class GuildMemberUpdate extends Event {
             if (oldMember.roles.cache.find(r => r.name === "Supporter") && !newMember.roles.cache.find(r => r.name === "Supporter")) {
                 const embed = new Discord.MessageEmbed()
                     .setAuthor("Deleted Patreon", "https://cdn.discordapp.com/avatars/216303189073461248/00a6db63b09480d1613877bf40e98bea.webp?size=2048")
-                    .setColor(colors.main)
+                    .setColor(this.client.colors.main)
                     .setThumbnail(newMember.user.avatarURL())
                     .setDescription(`**${newMember.user.tag}** (${newMember.user.id}) is no longer a Patreon supporter.`)
                     .setTimestamp()
@@ -38,7 +38,7 @@ module.exports = class GuildMemberUpdate extends Event {
 
             const embed = new Discord.MessageEmbed()
                 .setAuthor("New Patreon!", "https://cdn.discordapp.com/avatars/216303189073461248/00a6db63b09480d1613877bf40e98bea.webp?size=2048")
-                .setColor(colors.main)
+                .setColor(this.client.colors.main)
                 .setThumbnail(newMember.user.avatarURL())
                 .setDescription(`**${newMember.user.tag}** (${newMember.user.id}) is now a Patreon supporter!`)
                 .setTimestamp()

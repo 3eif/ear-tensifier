@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
-const { typing } = require("../../recourses/emojis.json");
+
 const fs = require("fs");
-const colors = require(`../../recourses/colors.json`)
+
 const categories = fs.readdirSync(`./commands/`);
 
 module.exports = {
@@ -12,7 +12,7 @@ module.exports = {
   usage: `[command name]`,
   async execute(client, message, args) {
 
-    const msg = await message.channel.send(`${typing} Sending a list of my commands...`);
+    const msg = await message.channel.send(`${client.emojiList.typing} Sending a list of my commands...`);
 
     const user = message.member;
     const { commands } = message.client;
@@ -22,7 +22,7 @@ module.exports = {
       .setAuthor(`Commands`, client.settings.avatar)
       .setDescription(`A detailed list of commands can be found [here](https://eartensifier.net/commands)\nJoin the [support server](${client.settings.server}) for more help`)
       .setFooter(`For more information: ${client.settings.prefix}help <command>`)
-      .setColor(colors.main);
+      .setColor(client.colors.main);
 
     if (!args.length) {
 

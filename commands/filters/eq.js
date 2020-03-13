@@ -1,7 +1,7 @@
 const premium = require('../../utils/premium.js');
 const Discord = require('discord.js');
-const emojis = require('../../recourses/emojis.json');
-const colors = require('../../recourses/colors.json');
+
+
 
 module.exports = {
     name: "eq",
@@ -46,12 +46,12 @@ module.exports = {
         }
 
         const delay = ms => new Promise(res => setTimeout(res, ms));
-        let msg = await message.channel.send(`${emojis.loading} Setting equalizer to \`${bandsStr}\`. This may take a few seconds...`)
+        let msg = await message.channel.send(`${client.emojiList.loading} Setting equalizer to \`${bandsStr}\`. This may take a few seconds...`)
         const embed = new Discord.MessageEmbed()
         .setAuthor(message.guild.name, message.guild.iconURL())
         .setDescription(`Equalizer set to: \`${bandsStr}\``)
         .setFooter(`To reset the equalizer type: ear eq reset`)
-        .setColor(colors.main);
+        .setColor(client.colors.main);
         await delay(5000);
         return msg.edit("", embed);
     }

@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
-const { main } = require("../../recourses/colors.json");
-const emojis = require("../../recourses/emojis.json");
+const { main } = require("../../resources/colors.json");
+;
 const users = require("../../models/user.js");
 let { getData, getPreview } = require("spotify-url-info");
 const { Utils } = require("erela.js");
@@ -10,7 +10,7 @@ module.exports = {
     description: "Adds a song to the user's favorites.",
     usage: "<user>",
     async execute(client, message, args) {
-        const msg = await message.channel.send(`${emojis.loading} Adding song...`);
+        const msg = await message.channel.send(`${client.emojiList.loading} Adding song...`);
 
         let songsToAdd = [];
         if (args[0].startsWith("https://open.spotify.com")) {

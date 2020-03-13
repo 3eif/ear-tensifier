@@ -1,6 +1,5 @@
 const Discord = require("discord.js");
-const colors = require("../../recourses/colors.json")
-const { main, online, offline } = require("../../recourses/emojis.json");
+
 const mongoose = require("mongoose");
 const moment = require("moment");
 const bot = require("../../models/bot.js");
@@ -31,12 +30,12 @@ module.exports = {
       ]`)
 
     const embed = new Discord.MessageEmbed()
-      .setColor(main)
+      .setColor(client.colors.main)
       .setAuthor("Ear Tensifier", client.user.displayAvatarURL());
 
     let totalMusicStreams = 0;
     shardInfo.forEach(i => {
-      const status = i[1] === 'process' ? online : offline;
+      const status = i[1] === 'process' ? client.emojiList.online : client.emojiList.offline;
       embed.addField(`${status} Shard ${i[0]}`, `\`\`\`js
 Servers: ${i[2]}\nChannels: ${i[3]}\nUsers: ${i[4]}\nMemory: ${i[5]} mb\nMusic Streams: ${i[6]}\`\`\``, true)
       totalMusicStreams += i[6]

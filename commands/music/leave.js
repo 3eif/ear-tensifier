@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
-const emojis = require("../../recourses/emojis.json");
-const colors = require("../../recourses/colors.json");
+;
+
 const { Utils } = require("erela.js");
 
 module.exports = {
@@ -17,6 +17,6 @@ module.exports = {
 
 
         if(player) client.music.players.destroy(message.guild.id);
-        return message.channel.send(`Left ${emojis.voice}**${voiceChannel}**`)
+        return message.channel.send(`Left ${client.emojiList.voice}**${voiceChannel}**`)
     }
 }

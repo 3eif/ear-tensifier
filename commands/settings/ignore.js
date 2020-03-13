@@ -1,9 +1,9 @@
 const Discord = require("discord.js"); 
-const { loading } = require("../../recourses/emojis.json");
-const colors = require("../../recourses/colors.json")
+
+
 const servers = require("../../models/server.js");
 const mongoose = require("mongoose");
-const emojis = require("../../recourses/emojis.json");
+;
 
 
 
@@ -44,7 +44,7 @@ module.exports = {
         await s.save().catch(e => console.log(e));
         const embed = new Discord.MessageEmbed()
         .setAuthor(`${message.guild.name}`, message.guild.iconURL())
-        .setColor(colors.main)
+        .setColor(client.colors.main)
         .setDescription(`I will now ignore commands from ${args[0]}`)
         .setFooter(`Tip: You can make me listen to commands again by doing ${s.prefix} listen`)
         msg.edit("", embed);

@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
-const { main } = require("../../recourses/colors.json");
-const emojis = require("../../recourses/emojis.json");
+const { main } = require("../../resources/colors.json");
+;
 const users = require("../../models/user.js");
 
 module.exports = {
@@ -8,7 +8,7 @@ module.exports = {
   description: "Displays the user's profile",
   usage: "<user>",
   async execute (client, message, args) {
-    const msg = await message.channel.send(`${emojis.loading} Fetching profile...`);
+    const msg = await message.channel.send(`${client.emojiList.loading} Fetching profile...`);
 
     const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.member;
     if (!user) return msg.edit(replies.noUser);
@@ -37,7 +37,7 @@ module.exports = {
           .setThumbnail(user.user.displayAvatarURL())
           .addField("User", `${user.user.tag}`, true)
           .addField("Bio", "No bio set")
-          .setColor(main)
+          .setColor(client.colors.main)
           .setFooter(`Commands Used: ${u.commandsUsed} | Songs Played: ${u.songsPlayed}`)
           .setTimestamp();
         return msg.edit("", embed);
@@ -55,7 +55,7 @@ module.exports = {
           .setThumbnail(user.user.displayAvatarURL())
           .addField("User", `${user.user.tag}${ranks}`, true)
           .addField("Bio", `${bio}`)
-          .setColor(main)
+          .setColor(client.colors.main)
           .setFooter(`Commands Used: ${u.commandsUsed} | Songs Played: ${u.songsPlayed}`)
           .setTimestamp();
         return msg.edit("", embed);

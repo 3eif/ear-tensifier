@@ -1,6 +1,6 @@
 const Discord = require("discord.js"); 
-const { loading } = require("../../recourses/emojis.json");
-const colors = require("../../recourses/colors.json")
+
+
 const servers = require("../../models/server.js");
 const mongoose = require("mongoose");
 
@@ -52,7 +52,7 @@ module.exports = {
         await s.save().catch(e => console.log(e));
         const embed = new Discord.MessageEmbed()
         .setAuthor(`${message.guild.name}`, message.guild.iconURL())
-        .setColor(colors.main)
+        .setColor(client.colors.main)
         .setDescription(`I will now listen to commands from ${args[0]}`)
         msg.edit("", embed);
     });

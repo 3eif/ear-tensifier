@@ -9,4 +9,4 @@ json.sqlite
 .vs
 radio.js
 webhook.json
-recourses/webhooks.json
+resources/webhooks.json

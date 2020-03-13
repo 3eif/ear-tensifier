@@ -1,6 +1,6 @@
 const Discord = require("discord.js"); 
-const { typing } = require("../../recourses/emojis.json");
-const { main } = require("../../recourses/colors.json");
+
+const { main } = require("../../resources/colors.json");
 const servers = require("../../models/server.js");
 const mongoose = require("mongoose");
 
@@ -35,7 +35,7 @@ module.exports = {
     if(!args[0]) return;
 
     let f = args[0].replace("_", " ");
-    const msg = await message.channel.send(`${typing} Setting prefix to ${f}...`);
+    const msg = await message.channel.send(`${client.emojiList.typing} Setting prefix to ${f}...`);
 
     servers.findOne({
         serverID: message.guild.id
@@ -55,7 +55,7 @@ module.exports = {
         await s.save().catch(e => console.log(e));
         const embed = new Discord.MessageEmbed()
         .setAuthor(`${message.guild.name}`, message.guild.iconURL())
-        .setColor(main)
+        .setColor(client.colors.main)
         .setDescription(`Successfully set the prefix to \`${f}\``)
         msg.edit("", embed);
     });

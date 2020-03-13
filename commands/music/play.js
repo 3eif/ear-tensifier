@@ -1,4 +1,4 @@
-const emojis = require("../../recourses/emojis.json");
+;
 const play = require("../../utils/search.js")
 
 let { getData, getPreview } = require("spotify-url-info");
@@ -26,7 +26,7 @@ module.exports = {
 
         if (player.pause == "paused") return message.channel.send(`Cannot play/queue songs while paused. Do \`${client.settings.prefix} resume\` to play.`);
 
-        const msg = await message.channel.send(`${emojis.cd}  Searching for \`${args.join(" ")}\`...`)
+        const msg = await message.channel.send(`${client.emojiList.cd}  Searching for \`${args.join(" ")}\`...`)
 
         let searchQuery;
         if (args[0].startsWith("https://open.spotify.com")) {

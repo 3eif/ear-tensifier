@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
-const emojis = require("../../recourses/emojis.json");
-const colors = require("../../recourses/colors.json");
+;
+
 const { Utils } = require("erela.js");
 const { stripIndents } = require("common-tags");
 
@@ -15,7 +15,7 @@ module.exports = {
     let { title, author, duration, requester, uri } = player.queue[0];
     if (player.position < 5000) {
       const embed = new Discord.MessageEmbed()
-        .setColor(colors.main)
+        .setColor(client.colors.main)
         .setTitle(player.playing ? "Now Playing" : "Paused")
         .setThumbnail(player.queue[0].displayThumbnail("default"))
         .setDescription(`[${title}](${uri})`)
@@ -27,7 +27,7 @@ module.exports = {
       let amount = `${Utils.formatTime(player.position, true)}`
       const part = Math.floor((player.position / duration) * 10);
       const embed = new Discord.MessageEmbed()
-        .setColor(colors.main)
+        .setColor(client.colors.main)
         .setTitle(player.playing ? "Now Playing" : "Paused")
         .setThumbnail(player.queue[0].displayThumbnail("default"))
         .setDescription(`[${title}](${uri})\n\n${amount}   ${"▬".repeat(part) + "⚪" + "▬".repeat(10 - part)}   ${Utils.formatTime(duration, true)}`)

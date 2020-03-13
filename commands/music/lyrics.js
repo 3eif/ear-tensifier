@@ -1,7 +1,7 @@
 const Discord = require('discord.js')
 const { KSoftClient } = require('ksoft.js');
-const { loading } = require("../../recourses/emojis.json");
-const colors = require("../../recourses/colors.json");
+
+
 var { ksoftToken } = require('../../tokens.json')
 const ksoft = new KSoftClient(ksoftToken);
 
@@ -23,7 +23,7 @@ module.exports = {
             .setTitle(`${data.name}`)
             .setAuthor(`${data.artist.name}`)
             .setDescription(data.lyrics)
-            .setColor(colors.main)
+            .setColor(client.colors.main)
             .setFooter(`Powered by KSoft.Si`)
         msg.edit("", embed)
     }

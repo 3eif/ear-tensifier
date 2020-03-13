@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const colors = require("../../recourses/colors.json");
+
 
 module.exports = {
     name: "volume",
@@ -26,7 +26,7 @@ module.exports = {
         .setAuthor(message.guild.name, message.guild.iconURL())
         .setDescription(`Volume set to: **${args[0]}**`)
         .setFooter(`Default volume: 100`)
-        .setColor(colors.main);
+        .setColor(client.colors.main);
         return message.channel.send(embed)
     }
 }

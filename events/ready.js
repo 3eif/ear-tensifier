@@ -1,13 +1,13 @@
 const { ErelaClient, Utils } = require("erela.js");
 const Discord = require('discord.js');
 
-const colors = require("../recourses/colors.json");
+;
 const Event = require('../structures/Event');
 const tokens = require("../tokens.json");
 const mongoose = require("mongoose");
 const bot = require("../models/bot.js");
 const users = require("../models/user.js");
-const webhooks = require("../recourses/webhooks.json");
+const webhooks = require("../resources/webhooks.json");
 const songs = require("../models/song.js");
 
 const postHandler = require("../utils/handlers/post.js");
@@ -81,7 +81,7 @@ module.exports = class Ready extends Event {
                 embed.setDescription(`[${title}](${uri})`)
                 embed.addField('Duration', `${Utils.formatTime(duration, true)}`, true)
                 embed.addField('Requested by', requester.tag, true)
-                embed.setColor(colors.main)
+                embed.setColor(this.client.colors.main)
                 embed.setTimestamp()
                 textChannel.send(embed);
             })
@@ -153,7 +153,7 @@ module.exports = class Ready extends Event {
 
                     const embed = new Discord.MessageEmbed()
                         .setAuthor("Ear Tensifier", this.client.settings.avatar)
-                        .setColor(colors.main)
+                        .setColor(this.client.colors.main)
                         .setDescription(`Ear Tensifier is online.`)
                         .addField("Shards", `**${this.client.shard.count}** shards`, true)
                         .addField("Servers", `**${totalGuilds}** servers`, true)

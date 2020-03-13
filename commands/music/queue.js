@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
-const emojis = require("../../recourses/emojis.json");
-const colors = require("../../recourses/colors.json");
+;
+
 const { Utils } = require("erela.js");
 
 module.exports = {
@@ -20,7 +20,7 @@ module.exports = {
             .setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
             .setColor(colors.discord)
             .setDescription(`**Now Playing** - [${title}](${uri}) (${Utils.formatTime(duration, true)}) by ${author}.\n\n${player.queue.slice(1, 11).map(song => `**${index++}** - [${song.title}](${song.uri}) (${Utils.formatTime(song.duration, true)}) by ${song.author}.`).join("\n")}`)
-            .setColor(colors.main)
+            .setColor(client.colors.main)
             .setFooter(`${player.queue.size} songs | ${Utils.formatTime(player.queue.duration, true)} total duration`)
         message.channel.send(queueEmbed);
 

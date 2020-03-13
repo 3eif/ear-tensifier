@@ -1,11 +1,6 @@
 const Discord = require("discord.js");
-const emojis = require("../../recourses/emojis.json");
-const colors = require("../../recourses/colors.json")
 const users = require("../../models/user.js");
 const mongoose = require("mongoose");
-const { modlog } = require("../../recourses/channels.json");
-
-
 
 module.exports = {
     name: "unblock",
@@ -21,7 +16,7 @@ module.exports = {
         const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
         if (!user) return message.channel.send("Not a valid user.");
 
-        const msg = await message.channel.send(`${emojis.loading} Unblocking user from bot...`);
+        const msg = await message.channel.send(`${client.emojiList.loading} Unblocking user from bot...`);
 
         users.findOne({
             authorID: user.id
@@ -53,7 +48,7 @@ module.exports = {
 
             const username = await client.users.fetch(u.authorID);
             msg.edit(`Unblocked **${user.user.tag}** from the bot.`)
-            client.channels.get(modlog).send(`${emojis.whitelist} **${message.author.tag}** (${message.author.id}) unblocked **${user.user.tag}** (${user.id}). Reason: ${reason}`);
+            //client.channels.get(modlog).send(`${client.emojiList.whitelist} **${message.author.tag}** (${message.author.id}) unblocked **${user.user.tag}** (${user.id}). Reason: ${reason}`);
             await u.save().catch(e => console.log(e));
         });
     },
