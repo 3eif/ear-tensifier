@@ -5,8 +5,7 @@ module.exports = class ShardReady extends Event {
         super(...args)
     }
 
-    async run() {
-        let i = parseInt(this.client.shard.ids) + 1;
-        console.log(`Shard [${i}] ready`)
+    async run(w) {
+        console.log(w)
     }
 }
