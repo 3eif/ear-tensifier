@@ -17,7 +17,7 @@ module.exports = class GuildCreate extends Event {
 
             const embed = new Discord.MessageEmbed()
                 .setAuthor(`Ear Tensifier | Guild ID: ${guild.id}`, this.client.user.displayAvatarURL())
-                .setColor(colors.offline)
+                .setColor(this.client.colors.offline)
                 .setThumbnail(guild.iconURL())
                 .setDescription("Ear Tensifier has been **REMOVED** to a server.")
                 .addField("Guild", `${guild.name}`, true)

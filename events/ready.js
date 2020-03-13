@@ -167,6 +167,7 @@ module.exports = class Ready extends Event {
                     });
 
                     if(this.client.user.id == '472714545723342848') postHandler(this.client, totalGuilds, this.client.shard.count, this.client.shard.id, totalMembers);
+                    require("../webhooks/dbl.js").startUp(this.client);
                 });
         }
     }

@@ -2,7 +2,6 @@ const Discord = require("discord.js");
 const moment = require("moment");
 const Event = require('../structures/Event');
 
-
 const webhooks = require("../resources/webhooks.json");
 
 const webhookClient = new Discord.WebhookClient(webhooks.guildID, webhooks.guildToken);
@@ -17,7 +16,7 @@ module.exports = class GuildCreate extends Event {
 
             const embed = new Discord.MessageEmbed()
                 .setAuthor(`Ear Tensifier | Guild ID: ${guild.id}`, this.client.user.displayAvatarURL())
-                .setColor(colors.online)
+                .setColor(this.client.colors.online)
                 .setThumbnail(guild.iconURL())
                 .setDescription("Ear Tensifier has been **ADDED** to a server.")
                 .addField("Guild", `${guild.name}`, true)
