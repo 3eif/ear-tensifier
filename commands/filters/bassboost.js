@@ -19,12 +19,12 @@ module.exports = {
         if(!player) return message.channel.send("There is nothing currently playing to bassboost.")
 
         if(!args[0]){
-            player.setEQ(Array(6).fill(0).map((n, i) => ({ band: i, gain: 0.8 })))
+            player.setEQ(Array(6).fill(0).map((n, i) => ({ band: i, gain: 0.65 })))
             return message.channel.send(`Setting tensity to **bassboost**. This may take a few seconds...`);
         }
 
         if(args[0].toLowerCase() == "reset" || args[0].toLowerCase() == "off") {
-            player.setEQ(Array(6).fill(0).map((n, i) => ({ band: i, gain: 0.15 })))
+            player.setEQ(Array(13).fill(0).map((n, i) => ({ band: i, gain: 0 })))
             return message.channel.send(`**Bassboost** turned off. This may take a few seconds...`);
         }
 
