@@ -43,9 +43,9 @@ module.exports = {
         return msg.edit("", embed);
       } else {
 
-        if (u.voted) ranks += " " + emojis.voted;
-        if (u.supporter) ranks += " " + emojis.supporter;
-        if (u.developer) ranks += " " + emojis.developer;
+        if (u.voted) ranks += " " + client.emojis.voted;
+        if (u.supporter) ranks += " " + client.emojis.supporter;
+        if (u.developer) ranks += " " + client.emojis.developer;
 
         let bio;
         if(!u.bio) bio = "No bio set";
