@@ -4,7 +4,7 @@ const Discord = require('discord.js');
 
 
 module.exports = {
-    name: "eq",
+    name: "equalizer",
     description: "Sets the equalizer of the current playing song.",
     async execute(client, message, args) {
         if(!premium(message.author.id, "Supporter")) return message.channel.send(`This command is only available to **Premium** users. Click here to get premium: https://www.patreon.com/join/eartensifier`)

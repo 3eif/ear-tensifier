@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-;
 
 const users = require("../../models/user.js");
 const { Utils } = require("erela.js");
