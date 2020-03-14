@@ -18,6 +18,10 @@ module.exports = async (type, message, args) => {
             message.channel.send(`There are no songs currently playing, please play a song to use the command.`)
             break;
         }
+        case 'noPremium': {
+            message.channel.send(`This command is only available to **Premium** users. Click here to get premium: https://www.patreon.com/join/eartensifier`);
+            break;
+        }
         default: {
             message.channel.send(client.error());
         }

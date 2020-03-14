@@ -8,7 +8,7 @@ module.exports = {
     description: "Shows the most played songs",
     aliases: ['top', 'chart', 'topcharts', 'topchart'],
     async execute(client, message, args) {
-        const msg = await message.channel.send(`${loading} Fetching most played songs...`);
+        const msg = await message.channel.send(`${client.emojiList.loading} Fetching most played songs...`);
 
         songs.find().sort([["timesPlayed", "descending"]]).exec(async (err, res) => {
             if (err) console.log(err);

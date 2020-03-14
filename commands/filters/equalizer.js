@@ -7,7 +7,7 @@ module.exports = {
     name: "equalizer",
     description: "Sets the equalizer of the current playing song.",
     async execute(client, message, args) {
-        if(!premium(message.author.id, "Supporter")) return message.channel.send(`This command is only available to **Premium** users. Click here to get premium: https://www.patreon.com/join/eartensifier`)
+        if(!premium(message.author.id, "Supporter")) return client.responses('noPremium', message);
 
         const voiceChannel = message.member.voice.channel;
         const player = client.music.players.get(message.guild.id);
@@ -28,7 +28,7 @@ module.exports = {
             .setFooter('Premium Command')
             return message.channel.send(embed);
         } else if(args[0] == "off" || args[0] == "reset"){
-            player.setEQ(Array(13).fill(0).map((n, i) => ({ band: i, gain: 0 })));
+            player.setEQ(Array(13).fill(0).map((n, i) => ({ band: i, gain: 0.15 })));
         }
 
         let bands = args.join(" ").split(/[ ]+/);
