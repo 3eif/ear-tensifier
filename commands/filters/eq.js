@@ -1,4 +1,4 @@
-const premium = require('../../utils/premium.js');
+const premium = require('../../utils/premium/premium.js');
 const Discord = require('discord.js');
 
 

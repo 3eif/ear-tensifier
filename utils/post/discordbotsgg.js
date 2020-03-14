@@ -1,5 +1,5 @@
 const discordbots = require('discord.bots.gg');
-const { post } = require('../tokens.json');
+const { post } = require('../../tokens.json');
 const dbots = new discordbots(post["discordBotsGG"]["id"], post["discordBotsGG"]["token"]);
 
 module.exports = async (client, servers, shards, shardID) => {

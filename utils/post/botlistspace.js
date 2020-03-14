@@ -1,5 +1,5 @@
 const BotList = require('botlist.space');
-const { post } = require('../tokens.json');
+const { post } = require('../../tokens.json');
 const botListClient = new BotList.Client({ id: post["botListSpace"]["id"], botToken: post["botListSpace"]["token"] });
 
 module.exports = async (client, servers, shards) => {

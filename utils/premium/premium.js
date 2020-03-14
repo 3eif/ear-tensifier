@@ -1,4 +1,4 @@
-const users = require("../models/user.js");
+const users = require("../../models/user.js");
 
 module.exports = async (user, pledge) => {
     switch (pledge) {

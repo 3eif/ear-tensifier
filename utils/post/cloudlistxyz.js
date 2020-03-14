@@ -1,4 +1,4 @@
-const { post } = require('../tokens.json');
+const { post } = require('../../tokens.json');
 const fetch = require("node-fetch")
 
 module.exports = async (client, servers, shards, shardID, users) => {
