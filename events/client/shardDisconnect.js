@@ -1,4 +1,4 @@
-const Event = require('../structures/Event');
+const Event = require('../../structures/Event');
 
 module.exports = class ShardReady extends Event {
     constructor(...args) {
@@ -6,6 +6,6 @@ module.exports = class ShardReady extends Event {
     }
 
     async run() {
-        console.log("Reconnecting...")
+        console.log("Disconnecting...")
     }
 }

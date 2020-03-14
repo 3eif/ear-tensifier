@@ -2,15 +2,15 @@ const { ErelaClient, Utils } = require("erela.js");
 const Discord = require('discord.js');
 
 ;
-const Event = require('../structures/Event');
-const tokens = require("../tokens.json");
+const Event = require('../../structures/Event');
+const tokens = require("../../tokens.json");
 const mongoose = require("mongoose");
-const bot = require("../models/bot.js");
-const users = require("../models/user.js");
-const webhooks = require("../resources/webhooks.json");
-const songs = require("../models/song.js");
+const bot = require("../../models/bot.js");
+const users = require("../../models/user.js");
+const webhooks = require("../../resources/webhooks.json");
+const songs = require("../../models/song.js");
 
-const postHandler = require("../utils/handlers/post.js");
+const postHandler = require("../../utils/handlers/post.js");
 
 const webhookClient = new Discord.WebhookClient(webhooks.webhookID, webhooks.webhookToken);
 
@@ -168,7 +168,7 @@ module.exports = class Ready extends Event {
 
                     if(this.client.user.id != '472714545723342848') return;
                     postHandler(this.client, totalGuilds, this.client.shard.count, this.client.shard.id, totalMembers);
-                    require("../utils/dbl.js").startUp(this.client);
+                    require("../../utils/dbl.js").startUp(this.client);
                 });
         }
     }

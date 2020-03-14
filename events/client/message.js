@@ -1,15 +1,15 @@
 const fs = require("fs");
 const Discord = require("discord.js");
 const cooldowns = new Discord.Collection();
-const Event = require('../structures/Event');
+const Event = require('../../structures/Event');
 
-const users = require("../models/user.js")
-const servers = require("../models/server.js");
-const bot = require("../models/bot.js");
-const commandsSchema = require("../models/command.js");
+const users = require("../../models/user.js")
+const servers = require("../../models/server.js");
+const bot = require("../../models/bot.js");
+const commandsSchema = require("../../models/command.js");
 ;
 
-const webhooks = require("../resources/webhooks.json");
+const webhooks = require("../../resources/webhooks.json");
 
 const webhookClient = new Discord.WebhookClient(webhooks.messageID, webhooks.messageToken);
 

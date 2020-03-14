@@ -1,8 +1,8 @@
 const Discord = require("discord.js");
 const moment = require("moment");
-const Event = require('../structures/Event');
+const Event = require('../../structures/Event');
 
-const webhooks = require("../resources/webhooks.json");
+const webhooks = require("../../resources/webhooks.json");
 
 const webhookClient = new Discord.WebhookClient(webhooks.guildID, webhooks.guildToken);
 
