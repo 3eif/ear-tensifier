@@ -1,10 +1,5 @@
 const Discord = require("discord.js");
-
-
-const mongoose = require("mongoose");
 const bot = require("../../models/bot.js");
-
-
 
 module.exports = {
     name: 'stats',

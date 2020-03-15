@@ -1,12 +1,5 @@
 const Discord = require("discord.js");
 
-const mongoose = require("mongoose");
-const moment = require("moment");
-const bot = require("../../models/bot.js");
-const columnify = require('columnify')
-
-
-
 module.exports = {
   name: 'shards',
   description: 'Displays the bot\'s shards',
