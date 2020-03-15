@@ -55,6 +55,8 @@ module.exports = class Ready extends Event {
                     await u.save().catch(e => console.log(e));
                 });
 
+                //if(this.client.music.players.get(textChannel.guild.id).trackRepeat) return;
+
                 const embed = new Discord.MessageEmbed()
                     .setTitle(author)
                 if (uri.includes("soundcloud")) {

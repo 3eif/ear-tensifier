@@ -10,17 +10,19 @@ module.exports = {
     async execute(client, message, args) {
         const voiceChannel = message.member.voice.channel;
         const player = client.music.players.get(message.guild.id);
-
-        if(isNaN(args[0])) return message.channel.send(`Invalid number.`)
         if(!voiceChannel) return client.responses('noVoiceChannel', message);
         if(voiceChannel.id != message.guild.members.cache.get(client.user.id).voice.channel.id) return client.responses('sameVoiceChannel', message);
 
         if(!player) return message.channel.send("No songs playing.")
 
+        if(!args[0]) return message.channel.send(`Current volume is set to: **${player.volume}**`)
+
         if(args[0].toLowerCase() == "reset") {
             player.setVolume(Number(client.settings.normal));
             return message.channel.send("Volume has been reset back to normal.")
         }
+
+        if(isNaN(args[0])) return message.channel.send(`Invalid number.`)
         player.setVolume(Number(args[0]));
         const embed = new Discord.MessageEmbed()
         .setAuthor(message.guild.name, message.guild.iconURL())
