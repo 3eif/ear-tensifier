@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 
 const users = require("../../models/user.js");
-const { Utils } = require("erela.js");
+const play = require("../../utils/search.js")
 let { getData, getPreview } = require("spotify-url-info");
 
 module.exports = {
@@ -23,7 +23,7 @@ module.exports = {
 
         if (player.pause == "paused") return message.channel.send(`Cannot play/queue songs while paused. Do \`${client.settings.prefix} resume\` to play.`);
 
-        const msg = await message.channel.send(`${client.emojiList.cd}  Loading favorites...`)
+        const msg = await message.channel.send(`${client.emojiList.cd}  Loading favorites (This might take a while)...`)
 
         users.findOne({
             authorID: message.author.id
@@ -32,43 +32,37 @@ module.exports = {
 
             let content = new Promise(async function (resolve, reject) {
                 if (u.favorites && u.favorites.length) {
-                    for (let i = 0; i < u.favorites.length; i++) {
-                        if (u.favorites[i].startsWith("https://open.spotify.com")) {
-                            const track = await getData(u.favorites[i])
-                            console.log(track.name);
-                            str += `[${track.name}](${u.favorites[i]}) (${Utils.formatTime(track.duration_ms, true)})\n`;
+                    for (let i = 0; i < u.favorites.length;) {
+                        if (u.favorites[i].startsWith("https://open.spotify")) {
+                            let url = `https:${u.favorites[i].split(":")[1]}`;
+                            console.log(url);
+                            const track = await getPreview(url)
+                            play(client, message, false, player, `${track.title} ${track.artist}`, false);
+                            i++;
                         } else {
-                            client.music.search(u.favorites[i], message.author.id).then(async res => {
-                                switch (res.loadType) {
-                                    case "TRACK_LOADED":
-                                        str += `[${res.tracks[0].title}](${u.favorites[i]}) (${res.tracks[0].duration})\n`
-                                        console.log(`[${res.tracks[0].title}](${u.favorites[i]}) (${res.tracks[0].duration})`)
-                                        break;
-
-                                    case "SEARCH_RESULT":
-                                        break;
-
-                                    case "PLAYLIST_LOADED":
-                                        break;
+                            const res = await client.music.search(u.favorites[i], message.author.id);
+                            if (res.loadType == "TRACK_LOADED") {
+                                let searchQuery = {};
+                                if (["youtube", "soundcloud", "bandcamp", "mixer", "twitch"].includes(u.favorites[i])) {
+                                    searchQuery = {
+                                        source: args[0],
+                                        query: args.slice(1).join(" ")
+                                    }
                                 }
-                            });
+                                play(client, message, false, player, u.favorites[i]);
+                                i++;
+                            }
                         }
-                        if (u.favorites.length == i + 1) resolve();
+                        if (u.favorites.length == i) resolve();
                     }
                 } else {
-                    str = `You have no favorites. To add favorites type \`ear add <search query/link>\``
+                    return msg.edit(`You have no favorites. To add favorites type \`ear add <search query/link>\``)
                     resolve();
                 }
             });
 
             content.then(async function () {
-                const embed = new Discord.MessageEmbed()
-                    .setAuthor(message.author.tag, message.author.displayAvatarURL())
-                    .setTitle("Favorite Songs")
-                    .setDescription(str)
-                    .setColor(client.colors.main)
-                    .setTimestamp()
-                msg.edit("", embed);
+                msg.edit(`Loaded **${u.favorites.length} songs** into the queue. Type \`${client.settings.prefix}queue\` to see the queue.`);
                 await u.save().catch(e => console.log(e));
             })
         });

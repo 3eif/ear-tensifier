@@ -7,14 +7,14 @@ module.exports = async(client, message, msg, player, searchQuery, playlist) => {
             case "TRACK_LOADED":
                 if (!premium(message.author.id, "Supporter") && res.tracks[0].duration > 18000000) return msg.edit(`Only **Premium** users can play songs longer than 5 hours. Click here to get premium: https://www.patreon.com/join/eartensifier`)
                 player.queue.add(res.tracks[0]);
-                if (!playlist) msg.edit(`**${res.tracks[0].title}** (${Utils.formatTime(res.tracks[0].duration, true)}) has been added to the queue by **${res.tracks[0].requester.tag}**`);
+                if (!playlist && msg) msg.edit(`**${res.tracks[0].title}** (${Utils.formatTime(res.tracks[0].duration, true)}) has been added to the queue by **${res.tracks[0].requester.tag}**`);
                 if (!player.playing) player.play();
                 break;
 
             case "SEARCH_RESULT":
                 if (!premium(message.author.id, "Supporter") && res.tracks[0].duration > 18000000) return msg.edit(`Only **Premium** users can play songs longer than 5 hours. Click here to get premium: https://www.patreon.com/join/eartensifier`)
                 player.queue.add(res.tracks[0]);
-                if (!playlist) msg.edit(`**${res.tracks[0].title}** (${Utils.formatTime(res.tracks[0].duration, true)}) has been added to the queue by **${res.tracks[0].requester.tag}**`);
+                if (!playlist && msg) msg.edit(`**${res.tracks[0].title}** (${Utils.formatTime(res.tracks[0].duration, true)}) has been added to the queue by **${res.tracks[0].requester.tag}**`);
                 if (!player.playing) player.play();
                 break;
 

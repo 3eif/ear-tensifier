@@ -8,7 +8,7 @@ module.exports = {
     name: "favorites",
     description: "Displays a list of your favorite songs.",
     async execute(client, message, args) {
-        const msg = await message.channel.send(`${client.emojiList.loading} Fetching favorites...`);
+        const msg = await message.channel.send(`${client.emojiList.loading} Fetching favorites (This might take a while)...`);
 
         users.findOne({
             authorID: message.author.id
@@ -18,28 +18,22 @@ module.exports = {
 
             let content = new Promise(async function (resolve, reject) {
                 if (u.favorites && u.favorites.length) {
-                    for (let i = 0; i < u.favorites.length; i++) {
-                        if (u.favorites[i].startsWith("https://open.spotify.com")) {
+                    for (let i = 0; i < u.favorites.length;) {
+                        if (u.favorites[i].startsWith("https://open.spotify")) {
                             const track = await getData(u.favorites[i])
                             console.log(track.name);
+                            //let url = `https://open.spotify.com/track/${u.favorites[i].split(":")[2]}`;
                             str += `[${track.name}](${u.favorites[i]}) (${Utils.formatTime(track.duration_ms, true)})\n`;
+                            i++;
                         } else {
-                            client.music.search(u.favorites[i], message.author.id).then(async res => {
-                                switch (res.loadType) {
-                                    case "TRACK_LOADED":
-                                        str += `[${res.tracks[0].title}](${u.favorites[i]}) (${res.tracks[0].duration})\n`
-                                        console.log(`[${res.tracks[0].title}](${u.favorites[i]}) (${res.tracks[0].duration})`)
-                                        break;
-
-                                    case "SEARCH_RESULT":
-                                        break;
-
-                                    case "PLAYLIST_LOADED":
-                                        break;
-                                }
-                            });
+                            const res = await client.music.search(u.favorites[i], message.author.id);
+                            if (res.loadType == "TRACK_LOADED") {
+                                str += `[${res.tracks[0].title}](${u.favorites[i]}) (${Utils.formatTime(res.tracks[0].duration, true)})\n`;
+                                console.log(`[${res.tracks[0].title}](${u.favorites[i]}) (${res.tracks[0].duration})`);
+                                i++;
+                            }
                         }
-                        if (u.favorites.length == i + 1) resolve();
+                        if (u.favorites.length == i) resolve();
                     }
                 } else {
                     str = `You have no favorites. To add favorites type \`ear add <search query/link>\``
