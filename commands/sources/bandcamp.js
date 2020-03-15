@@ -1,4 +1,3 @@
-;
 const play = require("../../utils/search.js")
 
 module.exports = {

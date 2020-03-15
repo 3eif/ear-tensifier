@@ -1,7 +1,5 @@
 const Discord = require("discord.js");
-
 const fs = require("fs");
-
 const categories = fs.readdirSync(`./commands/`);
 
 module.exports = {

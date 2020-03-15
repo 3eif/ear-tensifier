@@ -1,7 +1,3 @@
-const Discord = require("discord.js");
-
-
-
 module.exports = {
 	name: 'reload',
 	description: 'Reloads a command',

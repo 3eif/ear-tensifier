@@ -1,7 +1,5 @@
-;
 const play = require("../../utils/search.js")
-
-let { getData, getPreview } = require("spotify-url-info");
+const { getData, getPreview } = require("spotify-url-info");
 
 module.exports = {
     name: "play",

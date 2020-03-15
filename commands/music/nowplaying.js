@@ -1,7 +1,5 @@
 const Discord = require("discord.js");
-
 const { Utils } = require("erela.js");
-const { stripIndents } = require("common-tags");
 
 module.exports = {
   name: "nowplaying",

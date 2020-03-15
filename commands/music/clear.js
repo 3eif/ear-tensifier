@@ -1,7 +1,3 @@
-const Discord = require("discord.js");
-
-const { Utils } = require("erela.js");
-
 module.exports = {
     name: "clear",
     description: "Clears the queue.",

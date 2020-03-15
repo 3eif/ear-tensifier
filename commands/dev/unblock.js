@@ -1,6 +1,4 @@
-const Discord = require("discord.js");
 const users = require("../../models/user.js");
-const mongoose = require("mongoose");
 
 module.exports = {
     name: "unblock",

@@ -1,11 +1,5 @@
 const Discord = require("discord.js"); 
-
-const { main } = require("../../resources/colors.json");
 const servers = require("../../models/server.js");
-const mongoose = require("mongoose");
-
-
-
 
 module.exports = {
   name: "prefix",

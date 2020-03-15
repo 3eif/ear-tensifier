@@ -1,5 +1,3 @@
-const Discord = require("discord.js");
-
 const { Utils } = require("erela.js");
 const fastForwardNum = 10;
 

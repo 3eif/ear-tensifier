@@ -1,8 +1,5 @@
 const Discord = require("discord.js");
-
 const { Utils } = require("erela.js");
-
-const mongoose = require("mongoose");
 const bot = require("../../models/bot.js");
 const users = require("../../models/user.js");
 const premium = require('../../utils/premium/premium.js');

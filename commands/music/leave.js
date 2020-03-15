@@ -1,7 +1,3 @@
-const Discord = require("discord.js");
-
-const { Utils } = require("erela.js");
-
 module.exports = {
     name: "leave",
     description: "The bot leaves the voice channel it is currently in.",

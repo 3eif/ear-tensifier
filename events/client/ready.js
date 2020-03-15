@@ -1,7 +1,6 @@
 const { ErelaClient, Utils } = require("erela.js");
 const Discord = require('discord.js');
 
-;
 const Event = require('../../structures/Event');
 const tokens = require("../../tokens.json");
 const mongoose = require("mongoose");
@@ -9,7 +8,6 @@ const bot = require("../../models/bot.js");
 const users = require("../../models/user.js");
 const webhooks = require("../../resources/webhooks.json");
 const songs = require("../../models/song.js");
-
 const postHandler = require("../../utils/handlers/post.js");
 
 const webhookClient = new Discord.WebhookClient(webhooks.webhookID, webhooks.webhookToken);

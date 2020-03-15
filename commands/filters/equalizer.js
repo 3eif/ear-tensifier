@@ -1,8 +1,6 @@
 const premium = require('../../utils/premium/premium.js');
 const Discord = require('discord.js');
 
-
-
 module.exports = {
     name: "equalizer",
     description: "Sets the equalizer of the current playing song.",

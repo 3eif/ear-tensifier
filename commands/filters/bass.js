@@ -1,7 +1,6 @@
 const Discord = require('discord.js');
 const premium = require('../../utils/premium/premium.js');
 
-
 module.exports = {
     name: "bass",
     description: "Turns on bass filter",

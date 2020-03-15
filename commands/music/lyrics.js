@@ -1,7 +1,6 @@
 const Discord = require('discord.js')
 const { KSoftClient } = require('ksoft.js');
 
-
 var { ksoftToken } = require('../../tokens.json')
 const ksoft = new KSoftClient(ksoftToken);
 

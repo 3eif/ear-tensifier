@@ -1,7 +1,3 @@
-const Discord = require("discord.js");
-
-const { Utils } = require("erela.js");
-
 module.exports = {
     name: "join",
     description: "Joins the voice channel you are in.",

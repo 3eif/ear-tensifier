@@ -1,6 +1,5 @@
 const Event = require('../../structures/Event');
 
-
 module.exports = class VoiceStateUpdate extends Event {
     constructor(...args) {
         super(...args)
