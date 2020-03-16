@@ -1,7 +1,5 @@
 const Discord = require("discord.js");
 const { Utils } = require("erela.js");
-const bot = require("../../models/bot.js");
-const users = require("../../models/user.js");
 const premium = require('../../utils/premium/premium.js');
 
 module.exports = {
@@ -17,24 +15,6 @@ module.exports = {
         if(!permissions.has("SPEAK")) return message.channel.send("I do not have permission to speak in your voice channel.");
 
         const msg = await message.channel.send(`${client.emojiList.cd}  Searching for \`${args.join(" ")}\`...`)
-
-        bot.findOne({
-            clientID: client.user.id
-        }, async (err, b) => {
-            if (err) console.log(err);
-
-            b.songsPlayed += 1;
-            await b.save().catch(e => console.log(e));
-        });
-
-        users.findOne({
-            authorID: message.author.id
-        }, async (err, u) => {
-            if (err) console.log(err);
-
-            u.songsPlayed += 1;
-            await u.save().catch(e => console.log(e));
-        });
 
         const player = client.music.players.spawn({
             guild: message.guild,
@@ -57,7 +37,8 @@ module.exports = {
                     const embed = new Discord.MessageEmbed()
                         .setAuthor("Song Selection", message.author.displayAvatarURL)
                         .setDescription(tracks.map(video => `**${index++} -** ${video.title}`))
-                        .setFooter("Your response time closes within the next 10 seconds.");
+                        .setFooter("Your response time closes within the next 10 seconds.")
+                        .setColor(client.colors.main);
                     await msg.edit("", embed);
 
                     const collector = message.channel.createMessageCollector(m => {

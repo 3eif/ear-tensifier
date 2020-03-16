@@ -44,6 +44,7 @@ module.exports = {
             content.then(async function () {
                 const embed = new Discord.MessageEmbed()
                     .setAuthor(message.author.tag, message.author.displayAvatarURL())
+                    .setThumbnail(message.author.displayAvatarURL())
                     .setTitle("Favorite Songs")
                     .setDescription(str)
                     .setColor(client.colors.main)

@@ -1,4 +1,4 @@
-const play = require("../../utils/search.js")
+const play = require("../../utils/play.js")
 
 module.exports = {
     name: "soundcloud",

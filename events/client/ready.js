@@ -1,13 +1,9 @@
-const { ErelaClient, Utils } = require("erela.js");
 const Discord = require('discord.js');
-
 const Event = require('../../structures/Event');
 const tokens = require("../../tokens.json");
 const mongoose = require("mongoose");
-const bot = require("../../models/bot.js");
-const users = require("../../models/user.js");
+const player = require("../../player/player.js");
 const webhooks = require("../../resources/webhooks.json");
-const songs = require("../../models/song.js");
 const postHandler = require("../../utils/handlers/post.js");
 
 const webhookClient = new Discord.WebhookClient(webhooks.webhookID, webhooks.webhookToken);
@@ -23,116 +19,7 @@ module.exports = class Ready extends Event {
     }
 
     async run(client) {
-
-        this.client.music = new ErelaClient(this.client, tokens.nodes)
-            .on("nodeError", console.log)
-            .on("nodeConnect", () => console.log)
-            .on("queueEnd", player => {
-                //player.textChannel.send("");
-                return this.client.music.players.destroy(player.guild.id)
-            })
-            .on("trackStart", ({ textChannel }, { title, duration, author, uri, requester }) => {
-                let thumbnail = this.client.music.players.get(textChannel.guild.id).queue[0].displayThumbnail("default");
-                addDB(uri, title, author, duration, uri, thumbnail);
-
-                bot.findOne({
-                    clientID: this.client.user.id
-                }, async (err, b) => {
-                    if (err) console.log(err);
-
-                    b.songsPlayed += 1;
-                    await b.save().catch(e => console.log(e));
-                });
-
-                users.findOne({
-                    authorID: requester.id
-                }, async (err, u) => {
-                    if (err) console.log(err);
-
-                    u.songsPlayed += 1;
-                    await u.save().catch(e => console.log(e));
-                });
-
-                //if(this.client.music.players.get(textChannel.guild.id).trackRepeat) return;
-
-                const embed = new Discord.MessageEmbed()
-                    .setTitle(author)
-                if (uri.includes("soundcloud")) {
-                    embed.attachFiles(['./assets/soundcloud.PNG'])
-                    embed.setThumbnail('attachment://soundcloud.PNG')
-                    embed.setFooter("SoundCloud")
-                    embed.setColor(this.client.colors.soundcloud)
-                } else if (uri.includes("bandcamp")) {
-                    embed.attachFiles(['./assets/bandcamp.PNG'])
-                    embed.setThumbnail('attachment://bandcamp.PNG')
-                    embed.setFooter("bandcamp")
-                    embed.setColor(this.client.colors.bandcamp)
-                } else if (uri.includes("mixer")) {
-                    embed.attachFiles(['./assets/mixer.PNG'])
-                    embed.setThumbnail('attachment://mixer.PNG')
-                    embed.setFooter("Mixer")
-                    embed.setColor(this.client.colors.mixer)
-                } else if (uri.includes("twitch")) {
-                    embed.attachFiles(['./assets/twitch.PNG'])
-                    embed.setThumbnail('attachment://twitch.PNG')
-                    embed.setFooter("Twitch")
-                    embed.setColor(this.client.colors.twitch)
-                } else if(uri.includes("youtube")) {
-                    embed.setThumbnail(thumbnail)
-                    embed.setFooter("Youtube")
-                    embed.setColor(this.client.colors.youtube)
-                } else {
-                    embed.setColor(this.client.colors.main)
-                    embed.setFooter("Other")
-                }
-
-                embed.setDescription(`[${title}](${uri})`)
-                embed.addField('Duration', `${Utils.formatTime(duration, true)}`, true)
-                embed.addField('Requested by', requester.tag, true)
-                embed.setTimestamp()
-                textChannel.send(embed);
-            })
-
-        function addDB(id, title, author, duration, url, thumbnail) {
-            let songType = "";
-            if (url.includes("youtube")) {
-                songType = "youtube";
-            }
-            if (url.includes("soundcloud")) {
-                songType = "soundcloud";
-            }
-            if (url.includes("bandcamp")) {
-                songType = "bandcamp";
-            }
-            if (url.includes("mixer")) {
-                songType = "mixer";
-            }
-            if (url.includes("twitch")) {
-                songType = "twitch";
-            }
-
-            songs.findOne({
-                songID: id,
-            }, async (err, s) => {
-                if (err) console.log(err);
-                if (!s) {
-                    const newSong = new songs({
-                        songID: id,
-                        songName: title,
-                        songAuthor: author,
-                        type: songType,
-                        songDuration: duration,
-                        timesPlayed: 1,
-                        timesAdded: 0,
-                        songThumbnail: thumbnail,
-                    });
-                    await newSong.save().catch(e => console.log(e));
-                } else {
-                    s.timesPlayed += 1;
-                    await s.save().catch(e => console.log(e));
-                }
-            });
-        }
+        player(this.client);
 
         this.client.levels = new Map()
             .set("none", 0.0)

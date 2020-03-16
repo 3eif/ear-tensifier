@@ -1,7 +1,7 @@
 const Discord = require("discord.js");
 
 const users = require("../../models/user.js");
-const play = require("../../utils/search.js")
+const play = require("../../utils/play.js")
 let { getData, getPreview } = require("spotify-url-info");
 
 module.exports = {
