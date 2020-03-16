@@ -61,27 +61,34 @@ module.exports = class Ready extends Event {
                     embed.attachFiles(['./assets/soundcloud.PNG'])
                     embed.setThumbnail('attachment://soundcloud.PNG')
                     embed.setFooter("SoundCloud")
+                    embed.setColor(this.client.colors.soundcloud)
                 } else if (uri.includes("bandcamp")) {
                     embed.attachFiles(['./assets/bandcamp.PNG'])
                     embed.setThumbnail('attachment://bandcamp.PNG')
                     embed.setFooter("bandcamp")
+                    embed.setColor(this.client.colors.bandcamp)
                 } else if (uri.includes("mixer")) {
                     embed.attachFiles(['./assets/mixer.PNG'])
                     embed.setThumbnail('attachment://mixer.PNG')
                     embed.setFooter("Mixer")
+                    embed.setColor(this.client.colors.mixer)
                 } else if (uri.includes("twitch")) {
                     embed.attachFiles(['./assets/twitch.PNG'])
                     embed.setThumbnail('attachment://twitch.PNG')
                     embed.setFooter("Twitch")
-                } else {
+                    embed.setColor(this.client.colors.twitch)
+                } else if(uri.includes("youtube")) {
                     embed.setThumbnail(thumbnail)
                     embed.setFooter("Youtube")
+                    embed.setColor(this.client.colors.youtube)
+                } else {
+                    embed.setColor(this.client.colors.main)
+                    embed.setFooter("Other")
                 }
 
                 embed.setDescription(`[${title}](${uri})`)
                 embed.addField('Duration', `${Utils.formatTime(duration, true)}`, true)
                 embed.addField('Requested by', requester.tag, true)
-                embed.setColor(this.client.colors.main)
                 embed.setTimestamp()
                 textChannel.send(embed);
             })

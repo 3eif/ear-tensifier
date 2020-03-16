@@ -20,11 +20,7 @@ module.exports = {
         player.setVolume(100);
 
         let msg = await message.channel.send(`${client.emojiList.loading} Reseting filters to default...`)
-        const embed = new Discord.MessageEmbed()
-        .setAuthor(message.guild.name, message.guild.iconURL())
-        .setDescription(`Filters off`)
-        .setColor(client.colors.main);
         await delay(5000);
-        return msg.edit("", embed);
+        return msg.edit(`Filters set to default.`);
     }
 }

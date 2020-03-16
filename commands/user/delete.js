@@ -14,10 +14,11 @@ module.exports = {
             if(!u.favorites || u.favorites.length == 0 || !u.favorites.length) return msg.edit(`You have no favorites. To add favorites type \`ear add <search query/link>\``)
             if(args[0].toLowerCase() == "all"){
                 u.favorites = [];
+                msg.edit(`Removed all songs from favorites.`)
             } else if(!isNaN(args[0])){
                 if(u.favorites.length < args[0]) return msg.edit(`Song #${args[0]} does not exist. Type \`ear favorites\` to view your songs.`)
                 msg.edit(`Removed song from favorites.`)
-                u.favorites.splice(args[0]+1, 1);
+                u.favorites.splice(args[0]-1, 1);
             } else {
                 return msg.edit(`Invalid number.\nTo delete a specific song from your favorites: \`ear delete <song number>\`.\nTo delete all songs from your favorites: \`ear delete all\``)
             }

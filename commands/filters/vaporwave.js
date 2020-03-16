@@ -29,7 +29,7 @@ module.exports = {
             return msg.edit("", embed);
         }
 
-        player.setEQ(client.filter.vaporwave);
+        player.setEQ(client.filters.vaporwave);
 
         let msg = await message.channel.send(`${client.emojiList.loading} Turning on **vaporwave**. This may take a few seconds...`)
         const embed = new Discord.MessageEmbed()
