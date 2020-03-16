@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 
 const users = require("../../models/user.js");
 const { Utils } = require("erela.js");
-let { getData, getPreview } = require("spotify-url-info");
+let { getData } = require("spotify-url-info");
 
 module.exports = {
     name: "favorites",
