@@ -1,3 +1,5 @@
+const { earrape } = require("../../resources/volume.json")
+
 module.exports = {
     name: "earrape",
     description: "Earrapes a song.",
@@ -12,7 +14,7 @@ module.exports = {
 
         if(!player) return client.responses('noSongsPlaying', message)
 
-        player.setVolume(client.settings.earrape);
+        player.setVolume(earrape);
         return message.channel.send(`Tensity set to **earrape**`);
     }
 }
