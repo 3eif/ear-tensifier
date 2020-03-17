@@ -33,7 +33,7 @@ module.exports = {
         
         for (let i = 0; i < commandsFile.length; i++) {
           let commandName = commandsFile[i].split('.')[0];
-          helpCommands.push(`\`${commandName}\`  `);
+          helpCommands.push(`\`${commandName}\`,  `);
         }
 
         for (let i = 0; i < helpCommands.length; i++) categoryCommands += helpCommands[i];
