@@ -6,7 +6,7 @@ module.exports = {
     description: "Turns on pop filter",
     cooldown: '10',
     async execute(client, message, args) {
-        if(!premium(message.author.id, "Supporter")) return client.responses('noPremium', message);
+        if(await premium(message.author.id, "Premium") == false) return client.responses('noPremium', message);
 
         const voiceChannel = message.member.voice.channel;
         const player = client.music.players.get(message.guild.id);

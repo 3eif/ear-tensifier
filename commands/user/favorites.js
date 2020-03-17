@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-
+const { post } = require("snekfetch");
 const users = require("../../models/user.js");
 const { Utils } = require("erela.js");
 let { getData } = require("spotify-url-info");
@@ -7,6 +7,7 @@ let { getData } = require("spotify-url-info");
 module.exports = {
     name: "favorites",
     description: "Displays a list of your favorite songs.",
+    cooldown: 10,
     async execute(client, message, args) {
         const msg = await message.channel.send(`${client.emojiList.loading} Fetching favorites (This might take a while)...`);
 
@@ -42,7 +43,8 @@ module.exports = {
             });
 
             content.then(async function () {
-                const embed = new Discord.MessageEmbed()
+                if (str.length < 2048) {
+                    const embed = new Discord.MessageEmbed()
                     .setAuthor(message.author.tag, message.author.displayAvatarURL())
                     .setThumbnail(message.author.displayAvatarURL())
                     .setTitle("Favorite Songs")
@@ -50,6 +52,14 @@ module.exports = {
                     .setColor(client.colors.main)
                     .setTimestamp()
                 msg.edit("", embed);
+                  } else {
+                    const { body } = await post("https://www.hastebin.com/documents").send(str);
+                    const embed = new Discord.MessageEmbed()
+                      .setTitle("Favorite songs were too many, uploaded to hastebin!")
+                      .setURL(`https://www.hastebin.com/${body.key}.js`)
+                      .setColor(client.colors.main);
+                    msg.edit("", embed);
+                  }
                 await u.save().catch(e => console.log(e));
             })
         });

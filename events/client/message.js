@@ -65,10 +65,8 @@ module.exports = class Message extends Event {
             songsPlayed: 0,
             commandsUsed: 1,
             blocked: false,
-            supporter: false,
-            supporterPlus: false,
-            supporterPlusPlus: false,
-            supporterInfinite: false,
+            premium: false,
+            pro: false,
             developer: false,
           });
           await newUser.save().catch(e => console.log(e));

@@ -19,7 +19,11 @@ module.exports = async (type, message, args) => {
             break;
         }
         case 'noPremium': {
-            message.channel.send(`This command is only available to **Premium** users. Click here to get premium: https://www.patreon.com/join/eartensifier`);
+            message.channel.send(`This command is only available to **Premium** users. Click here to get premium: https://www.patreon.com/eartensifier`);
+            break;
+        }
+        case 'noPro': {
+            message.channel.send(`This command is only available to **Pro** users. Click here to get premium: https://www.patreon.com/eartensifier`);
             break;
         }
         case 'noPermissionConnect': {
@@ -31,7 +35,7 @@ module.exports = async (type, message, args) => {
             break
         }
         default: {
-            message.channel.send(client.error());
+            message.channel.send(this.client.error());
         }
     }
 }

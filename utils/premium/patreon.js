@@ -15,24 +15,20 @@ module.exports = async (user, pledge) => {
                         songsPlayed: 0,
                         commandsUsed: 0,
                         blocked: true,
-                        supporter: false,
-                        supporterPlus: false,
-                        supporterPlusPlus: false,
-                        supporterInfinite: false,
+                        premium: false,
+                        pro: false,
                         developer: false,
                     });
                     await newUser.save().catch(e => console.log(e));
                 } else {
-                    u.supporter = false;
-                    u.supporterPlus = false;
-                    u.supporterPlusPlus = false;
-                    u.supporterInfinite = false;
+                    u.premium = false;
+                    u.pro = false;
                 }
                 await u.save().catch(e => console.log(e));
             });
             break;
         }
-        case 'Supporter': {
+        case 'Premium': {
             users.findOne({
                 authorID: user.id
             }, async (err, u) => {
@@ -45,24 +41,20 @@ module.exports = async (user, pledge) => {
                         songsPlayed: 0,
                         commandsUsed: 0,
                         blocked: true,
-                        supporter: true,
-                        supporterPlus: false,
-                        supporterPlusPlus: false,
-                        supporterInfinite: false,
+                        premium: true,
+                        pro: false,
                         developer: false,
                     });
                     await newUser.save().catch(e => console.log(e));
                 } else {
-                    u.supporter = true;
-                    u.supporterPlus = false;
-                    u.supporterPlusPlus = false;
-                    u.supporterInfinite = false;
+                    u.premium = true;
+                    u.pro = false;
                 }
                 await u.save().catch(e => console.log(e));
             });
             break;
         }
-        case 'Supporter+': {
+        case 'Pro': {
             users.findOne({
                 authorID: user.id
             }, async (err, u) => {
@@ -75,83 +67,17 @@ module.exports = async (user, pledge) => {
                         songsPlayed: 0,
                         commandsUsed: 0,
                         blocked: true,
-                        supporter: true,
-                        supporterPlus: true,
-                        supporterPlusPlus: false,
-                        supporterInfinite: false,
+                        premium: true,
+                        pro: true,
                         developer: false,
                     });
                     await newUser.save().catch(e => console.log(e));
                 } else {
-                    u.supporter = true;
-                    u.supporterPlus = true;
-                    u.supporterPlusPlus = false;
-                    u.supporterInfinite = false;
+                    u.premium = true;
+                    u.pro = true;
                 }
                 await u.save().catch(e => console.log(e));
             });
-            break;
-        }
-        case 'Supporter++': {
-            users.findOne({
-                authorID: user.id
-            }, async (err, u) => {
-                if (err) console.log(err);
-                if (!u) {
-                    const newUser = new users({
-                        authorID: user.id,
-                        authorName: user.tag,
-                        bio: "",
-                        songsPlayed: 0,
-                        commandsUsed: 0,
-                        blocked: true,
-                        supporter: true,
-                        supporterPlus: true,
-                        supporterPlusPlus: true,
-                        supporterInfinite: false,
-                        developer: false,
-                    });
-                    await newUser.save().catch(e => console.log(e));
-                } else {
-                    u.supporter = true;
-                    u.supporterPlus = true;
-                    u.supporterPlusPlus = true;
-                    u.supporterInfinite = false;
-                }
-                await u.save().catch(e => console.log(e));
-            });
-            break;
-            break;
-        }
-        case 'Supporter ∞': {
-            users.findOne({
-                authorID: user.id
-            }, async (err, u) => {
-                if (err) console.log(err);
-                if (!u) {
-                    const newUser = new users({
-                        authorID: user.id,
-                        authorName: user.tag,
-                        bio: "",
-                        songsPlayed: 0,
-                        commandsUsed: 0,
-                        blocked: true,
-                        supporter: true,
-                        supporterPlus: true,
-                        supporterPlusPlus: true,
-                        supporterInfinite: true,
-                        developer: false,
-                    });
-                    await newUser.save().catch(e => console.log(e));
-                } else {
-                    u.supporter = true;
-                    u.supporterPlus = true;
-                    u.supporterPlusPlus = true;
-                    u.supporterInfinite = true;
-                }
-                await u.save().catch(e => console.log(e));
-            });
-            break;
             break;
         }
     }

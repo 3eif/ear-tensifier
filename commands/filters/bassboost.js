@@ -44,7 +44,7 @@ module.exports = {
         if(isNaN(args[0])) return message.channel.send("Amount must be a real number.")
 
         if(args[0] > 10 || args[0] < -10) {
-            if(!premium(message.author.id, "Supporter")) {
+            if(await premium(message.author.id, "Premium") == false) {
                 return message.channel.send(`Only **Premium** users can set the bassboost higher. Click here to get premium: https://www.patreon.com/join/eartensifier`)
             } else player.setEQ(Array(6).fill(0).map((n, i) => ({ band: i, gain: args[0]/10 })));
         } else player.setEQ(Array(6).fill(0).map((n, i) => ({ band: i, gain: args[0]/10 })));

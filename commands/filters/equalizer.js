@@ -4,8 +4,9 @@ const Discord = require('discord.js');
 module.exports = {
     name: "equalizer",
     description: "Sets the equalizer of the current playing song.",
+    aliases: ["eq"],
     async execute(client, message, args) {
-        if(!premium(message.author.id, "Supporter")) return client.responses('noPremium', message);
+        if(await premium(message.author.id, "Pro") == false) return client.responses('noPro', message);
 
         const voiceChannel = message.member.voice.channel;
         const player = client.music.players.get(message.guild.id);
@@ -19,7 +20,7 @@ module.exports = {
             const embed = new Discord.MessageEmbed()
             .setAuthor('Custom Equalizer')
             .setColor(client.colors.main)
-            .setDescription('There are 14 bands that can be set from -10 to 10. Not all bands must be filled out.')
+            .setDescription('There are 14 bands that can be set from -10 to 10. Not all bands have to be filled out.')
             .addField('Example Usage', `${client.settings.prefix} equalizer 0 0 0 0 0 0 0 0 0 0 0 0 0 0\n${client.settings.prefix} equalizer 2 3 0 8 0 5 0 -5 0 0`)
             .addField('Reset Equalizer', `You can reset the equalizer by doing:\n${client.settings.prefix} equalizer reset`)
             .addField('Help', `If you need more help, please join the [support server](${client.settings.server})`)

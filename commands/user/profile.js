@@ -1,6 +1,4 @@
 const Discord = require("discord.js");
-const { main } = require("../../resources/colors.json");
-;
 const users = require("../../models/user.js");
 
 module.exports = {
@@ -26,10 +24,8 @@ module.exports = {
             songsPlayed: 0,
             commandsUsed: 0,
             blocked: false,
-            supporter: false,
-            supporterPlus: false,
-            supporterPlusPlus: false,
-            supporterInfinite: false,
+            premium: false,
+            pro: false,
             developer: false,
         });
         newUser.save().catch(e => console.log(e));
@@ -44,7 +40,7 @@ module.exports = {
       } else {
 
         if (u.voted) ranks += " " + client.emojiList.voted;
-        if (u.supporter) ranks += " " + client.emojiList.supporter;
+        if (u.premium) ranks += " " + client.emojiList.supporter;
         if (u.developer) ranks += " " + client.emojiList.developer;
 
         let bio;

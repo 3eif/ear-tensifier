@@ -28,10 +28,8 @@ module.exports = {
                     songsPlayed: 0,
                     commandsUsed: 0,
                     blocked: true,
-                    supporter: false,
-                    supporterPlus: false,
-                    supporterPlusPlus: false,
-                    supporterInfinite: false,
+                    premium: false,
+                    pro: false,
                     developer: false,
                 });
                 newUser.save().catch(e => console.log(e));

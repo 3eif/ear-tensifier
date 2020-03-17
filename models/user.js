@@ -7,10 +7,8 @@ const userSchema = mongoose.Schema({
   songsPlayed: Number, 
   commandsUsed: Number,
   blocked: Boolean,
-  supporter: Boolean,
-  supporterPlus: Boolean,
-  supporterPlusPlus: Boolean,
-  supporterInfinite: Boolean,
+  premium: Boolean,
+  pro: Boolean,
   developer: Boolean,
   favorites: Array,
 });
