@@ -22,6 +22,14 @@ module.exports = async (type, message, args) => {
             message.channel.send(`This command is only available to **Premium** users. Click here to get premium: https://www.patreon.com/join/eartensifier`);
             break;
         }
+        case 'noPermissionConnect': {
+            message.channel.send(`I do not have permission to join your voice channel.`);
+            break
+        }
+        case 'noPermissionSpeak': {
+            message.channel.send(`I do not have permission to speak in your voice channel.`);
+            break
+        }
         default: {
             message.channel.send(client.error());
         }

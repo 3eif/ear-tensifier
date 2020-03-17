@@ -4,8 +4,10 @@ module.exports = {
     aliases: ["summon"],
     async execute(client, message, args) {
         const voiceChannel = message.member.voice.channel;
+        if(!voiceChannel) return client.responses("noVoiceChannel", message)
 
-        if(!voiceChannel) return client.responses('noVoiceChannel', message);
+        const permissions = voiceChannel.permissionsFor(client.user);
+        if(!permissions.has("CONNECT")) return client.responses("noPermissionConnect", message)
         
         voiceChannel.join();
         return message.channel.send(`Joined ${client.emojiList.voice}**${voiceChannel.name}**`)

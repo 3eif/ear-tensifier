@@ -5,12 +5,13 @@ module.exports = {
     description: "Plays a song from soundcloud.",
     args: true,
     usage: "<search query>",
-    async execute(client, message, args) {        const voiceChannel = message.member.voice.channel;;
-        if (!voiceChannel) return message.channel.send("You need to be in a voice channel to play music");
+    async execute(client, message, args) {        
+        const voiceChannel = message.member.voice.channel;;
+        if(!voiceChannel) return client.responses("noVoiceChannel", message)
 
         const permissions = voiceChannel.permissionsFor(client.user);
-        if (!permissions.has("CONNECT")) return message.channel.send("I do not have permission to join your voice channel.");
-        if (!permissions.has("SPEAK")) return message.channel.send("I do not have permission to speak in your voice channel.");
+        if(!permissions.has("CONNECT")) return client.responses("noPermissionConnect", message)
+        if(!permissions.has("SPEAK")) return client.responses("noPermissionSpeak", message)
 
         const player = client.music.players.spawn({
             guild: message.guild,
