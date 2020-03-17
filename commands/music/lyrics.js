@@ -1,18 +1,26 @@
 const Discord = require('discord.js')
 const { KSoftClient } = require('ksoft.js');
 
-var { ksoftToken } = require('../../tokens.json')
+let { ksoftToken } = require('../../tokens.json')
 const ksoft = new KSoftClient(ksoftToken);
 
 module.exports = {
     name: "lyrics",
     description: "Displays lyrics of a song.",
-    args: true,
     usage: "<search query>",
     cooldown: 20,
     async execute(client, message, args) {
-        let msg = await message.channel.send(`${loading} Fetching lyrics...`)
-        let song = args.join(' ')
+        let msg = await message.channel.send(`${client.emojiList.loading} Fetching lyrics...`)
+
+        let song = "";
+        if(!args[0]) {
+            const player = client.music.players.get(message.guild.id);
+            if(!player) return message.channel.send(`Please provide a song to search for lyrics or play a song.`);
+            else song = player.queue[0].title;
+        }
+        else song = args.join(' ')
+
+        
         const data = await ksoft.lyrics.get(song, false)
             .catch(err => {
                 return message.channel.send(err.message)
