@@ -11,7 +11,7 @@ module.exports = {
 
         if(!player) return client.responses('noSongsPlaying', message)
 
-        player.queue.clear(); 
+        player.queue.length = 1;
         return message.channel.send(`Cleared the queue.`);
     }
 }
