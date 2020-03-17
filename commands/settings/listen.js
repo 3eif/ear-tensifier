@@ -9,7 +9,7 @@ module.exports = {
   async execute (client, message, args) {
     if (!message.member.hasPermission("MANAGE_CHANNELS")) return message.channel.send(`You must have the \`Manage Channels\` permission to use this command.`);
 
-    const msg = await message.channel.send(`${loading} Listening to commands from channel...`);
+    const msg = await message.channel.send(`${client.emojiList.loading} Listening to commands from channel...`);
     
     let channel;
     if(message.mentions.channels.first() === undefined){

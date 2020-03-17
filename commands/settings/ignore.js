@@ -17,7 +17,7 @@ module.exports = {
         channel = message.mentions.channels.first().id;
     }
 
-    const msg = await message.channel.send(`${loading} Ignoring commands from channel...`);
+    const msg = await message.channel.send(`${client.emojiList.loading} Ignoring commands from channel...`);
 
     servers.findOne({
         serverID: message.guild.id

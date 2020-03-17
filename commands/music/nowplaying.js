@@ -14,19 +14,21 @@ module.exports = {
       const embed = new Discord.MessageEmbed()
         .setColor(client.colors.main)
         .setTitle(player.playing ? "Now Playing" : "Paused")
-        .setThumbnail(player.queue[0].displayThumbnail("maxresdefault"))
-        .setDescription(`[${title}](${uri})\n[${Utils.formatTime(duration, true)}]`)
-        .addField("Author", author, true)
+        .setThumbnail(player.queue[0].displayThumbnail("default"))
+        .setDescription(`[${title}](${uri})`)
+        .addField("Duration", Utils.formatTime(duration, true), true)
         .addField("Requested by", requester, true)
-        return message.channel.send(embed);
+      return message.channel.send(embed);
+
     } else {
       let amount = `${Utils.formatTime(player.position, true)}`
+      if(amount < 60) amount = `00:${amount}`
       const part = Math.floor((player.position / duration) * 10);
       const embed = new Discord.MessageEmbed()
         .setColor(client.colors.main)
         .setTitle(player.playing ? "Now Playing" : "Paused")
-        .setThumbnail(player.queue[0].displayThumbnail("maxresdefault"))
-        .setDescription(`[${title}](${uri})\n[${amount}/${Utils.formatTime(duration, true)}]`)
+        .setThumbnail(player.queue[0].displayThumbnail("default"))
+        .setDescription(`[${title}](${uri})\n\n${amount}   ${"▬".repeat(part) + "⚪" + "▬".repeat(10 - part)}   ${Utils.formatTime(duration, true)}`)
         .addField("Author", author, true)
         .addField("Requested by", requester, true)
       return message.channel.send("", embed);
