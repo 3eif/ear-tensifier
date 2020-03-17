@@ -6,7 +6,7 @@ module.exports = async (client) => {
     client.music = new ErelaClient(client, tokens.nodes)
         .on("nodeError", console.log)
         .on("nodeConnect", () => console.log)
-        .on("queueEnd", player => {
+        .on("queueEnd", player => { 
             //player.textChannel.send("");
             return client.music.players.destroy(player.guild.id)
         })
