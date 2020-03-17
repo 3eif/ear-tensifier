@@ -25,37 +25,35 @@ module.exports = {
         client.music.search(args.join(" "), message.author).then(async res => {
             switch(res.loadType){
                 case "TRACK_LOADED" :
-                    if(!premium(message.author.id, "Supporter") && res.tracks[0].duration > 18000000) return msg.edit(`Only **Premium** users can play songs longer than 5 hours. Click here to get premium: https://www.patreon.com/join/eartensifier`)
                     player.queue.add(res.tracks[0]);
                     msg.edit(`**${res.tracks[0].title}** (${Utils.formatTime(res.tracks[0].duration, true)}) has been added to the queue by **${res.playlist.tracks.requester}**`);
                     if(!player.playing) player.play();
                     break;
                 case "SEARCH_RESULT" :
-                    if(!premium(message.author.id, "Supporter") && res.tracks[0].duration > 18000000) return msg.edit(`Only **Premium** users can play songs longer than 5 hours. Click here to get premium: https://www.patreon.com/join/eartensifier`)
                     let index = 1;
-                    const tracks = res.tracks.slice(0, 5);
+                    const tracks = res.tracks.slice(0, 9);
                     const embed = new Discord.MessageEmbed()
-                        .setAuthor("Song Selection", message.author.displayAvatarURL)
+                        .setAuthor("Song Selection.", message.author.displayAvatarURL())
                         .setDescription(tracks.map(video => `**${index++} -** ${video.title}`))
-                        .setFooter("Your response time closes within the next 10 seconds.")
+                        .setFooter("Your response time closes within the next 30 seconds. Type 'cancel' to cancel the selection")
                         .setColor(client.colors.main);
                     await msg.edit("", embed);
 
                     const collector = message.channel.createMessageCollector(m => {
-                        return m.author.id === message.author.id && new RegExp(`^([1-5]|cancel])$`, "i").test(m.content);
-                    }, {time: 10000, max: 1});
+                        return m.author.id === message.author.id && new RegExp(`^([1-9]|cancel)$`, "i").test(m.content)
+                    }, { time: 30000, max: 1});
 
                     collector.on("collect", m => {
-                        if(/cancel/i.test(m.content)) return collector.stop("cancelled");
+                        if (/cancel/i.test(m.content)) return collector.stop("cancelled")
 
                         const track = tracks[Number(m.content) - 1];
-                        player.queue.add(track);
-                        message.channel.send(`**${tracks[m.content - 1].title}** (${Utils.formatTime(tracks[m.content - 1].duration, true)}) has been added to the queue by **${track.requester.tag}**`);
+                        player.queue.add(track)
+                        message.channel.send(`**${track.title}** (${Utils.formatTime(track.duration, true)}) has been added to the queue by **${track.requester.tag}**`);
                         if(!player.playing) player.play();
                     });
 
                     collector.on("end", (_, reason) => {
-                        if(["time", "canceled"].includes(reason)) return message.channel.send("Cancelled selection.")
+                        if(["time", "cancelled"].includes(reason)) return message.channel.send("Cancelled selection.")
                     });
                     break;
 
