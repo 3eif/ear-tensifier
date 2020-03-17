@@ -14,6 +14,6 @@ module.exports = {
         if(player) client.music.players.destroy(message.guild.id);
         else message.member.voice.channel.leave();
         
-        return message.channel.send(`Left ${client.emojiList.voice}**${voiceChannel}**`)
+        return message.channel.send(`Left ${client.emojiList.voice}**${voiceChannel.name}**`)
     }
 }

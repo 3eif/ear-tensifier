@@ -8,6 +8,6 @@ module.exports = {
         if(!voiceChannel) return client.responses('noVoiceChannel', message);
         
         voiceChannel.join();
-        return message.channel.send(`Joined ${client.emojiList.voice}**${voiceChannel}**`)
+        return message.channel.send(`Joined ${client.emojiList.voice}**${voiceChannel.name}**`)
     }
 }
