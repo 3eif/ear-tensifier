@@ -28,23 +28,24 @@ module.exports = {
 
         const msg = await message.channel.send(`${client.emojiList.cd}  Searching for \`${args.join(" ")}\`...`)
 
-        if(await songLimit() == patreon.defaultMaxSongs && player.queue.size >= patreon.defaultMaxSongs) return msg.edit(`You have reached your **maximum** amount of favorite songs (${patreon.defaultMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`) 
-        if(await songLimit() == patreon.premiumMaxSongs && player.queue.size >= patreon.premiumMaxSongs) return msg.edit(`You have reached your **maximum** amount of favorite songs (${patreon.premiumMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`) 
-        if(await songLimit() == patreon.proMaxSongs && player.queue.size >= patreon.proMaxSongs) return msg.edit(`You have reached your **maximum** amount of favorite songs (${patreon.proMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`) 
+        if(await songLimit() == patreon.defaultMaxSongs && player.queue.size >= patreon.defaultMaxSongs) return msg.edit(`You have reached the **maximum** amount of songs (${patreon.defaultMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`) 
+        if(await songLimit() == patreon.premiumMaxSongs && player.queue.size >= patreon.premiumMaxSongs) return msg.edit(`You have reached the **maximum** amount of songs (${patreon.premiumMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`) 
+        if(await songLimit() == patreon.proMaxSongs && player.queue.size >= patreon.proMaxSongs) return msg.edit(`You have reached the **maximum** amount of songs (${patreon.proMaxSongs} songs). Want more songs? Contact the developer: \`Tetra#0001\``) 
 
         let searchQuery;
         if (args[0].startsWith("https://open.spotify.com")) {
             const data = await getData(args.join(" "));
             if (data.type == "playlist" || data.type == "album") {
-                // let sL = await songLimit();
-                // console.log(sL);
-                // let songsToAdd = 0;
-                // let totalSongs = player.queue.length + data.tracks.items.length;
-                // console.log(totalSongs);
-                // if(totalSongs > sL) songsToAdd = totalSongs - (totalSongs-sL);
-                // else songsToAdd = data.tracks.items.length;
+                let sL = await songLimit();
+                let songsToAdd = 0;
+                if(player.queue.length == 0) songsToAdd = Math.min(sL, data.tracks.items.length)
+                else {
+                    let totalSongs = player.queue.length + data.tracks.items.length;
+                    if(totalSongs > sL) songsToAdd = Math.min(sL - player.queue.length, data.tracks.items.length)
+                    else songsToAdd = data.tracks.items.length;
+                }
                 if (data.type == "playlist") {
-                    for(let i = 0; i < data.tracks.items.length; i++){
+                    for(let i = 0; i < songsToAdd; i++){
                         let song = data.tracks.items[i];
                         play(client, message, msg, player, `${song.track.name} ${song.track.artists[0].name}`, true);
                     }
@@ -54,12 +55,11 @@ module.exports = {
                     });
                 }
                 let playlistInfo = await getPreview(args.join(" "));
-                // if(data.tracks.items.length != songsToAdd){
-                //     if(await songLimit() == patreon.defaultMaxSongs) msg.edit(`**${playlistInfo.title}** (${songsToAdd} tracks) has been added to the queue by **${message.author.tag}**\nYou have reached your **maximum** amount of favorite songs (${patreon.defaultMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`)
-                //     else if(await songLimit() == patreon.premiumMaxSongs) msg.edit(`**${playlistInfo.title}** (${songsToAdd} tracks) has been added to the queue by **${message.author.tag}**\nYou have reached your **maximum** amount of favorite songs (${patreon.premiumMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`)
-                //     else if(await songLimit() == patreon.proMaxSongs) msg.edit(`**${playlistInfo.title}** (${songsToAdd} tracks) has been added to the queue by **${message.author.tag}**\nYou have reached your **maximum** amount of favorite songs (${patreon.proMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`)
-                // } else 
-                msg.edit(`**${playlistInfo.title}** (${data.tracks.items.length} tracks) has been added to the queue by **${message.author.tag}**`);
+                if(data.tracks.items.length != songsToAdd){
+                    if(await songLimit() == patreon.defaultMaxSongs) msg.edit(`**${playlistInfo.title}** (${songsToAdd} tracks) has been added to the queue by **${message.author.tag}**\nYou have reached your **maximum** amount of favorite songs (${patreon.defaultMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`)
+                    else if(await songLimit() == patreon.premiumMaxSongs) msg.edit(`**${playlistInfo.title}** (${songsToAdd} tracks) has been added to the queue by **${message.author.tag}**\nYou have reached your **maximum** amount of favorite songs (${patreon.premiumMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`)
+                    else if(await songLimit() == patreon.proMaxSongs) msg.edit(`**${playlistInfo.title}** (${songsToAdd} tracks) has been added to the queue by **${message.author.tag}**\nYou have reached your **maximum** amount of favorite songs (${patreon.proMaxSongs} songs). Want more songs? Contact \`Tetra#0001\``)
+                } else msg.edit(`**${playlistInfo.title}** (${songsToAdd} tracks) has been added to the queue by **${message.author.tag}**`);
             } else if (data.type == "track") {
                 const track = await getPreview(args.join(" "))
                 play(client, message, msg, player, `${track.title} ${track.artist}`, false);

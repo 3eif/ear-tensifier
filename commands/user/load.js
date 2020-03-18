@@ -1,8 +1,6 @@
-const Discord = require("discord.js");
-
 const users = require("../../models/user.js");
-const play = require("../../utils/play.js")
-let { getData, getPreview } = require("spotify-url-info");
+const premium = require('../../utils/premium/premium.js');
+const patreon = require("../../resources/patreon.json")
 
 module.exports = {
     name: "load",
@@ -23,6 +21,10 @@ module.exports = {
 
         if (player.pause == "paused") return message.channel.send(`Cannot play/queue songs while paused. Do \`${client.settings.prefix} resume\` to play.`);
 
+        if(await songLimit() == patreon.defaultMaxSongs && player.queue.size >= patreon.defaultMaxSongs) return msg.edit(`You have reached your **maximum** amount of favorite songs (${patreon.defaultMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`) 
+        if(await songLimit() == patreon.premiumMaxSongs && player.queue.size >= patreon.premiumMaxSongs) return msg.edit(`You have reached your **maximum** amount of favorite songs (${patreon.premiumMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`) 
+        if(await songLimit() == patreon.proMaxSongs && player.queue.size >= patreon.proMaxSongs) return msg.edit(`You have reached your **maximum** amount of favorite songs (${patreon.proMaxSongs} songs). Want more songs? Contact the developer: \`Tetra#0001\``) 
+
         const msg = await message.channel.send(`${client.emojiList.cd}  Loading favorites (This might take a while)...`)
 
         users.findOne({
@@ -30,7 +32,16 @@ module.exports = {
         }, async (err, u) => {
             if (err) console.log(err);
 
+            let songsToAdd = 0;
             let content = new Promise(async function (resolve, reject) {
+                let sL = await songLimit();
+                if(player.queue.length == 0) songsToAdd = Math.min(sL, u.favorites.length)
+                else {
+                    let totalSongs = player.queue.length + u.favorites.length;
+                    if(totalSongs > sL) songsToAdd = Math.min(sL - player.queue.length, u.favorites.length)
+                    else songsToAdd = u.favorites.length;
+                }
+
                 if (u.favorites && u.favorites.length) {
                     for(let i = 0; i < u.favorites.length; i++){
                         player.queue.push(u.favorites[i]);
@@ -43,8 +54,22 @@ module.exports = {
             });
 
             content.then(async function () {
-                msg.edit(`Loaded **${u.favorites.length} songs** into the queue. Type \`${client.settings.prefix}queue\` to see the queue.`);
+                msg.edit(`Loaded **${songsToAdd} songs** into the queue. Type \`${client.settings.prefix}queue\` to see the queue.`);
+                let loaded = `Loaded **${songsToAdd} songs** into the queue. Type \`${client.settings.prefix}queue\` to see the queue.`;
+                if(u.favorites.length != songsToAdd){
+                    if(await songLimit() == patreon.defaultMaxSongs) msg.edit(`Loaded **${songsToAdd} songs** into the queue. Type \`${client.settings.prefix}queue\` to see the queue.\nYou have reached your **maximum** amount of favorite songs (${patreon.defaultMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`)
+                    else if(await songLimit() == patreon.premiumMaxSongs) msg.edit(`**${playlistInfo.title}** (${songsToAdd} tracks) has been added to the queue by **${message.author.tag}**\nYou have reached your **maximum** amount of favorite songs (${patreon.premiumMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`)
+                    else if(await songLimit() == patreon.proMaxSongs) msg.edit(`**${playlistInfo.title}** (${songsToAdd} tracks) has been added to the queue by **${message.author.tag}**\nYou have reached your **maximum** amount of favorite songs (${patreon.proMaxSongs} songs). Want more songs? Contact \`Tetra#0001\``)
+                } else msg.edit(`**${playlistInfo.title}** (${songsToAdd} tracks) has been added to the queue by **${message.author.tag}**`);
             })
         });
+
+        async function songLimit(){
+            let hasPremium = await premium(message.author.id, "Premium");
+            let hasPro = await premium(message.author.id, "Pro");
+            if(!hasPremium && !hasPro) return patreon.defaultMaxSongs;
+            if(hasPremium && !hasPro) return patreon.premiumMaxSongs;
+            if(hasPremium && hasPro) return patreon.proMaxSongs;
+        }
     },
 };
