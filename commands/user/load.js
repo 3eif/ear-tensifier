@@ -32,38 +32,18 @@ module.exports = {
 
             let content = new Promise(async function (resolve, reject) {
                 if (u.favorites && u.favorites.length) {
-                    for (let i = 0; i < u.favorites.length;) {
-                        if (u.favorites[i].startsWith("https://open.spotify")) {
-                            let url = `https:${u.favorites[i].split(":")[1]}`;
-                            console.log(url);
-                            const track = await getPreview(url)
-                            play(client, message, false, player, `${track.title} ${track.artist}`, false);
-                            i++;
-                        } else {
-                            const res = await client.music.search(u.favorites[i], message.author.id);
-                            if (res.loadType == "TRACK_LOADED") {
-                                let searchQuery = {};
-                                if (["youtube", "soundcloud", "bandcamp", "mixer", "twitch"].includes(u.favorites[i])) {
-                                    searchQuery = {
-                                        source: args[0],
-                                        query: args.slice(1).join(" ")
-                                    }
-                                }
-                                play(client, message, false, player, u.favorites[i]);
-                                i++;
-                            }
-                        }
-                        if (u.favorites.length == i) resolve();
+                    for(let i = 0; i < u.favorites.length; i++){
+                        player.queue.push(u.favorites[i]);
+                        if (!player.playing) player.play();
+                        if(i == u.favorites.length-1) resolve();
                     }
                 } else {
                     return msg.edit(`You have no favorites. To add favorites type \`ear add <search query/link>\``)
-                    resolve();
                 }
             });
 
             content.then(async function () {
                 msg.edit(`Loaded **${u.favorites.length} songs** into the queue. Type \`${client.settings.prefix}queue\` to see the queue.`);
-                await u.save().catch(e => console.log(e));
             })
         });
     },

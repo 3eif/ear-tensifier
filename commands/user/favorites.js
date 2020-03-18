@@ -20,8 +20,9 @@ module.exports = {
             let content = new Promise(async function (resolve, reject) {
                 for(let i = 0; i < u.favorites.length; i++){
                     let song = u.favorites[i];
-                    str += `**${i+1}** - [${song.title}](${song.url}) (${Utils.formatTime(song.duration, true)}) by ${song.author}\n`;
-                    hastebinStr += `${song.title} (${Utils.formatTime(song.duration, true)}) by [${song.author}]\n`;
+                    let url = `https://www.youtube.com/watch?v=${song.identifier}`;
+                    str += `**${i+1}** - [${song.title}](${url}) (${Utils.formatTime(song.duration, true)}) by ${song.author}\n`;
+                    hastebinStr += `${i+1} - ${song.title} (${Utils.formatTime(song.duration, true)}) by [${song.author}]\n`;
                 }
                 resolve();
             });

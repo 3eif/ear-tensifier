@@ -5,7 +5,8 @@ const users = require("../models/user.js");
 const songs = require("../models/song.js");
 
 module.exports = async (client, textChannel, title, duration, author, uri, requester) => {
-    let thumbnail = client.music.players.get(textChannel.guild.id).queue[0].displayThumbnail("default");
+    let identifier = client.music.players.get(textChannel.guild.id).queue[0].identifier;
+    let thumbnail = `https://img.youtube.com/vi/${identifier}/default.jpg`
     addDB(uri, title, author, duration, uri, thumbnail);
 
     bot.findOne({

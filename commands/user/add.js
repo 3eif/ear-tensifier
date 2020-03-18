@@ -13,6 +13,7 @@ module.exports = {
 
         let songsToAdd = [];
         let dataLength = 0;
+        let playlistMessage = ``;
 
         if (args[0].startsWith("https://open.spotify.com")) {
             const data = await getData(args.join(" "));
@@ -30,13 +31,13 @@ module.exports = {
                     });
                 }
                 let playlistInfo = await getPreview(args.join(" "));
-                msg.edit(`Added ${data.tracks.items.length} songs from **${playlistInfo.title}** to your favorites!`)
+                playlistMessage = `Added ${data.tracks.items.length} songs from **${playlistInfo.title}** to your favorites!`
             } else if (data.type == "track") {
                 const track = await getPreview(args.join(" "))
-                search(`${track.title} ${track.artist}`, "no")
+                await search(`${track.title} ${track.artist}`, "no")
             }
         } else {
-            search(args.join(" "), "no");
+            await search(args.join(" "), "no");
         }
 
         async function search(sq, isPlaylist) {
@@ -49,16 +50,9 @@ module.exports = {
             }
 
             client.music.search(searchQuery, message.author).then(async res => {
-                let obj = {};
                 switch (res.loadType) {
                     case "TRACK_LOADED":
-                        obj = {
-                            title: res.tracks[0].title,
-                            author: res.tracks[0].author,
-                            duration: res.tracks[0].duration,
-                            url: res.tracks[0].uri,
-                        };
-                        songsToAdd.push(obj);
+                        songsToAdd.push(res.tracks[0]);
                         if (isPlaylist == "no") {
                             msg.edit(`Added **${res.tracks[0].title}** (${Utils.formatTime(res.tracks[0].duration, true)}) to your favorites.`)
                             return await addToDB(false);
@@ -67,13 +61,7 @@ module.exports = {
                         break;
 
                     case "SEARCH_RESULT":
-                        obj = {
-                            title: res.tracks[0].title,
-                            author: res.tracks[0].author,
-                            duration: res.tracks[0].duration,
-                            url: res.tracks[0].uri,
-                        };
-                        songsToAdd.push(obj);
+                        songsToAdd.push(res.tracks[0]);
                         if (isPlaylist == "no") {
                             msg.edit(`Added **${res.tracks[0].title}** (${Utils.formatTime(res.tracks[0].duration, true)}) to your favorites.`);
                             return await addToDB(false);
@@ -90,13 +78,15 @@ module.exports = {
                         break;
                 }
                 return;
-            });
+            }).catch(err => {
+                search(searchQuery, isPlaylist);
+            })
         }
 
         async function addToDB(playlist) {
             if(playlist){
-                console.log(`${songsToAdd.length} = ${dataLength-1}`);
-                if(songsToAdd.length != dataLength-1) return;
+                console.log(`${songsToAdd.length} = ${dataLength}`);
+                if(songsToAdd.length != dataLength) return;
             }
             users.findOne({
                 authorID: message.author.id
@@ -104,6 +94,7 @@ module.exports = {
                 if (err) console.log(err);
                 let currentFavorites = u.favorites;
                 u.favorites = currentFavorites.concat(songsToAdd);
+                if(playlist) msg.edit(playlistMessage);
                 await u.save().catch(e => console.log(e));
             });
         }
