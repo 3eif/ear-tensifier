@@ -2,7 +2,6 @@ const Discord = require("discord.js");
 const { post } = require("snekfetch");
 const users = require("../../models/user.js");
 const { Utils } = require("erela.js");
-let { getData } = require("spotify-url-info");
 
 module.exports = {
     name: "favorites",
@@ -16,30 +15,15 @@ module.exports = {
         }, async (err, u) => {
             if (err) console.log(err);
             let str = "";
+            let hastebinStr = "";
 
             let content = new Promise(async function (resolve, reject) {
-                if (u.favorites && u.favorites.length) {
-                    for (let i = 0; i < u.favorites.length;) {
-                        if (u.favorites[i].startsWith("https://open.spotify")) {
-                            const track = await getData(u.favorites[i])
-                            console.log(track.name);
-                            //let url = `https://open.spotify.com/track/${u.favorites[i].split(":")[2]}`;
-                            str += `[${track.name}](${u.favorites[i]}) (${Utils.formatTime(track.duration_ms, true)})\n`;
-                            i++;
-                        } else {
-                            const res = await client.music.search(u.favorites[i], message.author.id);
-                            if (res.loadType == "TRACK_LOADED") {
-                                str += `[${res.tracks[0].title}](${u.favorites[i]}) (${Utils.formatTime(res.tracks[0].duration, true)})\n`;
-                                console.log(`[${res.tracks[0].title}](${u.favorites[i]}) (${res.tracks[0].duration})`);
-                                i++;
-                            }
-                        }
-                        if (u.favorites.length == i) resolve();
-                    }
-                } else {
-                    str = `You have no favorites. To add favorites type \`ear add <search query/link>\``
-                    resolve();
+                for(let i = 0; i < u.favorites.length; i++){
+                    let song = u.favorites[i];
+                    str += `**${i+1}** - [${song.title}](${song.url}) (${Utils.formatTime(song.duration, true)}) by ${song.author}\n`;
+                    hastebinStr += `${song.title} (${Utils.formatTime(song.duration, true)}) by [${song.author}]\n`;
                 }
+                resolve();
             });
 
             content.then(async function () {
@@ -53,7 +37,7 @@ module.exports = {
                     .setTimestamp()
                 msg.edit("", embed);
                   } else {
-                    const { body } = await post("https://www.hastebin.com/documents").send(str);
+                    const { body } = await post("https://www.hastebin.com/documents").send(hastebinStr);
                     const embed = new Discord.MessageEmbed()
                       .setTitle("Favorite songs were too many, uploaded to hastebin!")
                       .setURL(`https://www.hastebin.com/${body.key}.js`)
