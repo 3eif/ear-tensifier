@@ -1,6 +1,7 @@
 {
-    "s": "$2",
-    "splus": "$5",
-    "splusplus": "$10",
-    "sinfinite": "$20"
+    "premiumPrice": "$5",
+    "proPrice": "$10",
+    "defaultMaxSongs": "25",
+    "premiumMaxSongs": "100",
+    "proMaxSongs": "250"
 }

@@ -54,7 +54,7 @@ module.exports = {
                     })
                     const { body } = await post("https://www.hastebin.com/documents").send(columns);
                     const embed = new Discord.MessageEmbed()
-                        .setTitle("Favorite songs were too many, uploaded to hastebin!")
+                        .setTitle("Too many favorite songs, uploaded to hastebin!")
                         .setURL(`https://www.hastebin.com/${body.key}.js`)
                         .setColor(client.colors.main);
                     msg.edit("", embed);

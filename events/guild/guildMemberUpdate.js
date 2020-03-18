@@ -44,13 +44,13 @@ module.exports = class GuildMemberUpdate extends Event {
 
               if (newMember.roles.cache.find(r => r.name === "Pro")) {
                 embed.addField("Tier", "Pro", true)
-                embed.addField("Pledge", patreonData.splus, true)
+                embed.addField("Pledge", patreonData.proPrice, true)
 
                 patreon(newMember.user, "Pro");
 
             } else if (newMember.roles.cache.find(r => r.name === "Premium")) {
                 embed.addField("Tier", "Premium", true)
-                embed.addField("Pledge", patreonData.s, true)
+                embed.addField("Pledge", patreonData.premiumPrice, true)
 
                 patreon(newMember.user, "Premium");
             }

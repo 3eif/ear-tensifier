@@ -18,7 +18,7 @@ module.exports = {
             .setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
             .setColor(client.colors.main)
             .setDescription(`**Now Playing** - [${title}](${uri}) (${Utils.formatTime(duration, true)}) by ${author}.\n\n${player.queue.slice(1, 11).map(song => `**${index++}** - [${song.title}](${song.uri}) (${Utils.formatTime(song.duration, true)}) by ${song.author}.`).join("\n")}`)
-            .setFooter(`${player.queue.size-1} songs | ${Utils.formatTime(player.queue.duration, true)} total duration`)
+            .setFooter(`${player.queue.size} songs | ${Utils.formatTime(player.queue.duration, true)} total duration`)
         message.channel.send(queueEmbed);
 
     }
