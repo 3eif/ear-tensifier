@@ -4,9 +4,10 @@ const bot = require("../models/bot.js");
 const users = require("../models/user.js");
 const songs = require("../models/song.js");
 
-module.exports = async (client, textChannel, title, duration, author, uri, requester) => {
-    let identifier = client.music.players.get(textChannel.guild.id).queue[0].identifier;
-    let thumbnail = `https://img.youtube.com/vi/${identifier}/default.jpg`
+module.exports = async (client, textChannel, title, duration, author, uri) => {
+    let currentSong = client.music.players.get(textChannel.guild.id).queue[0];
+    let requester = currentSong.requester.username+ "#" + currentSong.requester.discriminator;
+    let thumbnail = `https://img.youtube.com/vi/${currentSong.identifier}/default.jpg`
     addDB(uri, title, author, duration, uri, thumbnail);
 
     bot.findOne({
@@ -60,7 +61,7 @@ module.exports = async (client, textChannel, title, duration, author, uri, reque
 
     embed.setDescription(`[${title}](${uri})`)
     embed.addField('Duration', `${Utils.formatTime(duration, true)}`, true)
-    embed.addField('Requested by', requester.tag, true)
+    embed.addField('Requested by', requester, true)
     embed.setTimestamp()
     textChannel.send(embed);
 

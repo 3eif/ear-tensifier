@@ -29,7 +29,6 @@ module.exports = {
         let searchQuery;
         if (args[0].startsWith("https://open.spotify.com")) {
             const data = await getData(args.join(" "));
-            console.log(data);
             if (data.type == "playlist" || data.type == "album") {
                 if (data.type == "playlist") {
                     await data.tracks.items.forEach(song => {

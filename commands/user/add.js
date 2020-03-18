@@ -85,7 +85,6 @@ module.exports = {
 
         async function addToDB(playlist) {
             if(playlist){
-                console.log(`${songsToAdd.length} = ${dataLength}`);
                 if(songsToAdd.length != dataLength) return;
             }
             users.findOne({
