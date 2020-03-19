@@ -6,11 +6,12 @@ const { getData, getPreview } = require("spotify-url-info");
 module.exports = {
     name: "play",
     description: "Plays a song",
-    args: true,
     usage: "<search query>",
     aliases: ["p"],
     cooldown: '5',
+    args: true,
     async execute(client, message, args) {
+        if(!args[0]) return message.channel.send(`Please provide a search query.`)
         const voiceChannel = message.member.voice.channel;
         if(!voiceChannel) return client.responses("noVoiceChannel", message)
 

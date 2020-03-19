@@ -6,7 +6,7 @@ module.exports = class VoiceStateUpdate extends Event {
     }
 
     async run(oldVoice, newVoice) {
-
+        if(oldVoice.guild.me.voice.channel == null) return;
         const player = this.client.music.players.get(oldVoice.guild.id);
         if (!player) return;
 

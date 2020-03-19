@@ -26,6 +26,10 @@ module.exports = async (type, message, args) => {
             message.channel.send(`This command is only available to **Pro** users. Click here to get premium: https://www.patreon.com/eartensifier`);
             break;
         }
+        case 'botVoiceChannel': {
+            message.channel.send(`The bot is not currently in a vc.`)
+            break;
+        }
         case 'noPermissionConnect': {
             message.channel.send(`I do not have permission to join your voice channel.`);
             break

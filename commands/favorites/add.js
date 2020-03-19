@@ -6,7 +6,8 @@ const { Utils } = require("erela.js");
 module.exports = {
     name: "add",
     description: "Adds a song to the user's favorites.",
-    usage: "<user>",
+    usage: "<search query/link>",
+    args: true,
     cooldown: 5,
     async execute(client, message, args) {
         const msg = await message.channel.send(`${client.emojiList.loading} Adding song(s)...`);
