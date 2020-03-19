@@ -62,7 +62,7 @@ module.exports = class Message extends Event {
       let command;
     
       if (prefix === this.client.settings.prefix) {
-        if (client.settings.prefix.endsWith(" ")) {
+        if (this.client.settings.prefix.endsWith(" ")) {
           args = message.content.replace(" ", "[{*&SPACE&*}]").split(" ");
           args[0].replace("[{*&SPACE&*}]", " ");
         } else {
