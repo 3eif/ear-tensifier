@@ -4,7 +4,7 @@ let { getData, getPreview } = require("spotify-url-info");
 const { Utils } = require("erela.js");
 
 module.exports = {
-    name: "add",
+    name: "addFavorite",
     description: "Adds a song to the user's favorites.",
     usage: "<user>",
     cooldown: 5,
