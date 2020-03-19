@@ -43,7 +43,14 @@ module.exports = class Message extends Event {
         prefix = message.content.match(mentionPrefix) ? message.content.match(mentionPrefix)[0] : this.client.settings.prefix;
         ignoreMsg = false;
       } else {
-        prefix = message.content.match(mentionPrefix) ? message.content.match(mentionPrefix)[0] : s.prefix;
+        if(message.content.match(this.client.settings.prefix)) {
+          prefix = this.client.settings.prefix;
+        } else if(message.content.match(s.prefix)){
+          prefix = s.prefix;
+        } else if(message.content.split(" ")[0].match(mentionPrefix)){
+          prefix = mentionPrefix;
+          console.log(prefix);
+        }
         if (s.ignore.includes(message.channel.id)) ignoreMsg = true;
       }
 
