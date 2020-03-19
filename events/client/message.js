@@ -61,22 +61,12 @@ module.exports = class Message extends Event {
       let args;
       let command;
     
-      if (prefix === this.client.settings.prefix) {
-        if (this.client.settings.prefix.endsWith(" ")) {
-          args = message.content.replace(" ", "[{*&SPACE&*}]").split(" ");
-          args[0].replace("[{*&SPACE&*}]", " ");
-        } else {
-          args = message.content.split(" ");
-        }
+      if (prefix === this.client.settings.prefix && !this.client.prefix.endsWith(" ")) {
+        args = message.content.split(" ");
         command = args.shift().toLowerCase();
         command = command.slice(this.client.settings.prefix.length);
-      } else if (prefix === s.prefix) {
-        if (s.prefix.endsWith(" ")) {
-          args = message.content.replace(" ", "[{*&SPACE&*}]").split(" ");
-          args[0].replace("[{*&SPACE&*}]", " ");
-        } else {
-          args = message.content.split(" ");
-        }
+      } else if (prefix === s.prefix && !s.prefix.endsWith(" ")) {
+        args = message.content.split(" ");
         command = args.shift().toLowerCase();
         command = command.slice(s.prefix.length);
       } else {
