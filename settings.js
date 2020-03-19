@@ -1,5 +1,5 @@
 module.exports = {
-    "prefix": "e. ",
+    "prefix": "ear ",
     "testing": false,
     "version": "1.0.0",
     "server": "https://discord.gg/xKgKMAP",

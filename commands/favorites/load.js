@@ -1,6 +1,7 @@
 const users = require("../../models/user.js");
 const premium = require('../../utils/premium/premium.js');
 const patreon = require("../../resources/patreon.json")
+let { getPreview } = require("spotify-url-info");
 
 module.exports = {
     name: "load",

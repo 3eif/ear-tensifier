@@ -3,6 +3,7 @@ const { post } = require("snekfetch");
 const users = require("../../models/user.js");
 const { Utils } = require("erela.js");
 const columnify = require('columnify')
+
 module.exports = {
     name: "favorites",
     description: "Displays a list of your favorite songs.",

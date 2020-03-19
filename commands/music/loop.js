@@ -21,7 +21,7 @@ module.exports = {
                 player.setTrackRepeat(false);
                 return message.channel.send("Song has been unlooped");
             }
-        } else if(args[0] == queue){
+        } else if(args[0] == "queue"){
             if(player.setQueueRepeat){
                 player.setQueueRepeat(false);
                 return message.channel.send("Queue has been unlooped.");
