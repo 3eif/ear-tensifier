@@ -23,7 +23,7 @@ module.exports = {
                 });
                 await newSever.save().catch(e => console.log(e));
             }
-            return message.channel.send(`The current prefix is ${s.prefix}`);
+            return message.channel.send(`The current prefix is \`${s.prefix}\``);
         });
     }
     if(!args[0]) return;
@@ -51,6 +51,7 @@ module.exports = {
         .setAuthor(`${message.guild.name}`, message.guild.iconURL())
         .setColor(client.colors.main)
         .setDescription(`Successfully set the prefix to \`${f}\``)
+        .setFooter(`Tip: to add a space to your prefix, add '_' at the end.`)
         msg.edit("", embed);
     });
   },

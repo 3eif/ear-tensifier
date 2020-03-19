@@ -48,16 +48,18 @@ module.exports = class Message extends Event {
         prefix = this.client.settings.prefix;
       } else if (message.content.indexOf(s.prefix) === 0) {
         prefix = s.prefix;
+      } else if (message.content.indexOf(s.prefix) === 0) {
+        prefix = s.prefix;
       } else if (message.content.split(" ")[0].match(mentionPrefix)) {
         prefix = mentionPrefix;
       } else {
         return;
       }
       if (s.ignore.includes(message.channel.id)) ignoreMsg = true;
-      
+
       if (ignoreMsg) return;
-      var args;
-      var command;
+      let args;
+      let command;
     
       if (prefix === this.client.settings.prefix) {
         args = message.content.split(" ");
@@ -68,12 +70,13 @@ module.exports = class Message extends Event {
         command = args.shift().toLowerCase();
         command = command.slice(s.prefix.length);
       } else {
+        args = message.content.split(" ");
         args.shift();
         command = args.shift().toLowerCase();
       }
       
-      var fuckingUser = await users.findOne({ authorID: message.author.id });
-      if (!fuckingUser) {
+      var messageUser = await users.findOne({ authorID: message.author.id });
+      if (!messageUser) {
         const newUser = new users({
           authorID: message.author.id,
           authorName: message.author.tag,
@@ -86,13 +89,13 @@ module.exports = class Message extends Event {
           developer: false,
         });
         await newUser.save().catch(e => console.log(e));
-        fuckingUser = await users.findOne({ authorID: message.author.id });
+        messageUser = await users.findOne({ authorID: message.author.id });
       }
      
-      if (fuckingUser.blocked == null) fuckingUser.blocked = false;
-      if (fuckingUser.blocked) ignoreMsg = true;
-      else if (!fuckingUser.blocked) fuckingUser.commandsUsed += 1;
-      await fuckingUser.save().catch(e => console.error(e));
+      if (messageUser.blocked == null) messageUser.blocked = false;
+      if (messageUser.blocked) ignoreMsg = true;
+      else if (!messageUser.blocked) messageUser.commandsUsed += 1;
+      await messageUser.save().catch(e => console.error(e));
       const cmd = this.client.commands.get(command) || this.client.commands.find(c => c.aliases && c.aliases.includes(command));
       if (!cmd) {
         if (fs.existsSync(`./commands/${command}.js`)) {
