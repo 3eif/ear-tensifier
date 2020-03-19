@@ -1,9 +1,5 @@
-const { Utils } = require("erela.js");
-const Discord = require('discord.js')
-const bot = require("../models/bot.js");
-const users = require("../models/user.js");
-const songs = require("../models/song.js");
 
-module.exports = async () => {
-
+module.exports = async (client, player) => {
+    //if(await premium(message.author.id, "Premium") == false) return client.responses('noPremium', message);
+    return client.music.players.destroy(player.guild.id)
 }

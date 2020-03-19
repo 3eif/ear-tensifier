@@ -3,7 +3,7 @@ const premium = require('../../utils/premium/premium.js');
 const patreon = require("../../resources/patreon.json")
 
 module.exports = {
-    name: "loadFavorites",
+    name: "load",
     description: "Loads your favorite songs to the queue.",
     async execute(client, message, args) {
         const voiceChannel = message.member.voice.channel;
