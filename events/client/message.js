@@ -61,7 +61,7 @@ module.exports = class Message extends Event {
       let args;
       let command;
     
-      if (prefix === this.client.settings.prefix && !this.client.prefix.endsWith(" ")) {
+      if (prefix === this.client.settings.prefix && !this.client.settings.prefix.endsWith(" ")) {
         args = message.content.split(" ");
         command = args.shift().toLowerCase();
         command = command.slice(this.client.settings.prefix.length);
