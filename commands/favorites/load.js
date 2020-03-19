@@ -55,6 +55,7 @@ module.exports = {
             content.then(async function () {
                 msg.edit(`Loaded **${songsToAdd} songs** into the queue. Type \`${client.settings.prefix}queue\` to see the queue.`);
                 let loaded = `Loaded **${songsToAdd} songs** into the queue. Type \`${client.settings.prefix}queue\` to see the queue.`;
+                let playlistInfo = await getPreview(args.join(" "));
                 if (u.favorites.length != songsToAdd) {
                     if (await songLimit() == patreon.defaultMaxSongs) msg.edit(`${loaded}.\nYou have reached the **maximum** amount of songs (${patreon.defaultMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`)
                     else if (await songLimit() == patreon.premiumMaxSongs) msg.edit(`${loaded}\nYou have reached the **maximum** amount of songs (${patreon.premiumMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`)
