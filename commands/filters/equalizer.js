@@ -22,7 +22,7 @@ module.exports = {
 				.setColor(client.colors.main)
 				.setDescription('There are 14 bands that can be set from -10 to 10. Not all bands have to be filled out.')
 				.addField('Example Usage', `${client.settings.prefix} equalizer 0 0 0 0 0 0 0 0 0 0 0 0 0 0\n${client.settings.prefix} equalizer 2 3 0 8 0 5 0 -5 0 0`)
-				.addField('Reset Equalizer', `You can reset the equalizer by doing:\n${client.settings.prefix} equalizer reset`)
+				.addField('Reset Equalizer', `You can reset the equalizer by doing:\n${client.settings.prefix}reset`)
 				.addField('Help', `If you need more help, please join the [support server](${client.settings.server})`)
 				.setFooter('Premium Command');
 			return message.channel.send(embed);
@@ -50,7 +50,7 @@ module.exports = {
 		const embed = new Discord.MessageEmbed()
 			.setAuthor(message.guild.name, message.guild.iconURL())
 			.setDescription(`Equalizer set to: \`${bandsStr}\``)
-			.setFooter('To reset the equalizer type: ear eq reset')
+			.setFooter('To reset the equalizer type: ear reset')
 			.setColor(client.colors.main);
 		await delay(5000);
 		return msg.edit('', embed);

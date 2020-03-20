@@ -3,6 +3,8 @@ const users = require('../../models/user.js');
 module.exports = {
 	name: 'delete',
 	description: 'Deletes a song from your favorites.',
+	args: true,
+	usage: '<song position> or all',
 	async execute(client, message, args) {
 		const msg = await message.channel.send(`${client.emojiList.loading} Deleting song(s)...`);
 
