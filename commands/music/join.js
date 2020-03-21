@@ -9,6 +9,7 @@ module.exports = {
 		const permissions = voiceChannel.permissionsFor(client.user);
 		if(!permissions.has('CONNECT')) return client.responses('noPermissionConnect', message);
 
+		voiceChannel.join();
 		// eslint-disable-next-line no-unused-vars
 		const player = client.music.players.spawn({
 			guild: message.guild,
