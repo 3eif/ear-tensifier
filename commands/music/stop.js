@@ -15,6 +15,7 @@ module.exports = {
 		}
 		// eslint-disable-next-line curly
 		else message.member.voice.channel.leave();
+
 		return message.channel.send('Stopped the queue.');
 	},
 };

@@ -23,7 +23,12 @@ module.exports = class VoiceStateUpdate extends Event {
 				const vcMembers = oldVoice.guild.members.cache.get(this.client.user.id).voice.channel.members.size;
 				if(!vcMembers || (vcMembers - 1) > 0) return msg.delete();
 
-				this.client.music.players.destroy(oldVoice.guild.id);
+				const newPlayer = this.client.music.players.get(oldVoice.guild.id);
+				if(newPlayer) {
+					newPlayer.queue = [];
+					newPlayer.stop();
+				}
+
 				msg.edit(`I left ${this.client.emojiList.voice}**${oldVoice.guild.members.cache.get(this.client.user.id).voice.channel.name}** because I was left alone.`);
 			}
 		}
