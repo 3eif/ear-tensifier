@@ -16,8 +16,13 @@ module.exports = class VoiceStateUpdate extends Event {
 			if (oldVoice.guild.voice.channel && oldVoice.guild.voice.channel.members.size === 1) {
 				const msg = await player.textChannel.send(`Leaving ${this.client.emojiList.voice}**${oldVoice.guild.members.cache.get(this.client.user.id).voice.channel.name}** in ${this.client.settings.voiceLeave / 1000} seconds because I was left alone.`);
 				const delay = ms => new Promise(res => setTimeout(res, ms));
+				console.log(oldVoice.guild.members.cache.get(this.client.user.id).voice.channel.members.size);
+				console.log(oldVoice.guild.members.cache.get(this.client.user.id).voice.channel.members.length);
 				await delay(this.client.settings.voiceLeave);
-				if((oldVoice.guild.members.cache.get(this.client.user.id).voice.channel.members.size - 1) > 0) return msg.delete();
+
+				const vcMembers = oldVoice.guild.members.cache.get(this.client.user.id).voice.channel.members.size;
+				if(!vcMembers || (vcMembers - 1) > 0) return msg.delete();
+
 				this.client.music.players.destroy(oldVoice.guild.id);
 				msg.edit(`I left ${this.client.emojiList.voice}**${oldVoice.guild.members.cache.get(this.client.user.id).voice.channel.name}** because I was left alone.`);
 			}

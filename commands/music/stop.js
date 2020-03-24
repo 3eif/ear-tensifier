@@ -9,7 +9,11 @@ module.exports = {
 		if(!voiceChannel) return client.responses('noVoiceChannel', message);
 		if(voiceChannel.id != message.guild.members.cache.get(client.user.id).voice.channel.id) return client.responses('sameVoiceChannel', message);
 
-		if(player) client.music.players.destroy(message.guild.id);
+		if(player) {
+			player.queue = [];
+			player.stop();
+		}
+		// eslint-disable-next-line curly
 		else message.member.voice.channel.leave();
 		return message.channel.send('Stopped the queue.');
 	},

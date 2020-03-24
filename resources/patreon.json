@@ -1,7 +1,7 @@
 {
     "premiumPrice": "$5",
     "proPrice": "$10",
-    "defaultMaxSongs": "25",
+    "defaultMaxSongs": "50",
     "premiumMaxSongs": "100",
     "proMaxSongs": "250"
 }
