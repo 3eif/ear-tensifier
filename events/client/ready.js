@@ -30,9 +30,9 @@ module.exports = class Ready extends Event {
 		this.client.user.setActivity('ear help');
 
 		this.client.users.cache = new Discord.Collection();
-		await this.client.users.fetch('644977600057573389');
+		await this.client.users.fetch(this.client.user.id);
 		setInterval(async () => {
-			await this.client.users.fetch('644977600057573389');
+			await this.client.users.fetch(this.client.user.id);
 			this.client.users.cache = new Discord.Collection();
 			this.client.guilds.cache.forEach(guild => {
 				this.client.guilds.cache.get(guild.id).emojis.cahe = new Discord.Collection();
