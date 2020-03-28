@@ -1,5 +1,5 @@
 {
-  "name": "EarTensifier",
+  "name": "eartensifier",
   "version": "1.0.0",
   "description": "Discord music bot written in javascript using discord.js https://eartensifier.net",
   "main": "index.js",
