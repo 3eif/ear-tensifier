@@ -9,7 +9,5 @@ json.sqlite
 radio.js
 webhook.json
 resources/webhooks.json
-debug.log
 package-lock.json
-*.log
 *.log
