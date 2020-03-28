@@ -29,6 +29,19 @@ module.exports = class Ready extends Event {
 
 		this.client.user.setActivity('ear help');
 
+		this.client.users.cache = new Discord.Collection();
+		await this.client.users.fetch('644977600057573389');
+		setInterval(async () => {
+			await this.client.users.fetch('644977600057573389');
+			this.client.users.cache = new Discord.Collection();
+			this.client.guilds.cache.forEach(guild => {
+				this.client.guilds.cache.get(guild.id).emojis.cahe = new Discord.Collection();
+				this.client.guilds.cache.get(guild.id).members.cache = new Discord.Collection();
+				// this.client.guilds.cache.get(guild.id).roles.cache = new Discord.Collection();
+				this.client.guilds.cache.get(guild.id).voiceStates.cache = new Discord.Collection();
+			});
+		}, 60000);
+
 		if (this.client.shard.ids == this.client.shard.count - 1) {
 			const promises = [
 				this.client.shard.fetchClientValues('guilds.cache.size'),
@@ -60,7 +73,7 @@ module.exports = class Ready extends Event {
 						embeds: [embed],
 					});
 
-					if(this.client.user.id != '472714545723342848') return;
+					if (this.client.user.id != '472714545723342848') return;
 					postHandler(this.client, totalGuilds, this.client.shard.count, this.client.shard.id, totalMembers);
 					require('../../utils/dbl.js').startUp(this.client);
 				});
