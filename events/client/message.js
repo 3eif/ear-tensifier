@@ -20,6 +20,7 @@ module.exports = class Message extends Event {
 	async run(message) {
 		if (message.author.bot) return;
 		if (message.channel.type === 'text') {
+			if (!message.guild.members.cache.get(this.client.user.id)) await message.guild.members.fetch(this.client.user.id);
 			if (!message.channel.permissionsFor(message.guild.me).missing('SEND_MESSAGES')) return;
 		}
 
