@@ -6,6 +6,6 @@ module.exports = class Raw extends Event {
 	}
 
 	async run() {
-		console.log(this.client.events.push({ timestamp: Date.now() }));
+		this.client.events.push({ timestamp: Date.now() });
 	}
 };
