@@ -1,6 +1,5 @@
 node_modules
 tokens.json
-package-lock.json
 eval.js
 lavalink
 start-bot.bat
@@ -10,3 +9,4 @@ json.sqlite
 radio.js
 webhook.json
 resources/webhooks.json
+debug.log

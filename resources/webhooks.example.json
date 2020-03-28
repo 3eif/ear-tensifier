@@ -1,0 +1,14 @@
+{
+    "webhookID": "",
+    "webhookToken": "",
+    "streamID": "",
+    "streamToken": "",
+    "patreonWebhookID": "",
+    "patreonWebhookToken": "",
+    "guildID": "",
+    "guildToken": "",
+    "messageID": "",
+    "messageToken": "",
+    "voteID": "",
+    "voteToken": ""
+}
