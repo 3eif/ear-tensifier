@@ -1,0 +1,36 @@
+{
+    "discordToken": "",
+    "ksoftToken": "",
+    "mongoUsername": "",
+    "mongoPass": "",
+    "post": {
+        "botListSpace": {
+            "id": "",
+            "token": ""
+        },
+        "discordBotsGG": {
+            "id": "",
+            "token": ""
+        },
+        "cloudBotListXYZ": {
+            "token": ""
+        },
+        "cloudListXYZ": {
+            "token": ""
+        },
+        "divineDiscordBots": {
+            "id": "",
+            "token": ""
+        },
+        "glenBotListXYZ": {
+            "id": "",
+            "token": ""
+        }
+        ,
+        "topGG": {
+            "token": "",
+            "password": ""
+        }
+    },
+    "nodes": [{ "host": "", "port": 0, "password": "" }]
+}
