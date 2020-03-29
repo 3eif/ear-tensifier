@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const fs = require('fs');
 const Discord = require('discord.js');
 const cooldowns = new Discord.Collection();
@@ -9,7 +10,6 @@ const bot = require('../../models/bot.js');
 const commandsSchema = require('../../models/command.js');
 
 const webhooks = require('../../resources/webhooks.json');
-
 const webhookClient = new Discord.WebhookClient(webhooks.messageID, webhooks.messageToken);
 
 module.exports = class Message extends Event {
@@ -45,21 +45,17 @@ module.exports = class Message extends Event {
 				ignoreMsg = false;
 			}
 
-			if (message.content.indexOf(this.client.settings.prefix) === 0) {
+			const messageContent = message.content.toLowerCase();
+			if (messageContent.indexOf(this.client.settings.prefix) === 0) {
 				prefix = this.client.settings.prefix;
 			}
-			else if (message.content.indexOf(s.prefix) === 0) {
-				prefix = s.prefix;
-			}
-			else if (message.content.indexOf(s.prefix) === 0) {
-				prefix = s.prefix;
-			}
-			else if (message.content.split(' ')[0].match(mentionPrefix)) {
+			else if (messageContent.split(' ')[0].match(mentionPrefix)) {
 				prefix = mentionPrefix;
 			}
 			else {
 				return;
 			}
+
 			if (s.ignore.includes(message.channel.id)) ignoreMsg = true;
 
 			if (ignoreMsg) return;
@@ -82,68 +78,65 @@ module.exports = class Message extends Event {
 				command = args.shift().toLowerCase();
 			}
 
-			let messageUser = await users.findOne({ authorID: message.author.id });
-			if (!messageUser) {
-				const newUser = new users({
-					authorID: message.author.id,
-					authorName: message.author.tag,
-					bio: '',
-					songsPlayed: 0,
-					commandsUsed: 1,
-					blocked: false,
-					premium: false,
-					pro: false,
-					developer: false,
-				});
-				await newUser.save().catch(e => console.log(e));
-				messageUser = await users.findOne({ authorID: message.author.id });
-			}
-
-			if (messageUser.blocked == null) messageUser.blocked = false;
-			if (messageUser.blocked) ignoreMsg = true;
-			else if (!messageUser.blocked) messageUser.commandsUsed += 1;
-			await messageUser.save().catch(e => console.error(e));
-			const cmd = this.client.commands.get(command) || this.client.commands.find(c => c.aliases && c.aliases.includes(command));
-			if (!cmd) {
-				if (fs.existsSync(`./commands/${command}.js`)) {
-					try {
-						const commandFile = require(`./commands/${command}.js`);
-						if (commandFile) commandFile.run(this.client, message, args);
-					}
-					catch (error) {
-						console.error(error);
-						message.reply('There was an error trying to execute that command!');
-					}
+			users.findOne({ authorID: message.author.id }).then(async messageUser => {
+				if (!messageUser) {
+					const newUser = new users({
+						authorID: message.author.id,
+						authorName: message.author.tag,
+						bio: '',
+						songsPlayed: 0,
+						commandsUsed: 1,
+						blocked: false,
+						premium: false,
+						pro: false,
+						developer: false,
+					});
+					await newUser.save().catch(e => console.log(e));
+					messageUser = await users.findOne({ authorID: message.author.id });
 				}
-				return;
-			}
 
-			const b = await bot.findOne({ clientID: this.client.user.id });
-			if (!b) {
-				const newClient = new bot({
-					clientID: this.client.user.id,
-					clientName: this.client.user.name,
-					messagesSent: 0,
-					songsPlayed: 0,
-				});
-				await newClient.save().catch(e => console.log(e));
-			}
+				if (messageUser.blocked == null) messageUser.blocked = false;
+				if (messageUser.blocked) ignoreMsg = true;
+				else if (!messageUser.blocked) messageUser.commandsUsed += 1;
+				messageUser.save().catch(e => console.error(e));
+			});
 
-			b.messagesSent += 1;
-			await b.save().catch(e => console.log(e));
-			let c = await commandsSchema.findOne({ commandName: cmd.name });
-			if (!c) {
-				const newCommand = new commandsSchema({
-					commandName: cmd.name,
-					timesUsed: 0,
-				});
-				await newCommand.save().catch(e => console.log(e));
-				c = await commandsSchema.findOne({ commandName: cmd.name });
-			}
+			const cmd = this.client.commands.get(command) || this.client.commands.find(c => c.aliases && c.aliases.includes(command));
+			if (!cmd) return;
 
-			c.timesUsed += 1;
-			await c.save().catch(e => console.log(e));
-			console.log(`${cmd.name} used by ${message.author.tag} (${message.author.id}) from ${message.guild.name} (${message.guild.id})`);
+			/* Async Non-Blocking */
+			bot.findOne({ clientID: this.client.user.id }).then(async b => {
+				if (!b) {
+					const newClient = new bot({
+						clientID: this.client.user.id,
+						clientName: this.client.user.name,
+						messagesSent: 0,
+						songsPlayed: 0,
+					});
+					await newClient.save().catch(e => console.log(e));
+					b = await bot.findOne({ clientID: this.client.user.id });
+				}
+
+				b.messagesSent += 1;
+				b.save().catch(e => console.log(e));
+			});
+
+			/* Async Non-Blocking */
+			commandsSchema.findOne({ commandName: cmd.name }).then(async c => {
+				if (!c) {
+					const newCommand = new commandsSchema({
+						commandName: cmd.name,
+						timesUsed: 0,
+					});
+					await newCommand.save().catch(e => console.log(e));
+					c = await commandsSchema.findOne({ commandName: cmd.name });
+				}
+
+				c.timesUsed += 1;
+				await c.save().catch(e => console.log(e));
+			});
+
+			console.log(`[Shard #${this.client.shard.ids}] ${cmd.name} used by ${message.author.tag} (${message.author.id}) from ${message.guild.name} (${message.guild.id})`);
 			const embed = new Discord.MessageEmbed()
 				.setAuthor(`${message.author.username}`, message.author.displayAvatarURL())
 				.setColor(this.client.colors.main)
