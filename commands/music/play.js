@@ -15,7 +15,7 @@ module.exports = {
 		const voiceChannel = message.member.voice;
 		if (!voiceChannel.channelID) return client.responses('noVoiceChannel', message);
 
-		const permissions = voiceChannel.channel.permissionsFor(client.user);
+		const permissions = message.member.voice.channel.permissionsFor(client.user);
 		if(!permissions.has('CONNECT')) return client.responses('noPermissionConnect', message);
 		if(!permissions.has('SPEAK')) return client.responses('noPermissionSpeak', message);
 
