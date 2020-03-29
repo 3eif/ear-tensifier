@@ -69,7 +69,7 @@ module.exports = {
 						.then(result => {
 							const embed = new Discord.MessageEmbed()
 							.setTitle('Too many favorite songs, uploaded to hastebin!')
-							.setURL(`https://www.hasteb.in/${result.slice(8, result.length - 2)}.js`)
+							.setURL(`https://www.hasteb.in/${result.slice(8, result.length - 2)}.txt`)
 							.setColor(client.colors.main);
 							msg.edit('', embed);
 						})
