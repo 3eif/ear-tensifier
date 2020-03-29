@@ -10,7 +10,7 @@ module.exports = {
 		const voiceChannel = message.member.voice;
 		if (!voiceChannel) return message.channel.send('You need to be in a voice channel to play music');
 
-		const permissions = voiceChannel.permissionsFor(client.user);
+		const permissions = voiceChannel.permissions.has(client.user);
 		if (!permissions.has('CONNECT')) return message.channel.send('I do not have permission to join your voice channel.');
 		if (!permissions.has('SPEAK')) return message.channel.send('I do not have permission to speak in your voice channel.');
 
