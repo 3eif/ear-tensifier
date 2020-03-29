@@ -101,6 +101,8 @@ module.exports = class Message extends Event {
 				messageUser.save().catch(e => console.error(e));
 			});
 
+			if(ignoreMsg) return;
+
 			const cmd = this.client.commands.get(command) || this.client.commands.find(c => c.aliases && c.aliases.includes(command));
 			if (!cmd) return;
 
