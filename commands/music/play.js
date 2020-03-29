@@ -12,8 +12,7 @@ module.exports = {
 	args: true,
 	async execute(client, message, args) {
 		if (!args[0]) return message.channel.send('Please provide a search query.');
-		const voiceChannel = message.member.voice;
-		if (!voiceChannel.channelID) return client.responses('noVoiceChannel', message);
+		if (!message.member.voice.channel) return client.responses('noVoiceChannel', message);
 
 		const permissions = message.member.voice.channel.permissionsFor(client.user);
 		if(!permissions.has('CONNECT')) return client.responses('noPermissionConnect', message);
@@ -25,7 +24,7 @@ module.exports = {
 			player = client.music.players.spawn({
 				guild: message.guild,
 				textChannel: message.channel,
-				voiceChannel: voiceChannel,
+				voiceChannel: message.member.voice.channel,
 			});
 		}
 
