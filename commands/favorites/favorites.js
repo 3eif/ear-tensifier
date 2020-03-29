@@ -53,10 +53,10 @@ module.exports = {
 							song: { maxWidth: 125 },
 						},
 					});
-					const { body } = await post('https://www.hastebin.com/documents').send(columns);
+					const { body } = await post('https://www.hasteb.in/documents').send(columns);
 					const embed = new Discord.MessageEmbed()
 						.setTitle('Too many favorite songs, uploaded to hastebin!')
-						.setURL(`https://www.hastebin.com/${body.key}.js`)
+						.setURL(`https://www.hasteb.in/${body.key}.js`)
 						.setColor(client.colors.main);
 					msg.edit('', embed);
 				}
