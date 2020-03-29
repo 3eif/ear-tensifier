@@ -59,6 +59,24 @@ module.exports = class Message extends Event {
 			if (s.ignore.includes(message.channel.id)) ignoreMsg = true;
 
 			if (ignoreMsg) return;
+			let args;
+			let command;
+
+			if (prefix === this.client.settings.prefix && !this.client.settings.prefix.endsWith(' ')) {
+				args = message.content.split(' ');
+				command = args.shift().toLowerCase();
+				command = command.slice(this.client.settings.prefix.length);
+			}
+			else if (prefix === s.prefix && !s.prefix.endsWith(' ')) {
+				args = message.content.split(' ');
+				command = args.shift().toLowerCase();
+				command = command.slice(s.prefix.length);
+			}
+			else {
+				args = message.content.split(' ');
+				args.shift();
+				command = args.shift().toLowerCase();
+			}
 
 			users.findOne({ authorID: message.author.id }).then(async messageUser => {
 				if (!messageUser) {
@@ -82,25 +100,6 @@ module.exports = class Message extends Event {
 				else if (!messageUser.blocked) messageUser.commandsUsed += 1;
 				messageUser.save().catch(e => console.error(e));
 			});
-
-			let args;
-			let command;
-
-			if (prefix === this.client.settings.prefix && !this.client.settings.prefix.endsWith(' ')) {
-				args = message.content.split(' ');
-				command = args.shift().toLowerCase();
-				command = command.slice(this.client.settings.prefix.length);
-			}
-			else if (prefix === s.prefix && !s.prefix.endsWith(' ')) {
-				args = message.content.split(' ');
-				command = args.shift().toLowerCase();
-				command = command.slice(s.prefix.length);
-			}
-			else {
-				args = message.content.split(' ');
-				args.shift();
-				command = args.shift().toLowerCase();
-			}
 
 			if(ignoreMsg) return;
 
