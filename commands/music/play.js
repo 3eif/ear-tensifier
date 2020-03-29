@@ -12,8 +12,8 @@ module.exports = {
 	args: true,
 	async execute(client, message, args) {
 		if (!args[0]) return message.channel.send('Please provide a search query.');
-		const voiceChannel = message.member.voice.id;
-		if (!voiceChannel) return client.responses('noVoiceChannel', message);
+		const voiceChannel = message.member.voice;
+		if (!voiceChannel.channelID) return client.responses('noVoiceChannel', message);
 
 		const permissions = voiceChannel.channel.permissionsFor(client.user);
 		if(!permissions.has('CONNECT')) return client.responses('noPermissionConnect', message);
