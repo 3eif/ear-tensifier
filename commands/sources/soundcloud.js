@@ -8,22 +8,25 @@ module.exports = {
 	args: true,
 	usage: '<search query>',
 	async execute(client, message, args) {
-		const voiceChannel = message.member.voice;
-		if(!voiceChannel) return client.responses('noVoiceChannel', message);
+		if (!message.member.voice.channel) return client.responses('noVoiceChannel', message);
 
-		const permissions = voiceChannel.channel.permissionsFor(client.user);
+		const permissions = message.member.voice.channel.permissionsFor(client.user);
 		if(!permissions.has('CONNECT')) return client.responses('noPermissionConnect', message);
 		if(!permissions.has('SPEAK')) return client.responses('noPermissionSpeak', message);
+
+		let player = client.music.players.get(message.guild.id);
+
+		if (!player) {
+			player = client.music.players.spawn({
+				guild: message.guild,
+				textChannel: message.channel,
+				voiceChannel: message.member.voice.channel,
+			});
+		}
 
 		if(await songLimit() == patreon.defaultMaxSongs && player.queue.size >= patreon.defaultMaxSongs) return msg.edit(`You have reached the **maximum** amount of songs (${patreon.defaultMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`);
 		if(await songLimit() == patreon.premiumMaxSongs && player.queue.size >= patreon.premiumMaxSongs) return msg.edit(`You have reached the **maximum** amount of songs (${patreon.premiumMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`);
 		if(await songLimit() == patreon.proMaxSongs && player.queue.size >= patreon.proMaxSongs) return msg.edit(`You have reached the **maximum** amount of songs (${patreon.proMaxSongs} songs). Want more songs? Contact the developer: \`Tetra#0001\``);
-
-		const player = client.music.players.spawn({
-			guild: message.guild,
-			textChannel: message.channel,
-			voiceChannel: voiceChannel,
-		});
 
 		if (player.pause == 'paused') return message.channel.send(`Cannot play/queue songs while paused. Do \`${client.settings.prefix} resume\` to play.`);
 

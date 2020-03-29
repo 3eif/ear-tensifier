@@ -6,18 +6,21 @@ module.exports = {
 	args: true,
 	usage: '<stream link>',
 	async execute(client, message, args) {
-		const voiceChannel = message.member.voice;
-		if(!voiceChannel) return client.responses('noVoiceChannel', message);
+		if (!message.member.voice.channel) return client.responses('noVoiceChannel', message);
 
-		const permissions = voiceChannel.channel.permissionsFor(client.user);
+		const permissions = message.member.voice.channel.permissionsFor(client.user);
 		if(!permissions.has('CONNECT')) return client.responses('noPermissionConnect', message);
 		if(!permissions.has('SPEAK')) return client.responses('noPermissionSpeak', message);
 
-		const player = client.music.players.spawn({
-			guild: message.guild,
-			textChannel: message.channel,
-			voiceChannel: voiceChannel,
-		});
+		let player = client.music.players.get(message.guild.id);
+
+		if (!player) {
+			player = client.music.players.spawn({
+				guild: message.guild,
+				textChannel: message.channel,
+				voiceChannel: message.member.voice.channel,
+			});
+		}
 
 		if (player.pause == 'paused') return message.channel.send(`Cannot play/queue songs while paused. Do \`${client.settings.prefix} resume\` to play.`);
 
