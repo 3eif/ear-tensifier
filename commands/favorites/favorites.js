@@ -65,7 +65,7 @@ module.exports = {
 					};
 
 					fetch('https://hasteb.in/documents', requestOptions)
-						.then(response => response.text())
+						.then(response => console.log(response))
 						.then(result => {
 							const embed = new Discord.MessageEmbed()
 							.setTitle('Too many favorite songs, uploaded to hastebin!')

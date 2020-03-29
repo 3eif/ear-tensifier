@@ -12,7 +12,7 @@ module.exports = {
 	args: true,
 	async execute(client, message, args) {
 		if (!args[0]) return message.channel.send('Please provide a search query.');
-		const voiceChannel = message.member.voice.channel;
+		const voiceChannel = message.member.voice.id;
 		if (!voiceChannel) return client.responses('noVoiceChannel', message);
 
 		const permissions = voiceChannel.permissionsFor(client.user);

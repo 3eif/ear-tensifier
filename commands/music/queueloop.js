@@ -4,7 +4,7 @@ module.exports = {
 	cooldown: '10',
 	aliases: ['loopqueue', 'repeatqueue', 'queuerepeat'],
 	async execute(client, message) {
-		const voiceChannel = message.member.voice.channel;
+		const voiceChannel = message.member.voice;
 		const player = client.music.players.get(message.guild.id);
 
 		if(!voiceChannel) return client.responses('noVoiceChannel', message);

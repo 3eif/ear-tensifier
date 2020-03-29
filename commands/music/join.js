@@ -3,7 +3,7 @@ module.exports = {
 	description: 'Joins the voice channel you are in.',
 	aliases: ['summon'],
 	async execute(client, message) {
-		const voiceChannel = message.member.voice.channel;
+		const voiceChannel = message.member.voice;
 		if(!voiceChannel) return client.responses('noVoiceChannel', message);
 
 		const permissions = voiceChannel.permissionsFor(client.user);

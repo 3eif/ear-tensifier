@@ -7,7 +7,7 @@ module.exports = {
 	name: 'load',
 	description: 'Loads your favorite songs to the queue.',
 	async execute(client, message, args) {
-		const voiceChannel = message.member.voice.channel;
+		const voiceChannel = message.member.voice;
 		if (!voiceChannel) return message.channel.send('You need to be in a voice channel to play music');
 
 		const permissions = voiceChannel.permissionsFor(client.user);

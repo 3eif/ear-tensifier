@@ -8,7 +8,7 @@ module.exports = {
 	usage: '<seconds>',
 	aliases: ['skipto'],
 	async execute(client, message, args) {
-		const voiceChannel = message.member.voice.channel;
+		const voiceChannel = message.member.voice;
 		const player = client.music.players.get(message.guild.id);
 
 		if(isNaN(args[0])) return message.reply(`Invalid number. Please provide a number in seconds.\nCorrect Usage: \`${client.settings.prefix}seek <seconds>\``);

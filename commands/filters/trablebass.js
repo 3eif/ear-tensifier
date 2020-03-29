@@ -9,7 +9,7 @@ module.exports = {
 	async execute(client, message, args) {
 		if(await premium(message.author.id, 'Premium') == false) return client.responses('noPremium', message);
 
-		const voiceChannel = message.member.voice.channel;
+		const voiceChannel = message.member.voice;
 		const player = client.music.players.get(message.guild.id);
 
 		if (!voiceChannel) return client.responses('noVoiceChannel', message);

@@ -5,7 +5,7 @@ module.exports = {
 	usage: '<song position>',
 	cooldown: '10',
 	async execute(client, message, args) {
-		const voiceChannel = message.member.voice.channel;
+		const voiceChannel = message.member.voice;
 		const player = client.music.players.get(message.guild.id);
 
 		if(isNaN(args[0])) return message.channel.send('Invalid number.');

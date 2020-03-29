@@ -7,7 +7,7 @@ module.exports = {
 	cooldown: '10',
 	usage: '<volume #>',
 	async execute(client, message, args) {
-		const voiceChannel = message.member.voice.channel;
+		const voiceChannel = message.member.voice;
 		const player = client.music.players.get(message.guild.id);
 		if(!voiceChannel) return client.responses('noVoiceChannel', message);
 		if(voiceChannel.id != message.guild.members.cache.get(client.user.id).voice.channel.id) return client.responses('sameVoiceChannel', message);

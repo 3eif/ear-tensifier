@@ -3,7 +3,7 @@ module.exports = {
 	description: 'Clears the queue.',
 	cooldown: '10',
 	async execute(client, message) {
-		const voiceChannel = message.member.voice.channel;
+		const voiceChannel = message.member.voice;
 		const player = client.music.players.get(message.guild.id);
 
 		if(!voiceChannel) return client.responses('noVoiceChannel', message);

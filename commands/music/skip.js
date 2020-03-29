@@ -3,7 +3,7 @@ module.exports = {
 	description: 'Skips the current song',
 	aliases: ['s'],
 	async execute(client, message) {
-		const voiceChannel = message.member.voice.channel;
+		const voiceChannel = message.member.voice;
 		const player = client.music.players.get(message.guild.id);
 
 		if(!voiceChannel) return client.responses('noVoiceChannel', message);
