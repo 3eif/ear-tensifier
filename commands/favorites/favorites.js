@@ -28,6 +28,7 @@ module.exports = {
 					const songObj = {
 						number: i + 1,
 						song: song.title,
+						author: song.author,
 						duration: Utils.formatTime(song.duration, true),
 					};
 					songs.push(songObj);
