@@ -6,7 +6,7 @@ module.exports = {
 		const player = client.music.players.get(message.guild.id);
 
 		if(!message.member.voice.channel) return client.responses('noVoiceChannel', message);
-		if(message.member.voice.channel.id != message.guild.members.cache.get(client.user.id).voice.id) return client.responses('sameVoiceChannel', message);
+		if(message.member.voice.channel.id != message.guild.members.cache.get(client.user.id).voice.channelID) return client.responses('sameVoiceChannel', message);
 
 		if(player) {
 			player.queue = [];
