@@ -59,24 +59,6 @@ module.exports = class Message extends Event {
 			if (s.ignore.includes(message.channel.id)) ignoreMsg = true;
 
 			if (ignoreMsg) return;
-			let args;
-			let command;
-
-			if (prefix === this.client.settings.prefix && !this.client.settings.prefix.endsWith(' ')) {
-				args = message.content.split(' ');
-				command = args.shift().toLowerCase();
-				command = command.slice(this.client.settings.prefix.length);
-			}
-			else if (prefix === s.prefix && !s.prefix.endsWith(' ')) {
-				args = message.content.split(' ');
-				command = args.shift().toLowerCase();
-				command = command.slice(s.prefix.length);
-			}
-			else {
-				args = message.content.split(' ');
-				args.shift();
-				command = args.shift().toLowerCase();
-			}
 
 			users.findOne({ authorID: message.author.id }).then(async messageUser => {
 				if (!messageUser) {
@@ -96,107 +78,124 @@ module.exports = class Message extends Event {
 				}
 
 				if (messageUser.blocked == null) messageUser.blocked = false;
-				if (messageUser.blocked) {return;}
-				else {
-					messageUser.commandsUsed += 1;
-
-					if(ignoreMsg) return;
-
-					const cmd = this.client.commands.get(command) || this.client.commands.find(c => c.aliases && c.aliases.includes(command));
-					if (!cmd) return;
-
-					/* Async Non-Blocking */
-					bot.findOne({ clientID: this.client.user.id }).then(async b => {
-						if (!b) {
-							const newClient = new bot({
-								clientID: this.client.user.id,
-								clientName: this.client.user.name,
-								messagesSent: 0,
-								songsPlayed: 0,
-							});
-							await newClient.save().catch(e => console.log(e));
-							b = await bot.findOne({ clientID: this.client.user.id });
-						}
-
-						b.messagesSent += 1;
-						b.save().catch(e => console.log(e));
-					});
-
-					/* Async Non-Blocking */
-					commandsSchema.findOne({ commandName: cmd.name }).then(async c => {
-						if (!c) {
-							const newCommand = new commandsSchema({
-								commandName: cmd.name,
-								timesUsed: 0,
-							});
-							await newCommand.save().catch(e => console.log(e));
-							c = await commandsSchema.findOne({ commandName: cmd.name });
-						}
-
-						c.timesUsed += 1;
-						await c.save().catch(e => console.log(e));
-					});
-
-					console.log(`[Shard #${this.client.shard.ids}] ${cmd.name} used by ${message.author.tag} (${message.author.id}) from ${message.guild.name} (${message.guild.id})`);
-					const embed = new Discord.MessageEmbed()
-						.setAuthor(`${message.author.username}`, message.author.displayAvatarURL())
-						.setColor(this.client.colors.main)
-						.setDescription(`**${cmd.name}** command used by **${message.author.tag}** (${message.author.id})`)
-						.setFooter(`${message.guild.name} (${message.guild.id})`, message.guild.iconURL())
-						.setTimestamp();
-
-					webhookClient.send({
-						username: 'Ear Tensifier',
-						avatarURL: this.client.settings.avatar,
-						embeds: [embed],
-					});
-
-					if (!cooldowns.has(cmd.name)) {
-						cooldowns.set(cmd.name, new Discord.Collection());
-					}
-					if (cmd.permission === 'dev' && !this.client.settings.devs.includes(message.author.id)) return;
-
-					if (cmd && !message.guild && cmd.guildOnly) return message.channel.send('I can\'t execute that command inside DMs!. Please run this command in a server.');
-
-					if (!this.client.settings.devs.includes(message.author.id)) {
-						if (!cooldowns.has(cmd.name)) {
-							cooldowns.set(cmd.name, new Discord.Collection());
-						}
-						const now = Date.now();
-						const timestamps = cooldowns.get(cmd.name);
-						const cooldownAmount = (cmd.cooldown || 5) * 1000;
-						if (!timestamps.has(message.author.id)) {
-							timestamps.set(message.author.id, now);
-							setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-						}
-						else {
-							const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
-							if (now < expirationTime) {
-								const timeLeft = (expirationTime - now) / 1000;
-								return message.reply(`Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${cmd.name}\` command.`);
-							}
-							timestamps.set(message.author.id, now);
-							setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-						}
-					}
-
-					if (prefix == this.client.settings.prefix) {
-						if (cmd && !args[0] && cmd.args === true) return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`ear ${cmd.name} ${cmd.usage}\``);
-					}
-					else if (cmd && !args[0] && cmd.args === true) {
-						return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`${prefix} ${cmd.name} ${cmd.usage}\` or \`${prefix}${cmd.name} ${cmd.usage}\``);
-					}
-
-					try {
-						cmd.execute(this.client, message, args);
-					}
-					catch (e) {
-						console.error(e);
-						message.reply('There was an error trying to execute that command!');
-					}
-				}
+				if (messageUser.blocked) ignoreMsg = true;
+				else if (!messageUser.blocked) messageUser.commandsUsed += 1;
 				messageUser.save().catch(e => console.error(e));
 			});
+
+			let args;
+			let command;
+
+			if (prefix === this.client.settings.prefix && !this.client.settings.prefix.endsWith(' ')) {
+				args = message.content.split(' ');
+				command = args.shift().toLowerCase();
+				command = command.slice(this.client.settings.prefix.length);
+			}
+			else if (prefix === s.prefix && !s.prefix.endsWith(' ')) {
+				args = message.content.split(' ');
+				command = args.shift().toLowerCase();
+				command = command.slice(s.prefix.length);
+			}
+			else {
+				args = message.content.split(' ');
+				args.shift();
+				command = args.shift().toLowerCase();
+			}
+
+			if(ignoreMsg) return;
+
+			const cmd = this.client.commands.get(command) || this.client.commands.find(c => c.aliases && c.aliases.includes(command));
+			if (!cmd) return;
+
+			/* Async Non-Blocking */
+			bot.findOne({ clientID: this.client.user.id }).then(async b => {
+				if (!b) {
+					const newClient = new bot({
+						clientID: this.client.user.id,
+						clientName: this.client.user.name,
+						messagesSent: 0,
+						songsPlayed: 0,
+					});
+					await newClient.save().catch(e => console.log(e));
+					b = await bot.findOne({ clientID: this.client.user.id });
+				}
+
+				b.messagesSent += 1;
+				b.save().catch(e => console.log(e));
+			});
+
+			/* Async Non-Blocking */
+			commandsSchema.findOne({ commandName: cmd.name }).then(async c => {
+				if (!c) {
+					const newCommand = new commandsSchema({
+						commandName: cmd.name,
+						timesUsed: 0,
+					});
+					await newCommand.save().catch(e => console.log(e));
+					c = await commandsSchema.findOne({ commandName: cmd.name });
+				}
+
+				c.timesUsed += 1;
+				await c.save().catch(e => console.log(e));
+			});
+
+			console.log(`[Shard #${this.client.shard.ids}] ${cmd.name} used by ${message.author.tag} (${message.author.id}) from ${message.guild.name} (${message.guild.id})`);
+			const embed = new Discord.MessageEmbed()
+				.setAuthor(`${message.author.username}`, message.author.displayAvatarURL())
+				.setColor(this.client.colors.main)
+				.setDescription(`**${cmd.name}** command used by **${message.author.tag}** (${message.author.id})`)
+				.setFooter(`${message.guild.name} (${message.guild.id})`, message.guild.iconURL())
+				.setTimestamp();
+
+			webhookClient.send({
+				username: 'Ear Tensifier',
+				avatarURL: this.client.settings.avatar,
+				embeds: [embed],
+			});
+
+			if (!cooldowns.has(cmd.name)) {
+				cooldowns.set(cmd.name, new Discord.Collection());
+			}
+			if (cmd.permission === 'dev' && !this.client.settings.devs.includes(message.author.id)) return;
+
+			if (cmd && !message.guild && cmd.guildOnly) return message.channel.send('I can\'t execute that command inside DMs!. Please run this command in a server.');
+
+			if (!this.client.settings.devs.includes(message.author.id)) {
+				if (!cooldowns.has(cmd.name)) {
+					cooldowns.set(cmd.name, new Discord.Collection());
+				}
+				const now = Date.now();
+				const timestamps = cooldowns.get(cmd.name);
+				const cooldownAmount = (cmd.cooldown || 5) * 1000;
+				if (!timestamps.has(message.author.id)) {
+					timestamps.set(message.author.id, now);
+					setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+				}
+				else {
+					const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+					if (now < expirationTime) {
+						const timeLeft = (expirationTime - now) / 1000;
+						return message.reply(`Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${cmd.name}\` command.`);
+					}
+					timestamps.set(message.author.id, now);
+					setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+				}
+			}
+
+			if (prefix == this.client.settings.prefix) {
+				if (cmd && !args[0] && cmd.args === true) return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`ear ${cmd.name} ${cmd.usage}\``);
+			}
+			else if (cmd && !args[0] && cmd.args === true) {
+				return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`${prefix} ${cmd.name} ${cmd.usage}\` or \`${prefix}${cmd.name} ${cmd.usage}\``);
+			}
+
+			try {
+				cmd.execute(this.client, message, args);
+			}
+			catch (e) {
+				console.error(e);
+				message.reply('There was an error trying to execute that command!');
+			}
 		});
 	}
 };
