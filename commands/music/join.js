@@ -13,8 +13,8 @@ module.exports = {
 		const player = client.music.players.spawn({
 			guild: message.guild,
 			textChannel: message.channel,
-			voiceChannel: voiceChannel,
+			voiceChannel: message.member.voice.channel,
 		});
-		return message.channel.send(`Joined ${client.emojiList.voice}**${voiceChannel.name}**`);
+		return message.channel.send(`Joined ${client.emojiList.voice}**${message.member.voice.channel.name}**`);
 	},
 };
