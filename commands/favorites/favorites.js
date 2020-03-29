@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const Discord = require('discord.js');
 const { post } = require('snekfetch');
 const users = require('../../models/user.js');
@@ -53,12 +54,30 @@ module.exports = {
 							song: { maxWidth: 125 },
 						},
 					});
-					const { body } = await post('https://www.hasteb.in/documents').send(columns);
-					const embed = new Discord.MessageEmbed()
-						.setTitle('Too many favorite songs, uploaded to hastebin!')
-						.setURL(`https://www.hasteb.in/${body.key}.js`)
-						.setColor(client.colors.main);
-					msg.edit('', embed);
+					const fetch = require('node-fetch');
+					const myHeaders = new fetch.Headers();
+					myHeaders.append('Content-Type', 'text/plain');
+
+					const raw = 'hello how are you';
+
+					const requestOptions = {
+						method: 'POST',
+						headers: myHeaders,
+						body: raw,
+						redirect: 'follow',
+					};
+
+					fetch('https://hasteb.in/documents', requestOptions)
+						.then(response => response.text())
+						.then(result => console.log(result))
+						.catch(error => console.log('error', error));
+
+					// const { body } = await post('https://www.hasteb.in/documents').send(columns);
+					// const embed = new Discord.MessageEmbed()
+					// 	.setTitle('Too many favorite songs, uploaded to hastebin!')
+					// 	.setURL(`https://www.hasteb.in/${body.key}.js`)
+					// 	.setColor(client.colors.main);
+					// msg.edit('', embed);
 				}
 				await u.save().catch(e => console.log(e));
 			});
