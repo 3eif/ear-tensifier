@@ -24,7 +24,7 @@ module.exports = {
 			player = client.music.players.spawn({
 				guild: message.guild,
 				textChannel: message.channel,
-				voiceChannel: message.member.voice.channel,
+				voiceChannel: message.member.voice,
 			});
 		}
 
