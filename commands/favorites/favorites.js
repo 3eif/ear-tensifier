@@ -65,11 +65,11 @@ module.exports = {
 					};
 
 					fetch('https://hasteb.in/documents', requestOptions)
-						.then(response => console.log(response))
+						.then(response => response.text())
 						.then(result => {
 							const embed = new Discord.MessageEmbed()
 							.setTitle('Too many favorite songs, uploaded to hastebin!')
-							.setURL(`https://www.hasteb.in/${result['key']}.js`)
+							.setURL(`https://www.hasteb.in/${result}.js`)
 							.setColor(client.colors.main);
 							msg.edit('', embed);
 						})
