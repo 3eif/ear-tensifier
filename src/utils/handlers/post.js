@@ -1,5 +1,5 @@
 const fs = require('fs');
-const posts = fs.readdirSync('./utils/post');
+const posts = fs.readdirSync('./src/utils/post');
 const jsposts = posts.filter(c => c.split('.').pop() === 'js');
 if (!posts.length) throw Error('No post files found!');
 

@@ -6,6 +6,6 @@ module.exports = class Raw extends Event {
 	}
 
 	async run(log) {
-        require('fs').appendFileSync('./logs/debug.log', `${log}`);
+        require('fs').appendFileSync('./src/logs/debug.log', `${log}`);
 	}
 };

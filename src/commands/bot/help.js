@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const fs = require('fs');
-const categories = fs.readdirSync('./commands/');
+const categories = fs.readdirSync('./src/commands/');
 
 module.exports = {
 	name: 'help',

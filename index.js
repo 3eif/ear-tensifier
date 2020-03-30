@@ -1,13 +1,13 @@
 const { ShardingManager } = require('discord.js');
 const mongoose = require('mongoose');
-const tokens = require('./tokens.json');
+const tokens = require('./src/tokens.json');
 
 mongoose.connect(`mongodb+srv://${tokens.mongoUsername}:${encodeURIComponent(tokens.mongoPass)}@tetracyl-unhxi.mongodb.net/coronacord?retryWrites=true&w=majority`, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
-const manager = new ShardingManager('./eartensifier.js', {
+const manager = new ShardingManager('./src/eartensifier.js', {
   token: tokens.discordToken,
   timeout: 999999,
 });
