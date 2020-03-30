@@ -7,7 +7,7 @@ module.exports = {
 	description: 'Provides a variety of search results for a song.',
 	usage: '<search query>',
 	args: true,
-	sameVoiceChannel: true,
+	inVoiceChannel: true,
 	async execute(client, message, args) {
 		if(!args[0]) return message.channel.send('Please provide a search query.');
 		if (!message.member.voice.channel) return client.responses('noVoiceChannel', message);
