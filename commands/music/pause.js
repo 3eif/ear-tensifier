@@ -2,7 +2,7 @@ module.exports = {
 	name: 'pause',
 	description: 'Pauses the song',
 	cooldown: '5',
-	aliases: ['resume'],
+	aliases: ['resume', 'stop'],
 	inVoiceChannel: true,
 	sameVoiceChannel: true,
 	playing: true,
