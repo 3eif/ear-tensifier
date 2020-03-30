@@ -101,7 +101,7 @@ module.exports = class Message extends Event {
 				messageUser.save().catch(e => console.error(e));
 			});
 
-			if(ignoreMsg) return;
+			if (ignoreMsg) return;
 
 			const cmd = this.client.commands.get(command) || this.client.commands.find(c => c.aliases && c.aliases.includes(command));
 			if (!cmd) return;
@@ -180,6 +180,10 @@ module.exports = class Message extends Event {
 					setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 				}
 			}
+
+			if (cmd.inVoiceChannel && !message.member.voice.channel) return this.client.responses('noVoiceChannel', message);
+			else if (cmd.sameVoiceChannel && message.member.voice.channel.id != message.guild.members.cache.get(this.client.user.id).voice.channelID) return this.client.responses('sameVoiceChannel', message);
+			else if (cmd.playing && !this.client.music.players.get(message.guild.id)) return this.client.responses('noSongsPlaying', message);
 
 			if (prefix == this.client.settings.prefix) {
 				if (cmd && !args[0] && cmd.args === true) return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`ear ${cmd.name} ${cmd.usage}\``);

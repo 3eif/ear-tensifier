@@ -29,17 +29,17 @@ module.exports = class Ready extends Event {
 
 		this.client.user.setActivity('ear help');
 
-		this.client.users.cache = new Discord.Collection();
-		await this.client.users.fetch(this.client.user.id);
-		setInterval(async () => {
-			await this.client.users.fetch(this.client.user.id);
-			this.client.users.cache = new Discord.Collection();
-			this.client.guilds.cache.forEach(guild => {
-				this.client.guilds.cache.get(guild.id).emojis.cahe = new Discord.Collection();
-				this.client.guilds.cache.get(guild.id).members.cache = new Discord.Collection();
-				// this.client.guilds.cache.get(guild.id).roles.cache = new Discord.Collection();
-			});
-		}, 60000);
+		// this.client.users.cache = new Discord.Collection();
+		// await this.client.users.fetch(this.client.user.id);
+		// setInterval(async () => {
+		// 	await this.client.users.fetch(this.client.user.id);
+		// 	this.client.users.cache = new Discord.Collection();
+		// 	this.client.guilds.cache.forEach(guild => {
+		// 		this.client.guilds.cache.get(guild.id).emojis.cahe = new Discord.Collection();
+		// 		//this.client.guilds.cache.get(guild.id).members.cache = new Discord.Collection();
+		// 		// this.client.guilds.cache.get(guild.id).roles.cache = new Discord.Collection();
+		// 	});
+		// }, 60000);
 
 		if (this.client.shard.ids == this.client.shard.count - 1) {
 			const promises = [

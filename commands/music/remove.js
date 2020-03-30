@@ -5,15 +5,14 @@ module.exports = {
 	usage: '<song position>',
 	cooldown: '10',
 	aliases: ['removefrom', 'removerange'],
+	inVoiceChannel: true,
+	sameVoiceChannel: true,
+	playing: true,
 	async execute(client, message, args) {
-		const voiceChannel = message.member.voice;
 		const player = client.music.players.get(message.guild.id);
 
 		if(isNaN(args[0])) return message.channel.send('Invalid number.');
-		if(!voiceChannel) return client.responses('noVoiceChannel', message);
-		if(voiceChannel.id != message.guild.members.cache.get(client.user.id).voice.channel.id) return client.responses('sameVoiceChannel', message);
 
-		if(!player) return client.responses('noSongsPlaying', message);
 		if(!args[1]) {
 			if(args[0] == 0) return message.channel.send(`Cannot remove a song that is already playing. To skip the song type: \`${client.settings.prefix}skip\``);
 			if(args[0] > player.queue.size) return message.channel.send('Song not found.');
