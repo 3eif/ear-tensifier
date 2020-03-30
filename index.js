@@ -10,7 +10,6 @@ mongoose.connect(`mongodb+srv://${tokens.mongoUsername}:${encodeURIComponent(tok
 const manager = new ShardingManager('./eartensifier.js', {
   token: tokens.discordToken,
   timeout: 999999,
-  // totalShards: 5,
 });
 
 manager.on('launch', shard => {
