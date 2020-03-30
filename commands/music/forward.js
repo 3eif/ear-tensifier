@@ -7,14 +7,11 @@ module.exports = {
 	cooldown: '10',
 	usage: '<seconds>',
 	aliases: ['ff', 'fastforward'],
+	inVoiceChannel: true,
+	sameVoiceChannel: true,
+	playing: true,
 	async execute(client, message, args) {
-		const voiceChannel = message.member.voice;
 		const player = client.music.players.get(message.guild.id);
-
-		if(!voiceChannel) return client.responses('noVoiceChannel', message);
-		if(voiceChannel.id != message.guild.members.cache.get(client.user.id).voice.channel.id) return client.responses('sameVoiceChannel', message);
-
-		if(!player) return client.responses('noSongsPlaying', message);
 
 		if(args[0] && !isNaN(args[0])) {
 			if((player.position + args[0] * 1000) < player.queue[0].duration) {

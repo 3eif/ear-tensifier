@@ -4,17 +4,14 @@ module.exports = {
 	args: true,
 	usage: '<old position> <new position>',
 	cooldown: '10',
+	inVoiceChannel: true,
+	sameVoiceChannel: true,
+	playing: true,
 	async execute(client, message, args) {
-		const voiceChannel = message.member.voice;
-		const player = client.music.players.get(message.guild.id);
-
 		if(isNaN(args[0])) return message.channel.send('Invalid number.');
-		if(!voiceChannel) return client.responses('noVoiceChannel', message);
-		if(voiceChannel.id != message.guild.members.cache.get(client.user.id).voice.channel.id) return client.responses('sameVoiceChannel', message);
-
-		if(!player) return client.responses('noSongsPlaying', message);
-
 		if(args[0] == 0) return message.channel.send(`Cannot move a song that is already playing. To skip the current playing song type: \`${client.settings.prefix}skip\``);
+
+		const player = client.music.players.get(message.guild.id);
 		if((args[0] > player.queue.size) || (args[0] && !player.queue[args[0]])) return message.channel.send('Song not found.');
 
 		if(!args[1]) {

@@ -5,17 +5,13 @@ module.exports = {
 	name: 'bass',
 	description: 'Turns on bass filter',
 	cooldown: '10',
+	inVoiceChannel: true,
+	sameVoiceChannel: true,
+	playing: true,
 	async execute(client, message, args) {
 		if(await premium(message.author.id, 'Premium') == false) return client.responses('noPremium', message);
 
-		const voiceChannel = message.member.voice;
 		const player = client.music.players.get(message.guild.id);
-
-		if (!voiceChannel) return client.responses('noVoiceChannel', message);
-		if (voiceChannel.id != message.guild.members.cache.get(client.user.id).voice.channel.id) return client.responses('sameVoiceChannel', message);
-
-		if (!player) return client.responses('noSongsPlaying', message);
-
 		const delay = ms => new Promise(res => setTimeout(res, ms));
 
 		if (args[0] && (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off')) {

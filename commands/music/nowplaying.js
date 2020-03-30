@@ -5,9 +5,9 @@ module.exports = {
 	name: 'nowplaying',
 	description: 'Displays the song that is currently playing',
 	aliases: ['playing', 'np'],
+	playing: true,
 	async execute(client, message) {
 		const player = client.music.players.get(message.guild.id);
-		if (!player) return message.channel.send('No songs playing.');
 
 		const { title, author, duration, requester, uri } = player.queue[0];
 		if (player.position < 5000) {

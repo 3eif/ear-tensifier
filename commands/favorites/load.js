@@ -6,10 +6,8 @@ const { getPreview } = require('spotify-url-info');
 module.exports = {
 	name: 'load',
 	description: 'Loads your favorite songs to the queue.',
+	inVoiceChannel: true,
 	async execute(client, message, args) {
-		const voiceChannel = message.member.voice;
-		if (!voiceChannel) return message.channel.send('You need to be in a voice channel to play music');
-
 		const permissions = message.member.voice.channel.permissionsFor(client.user);
 		if (!permissions.has('CONNECT')) return message.channel.send('I do not have permission to join your voice channel.');
 		if (!permissions.has('SPEAK')) return message.channel.send('I do not have permission to speak in your voice channel.');
@@ -17,7 +15,7 @@ module.exports = {
 		const player = client.music.players.spawn({
 			guild: message.guild,
 			textChannel: message.channel,
-			voiceChannel: voiceChannel,
+			voiceChannel: message.member.voice.channel,
 		});
 
 		if (player.pause == 'paused') return message.channel.send(`Cannot play/queue songs while paused. Do \`${client.settings.prefix} resume\` to play.`);

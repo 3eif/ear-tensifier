@@ -5,8 +5,9 @@ module.exports = {
 	description: 'Plays a stream from Twitch.',
 	args: true,
 	usage: '<stream link>',
+	inVoiceChannel: true,
 	async execute(client, message, args) {
-		if (!message.member.voice.channel) return client.responses('noVoiceChannel', message);
+		if (!args[0]) return message.channel.send('Please provide a search query.');
 
 		const permissions = message.member.voice.channel.permissionsFor(client.user);
 		if(!permissions.has('CONNECT')) return client.responses('noPermissionConnect', message);

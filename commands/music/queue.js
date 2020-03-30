@@ -5,10 +5,9 @@ module.exports = {
 	name: 'queue',
 	description: 'Displays the queue.',
 	aliases: ['q'],
+	playing: true,
 	async execute(client, message) {
 		const player = client.music.players.get(message.guild.id);
-
-		if(!player) return message.channel.send('No songs playing.');
 
 		let index = 1;
 		const { title, author, duration, uri } = player.queue[0];
