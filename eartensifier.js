@@ -1,6 +1,10 @@
 const Discord = require('discord.js');
 
-const client = new Discord.Client();
+const client = new Discord.Client({
+	messageCacheMaxSize: 10,
+	messageCacheLifetime: 20,
+	messageSweepInterval: 30,
+});
 
 client.events = [];
 client.commands = new Discord.Collection();
