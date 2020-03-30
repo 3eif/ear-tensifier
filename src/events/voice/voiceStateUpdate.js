@@ -14,20 +14,22 @@ module.exports = class VoiceStateUpdate extends Event {
 		if (!oldVoice.guild.members.cache.get(this.client.user.id).voice.channelID) return;
 		if (oldVoice.guild.members.cache.get(this.client.user.id).voice.channel.id === oldVoice.channelID) {
 			if (oldVoice.guild.voice.channel && oldVoice.guild.voice.channel.members.size === 1) {
-				const msg = await player.textChannel.send(`Leaving ${this.client.emojiList.voice}**${oldVoice.guild.me.voice.channel.name}** in ${this.client.settings.voiceLeave / 1000} seconds because I was left alone.`);
+				const vcName = oldVoice.guild.me.voice.channel.name;
+				const msg = await player.textChannel.send(`Leaving ${this.client.emojiList.voice}**${vcName}** in ${this.client.settings.voiceLeave / 1000} seconds because I was left alone.`);
 				const delay = ms => new Promise(res => setTimeout(res, ms));
 				await delay(this.client.settings.voiceLeave);
 
-				const vcMembers = oldVoice.guild.members.cache.get(this.client.user.id).voice.channel.members.size;
-				if(!vcMembers || (vcMembers - 1) > 0) return msg.delete();
+				const vcMembers = oldVoice.guild.voice.channel.members.size;
+				if (vcMembers == 0) {
+					const newPlayer = this.client.music.players.get(newVoice.guild.id);
+					if (newPlayer) {
+						this.client.music.players.destroy(player.guild.id);
+					}
+					else { oldVoice.guild.voice.channel.leave(); }
 
-				const newPlayer = this.client.music.players.get(newVoice.guild.id);
-				if(newPlayer) {
-					this.client.music.players.destroy(player.guild.id);
+					return msg.edit(`I left ${this.client.emojiList.voice}**${vcName}** because I was left alone.`);
 				}
-				else {oldVoice.guild.voice.channel.leave();}
-
-				msg.edit(`I left ${this.client.emojiList.voice}**${oldVoice.guild.members.cache.get(this.client.user.id).voice.channel.name}** because I was left alone.`);
+				if (!vcMembers || (vcMembers - 1) > 0) return msg.delete();
 			}
 		}
 	}
