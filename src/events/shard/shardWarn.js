@@ -6,6 +6,6 @@ module.exports = class ShardReady extends Event {
 	}
 
 	async run(w) {
-		console.log(w);
+		this.client.log(w);
 	}
 };

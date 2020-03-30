@@ -23,7 +23,7 @@ module.exports = {
 		bot.findOne({
 			clientID: client.user.id,
 		}, async (err, b) => {
-			if (err) console.log(err);
+			if (err) client.log(err);
 			Promise.all(promises)
 				.then(results => {
 					const totalGuilds = results[0].reduce((prev, guildCount) => prev + guildCount, 0);

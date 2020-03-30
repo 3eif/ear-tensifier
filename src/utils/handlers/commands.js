@@ -18,6 +18,6 @@ module.exports = client => {
 		});
 	}
 	catch (error) {
-		console.log(error);
+		client.log(error);
 	}
 };

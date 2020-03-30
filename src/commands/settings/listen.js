@@ -23,7 +23,7 @@ module.exports = {
 		servers.findOne({
 			serverID: message.guild.id,
 		}, async (err, s) => {
-			if (err) console.log(err);
+			if (err) client.log(err);
 			if (!s) {
 				const newSever = new servers({
 					serverID: message.guild.id,
@@ -32,7 +32,7 @@ module.exports = {
 					feed: '',
 					ignore: [],
 				});
-				await newSever.save().catch(e => console.log(e));
+				await newSever.save().catch(e => client.log(e));
 			}
 
 			if(s.ignore.includes(channel)) {
@@ -46,7 +46,7 @@ module.exports = {
 			else {
 				return msg.edit('This channel is not being ignored!');
 			}
-			await s.save().catch(e => console.log(e));
+			await s.save().catch(e => client.log(e));
 			const embed = new Discord.MessageEmbed()
 				.setAuthor(`${message.guild.name}`, message.guild.iconURL())
 				.setColor(client.colors.main)

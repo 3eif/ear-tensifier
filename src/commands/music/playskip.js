@@ -24,7 +24,7 @@ module.exports = {
 		let searchQuery;
 		if (args[0].startsWith('https://open.spotify.com')) {
 			const data = await getData(args.join(' '));
-			console.log(data);
+			client.log(data);
 			if (data.type == 'playlist' || data.type == 'album') {
 				return msg.edit('Cannot playskip a playlist.');
 			}

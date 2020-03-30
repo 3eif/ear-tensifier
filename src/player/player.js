@@ -6,8 +6,8 @@ const autoPlay = require('./queueEnd.js');
 
 module.exports = async (client) => {
 	client.music = new ErelaClient(client, tokens.nodes)
-		.on('nodeError', console.log)
-		.on('nodeConnect', () => console.log)
+		.on('nodeError', client.log)
+		.on('nodeConnect', () => client.log)
 		.on('queueEnd', player => {
 			// player.textChannel.send("");
 			// autoPlay(client, player);

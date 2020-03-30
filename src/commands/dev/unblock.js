@@ -19,7 +19,7 @@ module.exports = {
 		users.findOne({
 			authorID: user.id,
 		}, async (err, u) => {
-			if (err) console.log(err);
+			if (err) client.log(err);
 			if (!u) {
 				const newUser = new users({
 					authorID: user.id,
@@ -32,7 +32,7 @@ module.exports = {
 					pro: false,
 					developer: false,
 				});
-				newUser.save().catch(e => console.log(e));
+				newUser.save().catch(e => client.log(e));
 			}
 			else if (u.blocked) {
 				u.blocked = false;
@@ -43,7 +43,7 @@ module.exports = {
 
 			msg.edit(`Unblocked **${user.user.tag}** from the bot.`);
 			// client.channels.get(modlog).send(`${client.emojiList.whitelist} **${message.author.tag}** (${message.author.id}) unblocked **${user.user.tag}** (${user.id}). Reason: ${reason}`);
-			await u.save().catch(e => console.log(e));
+			await u.save().catch(e => client.log(e));
 		});
 	},
 };

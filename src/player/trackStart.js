@@ -13,19 +13,19 @@ module.exports = async (client, textChannel, title, duration, author, uri) => {
 	bot.findOne({
 		clientID: client.user.id,
 	}, async (err, b) => {
-		if (err) console.log(err);
+		if (err) client.log(err);
 
 		b.songsPlayed += 1;
-		await b.save().catch(e => console.log(e));
+		await b.save().catch(e => client.log(e));
 	});
 
 	users.findOne({
 		authorID: requester.id,
 	}, async (err, u) => {
-		if (err) console.log(err);
+		if (err) client.log(err);
 
 		u.songsPlayed += 1;
-		await u.save().catch(e => console.log(e));
+		await u.save().catch(e => client.log(e));
 	});
 
 	const embed = new Discord.MessageEmbed()

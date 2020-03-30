@@ -31,7 +31,7 @@ module.exports = {
 					prefix: client.settings.prefix,
 					ignore: [],
 				});
-				await newSever.save().catch(e => console.log(e));
+				await newSever.save().catch(e => client.log(e));
 			}
 
 			if(s.ignore.includes(channel)) return msg.edit('I am already ignoring this channel!');

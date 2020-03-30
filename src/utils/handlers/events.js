@@ -10,7 +10,7 @@ module.exports = (client) => {
 			if (!jsevents.length) throw Error('No javascript event files found!');
 			const file = require(`../../events/${eventFolder}/${jsevents[i]}`);
 			const event = new file(client, file);
-			// console.log(`Event loaded: ${event.name}`);
+			// client.log(`Event loaded: ${event.name}`);
 			if (typeof event.run !== 'function') throw Error(`No run function found in ${jsevents[i]}`);
 			const name = jsevents[i].split('.')[0];
 			client.on(name, (...args) => event.run(...args));

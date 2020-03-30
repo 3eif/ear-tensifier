@@ -29,7 +29,7 @@ module.exports = {
 		users.findOne({
 			authorID: message.author.id,
 		}, async (err, u) => {
-			if (err) console.log(err);
+			if (err) client.log(err);
 
 			let songsToAdd = 0;
 			// eslint-disable-next-line no-async-promise-executor

@@ -6,6 +6,6 @@ module.exports = class ShardReady extends Event {
 	}
 
 	async run() {
-		console.log('Reconnecting...');
+		this.client.log('Reconnecting...');
 	}
 };

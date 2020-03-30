@@ -12,6 +12,6 @@ module.exports = async (client, servers) => {
 	})
 		.then(res => res.json())
 		.then(async () => {
-			console.log('Posted bot stats to cloudlist.xyz');
+			client.log('Posted bot stats to cloudlist.xyz');
 		});
 };

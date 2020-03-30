@@ -51,7 +51,7 @@ module.exports = class Ready extends Event {
 				.then(async results => {
 					const totalGuilds = results[0].reduce((prev, guildCount) => prev + guildCount, 0);
 					const totalMembers = results[1].reduce((prev, memberCount) => prev + memberCount, 0);
-					console.log(`Ear Tensifier is online: ${this.client.shard.count} shards, ${totalGuilds} servers and ${totalMembers} members.`);
+					this.client.log(`Ear Tensifier is online: ${this.client.shard.count} shards, ${totalGuilds} servers and ${totalMembers} members.`);
 
 					setInterval(() => {
 						this.client.user.setActivity(`ear help | ${totalGuilds} servers`);

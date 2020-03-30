@@ -9,7 +9,7 @@ module.exports = {
 		const msg = await message.channel.send(`${client.emojiList.loading} Fetching most played songs...`);
 
 		songs.find().sort([['timesPlayed', 'descending']]).exec(async (err, res) => {
-			if (err) console.log(err);
+			if (err) client.log(err);
 			const songsArr = [];
 
 			for (let i = 0; i < 10; i++) {

@@ -11,7 +11,7 @@ module.exports = {
 		users.findOne({
 			authorID: message.author.id,
 		}, async (err, u) => {
-			if (err) console.log(err);
+			if (err) client.log(err);
 
 			if(!u.favorites || u.favorites.length == 0 || !u.favorites.length) return msg.edit('You have no favorites. To add favorites type `ear add <search query/link>`');
 			if(args[0].toLowerCase() == 'all') {
@@ -27,7 +27,7 @@ module.exports = {
 				return msg.edit('Invalid number.\nTo delete a specific song from your favorites: `ear delete <song number>`.\nTo delete all songs from your favorites: `ear delete all`');
 			}
 
-			await u.save().catch(e => console.log(e));
+			await u.save().catch(e => client.log(e));
 		});
 	},
 };

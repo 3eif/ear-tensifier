@@ -14,14 +14,14 @@ module.exports = {
 			servers.findOne({
 				serverID: message.guild.id,
 			}, async (err, s) => {
-				if (err) console.log(err);
+				if (err) client.log(err);
 				if (!s) {
 					const newSever = new servers({
 						serverID: message.guild.id,
 						serverName: message.guild.name,
 						prefix: client.settings.prefix,
 					});
-					await newSever.save().catch(e => console.log(e));
+					await newSever.save().catch(e => client.log(e));
 				}
 				return message.channel.send(`The current prefix is \`${s.prefix}\``);
 			});
@@ -34,7 +34,7 @@ module.exports = {
 		servers.findOne({
 			serverID: message.guild.id,
 		}, async (err, s) => {
-			if (err) console.log(err);
+			if (err) client.log(err);
 			if (!s) {
 				const newSever = new servers({
 					serverID: message.guild.id,
@@ -42,11 +42,11 @@ module.exports = {
 					prefix: client.settings.prefix,
 					ignore: [],
 				});
-				await newSever.save().catch(e => console.log(e));
+				await newSever.save().catch(e => client.log(e));
 			}
 
 			s.prefix = f;
-			await s.save().catch(e => console.log(e));
+			await s.save().catch(e => client.log(e));
 			const embed = new Discord.MessageEmbed()
 				.setAuthor(`${message.guild.name}`, message.guild.iconURL())
 				.setColor(client.colors.main)

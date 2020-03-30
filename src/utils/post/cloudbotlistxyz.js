@@ -10,6 +10,6 @@ module.exports = async (client, servers, users) => {
 		},
 		body: JSON.stringify({ guilds: servers, users: users }),
 	}).then(() => {
-		console.log('Posted bot stats to cloud-botlist.xyz');
+		client.log('Posted bot stats to cloud-botlist.xyz');
 	});
 };

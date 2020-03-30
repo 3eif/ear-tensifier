@@ -92,11 +92,11 @@ module.exports = {
 			users.findOne({
 				authorID: message.author.id,
 			}, async (err, u) => {
-				if (err) console.log(err);
+				if (err) client.log(err);
 				const currentFavorites = u.favorites;
 				u.favorites = currentFavorites.concat(songsToAdd);
 				if(playlist) msg.edit(playlistMessage);
-				await u.save().catch(e => console.log(e));
+				await u.save().catch(e => client.log(e));
 			});
 		}
 	},

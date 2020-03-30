@@ -13,6 +13,6 @@ module.exports = async (client) => {
 	});
 
 	botListClient.postServerCount(shardArray).then(() => {
-		console.log('Posted bot stats to botlist.api');
-	}).catch((error) => console.log('An error occured while posting bot stats to botlist.space: ' + error));
+		client.log('Posted bot stats to botlist.api');
+	}).catch((error) => client.log('An error occured while posting bot stats to botlist.space: ' + error));
 };

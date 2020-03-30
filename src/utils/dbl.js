@@ -9,7 +9,7 @@ module.exports.startUp = async (client) => {
 	const dbl = new DBL(post['topGG']['token'], { webhookPort: 5000, webhookAuth: post['topGG']['password'] }, client);
 
 	dbl.webhook.on('ready', async (hook) => {
-		console.log(`Top.gg webhook running at http://${hook.hostname}:${hook.port}${hook.path}`);
+		client.log(`Top.gg webhook running at http://${hook.hostname}:${hook.port}${hook.path}`);
 	});
 
 	dbl.webhook.on('vote', async (voter) => {
@@ -29,7 +29,7 @@ module.exports.startUp = async (client) => {
 			});
 		}
 		catch (e) {
-			console.log(e);
+			client.log(e);
 		}
 	});
 };

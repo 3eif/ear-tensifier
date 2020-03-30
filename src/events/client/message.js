@@ -32,7 +32,7 @@ module.exports = class Message extends Event {
 		servers.findOne({
 			serverID: message.guild.id,
 		}, async (err, s) => {
-			if (err) console.log(err);
+			if (err) this.client.log(err);
 			if (!s) {
 				const newServer = new servers({
 					serverID: message.guild.id,
@@ -40,7 +40,7 @@ module.exports = class Message extends Event {
 					prefix: this.client.settings.prefix,
 					ignore: [],
 				});
-				await newServer.save().catch(e => console.log(e));
+				await newServer.save().catch(e => this.client.log(e));
 				prefix = message.content.split(' ')[0].match(mentionPrefix) || this.client.settings.prefix;
 				ignoreMsg = false;
 			}
@@ -91,7 +91,7 @@ module.exports = class Message extends Event {
 						pro: false,
 						developer: false,
 					});
-					await newUser.save().catch(e => console.log(e));
+					await newUser.save().catch(e => this.client.log(e));
 					messageUser = await users.findOne({ authorID: message.author.id });
 				}
 
@@ -115,12 +115,12 @@ module.exports = class Message extends Event {
 						messagesSent: 0,
 						songsPlayed: 0,
 					});
-					await newClient.save().catch(e => console.log(e));
+					await newClient.save().catch(e => this.client.log(e));
 					b = await bot.findOne({ clientID: this.client.user.id });
 				}
 
 				b.messagesSent += 1;
-				b.save().catch(e => console.log(e));
+				b.save().catch(e => this.client.log(e));
 			});
 
 			/* Async Non-Blocking */
@@ -130,15 +130,15 @@ module.exports = class Message extends Event {
 						commandName: cmd.name,
 						timesUsed: 0,
 					});
-					await newCommand.save().catch(e => console.log(e));
+					await newCommand.save().catch(e => this.client.log(e));
 					c = await commandsSchema.findOne({ commandName: cmd.name });
 				}
 
 				c.timesUsed += 1;
-				await c.save().catch(e => console.log(e));
+				await c.save().catch(e => this.client.log(e));
 			});
 
-			console.log(`[Shard #${this.client.shard.ids}] ${cmd.name} used by ${message.author.tag} (${message.author.id}) from ${message.guild.name} (${message.guild.id})`);
+			this.client.log(`[Shard #${this.client.shard.ids}] ${cmd.name} used by ${message.author.tag} (${message.author.id}) from ${message.guild.name} (${message.guild.id})`);
 			const embed = new Discord.MessageEmbed()
 				.setAuthor(`${message.author.username}`, message.author.displayAvatarURL())
 				.setColor(this.client.colors.main)

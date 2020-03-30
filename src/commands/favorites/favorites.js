@@ -15,7 +15,7 @@ module.exports = {
 		users.findOne({
 			authorID: message.author.id,
 		}, async (err, u) => {
-			if (err) console.log(err);
+			if (err) client.log(err);
 			let str = '';
 			const songs = [];
 
@@ -74,9 +74,9 @@ module.exports = {
 							.setColor(client.colors.main);
 							msg.edit('', embed);
 						})
-						.catch(error => console.log('error', error));
+						.catch(error => client.log('error', error));
 				}
-				await u.save().catch(e => console.log(e));
+				await u.save().catch(e => client.log(e));
 			});
 		});
 	},

@@ -6,7 +6,7 @@ const client = new Discord.Client({
 	// messageSweepInterval: 30,
 });
 
-client.events = [];
+client.log = (msg) => { console.log(`[${new Date().toLocaleString()}] > ${msg}`); };
 client.commands = new Discord.Collection();
 client.settings = require('./settings.js');
 client.responses = require('./utils/responses.js');

@@ -37,7 +37,7 @@ module.exports = class GuildCreate extends Event {
 			//   .set('Authorization', config.dblToken)
 			//   .send({ server_count: require('util').inspect(guilds.reduce((prev, val) => prev + val, 0)),
 			//         shard_count: this.client.shard.count})
-			//   .then(() => console.log(`Posted to dbl.`))
+			//   .then(() => this.client.log(`Posted to dbl.`))
 			//   .catch((e) => console.error(e));
 		});
 	}

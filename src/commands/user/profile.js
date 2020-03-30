@@ -14,7 +14,7 @@ module.exports = {
 		users.findOne({
 			authorID: user.id,
 		}, async (err, u) => {
-			if (err) console.log(err);
+			if (err) client.log(err);
 			let ranks = '';
 			if (!u) {
 				const newUser = new users({
@@ -28,7 +28,7 @@ module.exports = {
 					pro: false,
 					developer: false,
 				});
-				newUser.save().catch(e => console.log(e));
+				newUser.save().catch(e => client.log(e));
 				const embed = new Discord.MessageEmbed()
 					.setThumbnail(user.user.displayAvatarURL())
 					.addField('User', `${user.user.tag}`, true)
