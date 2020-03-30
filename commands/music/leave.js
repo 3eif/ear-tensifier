@@ -8,11 +8,10 @@ module.exports = {
 	async execute(client, message) {
 		const player = client.music.players.get(message.guild.id);
 
-		message.member.voice.channel.leave();
 		if(player) {
-			// player.stop();
-			// player.queue = [];
+			client.music.players.destroy(player.guild.id);
 		}
+		else {message.member.voice.channel.leave();}
 
 		return message.channel.send(`Left ${client.emojiList.voice}**${message.member.voice.channel.name}**`);
 	},
