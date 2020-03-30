@@ -37,20 +37,20 @@ module.exports = async (client, textChannel, title, duration, author, uri) => {
 		embed.setColor(client.colors.soundcloud);
 	}
 	else if (uri.includes('bandcamp')) {
-		embed.attachFiles(['./assets/bandcamp.PNG']);
-		embed.setThumbnail('attachment://bandcamp.PNG');
+		embed.attachFiles(['./assets/bandcamp.png']);
+		embed.setThumbnail('attachment://bandcamp.png');
 		embed.setFooter('bandcamp');
 		embed.setColor(client.colors.bandcamp);
 	}
 	else if (uri.includes('mixer')) {
-		embed.attachFiles(['./assets/mixer.PNG']);
-		embed.setThumbnail('attachment://mixer.PNG');
+		embed.attachFiles(['./assets/mixer.png']);
+		embed.setThumbnail('attachment://mixer.png');
 		embed.setFooter('Mixer');
 		embed.setColor(client.colors.mixer);
 	}
 	else if (uri.includes('twitch')) {
-		embed.attachFiles(['./assets/twitch.PNG']);
-		embed.setThumbnail('attachment://twitch.PNG');
+		embed.attachFiles(['./assets/twitch.png']);
+		embed.setThumbnail('attachment://twitch.png');
 		embed.setFooter('Twitch');
 		embed.setColor(client.colors.twitch);
 	}
