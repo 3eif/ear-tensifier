@@ -20,7 +20,7 @@ module.exports = class VoiceStateUpdate extends Event {
 				await delay(this.client.settings.voiceLeave);
 
 				const vcMembers = oldVoice.guild.voice.channel.members.size;
-				if (vcMembers == 0) {
+				if (vcMembers == 1) {
 					const newPlayer = this.client.music.players.get(newVoice.guild.id);
 					if (newPlayer) {
 						this.client.music.players.destroy(player.guild.id);
@@ -29,7 +29,7 @@ module.exports = class VoiceStateUpdate extends Event {
 
 					return msg.edit(`I left ${this.client.emojiList.voice}**${vcName}** because I was left alone.`);
 				}
-				if (!vcMembers || (vcMembers - 1) > 0) return msg.delete();
+				else { return msg.delete(); }
 			}
 		}
 	}
