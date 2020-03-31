@@ -38,7 +38,7 @@ module.exports = {
 
 		for(let i = 0; i < bands.length; i++) {
 			if(i > 13) break;
-			player.setEQ([{ band: i, gain: bands[i / 10] } ]);
+			player.setEQ([{ band: i, gain: (bands[i]) / 10 } ]);
 			bandsStr += `${bands[i]} `;
 		}
 

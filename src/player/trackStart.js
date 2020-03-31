@@ -31,8 +31,8 @@ module.exports = async (client, textChannel, title, duration, author, uri) => {
 	const embed = new Discord.MessageEmbed()
 		.setTitle(author);
 	if (uri.includes('soundcloud')) {
-		embed.attachFiles(['./assets/soundcloud.PNG']);
-		embed.setThumbnail('attachment://soundcloud.PNG');
+		embed.attachFiles(['./assets/soundcloud.png']);
+		embed.setThumbnail('attachment://soundcloud.png');
 		embed.setFooter('SoundCloud');
 		embed.setColor(client.colors.soundcloud);
 	}
