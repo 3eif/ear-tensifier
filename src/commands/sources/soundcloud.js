@@ -33,11 +33,11 @@ module.exports = {
 
 		const msg = await message.channel.send(`${client.emojiList.cd}  Searching for \`${args.join(' ')}\`...`);
 
-		let searchQuery = args.join(' ');
-		searchQuery = {
+		const searchQuery = {
 			source: 'soundcloud',
 			query: args.slice(0).join(' '),
 		};
+
 		play(client, message, msg, player, searchQuery, false);
 
 		async function songLimit() {
