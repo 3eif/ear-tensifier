@@ -94,9 +94,8 @@ module.exports = class Message extends Event {
 					await runCommand(this.client);
 				}
 				else {
-
 					if (messageUser.blocked == null) messageUser.blocked = false;
-					if (messageUser.blocked) {
+					if (!messageUser.blocked) {
 						messageUser.commandsUsed += 1;
 						await runCommand(this.client);
 					}
