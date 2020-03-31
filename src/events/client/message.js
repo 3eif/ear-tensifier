@@ -47,10 +47,13 @@ module.exports = class Message extends Event {
 			if (s.ignore.includes(message.channel.id)) return;
 
 			const messageContent = message.content.toLowerCase();
-			if (messageContent.indexOf(this.client.settings.prefix) === 0) {
+			if (message.content.indexOf(this.client.settings.prefix) === 0) {
 				prefix = this.client.settings.prefix;
 			}
-			else if (messageContent.split(' ')[0].match(mentionPrefix)) {
+			else if (message.content.indexOf(s.prefix) === 0) {
+				prefix = s.prefix;
+			}
+			else if (message.content.split(' ')[0].match(mentionPrefix)) {
 				prefix = mentionPrefix;
 			}
 			else {
