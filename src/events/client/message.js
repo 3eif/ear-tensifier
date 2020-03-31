@@ -42,21 +42,36 @@ module.exports = class Message extends Event {
 				await newServer.save().catch(e => this.client.log(e));
 				prefix = message.content.split(' ')[0].match(mentionPrefix) || this.client.settings.prefix;
 				ignoreMsg = false;
-			}
-			else if (s.ignore.includes(message.channel.id)) { return; }
 
-			const messageContent = message.content.toLowerCase();
-			if (message.content.indexOf(this.client.settings.prefix) === 0) {
-				prefix = this.client.settings.prefix;
-			}
-			else if (message.content.indexOf(s.prefix) === 0) {
-				prefix = s.prefix;
-			}
-			else if (message.content.split(' ')[0].match(mentionPrefix)) {
-				prefix = mentionPrefix;
+				if (s.ignore.includes(message.channel.id)) { return; }
+
+				const messageContent = message.content.toLowerCase();
+				if (message.content.indexOf(this.client.settings.prefix) === 0) {
+					prefix = this.client.settings.prefix;
+				}
+				else if (message.content.split(' ')[0].match(mentionPrefix)) {
+					prefix = mentionPrefix;
+				}
+				else {
+					return;
+				}
 			}
 			else {
-				return;
+				if (s.ignore.includes(message.channel.id)) { return; }
+
+				const messageContent = message.content.toLowerCase();
+				if (message.content.indexOf(this.client.settings.prefix) === 0) {
+					prefix = this.client.settings.prefix;
+				}
+				else if (message.content.indexOf(s.prefix) === 0) {
+					prefix = s.prefix;
+				}
+				else if (message.content.split(' ')[0].match(mentionPrefix)) {
+					prefix = mentionPrefix;
+				}
+				else {
+					return;
+				}
 			}
 
 			let args;
