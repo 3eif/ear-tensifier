@@ -2,7 +2,7 @@ const { ShardingManager } = require('discord.js');
 const mongoose = require('mongoose');
 const tokens = require('./src/tokens.json');
 
-mongoose.connect(`mongodb+srv://${tokens.mongoUsername}:${encodeURIComponent(tokens.mongoPass)}@tetracyl-unhxi.mongodb.net/coronacord?retryWrites=true&w=majority`, {
+mongoose.connect(`mongodb://${tokens.mongoIP}:${tokens.mongoPort}/test`, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });

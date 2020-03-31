@@ -8,9 +8,9 @@ const postHandler = require('../../utils/handlers/post.js');
 
 const webhookClient = new Discord.WebhookClient(webhooks.webhookID, webhooks.webhookToken);
 
-mongoose.connect(`mongodb+srv://${tokens.mongoUsername}:${encodeURIComponent(tokens.mongoPass)}@tetracyl-unhxi.mongodb.net/test?retryWrites=true&w=majority`, {
-	useNewUrlParser: true,
-	useUnifiedTopology: true,
+mongoose.connect(`mongodb://${tokens.mongoIP}:${tokens.mongoPort}/test`, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
 
 module.exports = class Ready extends Event {
