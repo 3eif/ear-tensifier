@@ -29,7 +29,7 @@ module.exports = async (client, textChannel, title, duration, author, uri) => {
 	});
 
 	const embed = new Discord.MessageEmbed()
-		.setTitle(author);
+		.setAuthor(author);
 	if (uri.includes('soundcloud')) {
 		embed.attachFiles(['./src/assets/soundcloud.png']);
 		embed.setThumbnail('attachment://soundcloud.png');
@@ -64,9 +64,10 @@ module.exports = async (client, textChannel, title, duration, author, uri) => {
 		embed.setFooter('Source: Other');
 	}
 
-	embed.setDescription(`[${title}](${uri})`);
-	if (duration > 10) { embed.addField('Duration', '∞', true); }
+	if (duration.toString().length > 10) { embed.addField('Duration', '∞', true); }
 	else { embed.addField('Duration', `${Utils.formatTime(duration, true)}`, true); }
+
+	embed.setDescription(`**[${title}](${uri})**`);
 	embed.addField('Requested by', requester, true);
 	embed.setTimestamp();
 	textChannel.send(embed);
