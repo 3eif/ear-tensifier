@@ -38,7 +38,7 @@ module.exports = class Message extends Event {
 					const newServer = new servers({
 						serverID: message.guild.id,
 						serverName: message.guild.name,
-						prefix: this.client.settings.prefix,
+						prefix: 'ear ',
 						ignore: [],
 					});
 					await newServer.save().catch(e => this.client.log(e));
