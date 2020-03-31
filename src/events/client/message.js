@@ -54,6 +54,8 @@ module.exports = class Message extends Event {
 			});
 		}
 
+		console.log(getIgnore());
+
 		async function getPrefix() {
 			servers.findOne({
 				serverID: message.guild.id,
