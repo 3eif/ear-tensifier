@@ -9,6 +9,7 @@ module.exports = async (client, textChannel, title, duration, author, uri) => {
 	const requester = currentSong.requester.username + '#' + currentSong.requester.discriminator;
 	const thumbnail = `https://img.youtube.com/vi/${currentSong.identifier}/default.jpg`;
 	addDB(uri, title, author, duration, uri, thumbnail);
+	console.log(uri);
 
 	bot.findOne({
 		clientID: client.user.id,
@@ -31,25 +32,25 @@ module.exports = async (client, textChannel, title, duration, author, uri) => {
 	const embed = new Discord.MessageEmbed()
 		.setTitle(author);
 	if (uri.includes('soundcloud')) {
-		embed.attachFiles(['./assets/soundcloud.png']);
+		embed.attachFiles(['./src/assets/soundcloud.png']);
 		embed.setThumbnail('attachment://soundcloud.png');
 		embed.setFooter('SoundCloud');
 		embed.setColor(client.colors.soundcloud);
 	}
 	else if (uri.includes('bandcamp')) {
-		embed.attachFiles(['./assets/bandcamp.png']);
+		embed.attachFiles(['./src/assets/bandcamp.png']);
 		embed.setThumbnail('attachment://bandcamp.png');
 		embed.setFooter('bandcamp');
 		embed.setColor(client.colors.bandcamp);
 	}
-	else if (uri.includes('mixer')) {
-		embed.attachFiles(['./assets/mixer.png']);
+	else if (uri.includes('beam.pro')) {
+		embed.attachFiles(['./src/assets/mixer.png']);
 		embed.setThumbnail('attachment://mixer.png');
 		embed.setFooter('Mixer');
 		embed.setColor(client.colors.mixer);
 	}
 	else if (uri.includes('twitch')) {
-		embed.attachFiles(['./assets/twitch.png']);
+		embed.attachFiles(['./src/assets/twitch.png']);
 		embed.setThumbnail('attachment://twitch.png');
 		embed.setFooter('Twitch');
 		embed.setColor(client.colors.twitch);
