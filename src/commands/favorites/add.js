@@ -9,7 +9,7 @@ module.exports = {
 	args: true,
 	cooldown: 5,
 	async execute(client, message, args) {
-		const msg = await message.channel.send(`${client.emojiList.loading} Adding song(s)...`);
+		const msg = await message.channel.send(`${client.emojiList.loading} Adding song(s) to your favorites (This might take a few seconds)...`);
 
 		const songsToAdd = [];
 		let dataLength = 0;

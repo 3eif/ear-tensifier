@@ -10,7 +10,7 @@ module.exports = {
 	description: 'Displays a list of your favorite songs.',
 	cooldown: 10,
 	async execute(client, message) {
-		const msg = await message.channel.send(`${client.emojiList.loading} Fetching favorites (This might take a while)...`);
+		const msg = await message.channel.send(`${client.emojiList.loading} Fetching favorites...`);
 
 		users.findOne({
 			authorID: message.author.id,

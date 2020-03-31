@@ -24,7 +24,7 @@ module.exports = {
 		if (await songLimit() == patreon.premiumMaxSongs && player.queue.size >= patreon.premiumMaxSongs) return msg.edit(`You have reached the **maximum** amount of songs (${patreon.premiumMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`);
 		if (await songLimit() == patreon.proMaxSongs && player.queue.size >= patreon.proMaxSongs) return msg.edit(`You have reached the **maximum** amount of songs (${patreon.proMaxSongs} songs). Want more songs? Contact the developer: \`Tetra#0001\``);
 
-		const msg = await message.channel.send(`${client.emojiList.cd}  Loading favorites (This might take a while)...`);
+		const msg = await message.channel.send(`${client.emojiList.cd}  Loading favorites (This might take a few seconds)...`);
 
 		users.findOne({
 			authorID: message.author.id,
