@@ -28,7 +28,7 @@ module.exports = {
 
 				const helpCommands = [];
 				let categoryCommands = '';
-				const commandsFile = fs.readdirSync(`./commands/${category}`).filter(file => file.endsWith('.js'));
+				const commandsFile = fs.readdirSync(`./src/commands/${category}`).filter(file => file.endsWith('.js'));
 
 				for (let i = 0; i < commandsFile.length; i++) {
 					const commandName = commandsFile[i].split('.')[0];
