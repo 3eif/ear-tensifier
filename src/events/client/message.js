@@ -46,6 +46,8 @@ module.exports = class Message extends Event {
 
 			if (s.ignore.includes(message.channel.id)) return;
 
+			console.log(s.prefix);
+
 			const messageContent = message.content.toLowerCase();
 			if (message.content.indexOf(this.client.settings.prefix) === 0) {
 				prefix = this.client.settings.prefix;
