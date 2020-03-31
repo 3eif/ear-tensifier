@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-const fs = require('fs');
 const Discord = require('discord.js');
 const cooldowns = new Discord.Collection();
 const Event = require('../../structures/Event');
@@ -18,6 +17,7 @@ module.exports = class Message extends Event {
 	}
 
 	async run(message) {
+		console.log(this.client);
 		if (message.author.bot) return;
 		if (message.channel.type === 'text') {
 			if (!message.guild.members.cache.get(this.client.user.id)) await message.guild.members.fetch(this.client.user.id);
