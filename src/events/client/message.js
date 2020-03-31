@@ -92,112 +92,115 @@ module.exports = class Message extends Event {
 					});
 					await newUser.save().catch(e => this.client.log(e));
 					messageUser = await users.findOne({ authorID: message.author.id });
+					await runCommand();
 				}
 				else {
 					if (messageUser.blocked == null) messageUser.blocked = false;
-					if (messageUser.blocked) ignoreMsg = true;
-					else if (!messageUser.blocked) messageUser.commandsUsed += 1;
+					if (!messageUser.blocked) {
+						messageUser.commandsUsed += 1;
+						await runCommand();
+					}
 					await messageUser.save().catch(e => console.error(e));
 				}
 			});
 
-			if (ignoreMsg) return;
+			async function runCommand() {
+				const cmd = this.client.commands.get(command) || this.client.commands.find(c => c.aliases && c.aliases.includes(command));
+				if (!cmd) return;
 
-			const cmd = this.client.commands.get(command) || this.client.commands.find(c => c.aliases && c.aliases.includes(command));
-			if (!cmd) return;
+				/* Async Non-Blocking */
+				bot.findOne({ clientID: this.client.user.id }).then(async b => {
+					if (!b) {
+						const newClient = new bot({
+							clientID: this.client.user.id,
+							clientName: this.client.user.name,
+							messagesSent: 0,
+							songsPlayed: 0,
+						});
+						await newClient.save().catch(e => this.client.log(e));
+						b = await bot.findOne({ clientID: this.client.user.id });
+					}
 
-			/* Async Non-Blocking */
-			bot.findOne({ clientID: this.client.user.id }).then(async b => {
-				if (!b) {
-					const newClient = new bot({
-						clientID: this.client.user.id,
-						clientName: this.client.user.name,
-						messagesSent: 0,
-						songsPlayed: 0,
-					});
-					await newClient.save().catch(e => this.client.log(e));
-					b = await bot.findOne({ clientID: this.client.user.id });
-				}
+					b.messagesSent += 1;
+					b.save().catch(e => this.client.log(e));
+				});
 
-				b.messagesSent += 1;
-				b.save().catch(e => this.client.log(e));
-			});
+				/* Async Non-Blocking */
+				commandsSchema.findOne({ commandName: cmd.name }).then(async c => {
+					if (!c) {
+						const newCommand = new commandsSchema({
+							commandName: cmd.name,
+							timesUsed: 0,
+						});
+						await newCommand.save().catch(e => this.client.log(e));
+						c = await commandsSchema.findOne({ commandName: cmd.name });
+					}
 
-			/* Async Non-Blocking */
-			commandsSchema.findOne({ commandName: cmd.name }).then(async c => {
-				if (!c) {
-					const newCommand = new commandsSchema({
-						commandName: cmd.name,
-						timesUsed: 0,
-					});
-					await newCommand.save().catch(e => this.client.log(e));
-					c = await commandsSchema.findOne({ commandName: cmd.name });
-				}
+					c.timesUsed += 1;
+					await c.save().catch(e => this.client.log(e));
+				});
 
-				c.timesUsed += 1;
-				await c.save().catch(e => this.client.log(e));
-			});
+				this.client.log(`[Shard #${this.client.shard.ids}] ${cmd.name} used by ${message.author.tag} (${message.author.id}) from ${message.guild.name} (${message.guild.id})`);
+				const embed = new Discord.MessageEmbed()
+					.setAuthor(`${message.author.username}`, message.author.displayAvatarURL())
+					.setColor(this.client.colors.main)
+					.setDescription(`**${cmd.name}** command used by **${message.author.tag}** (${message.author.id})`)
+					.setFooter(`${message.guild.name} (${message.guild.id})`, message.guild.iconURL())
+					.setTimestamp();
 
-			this.client.log(`[Shard #${this.client.shard.ids}] ${cmd.name} used by ${message.author.tag} (${message.author.id}) from ${message.guild.name} (${message.guild.id})`);
-			const embed = new Discord.MessageEmbed()
-				.setAuthor(`${message.author.username}`, message.author.displayAvatarURL())
-				.setColor(this.client.colors.main)
-				.setDescription(`**${cmd.name}** command used by **${message.author.tag}** (${message.author.id})`)
-				.setFooter(`${message.guild.name} (${message.guild.id})`, message.guild.iconURL())
-				.setTimestamp();
+				webhookClient.send({
+					username: 'Ear Tensifier',
+					avatarURL: this.client.settings.avatar,
+					embeds: [embed],
+				});
 
-			webhookClient.send({
-				username: 'Ear Tensifier',
-				avatarURL: this.client.settings.avatar,
-				embeds: [embed],
-			});
-
-			if (!cooldowns.has(cmd.name)) {
-				cooldowns.set(cmd.name, new Discord.Collection());
-			}
-			if (cmd.permission === 'dev' && !this.client.settings.devs.includes(message.author.id)) return;
-
-			if (cmd && !message.guild && cmd.guildOnly) return message.channel.send('I can\'t execute that command inside DMs!. Please run this command in a server.');
-
-			if (!this.client.settings.devs.includes(message.author.id)) {
 				if (!cooldowns.has(cmd.name)) {
 					cooldowns.set(cmd.name, new Discord.Collection());
 				}
-				const now = Date.now();
-				const timestamps = cooldowns.get(cmd.name);
-				const cooldownAmount = (cmd.cooldown || 5) * 1000;
-				if (!timestamps.has(message.author.id)) {
-					timestamps.set(message.author.id, now);
-					setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-				}
-				else {
-					const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
-					if (now < expirationTime) {
-						const timeLeft = (expirationTime - now) / 1000;
-						return message.reply(`Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${cmd.name}\` command.`);
+				if (cmd.permission === 'dev' && !this.client.settings.devs.includes(message.author.id)) return;
+
+				if (cmd && !message.guild && cmd.guildOnly) return message.channel.send('I can\'t execute that command inside DMs!. Please run this command in a server.');
+
+				if (!this.client.settings.devs.includes(message.author.id)) {
+					if (!cooldowns.has(cmd.name)) {
+						cooldowns.set(cmd.name, new Discord.Collection());
 					}
-					timestamps.set(message.author.id, now);
-					setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+					const now = Date.now();
+					const timestamps = cooldowns.get(cmd.name);
+					const cooldownAmount = (cmd.cooldown || 5) * 1000;
+					if (!timestamps.has(message.author.id)) {
+						timestamps.set(message.author.id, now);
+						setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+					}
+					else {
+						const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+						if (now < expirationTime) {
+							const timeLeft = (expirationTime - now) / 1000;
+							return message.reply(`Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${cmd.name}\` command.`);
+						}
+						timestamps.set(message.author.id, now);
+						setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+					}
 				}
-			}
 
-			if (cmd.inVoiceChannel && !message.member.voice.channel) return this.client.responses('noVoiceChannel', message);
-			else if (cmd.sameVoiceChannel && message.member.voice.channel.id != message.guild.members.cache.get(this.client.user.id).voice.channelID) return this.client.responses('sameVoiceChannel', message);
-			else if (cmd.playing && !this.client.music.players.get(message.guild.id)) return this.client.responses('noSongsPlaying', message);
+				if (cmd.inVoiceChannel && !message.member.voice.channel) return this.client.responses('noVoiceChannel', message);
+				else if (cmd.sameVoiceChannel && message.member.voice.channel.id != message.guild.members.cache.get(this.client.user.id).voice.channelID) return this.client.responses('sameVoiceChannel', message);
+				else if (cmd.playing && !this.client.music.players.get(message.guild.id)) return this.client.responses('noSongsPlaying', message);
 
-			if (prefix == this.client.settings.prefix) {
-				if (cmd && !args[0] && cmd.args === true) return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`ear ${cmd.name} ${cmd.usage}\``);
-			}
-			else if (cmd && !args[0] && cmd.args === true) {
-				return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`${prefix} ${cmd.name} ${cmd.usage}\` or \`${prefix}${cmd.name} ${cmd.usage}\``);
-			}
+				if (prefix == this.client.settings.prefix) {
+					if (cmd && !args[0] && cmd.args === true) return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`ear ${cmd.name} ${cmd.usage}\``);
+				}
+				else if (cmd && !args[0] && cmd.args === true) {
+					return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`${prefix} ${cmd.name} ${cmd.usage}\` or \`${prefix}${cmd.name} ${cmd.usage}\``);
+				}
 
-			try {
-				cmd.execute(this.client, message, args);
-			}
-			catch (e) {
-				console.error(e);
-				message.reply('There was an error trying to execute that command!');
+				try {
+					cmd.execute(this.client, message, args);
+				}
+				catch (e) {
+					console.error(e);
+					message.reply('There was an error trying to execute that command!');
+				}
 			}
 		});
 	}
