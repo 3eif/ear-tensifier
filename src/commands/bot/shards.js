@@ -5,6 +5,7 @@ module.exports = {
 	description: 'Displays the bot\'s shards',
 	cooldown: '5',
 	aliases: ['shardstats', 'shardinfo'],
+	hideInList: true,
 	async execute(client, message) {
 
 		const promises = [

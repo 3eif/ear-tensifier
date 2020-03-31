@@ -32,6 +32,8 @@ module.exports = {
 
 				for (let i = 0; i < commandsFile.length; i++) {
 					const commandName = commandsFile[i].split('.')[0];
+					const comInfo = commands.get(commandName);
+					if(comInfo.hideInList) return;
 					helpCommands.push(`\`${commandName}\`,  `);
 				}
 
