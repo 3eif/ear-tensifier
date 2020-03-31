@@ -8,6 +8,7 @@ const users = require('../../models/user.js');
 const servers = require('../../models/server.js');
 const bot = require('../../models/bot.js');
 const commandsSchema = require('../../models/command.js');
+const settings = require('../../settings.js');
 
 const webhooks = require('../../resources/webhooks.json');
 const webhookClient = new Discord.WebhookClient(webhooks.messageID, webhooks.messageToken);
@@ -38,11 +39,11 @@ module.exports = class Message extends Event {
 					const newServer = new servers({
 						serverID: message.guild.id,
 						serverName: message.guild.name,
-						prefix: 'ear ',
+						prefix: settings.prefix,
 						ignore: [],
 					});
 					await newServer.save().catch(e => this.client.log(e));
-					prefix = message.content.split(' ')[0].match(mentionPrefix) || this.client.settings.prefix;
+					prefix = message.content.split(' ')[0].match(mentionPrefix) || settings.prefix;
 					return false;
 				}
 				else {
