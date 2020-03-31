@@ -9,7 +9,6 @@ module.exports = async (client, textChannel, title, duration, author, uri) => {
 	const requester = currentSong.requester.username + '#' + currentSong.requester.discriminator;
 	const thumbnail = `https://img.youtube.com/vi/${currentSong.identifier}/default.jpg`;
 	addDB(uri, title, author, duration, uri, thumbnail);
-	console.log(uri);
 
 	bot.findOne({
 		clientID: client.user.id,
@@ -40,33 +39,34 @@ module.exports = async (client, textChannel, title, duration, author, uri) => {
 	else if (uri.includes('bandcamp')) {
 		embed.attachFiles(['./src/assets/bandcamp.png']);
 		embed.setThumbnail('attachment://bandcamp.png');
-		embed.setFooter('bandcamp');
+		embed.setFooter('Source: bandcamp');
 		embed.setColor(client.colors.bandcamp);
 	}
 	else if (uri.includes('beam.pro')) {
 		embed.attachFiles(['./src/assets/mixer.png']);
 		embed.setThumbnail('attachment://mixer.png');
-		embed.setFooter('Mixer');
+		embed.setFooter('Source: Mixer');
 		embed.setColor(client.colors.mixer);
 	}
 	else if (uri.includes('twitch')) {
 		embed.attachFiles(['./src/assets/twitch.png']);
 		embed.setThumbnail('attachment://twitch.png');
-		embed.setFooter('Twitch');
+		embed.setFooter('Source: Twitch');
 		embed.setColor(client.colors.twitch);
 	}
 	else if (uri.includes('youtube')) {
 		embed.setThumbnail(thumbnail);
-		embed.setFooter('Youtube');
+		embed.setFooter('Source: Youtube');
 		embed.setColor(client.colors.youtube);
 	}
 	else {
 		embed.setColor(client.colors.main);
-		embed.setFooter('Other');
+		embed.setFooter('Source: Other');
 	}
 
 	embed.setDescription(`[${title}](${uri})`);
-	embed.addField('Duration', `${Utils.formatTime(duration, true)}`, true);
+	if (duration > 10) { embed.addField('Duration', '∞', true); }
+	else { embed.addField('Duration', `${Utils.formatTime(duration, true)}`, true); }
 	embed.addField('Requested by', requester, true);
 	embed.setTimestamp();
 	textChannel.send(embed);
