@@ -54,7 +54,7 @@ module.exports = class Message extends Event {
 			});
 		}
 
-		console.log(getIgnore());
+		console.log(await getIgnore());
 
 		async function getPrefix() {
 			servers.findOne({
