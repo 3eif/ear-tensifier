@@ -28,22 +28,52 @@ module.exports = class Message extends Event {
 
 		const mentionPrefix = new RegExp(`^<@!?${this.client.user.id}>( |)$`);
 		let prefix;
-		let ignoreMsg;
-		servers.findOne({
-			serverID: message.guild.id,
-		}, async (err, s) => {
-			if (err) this.client.log(err);
-			if (!s) {
-				const newServer = new servers({
-					serverID: message.guild.id,
-					serverName: message.guild.name,
-					prefix: this.client.settings.prefix,
-					ignore: [],
-				});
-				await newServer.save().catch(e => this.client.log(e));
-				prefix = message.content.split(' ')[0].match(mentionPrefix) || this.client.settings.prefix;
-				ignoreMsg = false;
-			}
+
+		async function getIgnore() {
+			servers.findOne({
+				serverID: message.guild.id,
+			}, async (err, s) => {
+				if (err) this.client.log(err);
+				if (!s) {
+					const newServer = new servers({
+						serverID: message.guild.id,
+						serverName: message.guild.name,
+						prefix: this.client.settings.prefix,
+						ignore: [],
+					});
+					await newServer.save().catch(e => this.client.log(e));
+					prefix = message.content.split(' ')[0].match(mentionPrefix) || this.client.settings.prefix;
+					return false;
+				}
+				else {
+					// eslint-disable-next-line no-lonely-if
+					if (s.ignore.includes(message.channel.id)) return true;
+					else return false;
+				}
+			});
+		}
+
+		async function getPrefix() {
+			servers.findOne({
+				serverID: message.guild.id,
+			}, async (err, s) => {
+				if (err) this.client.log(err);
+				if (!s) {
+					const newServer = new servers({
+						serverID: message.guild.id,
+						serverName: message.guild.name,
+						prefix: this.client.settings.prefix,
+						ignore: [],
+					});
+					await newServer.save().catch(e => this.client.log(e));
+					prefix = message.content.split(' ')[0].match(mentionPrefix) || this.client.settings.prefix;
+					return prefix;
+				}
+				else {
+					return s.prefix;
+				}
+			});
+		}
 
 			const messageContent = message.content.toLowerCase();
 			if (messageContent.indexOf(this.client.settings.prefix) === 0) {
@@ -56,7 +86,7 @@ module.exports = class Message extends Event {
 				return;
 			}
 
-			if (ignoreMsg) return;
+			if (getIgnore()) return;
 			let args;
 			let command;
 
@@ -65,10 +95,10 @@ module.exports = class Message extends Event {
 				command = args.shift().toLowerCase();
 				command = command.slice(this.client.settings.prefix.length);
 			}
-			else if (prefix === s.prefix && !s.prefix.endsWith(' ')) {
+			else if (prefix === getPrefix() && !getPrefix().endsWith(' ')) {
 				args = message.content.split(' ');
 				command = args.shift().toLowerCase();
-				command = command.slice(s.prefix.length);
+				command = command.slice(getPrefix().length);
 			}
 			else {
 				args = message.content.split(' ');
@@ -94,12 +124,9 @@ module.exports = class Message extends Event {
 				}
 
 				if (messageUser.blocked == null) messageUser.blocked = false;
-				if (messageUser.blocked) ignoreMsg = true;
 				else if (!messageUser.blocked) messageUser.commandsUsed += 1;
 				messageUser.save().catch(e => console.error(e));
 			});
-
-			if (ignoreMsg) return;
 
 			const cmd = this.client.commands.get(command) || this.client.commands.find(c => c.aliases && c.aliases.includes(command));
 			if (!cmd) return;
@@ -197,6 +224,5 @@ module.exports = class Message extends Event {
 				console.error(e);
 				message.reply('There was an error trying to execute that command!');
 			}
-		});
 	}
 };
