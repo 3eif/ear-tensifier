@@ -56,8 +56,6 @@ module.exports = class Message extends Event {
 				return;
 			}
 
-			if (s.ignore.includes(message.channel.id)) ignoreMsg = true;
-
 			if (ignoreMsg) return;
 			let args;
 			let command;
