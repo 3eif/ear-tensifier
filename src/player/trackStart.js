@@ -24,7 +24,8 @@ module.exports = async (client, textChannel, title, duration, author, uri) => {
 	}, async (err, u) => {
 		if (err) client.log(err);
 
-		u.songsPlayed += 1;
+		if(!u.songsPlayed) u.songsPlayed = 1;
+		else u.songsPlayed += 1;
 		await u.save().catch(e => client.log(e));
 	});
 
