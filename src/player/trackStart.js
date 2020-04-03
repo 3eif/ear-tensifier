@@ -29,6 +29,27 @@ module.exports = async (client, textChannel, title, duration, author, uri) => {
 		await u.save().catch(e => client.log(e));
 	});
 
+	users.findOne({ authorID: requester.id }).then(async messageUser => {
+		if (!messageUser) {
+			const newUser = new users({
+				authorID: requester.id,
+				authorName: requester.tag,
+				bio: '',
+				songsPlayed: 1,
+				commandsUsed: 0,
+				blocked: false,
+				premium: false,
+				pro: false,
+				developer: false,
+			});
+			await newUser.save().catch(e => this.client.log(e));
+		}
+		else {
+			messageUser.songsPlayed += 1;
+			await messageUser.save().catch(e => console.error(e));
+		}
+	});
+
 	const embed = new Discord.MessageEmbed()
 		.setAuthor(author);
 	if (uri.includes('soundcloud')) {
