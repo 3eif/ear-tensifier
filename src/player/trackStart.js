@@ -19,16 +19,6 @@ module.exports = async (client, textChannel, title, duration, author, uri) => {
 		await b.save().catch(e => client.log(e));
 	});
 
-	users.findOne({
-		authorID: requester.id,
-	}, async (err, u) => {
-		if (err) client.log(err);
-
-		if(!u.songsPlayed) u.songsPlayed = 1;
-		else u.songsPlayed += 1;
-		await u.save().catch(e => client.log(e));
-	});
-
 	users.findOne({ authorID: requester.id }).then(async messageUser => {
 		if (!messageUser) {
 			const newUser = new users({
