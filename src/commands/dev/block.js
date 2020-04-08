@@ -23,7 +23,6 @@ module.exports = {
 			if (!u) {
 				const newUser = new users({
 					authorID: user.id,
-					authorName: user.tag,
 					bio: '',
 					songsPlayed: 0,
 					commandsUsed: 0,

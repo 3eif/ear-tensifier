@@ -18,7 +18,6 @@ module.exports = {
 				if (!s) {
 					const newSever = new servers({
 						serverID: message.guild.id,
-						serverName: message.guild.name,
 						prefix: client.settings.prefix,
 					});
 					await newSever.save().catch(e => client.log(e));
@@ -38,7 +37,6 @@ module.exports = {
 			if (!s) {
 				const newSever = new servers({
 					serverID: message.guild.id,
-					serverName: message.guild.name,
 					prefix: client.settings.prefix,
 					ignore: [],
 				});

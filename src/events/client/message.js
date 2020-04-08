@@ -35,7 +35,6 @@ module.exports = class Message extends Event {
 			if (!s) {
 				const newServer = new servers({
 					serverID: message.guild.id,
-					serverName: message.guild.name,
 					prefix: this.client.settings.prefix,
 					ignore: [],
 				});
@@ -100,7 +99,6 @@ module.exports = class Message extends Event {
 				if (!messageUser) {
 					const newUser = new users({
 						authorID: message.author.id,
-						authorName: message.author.tag,
 						bio: '',
 						songsPlayed: 0,
 						commandsUsed: 1,

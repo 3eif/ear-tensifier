@@ -10,7 +10,6 @@ module.exports = async (user, pledge) => {
 			if (!u) {
 				const newUser = new users({
 					authorID: user.id,
-					authorName: user.tag,
 					bio: '',
 					songsPlayed: 0,
 					commandsUsed: 0,
@@ -37,7 +36,6 @@ module.exports = async (user, pledge) => {
 			if (!u) {
 				const newUser = new users({
 					authorID: user.id,
-					authorName: user.tag,
 					bio: '',
 					songsPlayed: 0,
 					commandsUsed: 0,
@@ -64,7 +62,6 @@ module.exports = async (user, pledge) => {
 			if (!u) {
 				const newUser = new users({
 					authorID: user.id,
-					authorName: user.tag,
 					bio: '',
 					songsPlayed: 0,
 					commandsUsed: 0,

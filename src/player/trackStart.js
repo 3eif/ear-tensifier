@@ -24,7 +24,6 @@ module.exports = async (client, textChannel, title, duration, author, uri) => {
 		if (!messageUser) {
 			const newUser = new users({
 				authorID: requester.id,
-				authorName: requester.tag,
 				bio: '',
 				songsPlayed: 1,
 				commandsUsed: 0,

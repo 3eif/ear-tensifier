@@ -27,7 +27,6 @@ module.exports = {
 			if (!s) {
 				const newSever = new servers({
 					serverID: message.guild.id,
-					serverName: message.guild.name,
 					prefix: client.settings.prefix,
 					ignore: [],
 				});
