@@ -11,6 +11,7 @@
     "cloudlist.js": "^1.2.5",
     "columnify": "^1.5.4",
     "common-tags": "^1.8.0",
+    "cpu-stat": "^2.0.1",
     "dblapi.js": "^2.4.0",
     "ddblapi.js": "^1.0.0",
     "discord-paginationembed": "^2.0.0-beta.4",
