@@ -3,6 +3,7 @@ const Discord = require('discord.js');
 const bot = require('../models/bot.js');
 const users = require('../models/user.js');
 const songs = require('../models/song.js');
+const yts = require('yt-search');
 
 module.exports = async (client, textChannel, title, duration, author, uri) => {
 	const currentSong = client.music.players.get(textChannel.guild.id).queue[0];
@@ -67,15 +68,32 @@ module.exports = async (client, textChannel, title, duration, author, uri) => {
 		embed.setColor(client.colors.twitch);
 	}
 	else if (uri.includes('youtube')) {
-		embed.setThumbnail(thumbnail);
-		embed.setFooter('Source: Youtube');
-		embed.setColor(client.colors.youtube);
+
+		const opts = { videoId: currentSong.identifier };
+
+		// eslint-disable-next-line no-unused-vars
+		yts(opts, function(err, video) {
+			embed.setThumbnail(thumbnail);
+			embed.setFooter('Source: Youtube');
+			embed.setColor(client.colors.youtube);
+
+			if (duration.toString().length > 10) { embed.addField('Duration', '∞', true); }
+			else { embed.addField('Duration', `${Utils.formatTime(duration, true)}`, true); }
+
+			embed.setDescription(`**[${title}](${uri})**`);
+			embed.addField('Requested by', requester, true);
+			// embed.addField('Views', `${video.views.toLocaleString()}`, true);
+			// embed.addField('Date', video.ago, true);
+			embed.setTimestamp();
+			return textChannel.send(embed);
+		});
 	}
 	else {
 		embed.setColor(client.colors.main);
 		embed.setFooter('Source: Other');
 	}
 
+	if (uri.includes('youtube')) return;
 	if (duration.toString().length > 10) { embed.addField('Duration', '∞', true); }
 	else { embed.addField('Duration', `${Utils.formatTime(duration, true)}`, true); }
 
