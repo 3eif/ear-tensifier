@@ -10,6 +10,7 @@ module.exports = class VoiceStateUpdate extends Event {
 		const player = this.client.music.players.get(oldVoice.guild.id);
 		if (!player) return;
 
+		if(player && !newVoice.guild.members.cache.get(this.client.user.id).voice.channelID) this.client.music.players.destroy(oldVoice.guild.id);
 		if (oldVoice.id === this.client.user.id) return;
 		if (!oldVoice.guild.members.cache.get(this.client.user.id).voice.channelID) return;
 		if (oldVoice.guild.members.cache.get(this.client.user.id).voice.channel.id === oldVoice.channelID) {
