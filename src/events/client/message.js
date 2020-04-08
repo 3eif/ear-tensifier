@@ -203,7 +203,7 @@ module.exports = class Message extends Event {
 				}
 
 				if (cmd.inVoiceChannel && !message.member.voice.channel) return client.responses('noVoiceChannel', message);
-				else if (cmd.sameVoiceChannel && message.member.voice.channel.id != message.guild.members.cache.get(client.user.id).voice.channelID) return client.responses('sameVoiceChannel', message);
+				else if (cmd.sameVoiceChannel && message.member.voice.channel.id !== message.guild.me.voice.channelID) return client.responses('sameVoiceChannel', message);
 				else if (cmd.playing && !client.music.players.get(message.guild.id)) return client.responses('noSongsPlaying', message);
 
 				if (prefix == client.settings.prefix) {
