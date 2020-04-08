@@ -6,7 +6,7 @@ module.exports = {
 	name: 'soundcloud',
 	description: 'Plays a song from soundcloud.',
 	args: true,
-	usage: '<search query>',
+	usage: '<song link>',
 	inVoiceChannel: true,
 	async execute(client, message, args) {
 		if (!args[0]) return message.channel.send('Please provide a search query.');
