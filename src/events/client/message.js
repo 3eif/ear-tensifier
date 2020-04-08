@@ -80,6 +80,11 @@ module.exports = class Message extends Event {
 				command = args.shift().toLowerCase();
 				command = command.slice(this.client.settings.prefix.length);
 			}
+			else if (prefix === this.client.settings.prefix) {
+				args = message.content.split(' ');
+				args.shift();
+				command = args.shift().toLowerCase();
+			}
 			else if (prefix === s.prefix && !s.prefix.endsWith(' ')) {
 				args = message.content.split(' ');
 				command = args.shift().toLowerCase();

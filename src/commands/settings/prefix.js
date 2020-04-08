@@ -51,7 +51,7 @@ module.exports = {
 				.setAuthor(`${message.guild.name}`, message.guild.iconURL())
 				.setColor(client.colors.main)
 				.setDescription(`Successfully set the prefix to \`${f}\``)
-				.setFooter('Tip: to add a space to your prefix, add \'_\' at the end.');
+				.setFooter('Tip: to add a space to your prefix, add: _');
 			msg.edit('', embed);
 		});
 	},
