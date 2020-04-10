@@ -1,17 +1,25 @@
+const Command = require('../../structures/Command');
+
 const play = require('../../utils/play.js');
 
-module.exports = {
-	name: 'mixer',
-	description: 'Plays a stream from mixer.',
-	args: true,
-	usage: '<stream link>',
-	inVoiceChannel: true,
-	async execute(client, message, args) {
+module.exports = class Mixer extends Command {
+	constructor(client) {
+		super(client, {
+			name: 'support',
+			description: 'Sends the support server for the bot.',
+			aliases: ['server'],
+			usage: '',
+			enabled: true,
+			cooldown: 5,
+			args: false,
+		});
+	}
+	async run(client, message, args) {
 		if (!args[0]) return message.channel.send('Please provide a search query.');
 
 		const permissions = message.member.voice.channel.permissionsFor(client.user);
-		if(!permissions.has('CONNECT')) return client.responses('noPermissionConnect', message);
-		if(!permissions.has('SPEAK')) return client.responses('noPermissionSpeak', message);
+		if (!permissions.has('CONNECT')) return client.responses('noPermissionConnect', message);
+		if (!permissions.has('SPEAK')) return client.responses('noPermissionSpeak', message);
 
 		let player = client.music.players.get(message.guild.id);
 
@@ -33,5 +41,5 @@ module.exports = {
 		};
 
 		play(client, message, msg, player, searchQuery, false);
-	},
+	}
 };

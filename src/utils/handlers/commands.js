@@ -10,7 +10,7 @@ module.exports = client => {
 					const commands = fs.readdirSync(`./src/commands/${category}`).filter(file => file.endsWith('.js'));
 					for (const file of commands) {
 						const command = require(`../../commands/${category}/${file}`);
-						if(category == 'bot') client.commands.set(command.name.toLowerCase(), command);
+						client.commands.set(command.name.toLowerCase(), command);
 					}
 				};
 				init();
