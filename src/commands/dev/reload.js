@@ -1,13 +1,18 @@
-module.exports = {
-	name: 'reload',
-	description: 'Reloads a command',
-	args: true,
-	usage: '<category> <command>',
-	permissions: 'dev',
-	async execute(client, message, args) {
+const Command = require('../../structures/Command');
 
-		if(message.author.id !== client.settings.devs) return;
-		if(!args[1]) return message.channel.send('Please provide a command.');
+module.exports = class Reload extends Command {
+	constructor(client) {
+		super(client, {
+			name: 'reload',
+			description: 'Reloads a command',
+			args: true,
+			usage: '<category> <command>',
+			permissions: 'dev',
+		});
+	}
+	async run(client, message, args) {
+		if (message.author.id !== client.settings.devs) return;
+		if (!args[1]) return message.channel.send('Please provide a command.');
 
 		const commandName = args[1].toLowerCase();
 		const command = message.client.commands.get(commandName)
@@ -28,5 +33,5 @@ module.exports = {
 			return message.channel.send(`There was an error while reloading a command \`${commandName}\`:\n\`${error.message}\``);
 		}
 		message.channel.send(`Command \`${commandName}\` was reloaded!`);
-	},
+	}
 };

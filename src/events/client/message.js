@@ -124,7 +124,6 @@ module.exports = class Message extends Event {
 			async function runCommand(client) {
 				if (client.commands.has(command)) {
 					const cmd = client.commands.get(command);
-					console.log(cmd.toString());
 
 					/* Async Non-Blocking */
 					bot.findOne({ clientID: client.user.id }).then(async b => {

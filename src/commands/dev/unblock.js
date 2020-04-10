@@ -1,12 +1,18 @@
+const Command = require('../../structures/Command');
+
 const users = require('../../models/user.js');
 
-module.exports = {
-	name: 'unblock',
-	description: 'Unblocks a person from using the bot.',
-	usage: '<user> <reason>',
-	args: true,
-	permission: 'dev',
-	async execute(client, message, args) {
+module.exports = class Unblock extends Command {
+	constructor(client) {
+		super(client, {
+			name: 'unblock',
+			description: 'Unblocks a person from using the bot.',
+			usage: '<user> <reason>',
+			args: true,
+			permission: 'dev',
+		});
+	}
+	async run(client, message, args) {
 		if (!args[0]) return message.channel.send('Please specifiy a user.');
 		const reason = args.slice(1).join(' ');
 		if (!reason) return message.channel.send('Please specify a reason for unblocking this user.');
@@ -44,5 +50,5 @@ module.exports = {
 			// client.channels.get(modlog).send(`${client.emojiList.whitelist} **${message.author.tag}** (${message.author.id}) unblocked **${user.user.tag}** (${user.id}). Reason: ${reason}`);
 			await u.save().catch(e => client.log(e));
 		});
-	},
+	}
 };

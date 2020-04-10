@@ -1,6 +1,6 @@
 const Command = require('../../structures/Command');
 
-class Support extends Command {
+module.exports = class Support extends Command {
 	constructor(client) {
 		super(client, {
 			name: 'support',
@@ -15,6 +15,4 @@ class Support extends Command {
 	async run(client, message) {
 		return message.channel.send(`Here is my support server: ${client.settings.server}`);
 	}
-}
-
-module.exports = Support;
+};
