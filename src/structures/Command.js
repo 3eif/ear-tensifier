@@ -1,21 +1,24 @@
-class Command {
-    constructor(client, {
-      name = null,
-      description = 'No description has been provided.',
-      usage = 'No usage has been provided.',
-      enabled = true,
-      aliases = new Array(),
-      cooldown = 3,
-      args = false,
-      dev = false,
-      inVoiceChannel = false,
-      sameVoiceChannel = false,
-      playing = false,
-    }) {
-      this.client = client;
-      this.conf = { enabled, aliases, cooldown, args, dev, sameVoiceChannel, inVoiceChannel, playing };
-      this.help = { name, description, usage };
-    }
+module.exports = class Command {
+  constructor(client, options) {
+    this.client = client;
+    this.name = options.name;
+    this.args = options.args || false;
+    this.usage = options.usage || 'No usage provided';
+    this.description = options.description || 'No description provided';
+    this.aliases = options.aliases || 'No aliases for this certain command';
+    this.enabled = options.enabled || true;
+    this.cooldown = options.cooldown || 3;
+    this.permission = options.permission || 'user';
+    this.inVoiceChannel = options.inVoiceChannel || false;
+    this.sameVoiceChannel = options.sameVoiceChannel || false;
+    this.playing = options.playing || false;
   }
 
-  module.exports = Command;
+  // reload() {
+  //   const path = `../commands/${this.name}.js`;
+  //   delete require.cache[path];
+  //   const command = require(`../commands/${this.name}.js`);
+  //   this.client.commands.set(command);
+  //   this.client.aliases.set(command.aliases);
+  // }
+};

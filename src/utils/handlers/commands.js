@@ -9,8 +9,15 @@ module.exports = client => {
 				const init = async () => {
 					const commands = fs.readdirSync(`./src/commands/${category}`).filter(file => file.endsWith('.js'));
 					for (const file of commands) {
-						const command = require(`../../commands/${category}/${file}`);
+						const f = require(`../../commands/${category}/${file}`);
+						const command = new f(client);
+						if (typeof command.run !== 'function') throw Error('No run function found.');
 						client.commands.set(command.name.toLowerCase(), command);
+						if (command && command.aliases && command.aliases.constructor.name === 'Array') {
+							for (let i = 0; i < command.aliases.length; i++) {
+								client.aliases.set(command.aliases[i], command);
+							}
+						}
 					}
 				};
 				init();

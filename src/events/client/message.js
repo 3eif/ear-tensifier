@@ -123,7 +123,8 @@ module.exports = class Message extends Event {
 
 			async function runCommand(client) {
 				if (client.commands.has(command)) {
-					const cmd = client.commands.get(command);
+					const cmd = client.commands.get(command) || client.commands.get(client.aliases.get(command));
+					const commandName = cmd.name.toLowerCase();
 
 					/* Async Non-Blocking */
 					bot.findOne({ clientID: client.user.id }).then(async b => {
@@ -143,25 +144,25 @@ module.exports = class Message extends Event {
 					});
 
 					/* Async Non-Blocking */
-					commandsSchema.findOne({ commandName: cmd.name }).then(async c => {
+					commandsSchema.findOne({ commandName: commandName }).then(async c => {
 						if (!c) {
 							const newCommand = new commandsSchema({
-								commandName: cmd.name,
+								commandName: commandName,
 								timesUsed: 0,
 							});
 							await newCommand.save().catch(e => client.log(e));
-							c = await commandsSchema.findOne({ commandName: cmd.name });
+							c = await commandsSchema.findOne({ commandName: commandName });
 						}
 
 						c.timesUsed += 1;
 						await c.save().catch(e => client.log(e));
 					});
 
-					client.log(`[Shard ${client.shard.ids}] ${cmd.name} used by ${message.author.tag} (${message.author.id}) from ${message.guild.name} (${message.guild.id})`);
+					client.log(`[Shard ${client.shard.ids}] ${commandName} used by ${message.author.tag} (${message.author.id}) from ${message.guild.name} (${message.guild.id})`);
 					const embed = new Discord.MessageEmbed()
 						.setAuthor(`${message.author.username}`, message.author.displayAvatarURL())
 						.setColor(client.colors.main)
-						.setDescription(`**${cmd.name}** command used by **${message.author.tag}** (${message.author.id})`)
+						.setDescription(`**${commandName}** command used by **${message.author.tag}** (${message.author.id})`)
 						.setFooter(`${message.guild.name} (${message.guild.id})`, message.guild.iconURL())
 						.setTimestamp();
 
@@ -171,19 +172,20 @@ module.exports = class Message extends Event {
 						embeds: [embed],
 					});
 
-					if (!cooldowns.has(cmd.name)) {
-						cooldowns.set(cmd.name, new Discord.Collection());
+					if (!cooldowns.has(commandName)) {
+						cooldowns.set(commandName, new Discord.Collection());
 					}
+
 					if (cmd.permission === 'dev' && !client.settings.devs.includes(message.author.id)) return;
 
 					if (cmd && !message.guild && cmd.guildOnly) return message.channel.send('I can\'t execute that command inside DMs!. Please run this command in a server.');
 
 					if (!client.settings.devs.includes(message.author.id)) {
-						if (!cooldowns.has(cmd.name)) {
-							cooldowns.set(cmd.name, new Discord.Collection());
+						if (!cooldowns.has(commandName)) {
+							cooldowns.set(commandName, new Discord.Collection());
 						}
 						const now = Date.now();
-						const timestamps = cooldowns.get(cmd.name);
+						const timestamps = cooldowns.get(commandName);
 						const cooldownAmount = (cmd.cooldown || 5) * 1000;
 						if (!timestamps.has(message.author.id)) {
 							timestamps.set(message.author.id, now);
@@ -193,7 +195,7 @@ module.exports = class Message extends Event {
 							const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
 							if (now < expirationTime) {
 								const timeLeft = (expirationTime - now) / 1000;
-								return message.reply(`Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${cmd.name}\` command.`);
+								return message.reply(`Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${commandName}\` command.`);
 							}
 							timestamps.set(message.author.id, now);
 							setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
@@ -205,15 +207,14 @@ module.exports = class Message extends Event {
 					else if (cmd.playing && !client.music.players.get(message.guild.id)) return client.responses('noSongsPlaying', message);
 
 					if (prefix == client.settings.prefix) {
-						if (cmd && !args[0] && cmd.args === true) return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`ear ${cmd.name} ${cmd.usage}\``);
+						if (cmd && !args[0] && cmd.args === true) return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`ear ${commandName} ${cmd.usage}\``);
 					}
 					else if (cmd && !args[0] && cmd.args === true) {
-						return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`${prefix} ${cmd.name} ${cmd.usage}\` or \`${prefix}${cmd.name} ${cmd.usage}\``);
+						return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`${prefix} ${commandName} ${cmd.usage}\` or \`${prefix}${cmd.name} ${cmd.usage}\``);
 					}
 
 					try {
-						const comm = new cmd(client);
-						comm.run(client, message, args);
+						cmd.run(client, message, args);
 					}
 					catch (e) {
 						console.error(e);

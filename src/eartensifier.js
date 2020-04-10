@@ -8,6 +8,7 @@ const client = new Discord.Client({
 
 client.log = (msg) => { console.log(`[${new Date().toLocaleString()}] > ${msg}`); };
 client.commands = new Discord.Collection();
+client.aliases = new Discord.Collection();
 client.settings = require('./settings.js');
 client.responses = require('./utils/responses.js');
 client.filters = require('./resources/filters.json');
