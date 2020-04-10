@@ -1,15 +1,21 @@
 /* eslint-disable no-unused-vars */
+const Command = require('../../structures/Command');
+
 const Discord = require('discord.js');
 const fetch = require('node-fetch');
 const users = require('../../models/user.js');
 const { Utils } = require('erela.js');
 const columnify = require('columnify');
 
-module.exports = {
-	name: 'favorites',
-	description: 'Displays a list of your favorite songs.',
-	cooldown: 10,
-	async execute(client, message) {
+module.exports = class Favorites extends Command {
+	constructor(client) {
+		super(client, {
+			name: 'favorites',
+			description: 'Displays a list of your favorite songs.',
+			cooldown: 10,
+		});
+	}
+	async run(client, message) {
 		const msg = await message.channel.send(`${client.emojiList.loading} Fetching favorites...`);
 
 		users.findOne({
@@ -69,9 +75,9 @@ module.exports = {
 						.then(response => response.text())
 						.then(result => {
 							const embed = new Discord.MessageEmbed()
-							.setTitle('Too many favorite songs, uploaded to hastebin!')
-							.setURL(`https://www.hasteb.in/${result.slice(8, result.length - 2)}.txt`)
-							.setColor(client.colors.main);
+								.setTitle('Too many favorite songs, uploaded to hastebin!')
+								.setURL(`https://www.hasteb.in/${result.slice(8, result.length - 2)}.txt`)
+								.setColor(client.colors.main);
 							msg.edit('', embed);
 						})
 						.catch(error => client.log('error', error));
@@ -79,5 +85,5 @@ module.exports = {
 				await u.save().catch(e => client.log(e));
 			});
 		});
-	},
+	}
 };

@@ -1,13 +1,19 @@
+const Command = require('../../structures/Command');
+
 const users = require('../../models/user.js');
 const premium = require('../../utils/premium/premium.js');
 const patreon = require('../../resources/patreon.json');
 const { getPreview } = require('spotify-url-info');
 
-module.exports = {
-	name: 'load',
-	description: 'Loads your favorite songs to the queue.',
-	inVoiceChannel: true,
-	async execute(client, message, args) {
+module.exports = class Load extends Command {
+	constructor(client) {
+		super(client, {
+			name: 'load',
+			description: 'Loads your favorite songs to the queue.',
+			inVoiceChannel: true,
+		});
+	}
+	async run(client, message, args) {
 		const permissions = message.member.voice.channel.permissionsFor(client.user);
 		if (!permissions.has('CONNECT')) return message.channel.send('I do not have permission to join your voice channel.');
 		if (!permissions.has('SPEAK')) return message.channel.send('I do not have permission to speak in your voice channel.');
@@ -36,7 +42,7 @@ module.exports = {
 			const content = new Promise(async function(resolve) {
 				if (u.favorites && u.favorites.length) {
 					const sL = await songLimit();
-					if (player.queue.length == 0) {songsToAdd = Math.min(sL, u.favorites.length);}
+					if (player.queue.length == 0) { songsToAdd = Math.min(sL, u.favorites.length); }
 					else {
 						const totalSongs = player.queue.length + u.favorites.length;
 						if (totalSongs > sL) songsToAdd = Math.min(sL - player.queue.length, u.favorites.length);
@@ -62,7 +68,7 @@ module.exports = {
 					else if (await songLimit() == patreon.premiumMaxSongs) msg.edit(`${loaded}\nYou have reached the **maximum** amount of songs (${patreon.premiumMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`);
 					else if (await songLimit() == patreon.proMaxSongs) msg.edit(`${loaded}\nYou have reached the **maximum** amount of songs (${patreon.proMaxSongs} songs). Want more songs? Contact \`Tetra#0001\``);
 				}
-				else {msg.edit(`**${playlistInfo.title}** (${songsToAdd} tracks) has been added to the queue by **${message.author.tag}**`);}
+				else { msg.edit(`**${playlistInfo.title}** (${songsToAdd} tracks) has been added to the queue by **${message.author.tag}**`); }
 			});
 		});
 
@@ -73,5 +79,5 @@ module.exports = {
 			if (hasPremium && !hasPro) return patreon.premiumMaxSongs;
 			if (hasPremium && hasPro) return patreon.proMaxSongs;
 		}
-	},
+	}
 };

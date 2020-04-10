@@ -1,14 +1,20 @@
+const Command = require('../../structures/Command');
+
 const users = require('../../models/user.js');
 const { getData, getPreview } = require('spotify-url-info');
 const { Utils } = require('erela.js');
 
-module.exports = {
-	name: 'add',
-	description: 'Adds a song to the user\'s favorites.',
-	usage: '<search query/link>',
-	args: true,
-	cooldown: 5,
-	async execute(client, message, args) {
+module.exports = class Add extends Command {
+	constructor(client) {
+		super(client, {
+			name: 'add',
+			description: 'Adds a song to the user\'s favorites.',
+			usage: '<search query/link>',
+			args: true,
+			cooldown: 5,
+		});
+	}
+	async run(client, message, args) {
 		const msg = await message.channel.send(`${client.emojiList.loading} Adding song(s) to your favorites (This might take a few seconds)...`);
 
 		const songsToAdd = [];
@@ -20,7 +26,7 @@ module.exports = {
 			if (data.type == 'playlist' || data.type == 'album') {
 				if (data.type == 'playlist') {
 					dataLength = data.tracks.items.length;
-					for(let i = 0; i < data.tracks.items.length; i++) {
+					for (let i = 0; i < data.tracks.items.length; i++) {
 						const song = data.tracks.items[i];
 						search(`${song.track.name} ${song.track.artists[0].name}`, 'yes');
 					}
@@ -54,30 +60,30 @@ module.exports = {
 
 			client.music.search(searchQuery, message.author).then(async res => {
 				switch (res.loadType) {
-				case 'TRACK_LOADED':
-					songsToAdd.push(res.tracks[0]);
-					if (isPlaylist == 'no') {
-						msg.edit(`Added **${res.tracks[0].title}** (${Utils.formatTime(res.tracks[0].duration, true)}) to your favorites.`);
-						return await addToDB(false);
-					}
-					await addToDB(true);
-					break;
+					case 'TRACK_LOADED':
+						songsToAdd.push(res.tracks[0]);
+						if (isPlaylist == 'no') {
+							msg.edit(`Added **${res.tracks[0].title}** (${Utils.formatTime(res.tracks[0].duration, true)}) to your favorites.`);
+							return await addToDB(false);
+						}
+						await addToDB(true);
+						break;
 
-				case 'SEARCH_RESULT':
-					songsToAdd.push(res.tracks[0]);
-					if (isPlaylist == 'no') {
-						msg.edit(`Added **${res.tracks[0].title}** (${Utils.formatTime(res.tracks[0].duration, true)}) to your favorites.`);
-						return await addToDB(false);
-					}
-					await addToDB(true);
-					break;
+					case 'SEARCH_RESULT':
+						songsToAdd.push(res.tracks[0]);
+						if (isPlaylist == 'no') {
+							msg.edit(`Added **${res.tracks[0].title}** (${Utils.formatTime(res.tracks[0].duration, true)}) to your favorites.`);
+							return await addToDB(false);
+						}
+						await addToDB(true);
+						break;
 
-				case 'PLAYLIST_LOADED':
-					// res.playlist.tracks.forEach(track => player.queue.add(track));
-					// const duration = Utils.formatTime(res.playlist.tracks.reduce((acc, cure) => ({ duration: acc.duration + cure.duration })).duration, true);
-					// msg.edit(`**${res.playlist.info.name}** (${duration}) (${res.playlist.tracks.length} tracks) has been added to the queue by **${res.playlist.tracks.requester}**`);
-					// if (!player.playing) player.play()
-					return msg.edit('Playlist functionality is currently disabled. Please try again later.');
+					case 'PLAYLIST_LOADED':
+						// res.playlist.tracks.forEach(track => player.queue.add(track));
+						// const duration = Utils.formatTime(res.playlist.tracks.reduce((acc, cure) => ({ duration: acc.duration + cure.duration })).duration, true);
+						// msg.edit(`**${res.playlist.info.name}** (${duration}) (${res.playlist.tracks.length} tracks) has been added to the queue by **${res.playlist.tracks.requester}**`);
+						// if (!player.playing) player.play()
+						return msg.edit('Playlist functionality is currently disabled. Please try again later.');
 				}
 				return;
 			}).catch(() => {
@@ -86,8 +92,8 @@ module.exports = {
 		}
 
 		async function addToDB(playlist) {
-			if(playlist) {
-				if(songsToAdd.length != dataLength) return;
+			if (playlist) {
+				if (songsToAdd.length != dataLength) return;
 			}
 			users.findOne({
 				authorID: message.author.id,
@@ -95,9 +101,9 @@ module.exports = {
 				if (err) client.log(err);
 				const currentFavorites = u.favorites;
 				u.favorites = currentFavorites.concat(songsToAdd);
-				if(playlist) msg.edit(playlistMessage);
+				if (playlist) msg.edit(playlistMessage);
 				await u.save().catch(e => client.log(e));
 			});
 		}
-	},
+	}
 };
