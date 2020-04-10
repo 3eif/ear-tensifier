@@ -2,7 +2,7 @@ const Command = require('../../structures/Command');
 
 const Discord = require('discord.js');
 
-module.exports = class Support extends Command {
+module.exports = class Volume extends Command {
 	constructor(client) {
 		super(client, {
 			name: 'volume',

@@ -1,6 +1,6 @@
 const Command = require('../../structures/Command');
 
-module.exports = class Support extends Command {
+module.exports = class Pause extends Command {
 	constructor(client) {
 		super(client, {
 			name: 'pause',

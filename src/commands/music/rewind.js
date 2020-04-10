@@ -3,7 +3,7 @@ const Command = require('../../structures/Command');
 const { Utils } = require('erela.js');
 const rewindNum = 10;
 
-module.exports = class Support extends Command {
+module.exports = class Rewind extends Command {
 	constructor(client) {
 		super(client, {
 			name: 'rewind',
