@@ -14,7 +14,7 @@ module.exports = class GuildMemberUpdate extends Event {
 	async run(oldMember, newMember) {
 		if (oldMember.guild.id != this.client.settings.supportID) return;
 
-		if (oldMember.roles !== newMember.roles) {
+		if (!oldMember.roles.cache.equals(newMember.roles.cache)) {
 
 			if (oldMember.roles.cache.find(r => r.name === 'Premium') && !newMember.roles.cache.find(r => r.name === 'Premium')) {
 				const embed = new Discord.MessageEmbed()
