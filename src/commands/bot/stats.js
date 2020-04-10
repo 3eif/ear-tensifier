@@ -1,13 +1,21 @@
+const Command = require('../../structures/Command');
+
 const Discord = require('discord.js');
 const bot = require('../../models/bot.js');
 const cpuStat = require('cpu-stat');
 
-module.exports = {
-	name: 'stats',
-	description: 'Displays the bot\'s stats',
-	cooldown: '5',
-	async execute(client, message) {
-
+class Stats extends Command {
+	constructor(client) {
+		super(client, {
+			name: 'stats',
+			description: 'Displays the bot\'s stats',
+			usage: '',
+			enabled: true,
+			cooldown: 5,
+			args: false,
+		});
+	}
+	async run(client, message) {
 		const msg = await message.channel.send(`${client.emojiList.loading} Gathering stats...`);
 		const totalSeconds = process.uptime();
 		const realTotalSecs = Math.floor(totalSeconds % 60);
@@ -74,5 +82,7 @@ module.exports = {
 				})
 				.catch(console.error);
 		});
-	},
-};
+	}
+}
+
+module.exports = Stats;

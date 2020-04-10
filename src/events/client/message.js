@@ -122,101 +122,104 @@ module.exports = class Message extends Event {
 			});
 
 			async function runCommand(client) {
-				const cmd = client.commands.get(command) || client.commands.find(c => c.aliases && c.aliases.includes(command));
-				if (!cmd) return;
+				if (client.commands.has(command)) {
+					const cmd = client.commands.get(command);
+					console.log(cmd.toString());
 
-				/* Async Non-Blocking */
-				bot.findOne({ clientID: client.user.id }).then(async b => {
-					if (!b) {
-						const newClient = new bot({
-							clientID: client.user.id,
-							clientName: client.user.name,
-							messagesSent: 0,
-							songsPlayed: 0,
-						});
-						await newClient.save().catch(e => client.log(e));
-						b = await bot.findOne({ clientID: client.user.id });
-					}
+					/* Async Non-Blocking */
+					bot.findOne({ clientID: client.user.id }).then(async b => {
+						if (!b) {
+							const newClient = new bot({
+								clientID: client.user.id,
+								clientName: client.user.name,
+								messagesSent: 0,
+								songsPlayed: 0,
+							});
+							await newClient.save().catch(e => client.log(e));
+							b = await bot.findOne({ clientID: client.user.id });
+						}
 
-					b.messagesSent += 1;
-					b.save().catch(e => client.log(e));
-				});
+						b.messagesSent += 1;
+						b.save().catch(e => client.log(e));
+					});
 
-				/* Async Non-Blocking */
-				commandsSchema.findOne({ commandName: cmd.name }).then(async c => {
-					if (!c) {
-						const newCommand = new commandsSchema({
-							commandName: cmd.name,
-							timesUsed: 0,
-						});
-						await newCommand.save().catch(e => client.log(e));
-						c = await commandsSchema.findOne({ commandName: cmd.name });
-					}
+					/* Async Non-Blocking */
+					commandsSchema.findOne({ commandName: cmd.name }).then(async c => {
+						if (!c) {
+							const newCommand = new commandsSchema({
+								commandName: cmd.name,
+								timesUsed: 0,
+							});
+							await newCommand.save().catch(e => client.log(e));
+							c = await commandsSchema.findOne({ commandName: cmd.name });
+						}
 
-					c.timesUsed += 1;
-					await c.save().catch(e => client.log(e));
-				});
+						c.timesUsed += 1;
+						await c.save().catch(e => client.log(e));
+					});
 
-				client.log(`[Shard #${client.shard.ids}] ${cmd.name} used by ${message.author.tag} (${message.author.id}) from ${message.guild.name} (${message.guild.id})`);
-				const embed = new Discord.MessageEmbed()
-					.setAuthor(`${message.author.username}`, message.author.displayAvatarURL())
-					.setColor(client.colors.main)
-					.setDescription(`**${cmd.name}** command used by **${message.author.tag}** (${message.author.id})`)
-					.setFooter(`${message.guild.name} (${message.guild.id})`, message.guild.iconURL())
-					.setTimestamp();
+					client.log(`[Shard #${client.shard.ids}] ${cmd.name} used by ${message.author.tag} (${message.author.id}) from ${message.guild.name} (${message.guild.id})`);
+					const embed = new Discord.MessageEmbed()
+						.setAuthor(`${message.author.username}`, message.author.displayAvatarURL())
+						.setColor(client.colors.main)
+						.setDescription(`**${cmd.name}** command used by **${message.author.tag}** (${message.author.id})`)
+						.setFooter(`${message.guild.name} (${message.guild.id})`, message.guild.iconURL())
+						.setTimestamp();
 
-				webhookClient.send({
-					username: 'Ear Tensifier',
-					avatarURL: client.settings.avatar,
-					embeds: [embed],
-				});
+					webhookClient.send({
+						username: 'Ear Tensifier',
+						avatarURL: client.settings.avatar,
+						embeds: [embed],
+					});
 
-				if (!cooldowns.has(cmd.name)) {
-					cooldowns.set(cmd.name, new Discord.Collection());
-				}
-				if (cmd.permission === 'dev' && !client.settings.devs.includes(message.author.id)) return;
-
-				if (cmd && !message.guild && cmd.guildOnly) return message.channel.send('I can\'t execute that command inside DMs!. Please run this command in a server.');
-
-				if (!client.settings.devs.includes(message.author.id)) {
 					if (!cooldowns.has(cmd.name)) {
 						cooldowns.set(cmd.name, new Discord.Collection());
 					}
-					const now = Date.now();
-					const timestamps = cooldowns.get(cmd.name);
-					const cooldownAmount = (cmd.cooldown || 5) * 1000;
-					if (!timestamps.has(message.author.id)) {
-						timestamps.set(message.author.id, now);
-						setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-					}
-					else {
-						const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
-						if (now < expirationTime) {
-							const timeLeft = (expirationTime - now) / 1000;
-							return message.reply(`Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${cmd.name}\` command.`);
+					if (cmd.permission === 'dev' && !client.settings.devs.includes(message.author.id)) return;
+
+					if (cmd && !message.guild && cmd.guildOnly) return message.channel.send('I can\'t execute that command inside DMs!. Please run this command in a server.');
+
+					if (!client.settings.devs.includes(message.author.id)) {
+						if (!cooldowns.has(cmd.name)) {
+							cooldowns.set(cmd.name, new Discord.Collection());
 						}
-						timestamps.set(message.author.id, now);
-						setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+						const now = Date.now();
+						const timestamps = cooldowns.get(cmd.name);
+						const cooldownAmount = (cmd.cooldown || 5) * 1000;
+						if (!timestamps.has(message.author.id)) {
+							timestamps.set(message.author.id, now);
+							setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+						}
+						else {
+							const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+							if (now < expirationTime) {
+								const timeLeft = (expirationTime - now) / 1000;
+								return message.reply(`Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${cmd.name}\` command.`);
+							}
+							timestamps.set(message.author.id, now);
+							setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+						}
 					}
-				}
 
-				if (cmd.inVoiceChannel && !message.member.voice.channel) return client.responses('noVoiceChannel', message);
-				else if (cmd.sameVoiceChannel && message.member.voice.channel.id !== message.guild.me.voice.channelID) return client.responses('sameVoiceChannel', message);
-				else if (cmd.playing && !client.music.players.get(message.guild.id)) return client.responses('noSongsPlaying', message);
+					if (cmd.inVoiceChannel && !message.member.voice.channel) return client.responses('noVoiceChannel', message);
+					else if (cmd.sameVoiceChannel && message.member.voice.channel.id !== message.guild.me.voice.channelID) return client.responses('sameVoiceChannel', message);
+					else if (cmd.playing && !client.music.players.get(message.guild.id)) return client.responses('noSongsPlaying', message);
 
-				if (prefix == client.settings.prefix) {
-					if (cmd && !args[0] && cmd.args === true) return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`ear ${cmd.name} ${cmd.usage}\``);
-				}
-				else if (cmd && !args[0] && cmd.args === true) {
-					return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`${prefix} ${cmd.name} ${cmd.usage}\` or \`${prefix}${cmd.name} ${cmd.usage}\``);
-				}
+					if (prefix == client.settings.prefix) {
+						if (cmd && !args[0] && cmd.args === true) return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`ear ${cmd.name} ${cmd.usage}\``);
+					}
+					else if (cmd && !args[0] && cmd.args === true) {
+						return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`${prefix} ${cmd.name} ${cmd.usage}\` or \`${prefix}${cmd.name} ${cmd.usage}\``);
+					}
 
-				try {
-					cmd.execute(client, message, args);
-				}
-				catch (e) {
-					console.error(e);
-					message.reply('There was an error trying to execute that command!');
+					try {
+						const comm = new cmd(client);
+						comm.run(client, message, args);
+					}
+					catch (e) {
+						console.error(e);
+						message.reply('There was an error trying to execute that command!');
+					}
 				}
 			}
 		});

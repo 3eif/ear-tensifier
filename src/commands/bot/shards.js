@@ -1,11 +1,20 @@
 const Discord = require('discord.js');
 
-module.exports = {
-	name: 'shards',
-	description: 'Displays the bot\'s shards',
-	cooldown: '5',
-	aliases: ['shardstats', 'shardinfo'],
-	async execute(client, message) {
+const Command = require('../../structures/Command');
+
+module.exports = class Shards extends Command {
+	constructor(client) {
+		super(client, {
+			name: 'shards',
+			description: 'Displays the bot\'s shards',
+			cooldown: '5',
+			aliases: ['shardstats', 'shardinfo'],
+			usage: '',
+			enabled: true,
+			args: false,
+		});
+	}
+	async run(client, message) {
 
 		const promises = [
 			client.shard.fetchClientValues('guilds.cache.size'),
@@ -48,5 +57,5 @@ Servers: ${i[2]}\nChannels: ${i[3]}\nUsers: ${i[4]}\nMemory: ${i[5]} mb\nAPI Lat
 				embed.addField('Total Stats', `Total Servers: **${totalGuilds}** - Total Users: **${totalMembers}** - Avg. Latency: **${avgLatency} ms** - Total Streams: **${totalMusicStreams}** - Total Memory: **${totalMemory.toFixed(2)} mb**`);
 				message.channel.send(embed);
 			});
-	},
+	}
 };

@@ -1,14 +1,20 @@
+const Command = require('../../structures/Command');
+
 const Discord = require('discord.js');
 const fs = require('fs');
 const categories = fs.readdirSync('./src/commands/');
 
-module.exports = {
-	name: 'help',
-	description: 'Sends you a dm of detailed list of Ear Tensifier\'s commands.',
-	aliases: ['commands', 'list'],
-	cooldown: '30',
-	usage: '[command name]',
-	async execute(client, message, args) {
+module.exports = class Help extends Command {
+	constructor(client) {
+		super(client, {
+			name: 'help',
+			description: 'Sends you a dm of detailed list of Ear Tensifier\'s commands.',
+			aliases: ['commands', 'list'],
+			cooldown: '30',
+			usage: '[command name]',
+		});
+	}
+	async run(client, message, args) {
 
 		const msg = await message.channel.send(`${client.emojiList.typing} Sending a list of my commands...`);
 
@@ -61,5 +67,6 @@ module.exports = {
 			msg.delete();
 			message.channel.send(data, { split: true });
 		}
-	},
+	}
 };
+

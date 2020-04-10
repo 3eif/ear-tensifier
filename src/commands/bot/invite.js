@@ -1,7 +1,18 @@
-module.exports = {
-	name: 'invite',
-	description: 'Sends the invite link for the bot.',
-	async execute(client, message) {
-		return message.channel.send('Here is my invite link: https://eartensifier.net/invite');
-	},
+const Command = require('../../structures/Command');
+
+module.exports = class Invite extends Command {
+	constructor(client) {
+		super(client, {
+			name: 'invite',
+			description: 'Sends the invite link for the bot.',
+			usage: '',
+			enabled: true,
+			aliases: [],
+			cooldown: 5,
+			args: false,
+		});
+	}
+	async run(client, message) {
+		message.channel.send('<https://discordapp.com/oauth2/authorize?client_id=472714545723342848&scope=bot&permissions=3153960>');
+	}
 };
