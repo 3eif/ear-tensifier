@@ -157,7 +157,7 @@ module.exports = class Message extends Event {
 						await c.save().catch(e => client.log(e));
 					});
 
-					client.log(`[Shard #${client.shard.ids}] ${cmd.name} used by ${message.author.tag} (${message.author.id}) from ${message.guild.name} (${message.guild.id})`);
+					client.log(`[Shard ${client.shard.ids}] ${cmd.name} used by ${message.author.tag} (${message.author.id}) from ${message.guild.name} (${message.guild.id})`);
 					const embed = new Discord.MessageEmbed()
 						.setAuthor(`${message.author.username}`, message.author.displayAvatarURL())
 						.setColor(client.colors.main)
