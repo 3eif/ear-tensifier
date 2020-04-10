@@ -1,16 +1,22 @@
+const Command = require('../../structures/Command');
+
 const play = require('../../utils/play.js');
 const { getData, getPreview } = require('spotify-url-info');
 
-module.exports = {
-	name: 'playskip',
-	description: 'Skips the current playing song and immediately plays the song provided.',
-	args: true,
-	usage: '<search query>',
-	cooldown: '10',
-	inVoiceChannel: true,
-	sameVoiceChannel: true,
-	player: true,
-	async execute(client, message, args) {
+module.exports = class Playskip extends Command {
+	constructor(client) {
+		super(client, {
+			name: 'playskip',
+			description: 'Skips the current playing song and immediately plays the song provided.',
+			args: true,
+			usage: '<search query>',
+			cooldown: '10',
+			inVoiceChannel: true,
+			sameVoiceChannel: true,
+			player: true,
+		});
+	}
+	async run(client, message, args) {
 		const player = client.music.players.spawn({
 			guild: message.guild,
 			textChannel: message.channel,
@@ -52,5 +58,5 @@ module.exports = {
 			player.queue.pop();
 			player.stop();
 		}
-	},
+	}
 };

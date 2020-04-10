@@ -1,15 +1,21 @@
+const Command = require('../../structures/Command');
+
 const { Utils } = require('erela.js');
 const rewindNum = 10;
 
-module.exports = {
-	name: 'rewind',
-	description: 'Rewinds a song (default 10 seconds).',
-	cooldown: '10',
-	usage: '<seconds>',
-	inVoiceChannel: true,
-	sameVoiceChannel: true,
-	playing: true,
-	async execute(client, message, args) {
+module.exports = class Support extends Command {
+	constructor(client) {
+		super(client, {
+			name: 'rewind',
+			description: 'Rewinds a song (default 10 seconds).',
+			cooldown: '10',
+			usage: '<seconds>',
+			inVoiceChannel: true,
+			sameVoiceChannel: true,
+			playing: true,
+		});
+	}
+	async run(client, message, args) {
 		const player = client.music.players.get(message.guild.id);
 
 		if(args[0] && !isNaN(args[0])) {
@@ -30,5 +36,5 @@ module.exports = {
 				return message.channel.send('Cannot rewind beyond 00:00.');
 			}
 		}
-	},
+	}
 };

@@ -1,14 +1,20 @@
+const Command = require('../../structures/Command');
+
 const Discord = require('discord.js');
 const { Utils } = require('erela.js');
 const fetch = require('node-fetch');
 const columnify = require('columnify');
 
-module.exports = {
-	name: 'queue',
-	description: 'Displays the queue.',
-	aliases: ['q'],
-	playing: true,
-	async execute(client, message) {
+module.exports = class Queue extends Command {
+	constructor(client) {
+		super(client, {
+			name: 'queue',
+			description: 'Displays the queue.',
+			aliases: ['q'],
+			playing: true,
+		});
+	}
+	async run(client, message) {
 		const player = client.music.players.get(message.guild.id);
 
 		let index = 1;
@@ -64,7 +70,7 @@ module.exports = {
 					.catch(error => client.log('error', error));
 			});
 		}
- else {
+		else {
 			queueStr = `${player.queue.slice(1, 11).map(song => `**${index++}** - [${song.title}](${song.uri}) (${Utils.formatTime(song.duration, true)}) by ${song.author}.`).join('\n')}`;
 			const queueEmbed = new Discord.MessageEmbed()
 				.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
@@ -73,5 +79,5 @@ module.exports = {
 				.setFooter(`${player.queue.size} songs | ${Utils.formatTime(player.queue.duration, true)} total duration`);
 			message.channel.send(queueEmbed);
 		}
-	},
+	}
 };

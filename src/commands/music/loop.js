@@ -1,13 +1,19 @@
-module.exports = {
-	name: 'loop',
-	description: 'Repeats the current queue/song',
-	aliases: ['repeat', 'unloop'],
-	usage: '<queue/song>',
-	cooldown: '10',
-	inVoiceChannel: true,
-	sameVoiceChannel: true,
-	playing: true,
-	async execute(client, message, args) {
+const Command = require('../../structures/Command');
+
+module.exports = class Loop extends Command {
+	constructor(client) {
+		super(client, {
+			name: 'loop',
+			description: 'Repeats the current queue/song',
+			aliases: ['repeat', 'unloop'],
+			usage: '<queue/song>',
+			cooldown: '10',
+			inVoiceChannel: true,
+			sameVoiceChannel: true,
+			playing: true,
+		});
+	}
+	async run(client, message, args) {
 		const player = client.music.players.get(message.guild.id);
 
 		if(!args[0] || args[0].toLowerCase() == 'song') {
@@ -30,5 +36,5 @@ module.exports = {
 				return message.channel.send('Queue is now being looped.');
 			}
 		}
-	},
+	}
 };

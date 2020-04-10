@@ -1,8 +1,14 @@
-module.exports = {
-	name: 'join',
-	description: 'Joins the voice channel you are in.',
-	aliases: ['summon'],
-	async execute(client, message) {
+const Command = require('../../structures/Command');
+
+module.exports = class Join extends Command {
+	constructor(client) {
+		super(client, {
+			name: 'join',
+			description: 'Joins the voice channel you are in.',
+			aliases: ['summon'],
+		});
+	}
+	async run(client, message) {
 		const voiceChannel = message.member.voice;
 		if (!voiceChannel) return client.responses('noVoiceChannel', message);
 
@@ -22,5 +28,5 @@ module.exports = {
 		}
 
 		return message.channel.send(`Joined ${client.emojiList.voice}**${message.member.voice.channel.name}**`);
-	},
+	}
 };

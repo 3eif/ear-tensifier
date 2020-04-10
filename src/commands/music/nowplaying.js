@@ -1,12 +1,18 @@
+const Command = require('../../structures/Command');
+
 const Discord = require('discord.js');
 const { Utils } = require('erela.js');
 
-module.exports = {
-	name: 'nowplaying',
-	description: 'Displays the song that is currently playing',
-	aliases: ['playing', 'np'],
-	playing: true,
-	async execute(client, message) {
+module.exports = class NowPlaying extends Command {
+	constructor(client) {
+		super(client, {
+			name: 'nowplaying',
+			description: 'Displays the song that is currently playing',
+			aliases: ['playing', 'np'],
+			playing: true,
+		});
+	}
+	async run(client, message) {
 		const player = client.music.players.get(message.guild.id);
 
 		const { title, author, duration, requester, uri } = player.queue[0];
@@ -23,7 +29,7 @@ module.exports = {
 		}
 		else {
 			let amount = `${Utils.formatTime(player.position, true)}`;
-			if(amount < 60) amount = `00:${amount}`;
+			if (amount < 60) amount = `00:${amount}`;
 			const part = Math.floor((player.position / duration) * 10);
 			const embed = new Discord.MessageEmbed()
 				.setColor(client.colors.main)
@@ -34,5 +40,5 @@ module.exports = {
 				.addField('Requested by', requester, true);
 			return message.channel.send('', embed);
 		}
-	},
+	}
 };

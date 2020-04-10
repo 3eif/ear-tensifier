@@ -1,22 +1,28 @@
+const Command = require('../../structures/Command');
+
 const play = require('../../utils/play.js');
 const patreon = require('../../resources/patreon.json');
 const premium = require('../../utils/premium/premium.js');
 const { getData, getPreview } = require('spotify-url-info');
 
-module.exports = {
-	name: 'play',
-	description: 'Plays a song',
-	usage: '<search query>',
-	aliases: ['p'],
-	cooldown: '5',
-	args: true,
-	inVoiceChannel: true,
-	async execute(client, message, args) {
+module.exports = class Play extends Command {
+	constructor(client) {
+		super(client, {
+			name: 'play',
+			description: 'Plays a song',
+			usage: '<search query>',
+			aliases: ['p'],
+			cooldown: '5',
+			args: true,
+			inVoiceChannel: true,
+		});
+	}
+	async run(client, message, args) {
 		if (!args[0]) return message.channel.send('Please provide a search query.');
 
 		const permissions = message.member.voice.channel.permissionsFor(client.user);
-		if(!permissions.has('CONNECT')) return client.responses('noPermissionConnect', message);
-		if(!permissions.has('SPEAK')) return client.responses('noPermissionSpeak', message);
+		if (!permissions.has('CONNECT')) return client.responses('noPermissionConnect', message);
+		if (!permissions.has('SPEAK')) return client.responses('noPermissionSpeak', message);
 
 		let player = client.music.players.get(message.guild.id);
 
@@ -90,5 +96,5 @@ module.exports = {
 			if (hasPremium && !hasPro) return patreon.premiumMaxSongs;
 			if (hasPremium && hasPro) return patreon.proMaxSongs;
 		}
-	},
+	}
 };
