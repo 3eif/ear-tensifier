@@ -1,11 +1,17 @@
+const Command = require('../../structures/Command');
+
 const Discord = require('discord.js');
 const users = require('../../models/user.js');
 
-module.exports = {
-	name: 'profile',
-	description: 'Displays the user\'s profile',
-	usage: '<user>',
-	async execute(client, message, args) {
+module.exports = class Profile extends Command {
+	constructor(client) {
+		super(client, {
+			name: 'profile',
+			description: 'Displays the user\'s profile',
+			usage: '<user>',
+		});
+	}
+	async run(client, message, args) {
 		const msg = await message.channel.send(`${client.emojiList.loading} Fetching profile...`);
 
 		const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.member;
@@ -44,7 +50,7 @@ module.exports = {
 				if (u.developer) ranks += ' ' + client.emojiList.developer;
 
 				let bio;
-				if(!u.bio) bio = 'No bio set';
+				if (!u.bio) bio = 'No bio set';
 				else bio = u.bio;
 
 				const embed = new Discord.MessageEmbed()
@@ -57,5 +63,5 @@ module.exports = {
 				return msg.edit('', embed);
 			}
 		});
-	},
+	}
 };

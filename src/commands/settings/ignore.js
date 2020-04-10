@@ -1,12 +1,18 @@
+const Command = require('../../structures/Command');
+
 const Discord = require('discord.js');
 const servers = require('../../models/server.js');
 
-module.exports = {
-	name: 'ignore',
-	description: 'The bot will stop responding to commands from the channel.',
-	usage: '<channel>',
-	args: true,
-	async execute(client, message, args) {
+module.exports = class Ignore extends Command {
+	constructor(client) {
+		super(client, {
+			name: 'ignore',
+			description: 'The bot will stop responding to commands from the channel.',
+			usage: '<channel>',
+			args: true,
+		});
+	}
+	async run(client, message, args) {
 		if (!message.member.hasPermission('MANAGE_CHANNELS')) return message.channel.send('You must have the `Manage Channels` permission to use this command.');
 
 		let channel;
@@ -43,6 +49,5 @@ module.exports = {
 				.setFooter(`Tip: You can make me listen to commands again by doing ${s.prefix} listen`);
 			msg.edit('', embed);
 		});
-
-	},
+	}
 };

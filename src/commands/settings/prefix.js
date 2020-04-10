@@ -1,13 +1,18 @@
+const Command = require('../../structures/Command');
+
 const Discord = require('discord.js');
 const servers = require('../../models/server.js');
 
-module.exports = {
-	name: 'prefix',
-	description: 'Set the prefix for the server',
-	usage: '<prefix>',
-	aliases: ['setprefix'],
-	async execute(client, message, args) {
-
+module.exports = class Prefix extends Command {
+	constructor(client) {
+		super(client, {
+			name: 'prefix',
+			description: 'Set the prefix for the server',
+			usage: '<prefix>',
+			aliases: ['setprefix'],
+		});
+	}
+	async run(client, message, args) {
 		if (!message.member.hasPermission('MANAGE_GUILD')) return message.channel.send('You must have `Manage Guild` permission to use this command.');
 
 		if (!args[0]) {
@@ -52,5 +57,5 @@ module.exports = {
 				.setFooter('Tip: to add a space to your prefix, add: _');
 			msg.edit('', embed);
 		});
-	},
+	}
 };
