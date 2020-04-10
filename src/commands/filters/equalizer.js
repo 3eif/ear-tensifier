@@ -1,19 +1,25 @@
+const Command = require('../../structures/Command');
+
 const premium = require('../../utils/premium/premium.js');
 const Discord = require('discord.js');
 
-module.exports = {
-	name: 'equalizer',
-	description: 'Sets the equalizer of the current playing song.',
-	aliases: ['eq'],
-	inVoiceChannel: true,
-	sameVoiceChannel: true,
-	playing: true,
-	async execute(client, message, args) {
-		if(await premium(message.author.id, 'Pro') == false) return client.responses('noPro', message);
+module.exports = class Equalizer extends Command {
+	constructor(client) {
+		super(client, {
+			name: 'equalizer',
+			description: 'Sets the equalizer of the current playing song.',
+			aliases: ['eq'],
+			inVoiceChannel: true,
+			sameVoiceChannel: true,
+			playing: true,
+		});
+	}
+	async run(client, message, args) {
+		if (await premium(message.author.id, 'Pro') == false) return client.responses('noPro', message);
 
 		const player = client.music.players.get(message.guild.id);
 
-		if(!args[0]) {
+		if (!args[0]) {
 			const embed = new Discord.MessageEmbed()
 				.setAuthor('Custom Equalizer')
 				.setColor(client.colors.main)
@@ -24,21 +30,21 @@ module.exports = {
 				.setFooter('Premium Command');
 			return message.channel.send(embed);
 		}
-		else if(args[0] == 'off' || args[0] == 'reset') {
+		else if (args[0] == 'off' || args[0] == 'reset') {
 			player.setEQ(Array(13).fill(0).map((n, i) => ({ band: i, gain: 0.15 })));
 		}
 
 		const bands = args.join(' ').split(/[ ]+/);
 		let bandsStr = '';
-		for(let i = 0; i < bands.length; i++) {
-			if(i > 13) break;
-			if(isNaN(bands[i])) return message.channel.send(`Band #${i + 1} is not a valid number. Please type \`ear eq\` for info on the equalizer command.`);
-			if(bands[i] > 10) return message.channel.send(`Band #${i + 1} must be less than 10. Please type \`ear eq\` for info on the equalizer command.`);
+		for (let i = 0; i < bands.length; i++) {
+			if (i > 13) break;
+			if (isNaN(bands[i])) return message.channel.send(`Band #${i + 1} is not a valid number. Please type \`ear eq\` for info on the equalizer command.`);
+			if (bands[i] > 10) return message.channel.send(`Band #${i + 1} must be less than 10. Please type \`ear eq\` for info on the equalizer command.`);
 		}
 
-		for(let i = 0; i < bands.length; i++) {
-			if(i > 13) break;
-			player.setEQ([{ band: i, gain: (bands[i]) / 10 } ]);
+		for (let i = 0; i < bands.length; i++) {
+			if (i > 13) break;
+			player.setEQ([{ band: i, gain: (bands[i]) / 10 }]);
 			bandsStr += `${bands[i]} `;
 		}
 
@@ -51,5 +57,5 @@ module.exports = {
 			.setColor(client.colors.main);
 		await delay(5000);
 		return msg.edit('', embed);
-	},
+	}
 };

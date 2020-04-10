@@ -7,9 +7,13 @@ class Command {
       aliases = new Array(),
       cooldown = 3,
       args = false,
+      dev = false,
+      inVoiceChannel = false,
+      sameVoiceChannel = false,
+      playing = false,
     }) {
       this.client = client;
-      this.conf = { enabled, aliases, cooldown, args };
+      this.conf = { enabled, aliases, cooldown, args, dev, sameVoiceChannel, inVoiceChannel, playing };
       this.help = { name, description, usage };
     }
   }

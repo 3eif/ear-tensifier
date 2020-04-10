@@ -1,14 +1,20 @@
+const Command = require('../../structures/Command');
+
 const { normal } = require('../../resources/volume.json');
 
-module.exports = {
-	name: 'reset',
-	description: 'Resets the filters to normal.',
-	aliases: ['normal'],
-	cooldown: '10',
-	inVoiceChannel: true,
-	sameVoiceChannel: true,
-	playing: true,
-	async execute(client, message) {
+module.exports = class Reset extends Command {
+	constructor(client) {
+		super(client, {
+			name: 'reset',
+			description: 'Resets the filters to normal.',
+			aliases: ['normal'],
+			cooldown: '10',
+			inVoiceChannel: true,
+			sameVoiceChannel: true,
+			playing: true,
+		});
+	}
+	async run(client, message) {
 		const player = client.music.players.get(message.guild.id);
 		const delay = ms => new Promise(res => setTimeout(res, ms));
 
@@ -18,5 +24,5 @@ module.exports = {
 		const msg = await message.channel.send(`${client.emojiList.loading} Reseting filters to default...`);
 		await delay(5000);
 		return msg.edit('Filters set to default.');
-	},
+	}
 };

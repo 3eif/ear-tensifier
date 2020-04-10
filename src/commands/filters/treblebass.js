@@ -1,15 +1,21 @@
+const Command = require('../../structures/Command');
+
 const premium = require('../../utils/premium/premium.js');
 const Discord = require('discord.js');
 
-module.exports = {
-	name: 'treblebass',
-	description: 'Turns on treblebass filter',
-	aliases: ['tb'],
-	cooldown: '10',
-	inVoiceChannel: true,
-	sameVoiceChannel: true,
-	playing: true,
-	async execute(client, message, args) {
+module.exports = class Trablebass extends Command {
+	constructor(client) {
+		super(client, {
+			name: 'treblebass',
+			description: 'Turns on treblebass filter',
+			aliases: ['tb'],
+			cooldown: '10',
+			inVoiceChannel: true,
+			sameVoiceChannel: true,
+			playing: true,
+		});
+	}
+	async run(client, message, args) {
 		if(await premium(message.author.id, 'Premium') == false) return client.responses('noPremium', message);
 
 		const player = client.music.players.get(message.guild.id);
@@ -36,5 +42,5 @@ module.exports = {
 			.setColor(client.colors.main);
 		await delay(5000);
 		return msg.edit('', embed);
-	},
+}
 };

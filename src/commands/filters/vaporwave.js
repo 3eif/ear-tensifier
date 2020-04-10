@@ -1,15 +1,21 @@
+const Command = require('../../structures/Command');
+
 const premium = require('../../utils/premium/premium.js');
 const Discord = require('discord.js');
 
-module.exports = {
-	name: 'vaporwave',
-	description: 'Turns on vaporwave filter',
-	cooldown: '10',
-	inVoiceChannel: true,
-	sameVoiceChannel: true,
-	playing: true,
-	async execute(client, message, args) {
-		if(await premium(message.author.id, 'Premium') == false) return client.responses('noPremium', message);
+module.exports = class Vaporwave extends Command {
+	constructor(client) {
+		super(client, {
+			name: 'vaporwave',
+			description: 'Turns on vaporwave filter',
+			cooldown: '10',
+			inVoiceChannel: true,
+			sameVoiceChannel: true,
+			playing: true,
+		});
+	}
+	async run(client, message, args) {
+		if (await premium(message.author.id, 'Premium') == false) return client.responses('noPremium', message);
 
 		const player = client.music.players.get(message.guild.id);
 		const delay = ms => new Promise(res => setTimeout(res, ms));
@@ -35,5 +41,5 @@ module.exports = {
 			.setColor(client.colors.main);
 		await delay(5000);
 		return msg.edit('', embed);
-	},
+	}
 };
