@@ -7,8 +7,8 @@ const autoPlay = require('./queueEnd.js');
 module.exports = async (client) => {
 	client.music = new ErelaClient(client, tokens.nodes);
 	// eslint-disable-next-line no-unused-vars
-    client.music.on('nodeConnect', node => console.log('New node connected'));
-    client.music.on('nodeError', (node, error) => console.log(`Node error: ${error.message}`));
+    // client.music.on('nodeConnect', node => console.log('New node connected'));
+    client.music.on('nodeError', (node, error) => client.log(`Node error: ${error.message}`));
 	client.music.on('queueEnd', player => {
 		// player.textChannel.send("");
 		// autoPlay(client, player);
