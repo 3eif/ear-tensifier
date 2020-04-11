@@ -1,20 +1,25 @@
 const Discord = require('discord.js');
 
-const client = new Discord.Client({
-	// messageCacheMaxSize: 10,
-	// messageCacheLifetime: 20,
-	// messageSweepInterval: 30,
-});
+class Client extends Discord.Client {
+	constructor() {
+		super();
 
-client.log = (msg) => { console.log(`[${new Date().toLocaleString()}] > ${msg}`); };
-client.commands = new Discord.Collection();
-client.aliases = new Discord.Collection();
-client.settings = require('./settings.js');
-client.responses = require('./utils/responses.js');
-client.filters = require('./resources/filters.json');
-client.colors = require('./resources/colors.json');
-client.emojiList = require('./resources/emojis.json');
-client.errors = require('./utils/errors.js');
+		this.commands = new Discord.Collection();
+		this.aliases = new Discord.Collection();
+		this.settings = require('./settings.js');
+		this.responses = require('./utils/responses.js');
+		this.filters = require('./resources/filters.json');
+		this.colors = require('./resources/colors.json');
+		this.emojiList = require('./resources/emojis.json');
+		this.errors = require('./utils/errors.js');
+	}
+
+	log(msg) {
+		console.log(`[${new Date().toLocaleString()}] > ${msg}`);
+	}
+}
+
+const client = new Client();
 
 ['commands', 'events'].forEach(handler => require(`./utils/handlers/${handler}`)(client));
 

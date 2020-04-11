@@ -11,7 +11,6 @@ module.exports = client => {
 					for (const file of commands) {
 						const f = require(`../../commands/${category}/${file}`);
 						const command = new f(client);
-						if (typeof command.run !== 'function') throw Error('No run function found.');
 						client.commands.set(command.name.toLowerCase(), command);
 						if (command && command.aliases && command.aliases.constructor.name === 'Array') {
 							for (let i = 0; i < command.aliases.length; i++) {

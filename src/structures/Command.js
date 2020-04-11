@@ -13,12 +13,4 @@ module.exports = class Command {
     this.sameVoiceChannel = options.sameVoiceChannel || false;
     this.playing = options.playing || false;
   }
-
-  // reload() {
-  //   const path = `../commands/${this.name}.js`;
-  //   delete require.cache[path];
-  //   const command = require(`../commands/${this.name}.js`);
-  //   this.client.commands.set(command);
-  //   this.client.aliases.set(command.aliases);
-  // }
 };
