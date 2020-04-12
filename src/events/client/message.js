@@ -1,14 +1,15 @@
 /* eslint-disable no-unused-vars */
 const Discord = require('discord.js');
 const cooldowns = new Discord.Collection();
-const Event = require('../../structures/Event');
 
+const Event = require('../../structures/Event');
 const users = require('../../models/user.js');
 const servers = require('../../models/server.js');
 const bot = require('../../models/bot.js');
 const commandsSchema = require('../../models/command.js');
-
+const premium = require('../../utils/premium/premium.js');
 const webhooks = require('../../resources/webhooks.json');
+
 const webhookClient = new Discord.WebhookClient(webhooks.messageID, webhooks.messageToken);
 
 module.exports = class Message extends Event {
@@ -180,6 +181,11 @@ module.exports = class Message extends Event {
 				}
 
 				if (cmd.permission === 'dev' && !client.settings.devs.includes(message.author.id)) return;
+
+				if (!client.settings.devs.includes(message.author.id)) {
+					if (cmd.permission === 'premium' && await premium(message.author.id, 'Premium') == false) return client.responses('noPremium', message);
+					if (cmd.permission === 'pro' && await premium(message.author.id, 'Pro') == false) return client.responses('noPro', message);
+				}
 
 				if (cmd && !message.guild && cmd.guildOnly) return message.channel.send('I can\'t execute that command inside DMs!. Please run this command in a server.');
 

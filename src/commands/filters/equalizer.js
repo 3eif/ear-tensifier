@@ -1,6 +1,5 @@
 const Command = require('../../structures/Command');
 
-const premium = require('../../utils/premium/premium.js');
 const Discord = require('discord.js');
 
 module.exports = class Equalizer extends Command {
@@ -12,10 +11,10 @@ module.exports = class Equalizer extends Command {
 			inVoiceChannel: true,
 			sameVoiceChannel: true,
 			playing: true,
+			permission: 'pro',
 		});
 	}
 	async run(client, message, args) {
-		if (await premium(message.author.id, 'Pro') == false) return client.responses('noPro', message);
 
 		const player = client.music.players.get(message.guild.id);
 

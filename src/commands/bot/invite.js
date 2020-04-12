@@ -13,6 +13,6 @@ module.exports = class Invite extends Command {
 		});
 	}
 	async run(client, message) {
-		message.channel.send('<https://discordapp.com/oauth2/authorize?client_id=472714545723342848&scope=bot&permissions=3153960>');
+		message.channel.send('<https://discordapp.com/oauth2/authorize?client_id=472714545723342848&scope=bot&permissions=11542536>');
 	}
 };

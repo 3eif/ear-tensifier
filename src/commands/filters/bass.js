@@ -1,7 +1,6 @@
 const Command = require('../../structures/Command');
 
 const Discord = require('discord.js');
-const premium = require('../../utils/premium/premium.js');
 
 module.exports = class Bass extends Command {
 	constructor(client) {
@@ -12,10 +11,10 @@ module.exports = class Bass extends Command {
 			inVoiceChannel: true,
 			sameVoiceChannel: true,
 			playing: true,
+			permission: 'premium',
 		});
 	}
 	async run(client, message, args) {
-		if (await premium(message.author.id, 'Premium') == false) return client.responses('noPremium', message);
 
 		const player = client.music.players.get(message.guild.id);
 		const delay = ms => new Promise(res => setTimeout(res, ms));
