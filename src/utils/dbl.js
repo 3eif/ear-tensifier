@@ -3,6 +3,7 @@ const Discord = require('discord.js');
 
 const { post } = require('../tokens.json');
 const webhooks = require('../resources/webhooks.json');
+const users = require('../models/user.js');
 const webhookClient = new Discord.WebhookClient(webhooks.voteID, webhooks.voteToken);
 
 module.exports.startUp = async (client) => {
@@ -14,11 +15,11 @@ module.exports.startUp = async (client) => {
 
 	dbl.webhook.on('vote', async (voter) => {
 		try {
-			const person = await client.users.fetch(voter.user);
+			const votedUser = await client.users.fetch(voter.user);
 			const embed = new Discord.MessageEmbed()
-				.setAuthor(`${person.tag} - (${person.id})`, person.displayAvatarURL())
-				.setDescription(`**${person.username}** voted for the bot!`)
-				.setThumbnail(person.displayAvatarURL())
+				.setAuthor(`${votedUser.tag} - (${votedUser.id})`, votedUser.displayAvatarURL())
+				.setDescription(`**${votedUser.username}** voted for the bot!`)
+				.setThumbnail(votedUser.displayAvatarURL())
 				.setColor(client.colors.main)
 				.setTimestamp();
 
@@ -26,6 +27,30 @@ module.exports.startUp = async (client) => {
 				username: 'Ear Tensifier',
 				avatarURL: client.settings.avatar,
 				embeds: [embed],
+			});
+
+			users.findOne({
+				authorID: votedUser.id,
+			}, async (err, u) => {
+				if (err) console.log(err);
+				if (!u) {
+					const newUser = new users({
+						authorID: votedUser.id,
+						bio: '',
+						songsPlayed: 0,
+						commandsUsed: 0,
+						blocked: false,
+						premium: false,
+						pro: false,
+						developer: false,
+						voted: true,
+					});
+					await newUser.save().catch(e => console.log(e));
+				}
+				else {
+					u.voted = true;
+				}
+				await u.save().catch(e => console.log(e));
 			});
 		}
 		catch (e) {

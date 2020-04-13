@@ -10,6 +10,7 @@ const userSchema = mongoose.Schema({
 	pro: Boolean,
 	developer: Boolean,
 	favorites: Array,
+	voted: Boolean,
 });
 
 module.exports = mongoose.model('users', userSchema);
