@@ -6,6 +6,7 @@ module.exports = class ShardReady extends Event {
 	}
 
 	async run(e) {
-		this.client.log(e);
+		const i = parseInt(this.client.shard.ids) + 1;
+		this.client.log(`[Shard ${i}] Error ${e}...`);
 	}
 };
