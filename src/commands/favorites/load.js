@@ -1,6 +1,7 @@
 const Command = require('../../structures/Command');
 
 const users = require('../../models/user.js');
+const spawnPlayer = require('../../utils/spawnPlayer.js');
 const premium = require('../../utils/premium/premium.js');
 const patreon = require('../../resources/patreon.json');
 const { getPreview } = require('spotify-url-info');

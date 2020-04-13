@@ -51,19 +51,19 @@ module.exports = async (client, textChannel, title, duration, author, uri) => {
 	else if (uri.includes('bandcamp')) {
 		embed.attachFiles(['./src/assets/bandcamp.png']);
 		embed.setThumbnail('attachment://bandcamp.png');
-		embed.setFooter('Source: bandcamp');
+		embed.setFooter('bandcamp');
 		embed.setColor(client.colors.bandcamp);
 	}
 	else if (uri.includes('beam.pro')) {
 		embed.attachFiles(['./src/assets/mixer.png']);
 		embed.setThumbnail('attachment://mixer.png');
-		embed.setFooter('Source: Mixer');
+		embed.setFooter('Mixer');
 		embed.setColor(client.colors.mixer);
 	}
 	else if (uri.includes('twitch')) {
 		embed.attachFiles(['./src/assets/twitch.png']);
 		embed.setThumbnail('attachment://twitch.png');
-		embed.setFooter('Source: Twitch');
+		embed.setFooter('Twitch');
 		embed.setColor(client.colors.twitch);
 	}
 	else if (uri.includes('youtube')) {
@@ -73,7 +73,7 @@ module.exports = async (client, textChannel, title, duration, author, uri) => {
 		// eslint-disable-next-line no-unused-vars
 		yts(opts, function(err, video) {
 			embed.setThumbnail(thumbnail);
-			embed.setFooter('Source: Youtube');
+			embed.setFooter('Youtube');
 			embed.setColor(client.colors.youtube);
 
 			if (duration.toString().length > 10) { embed.addField('Duration', '∞', true); }
@@ -89,7 +89,7 @@ module.exports = async (client, textChannel, title, duration, author, uri) => {
 	}
 	else {
 		embed.setColor(client.colors.main);
-		embed.setFooter('Source: Other');
+		embed.setFooter('Other');
 	}
 
 	if (uri.includes('youtube')) return;
