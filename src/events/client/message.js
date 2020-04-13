@@ -224,6 +224,10 @@ module.exports = class Message extends Event {
 
 				try {
 					cmd.run(client, message, args);
+
+					// if(!message.member.voice.channel) return;
+					// const permissions = message.guild.members.cache.get(client.user.id).voice.channel.permissionsFor(client.user);
+					// if ((permissions.has('DEAFEN_MEMBERS') || permissions.has('ADMINISTRATOR'))) message.guild.members.cache.get(client.user.id).voice.setDeaf(true);
 				}
 				catch (e) {
 					console.error(e);
