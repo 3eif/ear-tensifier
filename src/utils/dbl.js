@@ -51,8 +51,8 @@ module.exports.startUp = async (client) => {
 				else {
 					u.voted = true;
 					u.lastVoted = Date.now();
+					await u.save().catch(e => console.log(e));
 				}
-				await u.save().catch(e => console.log(e));
 			});
 		}
 		catch (e) {
