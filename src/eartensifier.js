@@ -15,8 +15,6 @@ class Client extends Discord.Client {
 		this.colors = require('./resources/colors.json');
 		this.emojiList = require('./resources/emojis.json');
 		this.errors = require('./utils/errors.js');
-
-		this.dbl = new DBL(post['topGG']['token'], { webhookPort: post['topGG']['port'], webhookAuth: post['topGG']['password'] });
 	}
 
 	log(msg) {
@@ -25,6 +23,7 @@ class Client extends Discord.Client {
 }
 
 const client = new Client();
+client.dbl = new DBL(post['topGG']['token'], { webhookPort: post['topGG']['port'], webhookAuth: post['topGG']['password'] });
 
 ['commands', 'events'].forEach(handler => require(`./utils/handlers/${handler}`)(client));
 
