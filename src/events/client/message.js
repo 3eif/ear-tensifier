@@ -9,6 +9,7 @@ const bot = require('../../models/bot.js');
 const commandsSchema = require('../../models/command.js');
 const premium = require('../../utils/premium/premium.js');
 const webhooks = require('../../resources/webhooks.json');
+const getVoted = require('../../utils/votes/getVoted.js');
 
 const webhookClient = new Discord.WebhookClient(webhooks.messageID, webhooks.messageToken);
 
@@ -187,6 +188,12 @@ module.exports = class Message extends Event {
 					if (cmd.permission === 'pro' && await premium(message.author.id, 'Pro') == false) return client.responses('noPro', message);
 				}
 
+				if (cmd.voteLocked == true && await premium(message.author.id, 'Premium') == false && await premium(message.author.id, 'Pro') == false) {
+					if(await getVoted(client, message.author)) {
+						return client.responses('voteLocked', message);
+					}
+				}
+
 				if (cmd && !message.guild && cmd.guildOnly) return message.channel.send('I can\'t execute that command inside DMs!. Please run this command in a server.');
 
 				if (!client.settings.devs.includes(message.author.id)) {
@@ -224,10 +231,6 @@ module.exports = class Message extends Event {
 
 				try {
 					cmd.run(client, message, args);
-
-					// if(!message.member.voice.channel) return;
-					// const permissions = message.guild.members.cache.get(client.user.id).voice.channel.permissionsFor(client.user);
-					// if ((permissions.has('DEAFEN_MEMBERS') || permissions.has('ADMINISTRATOR'))) message.guild.members.cache.get(client.user.id).voice.setDeaf(true);
 				}
 				catch (e) {
 					console.error(e);

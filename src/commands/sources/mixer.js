@@ -6,13 +6,11 @@ const spawnPlayer = require('../../utils/spawnPlayer.js');
 module.exports = class Mixer extends Command {
 	constructor(client) {
 		super(client, {
-			name: 'support',
-			description: 'Sends the support server for the bot.',
-			aliases: ['server'],
-			usage: '',
-			enabled: true,
-			cooldown: 5,
-			args: false,
+			name: 'mixer',
+			description: 'Plays streams from mixer.',
+			args: true,
+			usage: '<song link>',
+			inVoiceChannel: true,
 		});
 	}
 	async run(client, message, args) {
