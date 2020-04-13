@@ -6,7 +6,7 @@ module.exports = async (client, message) => {
     });
 
     const permissions = message.member.voice.channel.permissionsFor(client.user);
-    if (permissions.has('DEAFEN_MEMBERS') || permissions.has('ADMINISTRATOR')) message.guild.members.cache.get(client.user.id).voice.setDeaf(true);
+    if (permissions.has('DEAFEN_MEMBERS') || permissions.has('ADMINISTRATOR')) message.guild.members.cache.get(client.user.id).voice.selfDeaf(true);
 
     return player;
 };
