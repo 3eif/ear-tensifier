@@ -1,7 +1,4 @@
 const Discord = require('discord.js');
-const DBL = require('dblapi.js');
-
-const { post } = require('./tokens.json');
 
 class Client extends Discord.Client {
 	constructor() {

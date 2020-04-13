@@ -1,6 +1,6 @@
 const DBL = require('dblapi.js');
 
-const { post } = require('../tokens.json');
+const { post } = require('../../tokens.json');
 
 module.exports = async (client, user) => {
 	client.dbl = new DBL(post['topGG']['token'], {
