@@ -188,11 +188,11 @@ module.exports = class Message extends Event {
 					if (cmd.permission === 'pro' && await premium(message.author.id, 'Pro') == false) return client.responses('noPro', message);
 				}
 
-				if (cmd.voteLocked == true && await premium(message.author.id, 'Premium') == false && await premium(message.author.id, 'Pro') == false) {
-					if(await getVoted(client, message.author)) {
-						return client.responses('voteLocked', message);
-					}
-				}
+				// if (cmd.voteLocked == true && await premium(message.author.id, 'Premium') == false && await premium(message.author.id, 'Pro') == false) {
+				// 	if(await getVoted(client, message.author)) {
+				// 		return client.responses('voteLocked', message);
+				// 	}
+				// }
 
 				if (cmd && !message.guild && cmd.guildOnly) return message.channel.send('I can\'t execute that command inside DMs!. Please run this command in a server.');
 
