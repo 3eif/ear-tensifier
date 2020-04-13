@@ -8,8 +8,11 @@ module.exports = async (client, user) => {
 	// 	webhookAuth: post['topGG']['password'],
 	// }, client);
 
-	client.dbl.hasVoted(user.id).then(voted => {
-		if (voted) { return true; }
-		else { return false; }
+	// client.dbl.hasVoted(user.id).then(voted => {
+	// 	if (voted) { return true; }
+	// 	else { return false; }
+	// });
+	client.dbl.webhook.on('ready', async (hook) => {
+		client.log(`Top.gg webhook running at http://${hook.hostname}:${hook.port}${hook.path}`);
 	});
 };
