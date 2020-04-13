@@ -7,10 +7,10 @@ const users = require('../models/user.js');
 const webhookClient = new Discord.WebhookClient(webhooks.voteID, webhooks.voteToken);
 
 module.exports.startUp = async (client) => {
-	client.dbl = new DBL(post['topGG']['token'], {
-		webhookPort: post['topGG']['port'],
-		webhookAuth: post['topGG']['password'],
-	}, client);
+	// client.dbl = new DBL(post['topGG']['token'], {
+	// 	webhookPort: post['topGG']['port'],
+	// 	webhookAuth: post['topGG']['password'],
+	// }, client);
 
 	client.dbl.webhook.on('ready', async (hook) => {
 		client.log(`Top.gg webhook running at http://${hook.hostname}:${hook.port}${hook.path}`);

@@ -1,4 +1,7 @@
 const Discord = require('discord.js');
+const DBL = require('dblapi.js');
+
+const { post } = require('../../tokens.json');
 
 class Client extends Discord.Client {
 	constructor() {
@@ -12,6 +15,11 @@ class Client extends Discord.Client {
 		this.colors = require('./resources/colors.json');
 		this.emojiList = require('./resources/emojis.json');
 		this.errors = require('./utils/errors.js');
+
+		this.dbl = new DBL(post['topGG']['token'], {
+			webhookPort: post['topGG']['port'],
+			webhookAuth: post['topGG']['password'],
+		}, client);
 	}
 
 	log(msg) {
