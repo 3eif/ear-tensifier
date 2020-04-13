@@ -1,6 +1,4 @@
 const Discord = require('discord.js');
-const DBL = require('dblapi.js');
-const { post, discordToken } = require('./tokens.json');
 
 class Client extends Discord.Client {
 	constructor() {
@@ -8,7 +6,6 @@ class Client extends Discord.Client {
 
 		this.commands = new Discord.Collection();
 		this.aliases = new Discord.Collection();
-
 		this.settings = require('./settings.js');
 		this.responses = require('./utils/responses.js');
 		this.filters = require('./resources/filters.json');
@@ -23,8 +20,7 @@ class Client extends Discord.Client {
 }
 
 const client = new Client();
-client.dbl = new DBL(post['topGG']['token'], { webhookPort: post['topGG']['port'], webhookAuth: post['topGG']['password'] });
 
 ['commands', 'events'].forEach(handler => require(`./utils/handlers/${handler}`)(client));
 
-client.login(discordToken);
+client.login(require('./tokens.json').discordToken);
