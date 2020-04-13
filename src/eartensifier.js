@@ -19,7 +19,7 @@ class Client extends Discord.Client {
 		this.dbl = new DBL(post['topGG']['token'], {
 			webhookPort: post['topGG']['port'],
 			webhookAuth: post['topGG']['password'],
-		}, client);
+		}, this);
 	}
 
 	log(msg) {
