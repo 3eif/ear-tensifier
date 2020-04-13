@@ -4,6 +4,8 @@ const Command = require('../../structures/Command');
 const Discord = require('discord.js');
 const { Utils } = require('erela.js');
 
+const spawnPlayer = require('../../utils/spawnPlayer.js');
+
 module.exports = class Search extends Command {
 	constructor(client) {
 		super(client, {
@@ -24,11 +26,8 @@ module.exports = class Search extends Command {
 
 		const msg = await message.channel.send(`${client.emojiList.cd}  Searching for \`${args.join(' ')}\`...`);
 
-		const player = client.music.players.spawn({
-			guild: message.guild,
-			textChannel: message.channel,
-			voiceChannel: message.member.voice.channel,
-		});
+		let player = client.music.players.get(message.guild.id);
+		if (!player) player = await spawnPlayer(client, message);
 
 		client.music.search(args.join(' '), message.author).then(async res => {
 			switch (res.loadType) {

@@ -9,13 +9,8 @@ module.exports = class VoiceStateUpdate extends Event {
 	async run(oldVoice, newVoice) {
 
 		const player = this.client.music.players.get(oldVoice.guild.id);
-		if (!player) return;
 
-		// if (newVoice.guild.members.cache.get(this.client.user.id).voice.channelID == null) return;
-		// if ((oldVoice.guild.members.cache.get(this.client.user.id).voice.channelID && newVoice.guild.members.cache.get(this.client.user.id).voice.channelID) || newVoice.guild.members.cache.get(this.client.user.id).voice.channelID) {
-		// 	const permissions = newVoice.guild.members.cache.get(this.client.user.id).voice.channel.permissionsFor(this.client.user);
-		// 	if (permissions.has('DEAFEN_MEMBERS') || permissions.has('ADMINISTRATOR')) newVoice.guild.members.cache.get(this.client.user.id).voice.setDeaf(true);
-		// }
+		if (!player) return;
 
 		if (player && !newVoice.guild.members.cache.get(this.client.user.id).voice.channelID) this.client.music.players.destroy(oldVoice.guild.id);
 		if (oldVoice.id === this.client.user.id) return;

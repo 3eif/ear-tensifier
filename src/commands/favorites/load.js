@@ -18,11 +18,8 @@ module.exports = class Load extends Command {
 		if (!permissions.has('CONNECT')) return message.channel.send('I do not have permission to join your voice channel.');
 		if (!permissions.has('SPEAK')) return message.channel.send('I do not have permission to speak in your voice channel.');
 
-		const player = client.music.players.spawn({
-			guild: message.guild,
-			textChannel: message.channel,
-			voiceChannel: message.member.voice.channel,
-		});
+		let player = client.music.players.get(message.guild.id);
+		if (!player) player = await spawnPlayer(client, message);
 
 		if (player.pause == 'paused') return message.channel.send(`Cannot play/queue songs while paused. Do \`${client.settings.prefix} resume\` to play.`);
 

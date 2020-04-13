@@ -1,6 +1,7 @@
 const Command = require('../../structures/Command');
 
 const play = require('../../utils/play.js');
+const spawnPlayer = require('../../utils/spawnPlayer.js');
 const patreon = require('../../resources/patreon.json');
 const premium = require('../../utils/premium/premium.js');
 
@@ -22,14 +23,7 @@ module.exports = class Soundcloud extends Command {
 		if (!permissions.has('SPEAK')) return client.responses('noPermissionSpeak', message);
 
 		let player = client.music.players.get(message.guild.id);
-
-		if (!player) {
-			player = client.music.players.spawn({
-				guild: message.guild,
-				textChannel: message.channel,
-				voiceChannel: message.member.voice.channel,
-			});
-		}
+		if (!player) player = await spawnPlayer(client, message);
 
 		if (await songLimit() == patreon.defaultMaxSongs && player.queue.size >= patreon.defaultMaxSongs) return msg.edit(`You have reached the **maximum** amount of songs (${patreon.defaultMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`);
 		if (await songLimit() == patreon.premiumMaxSongs && player.queue.size >= patreon.premiumMaxSongs) return msg.edit(`You have reached the **maximum** amount of songs (${patreon.premiumMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`);

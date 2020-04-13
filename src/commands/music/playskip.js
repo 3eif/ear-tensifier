@@ -1,6 +1,7 @@
 const Command = require('../../structures/Command');
 
 const play = require('../../utils/play.js');
+const spawnPlayer = require('../../utils/spawnPlayer.js');
 const { getData, getPreview } = require('spotify-url-info');
 
 module.exports = class Playskip extends Command {
@@ -17,11 +18,8 @@ module.exports = class Playskip extends Command {
 		});
 	}
 	async run(client, message, args) {
-		const player = client.music.players.spawn({
-			guild: message.guild,
-			textChannel: message.channel,
-			voiceChannel: message.member.voice.channel,
-		});
+		let player = client.music.players.get(message.guild.id);
+		if (!player) player = await spawnPlayer(client, message);
 
 		if (player.pause == 'paused') return message.channel.send(`Cannot play/queue songs while paused. Do \`${client.settings.prefix} resume\` to play.`);
 

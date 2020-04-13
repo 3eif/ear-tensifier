@@ -1,6 +1,7 @@
 const Command = require('../../structures/Command');
 
 const play = require('../../utils/play.js');
+const spawnPlayer = require('../../utils/spawnPlayer.js');
 
 module.exports = class Mixer extends Command {
 	constructor(client) {
@@ -22,14 +23,7 @@ module.exports = class Mixer extends Command {
 		if (!permissions.has('SPEAK')) return client.responses('noPermissionSpeak', message);
 
 		let player = client.music.players.get(message.guild.id);
-
-		if (!player) {
-			player = client.music.players.spawn({
-				guild: message.guild,
-				textChannel: message.channel,
-				voiceChannel: message.member.voice.channel,
-			});
-		}
+		if (!player) player = await spawnPlayer(client, message);
 
 		if (player.pause == 'paused') return message.channel.send(`Cannot play/queue songs while paused. Do \`${client.settings.prefix} resume\` to play.`);
 
