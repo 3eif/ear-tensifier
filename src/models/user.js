@@ -11,6 +11,7 @@ const userSchema = mongoose.Schema({
 	developer: Boolean,
 	favorites: Array,
 	voted: Boolean,
+	lastVoted: Number,
 });
 
 module.exports = mongoose.model('users', userSchema);
