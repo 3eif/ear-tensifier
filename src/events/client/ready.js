@@ -1,4 +1,6 @@
 const Discord = require('discord.js');
+const figlet = require('figlet');
+
 const Event = require('../../structures/Event');
 const tokens = require('../../tokens.json');
 const mongoose = require('mongoose');
@@ -9,8 +11,8 @@ const postHandler = require('../../utils/handlers/post.js');
 const webhookClient = new Discord.WebhookClient(webhooks.webhookID, webhooks.webhookToken);
 
 mongoose.connect(`mongodb://${tokens.mongoIP}:${tokens.mongoPort}/test`, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
 });
 
 module.exports = class Ready extends Event {
@@ -30,6 +32,7 @@ module.exports = class Ready extends Event {
 		this.client.user.setActivity('ear help', { type: 'LISTENING' });
 
 		if (this.client.shard.ids == this.client.shard.count - 1) {
+
 			const promises = [
 				this.client.shard.fetchClientValues('guilds.cache.size'),
 				this.client.shard.broadcastEval('this.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0)'),
@@ -39,6 +42,16 @@ module.exports = class Ready extends Event {
 				.then(async results => {
 					const totalGuilds = results[0].reduce((prev, guildCount) => prev + guildCount, 0);
 					const totalMembers = results[1].reduce((prev, memberCount) => prev + memberCount, 0);
+
+					figlet(this.client.user.username, function(err, data) {
+						if (err) {
+							console.log('Something went wrong...');
+							console.dir(err);
+							return;
+						}
+						console.log(data);
+					});
+
 					this.client.log(`Ear Tensifier is online: ${this.client.shard.count} shards, ${totalGuilds} servers and ${totalMembers} members.`);
 
 					setInterval(() => {
