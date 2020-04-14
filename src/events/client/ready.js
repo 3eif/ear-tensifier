@@ -3,14 +3,13 @@ const figlet = require('figlet');
 const mongoose = require('mongoose');
 
 const Event = require('../../structures/Event');
-const tokens = require('../../tokens.json');
 const player = require('../../player/player.js');
 const webhooks = require('../../resources/webhooks.json');
 const postHandler = require('../../handlers/post.js');
 
 const webhookClient = new Discord.WebhookClient(webhooks.webhookID, webhooks.webhookToken);
 
-mongoose.connect(`mongodb://${tokens.mongoIP}:${tokens.mongoPort}/test`, {
+mongoose.connect(`mongodb://${process.env.MONGO_IP}:${process.env.MONGO_PORT}/test`, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
 });

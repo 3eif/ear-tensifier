@@ -1,8 +1,6 @@
 const Discord = require('discord.js');
 const DBL = require('dblapi.js');
 
-const { post } = require('./tokens.json');
-
 class Client extends Discord.Client {
 	constructor() {
 		super();
@@ -16,7 +14,7 @@ class Client extends Discord.Client {
 		this.emojiList = require('./resources/emojis.json');
 		this.errors = require('./utils/errors.js');
 
-		this.dbl = new DBL(post['topGG']['token'], this);
+		this.dbl = new DBL(process.env.TOPGG_TOKEN, this);
 	}
 
 	log(msg) {
@@ -28,4 +26,4 @@ const client = new Client();
 
 ['commands', 'events'].forEach(handler => require(`./handlers/${handler}`)(client));
 
-client.login(require('./tokens.json').discordToken);
+client.login(process.env.DISCORD_TOKEN);

@@ -1,15 +1,14 @@
 const Discord = require('discord.js');
 const DBL = require('dblapi.js');
 
-const { post } = require('../tokens.json');
 const webhooks = require('../resources/webhooks.json');
 const users = require('../models/user.js');
 const webhookClient = new Discord.WebhookClient(webhooks.voteID, webhooks.voteToken);
 
 module.exports.startUp = async (client) => {
-	const dblWebhook = new DBL(post['topGG']['token'], {
-		webhookPort: post['topGG']['port'],
-		webhookAuth: post['topGG']['password'],
+	const dblWebhook = new DBL(process.env.TOPGG_TOKEN, {
+		webhookPort: process.env.TOPGG_PORT,
+		webhookAuth: process.env.TOPGG_PASSWORD,
 	}, client);
 
 	dblWebhook.webhook.on('ready', async (hook) => {

@@ -5,8 +5,14 @@ const trackStart = require('./trackStart.js');
 const autoPlay = require('./queueEnd.js');
 
 module.exports = async (client) => {
-	client.music = new ErelaClient(client, tokens.nodes);
-    client.music.on('nodeError', (node, error) => client.log(`Node error: ${error.message}`));
+	const nodes = [{
+		host: process.env.LAVALINK_HOST,
+		port: process.env.LAVALINK_PORT,
+		password: process.env.LAVALINK_PASSWORD,
+	}];
+
+	client.music = new ErelaClient(client, nodes);
+	client.music.on('nodeError', (node, error) => client.log(`Node error: ${error.message}`));
 	client.music.on('queueEnd', player => {
 		return client.music.players.destroy(player.guild.id);
 	});

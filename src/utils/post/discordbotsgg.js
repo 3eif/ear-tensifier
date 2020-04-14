@@ -1,7 +1,6 @@
 /* eslint-disable no-shadow */
 const discordbots = require('discord.bots.gg');
-const { post } = require('../../tokens.json');
-const dbots = new discordbots(post['discordBotsGG']['id'], post['discordBotsGG']['token']);
+const dbots = new discordbots(process.env.DISCORD_ID, process.env.DISCORDBOTSGG_TOKEN);
 
 module.exports = async (client, servers, shards, shardID) => {
 	// eslint-disable-next-line no-unused-vars

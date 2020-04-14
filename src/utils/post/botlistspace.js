@@ -1,6 +1,5 @@
 const BotList = require('botlist.space');
-const { post } = require('../../tokens.json');
-const botListClient = new BotList.Client({ id: post['botListSpace']['id'], botToken: post['botListSpace']['token'] });
+const botListClient = new BotList.Client({ id: process.env.DISCORD_ID, botToken: process.env.BOTLISTSPACE_TOKEN });
 
 module.exports = async (client) => {
 	const shardInfo = await client.shard.broadcastEval(`[

@@ -1,14 +1,14 @@
 const { ShardingManager } = require('discord.js');
 const mongoose = require('mongoose');
-const tokens = require('./src/tokens.json');
+require('dotenv').config();
 
-mongoose.connect(`mongodb://${tokens.mongoIP}:${tokens.mongoPort}/test`, {
+mongoose.connect(`mongodb://${process.env.MONGO_IP}:${process.env.MONGO_PORT}/test`, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
 const manager = new ShardingManager('./src/eartensifier.js', {
-  token: tokens.discordToken,
+  token: process.env.DISCORD_TOKEN,
   timeout: 999999,
 });
 

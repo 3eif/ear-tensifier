@@ -3,8 +3,7 @@ const Command = require('../../structures/Command');
 const Discord = require('discord.js');
 const { KSoftClient } = require('ksoft.js');
 
-const { ksoftToken } = require('../../tokens.json');
-const ksoft = new KSoftClient(ksoftToken);
+const ksoft = new KSoftClient(process.env.KSOFT_TOKEN);
 
 module.exports = class Lyrics extends Command {
 	constructor(client) {
