@@ -26,7 +26,10 @@ module.exports = class Volume extends Command {
 		}
 
 		if (isNaN(args[0])) return message.channel.send('Invalid number.');
-		player.setVolume(Number(args[0]));
+
+		let volume = Number(args[0]);
+		if(volume > 1000) volume = 1000;
+		player.setVolume(volume);
 
 		const embed = new Discord.MessageEmbed()
 			.setAuthor(message.guild.name, message.guild.iconURL())
