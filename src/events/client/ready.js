@@ -1,9 +1,10 @@
 const Discord = require('discord.js');
 const figlet = require('figlet');
+const mongoose = require('mongoose');
+const DBL = require('dblapi.js');
 
 const Event = require('../../structures/Event');
 const tokens = require('../../tokens.json');
-const mongoose = require('mongoose');
 const player = require('../../player/player.js');
 const webhooks = require('../../resources/webhooks.json');
 const postHandler = require('../../utils/handlers/post.js');
@@ -22,6 +23,11 @@ module.exports = class Ready extends Event {
 
 	async run() {
 		player(this.client);
+
+		this.client.dbl = new DBL(tokens.post['topGG']['token'], {
+			webhookPort: tokens.post['topGG']['port'],
+			webhookAuth: tokens.post['topGG']['password'],
+		}, this.client);
 
 		this.client.levels = new Map()
 			.set('none', 0.0)
