@@ -33,6 +33,7 @@ module.exports = async (client, author) => {
 					}
 					else {
 						u.voted = false;
+						return false;
 					}
 				}
 				await u.save().catch(e => console.log(e));
