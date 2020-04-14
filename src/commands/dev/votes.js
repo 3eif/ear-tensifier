@@ -16,6 +16,6 @@ module.exports = class Votes extends Command {
 		});
 	}
 	async run(client, message) {
-		message.channel.send(await getVotes());
+		message.channel.send(await getVotes(client));
 	}
 };
