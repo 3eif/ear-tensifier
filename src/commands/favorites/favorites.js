@@ -22,6 +22,11 @@ module.exports = class Favorites extends Command {
 			authorID: message.author.id,
 		}, async (err, u) => {
 			if (err) client.log(err);
+
+			if(u.favorites.length == 0 || !u.favorites) {
+				return msg.edit('You have no favorites. To add favorites type `ear add <search query/link>`');
+			}
+
 			let str = '';
 			const songs = [];
 
