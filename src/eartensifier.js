@@ -26,6 +26,6 @@ class Client extends Discord.Client {
 
 const client = new Client();
 
-['commands', 'events'].forEach(handler => require(`./utils/handlers/${handler}`)(client));
+['commands', 'events'].forEach(handler => require(`./handlers/${handler}`)(client));
 
 client.login(require('./tokens.json').discordToken);

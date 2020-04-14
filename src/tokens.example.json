@@ -29,7 +29,8 @@
         ,
         "topGG": {
             "token": "",
-            "password": ""
+            "password": "",
+            "port": "",
         }
     },
     "nodes": [{ "host": "", "port": 0, "password": "" }]

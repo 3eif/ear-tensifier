@@ -81,8 +81,6 @@ module.exports = async (client, textChannel, title, duration, author, uri) => {
 
 			embed.setDescription(`**[${title}](${uri})**`);
 			embed.addField('Requested by', requester, true);
-			// embed.addField('Views', `${video.views.toLocaleString()}`, true);
-			// embed.addField('Date', video.ago, true);
 			embed.setTimestamp();
 			return textChannel.send(embed);
 		});

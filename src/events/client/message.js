@@ -9,7 +9,7 @@ const bot = require('../../models/bot.js');
 const commandsSchema = require('../../models/command.js');
 const premium = require('../../utils/premium/premium.js');
 const webhooks = require('../../resources/webhooks.json');
-const getVoted = require('../../utils/votes/getVoted.js');
+const getVoted = require('../../utils/getVoted.js');
 
 const webhookClient = new Discord.WebhookClient(webhooks.messageID, webhooks.messageToken);
 

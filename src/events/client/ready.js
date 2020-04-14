@@ -6,7 +6,7 @@ const Event = require('../../structures/Event');
 const tokens = require('../../tokens.json');
 const player = require('../../player/player.js');
 const webhooks = require('../../resources/webhooks.json');
-const postHandler = require('../../utils/handlers/post.js');
+const postHandler = require('../../handlers/post.js');
 
 const webhookClient = new Discord.WebhookClient(webhooks.webhookID, webhooks.webhookToken);
 

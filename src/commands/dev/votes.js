@@ -1,7 +1,5 @@
 const Command = require('../../structures/Command');
 
-const getVotes = require('../../utils/votes/getVotes.js');
-
 module.exports = class Votes extends Command {
 	constructor(client) {
 		super(client, {
@@ -10,12 +8,14 @@ module.exports = class Votes extends Command {
 			usage: '',
 			enabled: true,
 			aliases: [],
-            cooldown: 5,
-            permission: 'dev',
+			cooldown: 5,
+			permission: 'dev',
 			args: false,
 		});
 	}
 	async run(client, message) {
-		message.channel.send(await getVotes(client));
+		client.dbl.getVotes().then(votes => {
+			return message.channel.send(`Total votes: ${votes.length}`);
+		});
 	}
 };

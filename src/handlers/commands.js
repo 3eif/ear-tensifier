@@ -9,7 +9,7 @@ module.exports = client => {
 				const init = async () => {
 					const commands = fs.readdirSync(`./src/commands/${category}`).filter(file => file.endsWith('.js'));
 					for (const file of commands) {
-						const f = require(`../../commands/${category}/${file}`);
+						const f = require(`../commands/${category}/${file}`);
 						const command = new f(client);
 						client.commands.set(command.name.toLowerCase(), command);
 						if (command && command.aliases && command.aliases.constructor.name === 'Array') {
