@@ -5,7 +5,7 @@ const getVotes = require('../../utils/votes/getVotes.js');
 module.exports = class Votes extends Command {
 	constructor(client) {
 		super(client, {
-			name: 'vote',
+			name: 'votes',
 			description: 'Shows # of votes',
 			usage: '',
 			enabled: true,
