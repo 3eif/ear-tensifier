@@ -1,7 +1,6 @@
 const Discord = require('discord.js');
 const figlet = require('figlet');
 const mongoose = require('mongoose');
-const DBL = require('dblapi.js');
 
 const Event = require('../../structures/Event');
 const tokens = require('../../tokens.json');
