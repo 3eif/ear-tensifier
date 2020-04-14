@@ -2,7 +2,7 @@ const { ShardingManager } = require('discord.js');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-mongoose.connect(`mongodb://${process.env.MONGO_IP}:${process.env.MONGO_PORT}/test`, {
+mongoose.connect(`mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/test`, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });

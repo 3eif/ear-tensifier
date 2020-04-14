@@ -9,7 +9,7 @@ const postHandler = require('../../handlers/post.js');
 
 const webhookClient = new Discord.WebhookClient(webhooks.webhookID, webhooks.webhookToken);
 
-mongoose.connect(`mongodb://${process.env.MONGO_IP}:${process.env.MONGO_PORT}/test`, {
+mongoose.connect(`mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/test`, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
 });
