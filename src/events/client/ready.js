@@ -24,11 +24,6 @@ module.exports = class Ready extends Event {
 	async run() {
 		player(this.client);
 
-		this.client.dbl = new DBL(tokens.post['topGG']['token'], {
-			webhookPort: tokens.post['topGG']['port'],
-			webhookAuth: tokens.post['topGG']['password'],
-		}, this.client);
-
 		this.client.levels = new Map()
 			.set('none', 0.0)
 			.set('low', 0.10)
