@@ -188,6 +188,8 @@ module.exports = class Message extends Event {
 					if (cmd.permission === 'pro' && await premium(message.author.id, 'Pro') == false) return client.responses('noPro', message);
 				}
 
+				console.log(await getVoted(client, message.author));
+
 				if (cmd.voteLocked == true && await premium(message.author.id, 'Premium') == false && await premium(message.author.id, 'Pro') == false) {
 					if(await getVoted(client, message.author)) {
 						return message.channel.send('You must vote to use this command');
