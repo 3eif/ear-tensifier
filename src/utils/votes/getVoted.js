@@ -29,11 +29,11 @@ module.exports = async (client, author) => {
 				if (!u.voted) { return false; }
 				else if (u.voted) {
 					if (client.settings.voteCooldown - (Date.now() - u.lastVoted) > 0) {
-						return true;
+						return u.voted;
 					}
 					else {
 						u.voted = false;
-						return false;
+						return u.voted;
 					}
 				}
 				await u.save().catch(e => console.log(e));
