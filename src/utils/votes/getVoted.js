@@ -1,12 +1,7 @@
 // const users = require('../../models/user.js');
 
-const DBL = require('dblapi.js');
-const { post } = require('../../tokens.json');
-
 module.exports = async (client) => {
-	// const dbl = new DBL(post['topGG']['token'], { webhookPort: 5000, webhookAuth: post['topGG']['password'] }, client);
-
-	dbl.getVotes().then(votes => {
+	client.dbl.getVotes().then(votes => {
 		return votes;
 	});
 };

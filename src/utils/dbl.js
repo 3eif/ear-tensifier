@@ -1,15 +1,22 @@
 const Discord = require('discord.js');
+const DBL = require('dblapi.js');
 
+const { post } = require('../tokens.json');
 const webhooks = require('../resources/webhooks.json');
 const users = require('../models/user.js');
 const webhookClient = new Discord.WebhookClient(webhooks.voteID, webhooks.voteToken);
 
 module.exports.startUp = async (client) => {
-	client.dbl.webhook.on('ready', async (hook) => {
+	const dblWebhook = new DBL(post['topGG']['token'], {
+		webhookPort: post['topGG']['port'],
+		webhookAuth: post['topGG']['password'],
+	}, client);
+
+	dblWebhook.webhook.on('ready', async (hook) => {
 		client.log(`Top.gg webhook running at http://${hook.hostname}:${hook.port}${hook.path}`);
 	});
 
-	client.dbl.webhook.on('vote', async (voter) => {
+	dblWebhook.webhook.on('vote', async (voter) => {
 		try {
 			const votedUser = await client.users.fetch(voter.user);
 			const embed = new Discord.MessageEmbed()
