@@ -23,22 +23,19 @@ module.exports = async (client, author) => {
 					voted: false,
 				});
 				await newUser.save().catch(e => console.log(e));
-				return false;
+				return await false;
 			}
 			else {
 				if (!u.voted) {
-					console.log(false);
-					return false;
+					return await u.voted;
 				}
 				else if (u.voted) {
 					if (client.settings.voteCooldown - (Date.now() - u.lastVoted) > 0) {
-						console.log(true);
-						return u.voted;
+						return await u.voted;
 					}
 					else {
 						u.voted = false;
-						console.log(false);
-						return u.voted;
+						return await u.voted;
 					}
 				}
 				await u.save().catch(e => console.log(e));
@@ -46,5 +43,7 @@ module.exports = async (client, author) => {
 		});
 	}
 
-	return await getVoted();
+	(async () => {
+		console.log(await getVoted());
+	})();
 };
