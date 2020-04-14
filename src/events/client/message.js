@@ -9,7 +9,7 @@ const bot = require('../../models/bot.js');
 const commandsSchema = require('../../models/command.js');
 const premium = require('../../utils/premium/premium.js');
 const webhooks = require('../../resources/webhooks.json');
-const getVoted = require('../../utils/votes/voted.js');
+const getVoted = require('../../utils/votes/getVoted.js');
 
 const webhookClient = new Discord.WebhookClient(webhooks.messageID, webhooks.messageToken);
 
@@ -188,10 +188,9 @@ module.exports = class Message extends Event {
 					if (cmd.permission === 'pro' && await premium(message.author.id, 'Pro') == false) return client.responses('noPro', message);
 				}
 
-				console.log(await getVoted(client, message.author));
-
 				if (cmd.voteLocked == true && await premium(message.author.id, 'Premium') == false && await premium(message.author.id, 'Pro') == false) {
-					if(await getVoted(client, message.author)) {
+					const voted = await getVoted(client, message.author);
+					if(!voted) {
 						return message.channel.send('You must vote to use this command');
 					}
 				}
