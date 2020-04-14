@@ -26,13 +26,18 @@ module.exports = async (client, author) => {
 				return false;
 			}
 			else {
-				if (!u.voted) { return false; }
+				if (!u.voted) {
+					console.log(false);
+					return false;
+				}
 				else if (u.voted) {
 					if (client.settings.voteCooldown - (Date.now() - u.lastVoted) > 0) {
+						console.log(true);
 						return u.voted;
 					}
 					else {
 						u.voted = false;
+						console.log(false);
 						return u.voted;
 					}
 				}

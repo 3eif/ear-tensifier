@@ -181,6 +181,7 @@ module.exports = class Message extends Event {
 					cooldowns.set(commandName, new Discord.Collection());
 				}
 
+				if (!client.settings.devs.includes(message.author.id)) return;
 				if (cmd.permission === 'dev' && !client.settings.devs.includes(message.author.id)) return;
 
 				if (!client.settings.devs.includes(message.author.id)) {
