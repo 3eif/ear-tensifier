@@ -5,7 +5,7 @@
 const users = require('../../models/user.js');
 
 module.exports = async (client, author) => {
-	const voted = users.findOne({
+	users.findOne({
 		authorID: author.id,
 	}, async (err, u) => {
 		if (err) console.log(err);
@@ -37,6 +37,4 @@ module.exports = async (client, author) => {
 			await u.save().catch(e => console.log(e));
 		}
 	});
-	console.log(voted);
-	return voted;
 };

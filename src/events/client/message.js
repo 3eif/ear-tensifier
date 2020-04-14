@@ -190,6 +190,7 @@ module.exports = class Message extends Event {
 
 				if (cmd.voteLocked == true && await premium(message.author.id, 'Premium') == false && await premium(message.author.id, 'Pro') == false) {
 					const voted = await getVoted(client, message.author);
+					console.log(voted);
 					if(!voted) {
 						return message.channel.send('You must vote to use this command');
 					}
