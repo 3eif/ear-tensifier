@@ -46,5 +46,5 @@ module.exports = async (client, author) => {
 		});
 	}
 
-	console.log(await getVoted());
+	return await getVoted();
 };
