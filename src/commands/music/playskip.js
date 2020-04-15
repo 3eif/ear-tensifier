@@ -21,7 +21,7 @@ module.exports = class Playskip extends Command {
 		let player = client.music.players.get(message.guild.id);
 		if (!player) player = await spawnPlayer(client, message);
 
-		if (player.pause == 'paused') return message.channel.send(`Cannot play/queue songs while paused. Do \`${client.settings.prefix} resume\` to play.`);
+		if (player.playing == false) return message.channel.send(`Cannot play/queue songs while paused. Do \`${client.settings.prefix} resume\` to play.`);
 
 		const msg = await message.channel.send(`${client.emojiList.cd}  Searching for \`${args.join(' ')}\`...`);
 

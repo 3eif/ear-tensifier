@@ -7,11 +7,13 @@ class Client extends Discord.Client {
 		this.commands = new Discord.Collection();
 		this.aliases = new Discord.Collection();
 		this.settings = require('./settings.js');
+		this.shardMessage = require('./utils/shardMessage.js');
 		this.responses = require('./utils/responses.js');
 		this.filters = require('./resources/filters.json');
 		this.colors = require('./resources/colors.json');
 		this.emojiList = require('./resources/emojis.json');
 		this.errors = require('./utils/errors.js');
+		this.environment = process.env.NODE_ENV;
 
 		this.dbl = new DBL(process.env.TOPGG_TOKEN, this);
 	}
@@ -25,4 +27,5 @@ const client = new Client();
 
 ['commands', 'events'].forEach(handler => require(`./handlers/${handler}`)(client));
 
-client.login(process.env.DISCORD_TOKEN);
+if(client.environment == 'production') client.login(process.env.DISCORD_TOKEN);
+else client.login(process.env.DISCORD_TESTING_TOKEN);
