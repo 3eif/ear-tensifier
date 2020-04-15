@@ -1,6 +1,6 @@
 const Command = require('../../structures/Command');
 
-const { earrape } = require('../../resources/volume.json');
+const { earrape } = require('../../../config/volume.js');
 
 module.exports = class Earrape extends Command {
 	constructor(client) {

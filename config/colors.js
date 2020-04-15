@@ -1,0 +1,10 @@
+module.exports = {
+    'main': '#2F3136',
+    'online': '#7BCBA7',
+    'offline': '#9EA5AF',
+    'youtube': '#FE0000',
+    'mixer': '#1FBAED',
+    'soundcloud': '#FD8B1B',
+    'twitch': '#6442A4',
+    'bandcamp': '#619AA9',
+};

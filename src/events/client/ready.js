@@ -1,13 +1,11 @@
+/* eslint-disable no-unused-vars */
 const Discord = require('discord.js');
 const figlet = require('figlet');
 const mongoose = require('mongoose');
 
 const Event = require('../../structures/Event');
 const player = require('../../player/player.js');
-const webhooks = require('../../resources/webhooks.json');
 const postHandler = require('../../handlers/post.js');
-
-const webhookClient = new Discord.WebhookClient(webhooks.webhookID, webhooks.webhookToken);
 
 mongoose.connect(`mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/test`, {
 	useNewUrlParser: true,
@@ -20,7 +18,7 @@ module.exports = class Ready extends Event {
 	}
 
 	async run() {
-		player(this.client);
+		// player(this.client);
 
 		this.client.levels = new Map()
 			.set('none', 0.0)
@@ -66,11 +64,7 @@ module.exports = class Ready extends Event {
 						.setTimestamp()
 						.setFooter(`${totalMembers} users`);
 
-					webhookClient.send({
-						username: 'Ear Tensifier',
-						avatarURL: this.client.settings.avatar,
-						embeds: [embed],
-					});
+					this.client.shardMessage(this.client, this.client.channelList.readyChannel, embed);
 
 					if (this.client.user.id != '472714545723342848') return;
 					postHandler(this.client, totalGuilds, this.client.shard.count, this.client.shard.id, totalMembers);

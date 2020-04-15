@@ -1,9 +1,7 @@
 const Discord = require('discord.js');
 const DBL = require('dblapi.js');
 
-const webhooks = require('../resources/webhooks.json');
 const users = require('../models/user.js');
-const webhookClient = new Discord.WebhookClient(webhooks.voteID, webhooks.voteToken);
 
 module.exports.startUp = async (client) => {
 	const dblWebhook = new DBL(process.env.TOPGG_TOKEN, {
@@ -25,11 +23,7 @@ module.exports.startUp = async (client) => {
 				.setColor(client.colors.main)
 				.setTimestamp();
 
-			webhookClient.send({
-				username: 'Ear Tensifier',
-				avatarURL: client.settings.avatar,
-				embeds: [embed],
-			});
+			client.shardMessage(client, client.channelList.dblChannel, embed);
 
 			users.findOne({
 				authorID: votedUser.id,

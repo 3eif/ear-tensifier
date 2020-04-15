@@ -1,10 +1,7 @@
 const Discord = require('discord.js');
 const Event = require('../../structures/Event');
-const patreonData = require('../../resources/patreon.json');
-const webhooks = require('../../resources/webhooks.json');
 const patreon = require('../../utils/premium/patreon.js');
-
-const webhookClient = new Discord.WebhookClient(webhooks.patreonWebhookID, webhooks.patreonWebhookToken);
+const patreonData = require('../../../config/patreon.js');
 
 module.exports = class GuildMemberUpdate extends Event {
 	constructor(...args) {
@@ -24,11 +21,7 @@ module.exports = class GuildMemberUpdate extends Event {
 					.setDescription(`**${newMember.user.tag}** (${newMember.user.id}) is no longer a Patreon supporter.`)
 					.setTimestamp();
 
-				webhookClient.send({
-					username: 'Ear Tensifier',
-					avatarURL: this.client.settings.avatar,
-					embeds: [embed],
-				});
+				this.client.shardMessage(this.client, this.client.channelList.patreonChannel, embed);
 
 				return patreon(newMember.user, 'Remove');
 			}
@@ -56,11 +49,7 @@ module.exports = class GuildMemberUpdate extends Event {
 				patreon(newMember.user, 'Premium');
 			}
 
-			webhookClient.send({
-				username: 'Ear Tensifier',
-				avatarURL: this.client.settings.avatar,
-				embeds: [embed],
-			});
+			this.client.shardMessage(this.client, this.client.channelList.patreonChannel, embed);
 		}
 	}
 };

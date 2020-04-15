@@ -1,6 +1,6 @@
 const Command = require('../../structures/Command');
 
-const { normal } = require('../../resources/volume.json');
+const { normal } = require('../../../config/volume.js');
 
 module.exports = class Reset extends Command {
 	constructor(client) {

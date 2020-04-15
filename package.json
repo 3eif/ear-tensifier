@@ -4,6 +4,7 @@
   "description": "Discord music bot written in javascript using discord.js https://eartensifier.net",
   "main": "./src/index.js",
   "dependencies": {
+    "@sentry/node": "^5.12.2",
     "ascii": "^1.0.0",
     "ascii-art-image": "^1.2.2",
     "bandcamp-scraper": "^1.2.5",

@@ -8,10 +8,7 @@ const servers = require('../../models/server.js');
 const bot = require('../../models/bot.js');
 const commandsSchema = require('../../models/command.js');
 const premium = require('../../utils/premium/premium.js');
-const webhooks = require('../../resources/webhooks.json');
 const getVoted = require('../../utils/getVoted.js');
-
-const webhookClient = new Discord.WebhookClient(webhooks.messageID, webhooks.messageToken);
 
 module.exports = class Message extends Event {
 	constructor(...args) {
@@ -164,6 +161,7 @@ module.exports = class Message extends Event {
 				});
 
 				client.log(`[Shard ${client.shard.ids}] ${commandName} used by ${message.author.tag} (${message.author.id}) from ${message.guild.name} (${message.guild.id})`);
+
 				const embed = new Discord.MessageEmbed()
 					.setAuthor(`${message.author.username}`, message.author.displayAvatarURL())
 					.setColor(client.colors.main)
@@ -171,11 +169,7 @@ module.exports = class Message extends Event {
 					.setFooter(`${message.guild.name} (${message.guild.id})`, message.guild.iconURL())
 					.setTimestamp();
 
-				webhookClient.send({
-					username: 'Ear Tensifier',
-					avatarURL: client.settings.avatar,
-					embeds: [embed],
-				});
+				this.client.shardMessage(this.client, this.client.channelList.messageEvent, embed);
 
 				if (!cooldowns.has(commandName)) {
 					cooldowns.set(commandName, new Discord.Collection());

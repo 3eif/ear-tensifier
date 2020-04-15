@@ -1,9 +1,6 @@
 const Discord = require('discord.js');
 const moment = require('moment');
 const Event = require('../../structures/Event');
-const webhooks = require('../../resources/webhooks.json');
-
-const webhookClient = new Discord.WebhookClient(webhooks.guildID, webhooks.guildToken);
 
 module.exports = class GuildCreate extends Event {
 	constructor(...args) {
@@ -26,11 +23,7 @@ module.exports = class GuildCreate extends Event {
 				.setFooter(`Created On - ${moment(guild.createdAt).format('LLLL')}`, guild.iconURL())
 				.setTimestamp();
 
-			webhookClient.send({
-				username: 'Ear Tensifier',
-				avatarURL: this.client.settings.avatar,
-				embeds: [embed],
-			});
+			this.client.shardMessage(this.client, this.client.channelList.guildChannel, embed);
 
 			//   const dbl = new DBL(config.dblToken, this.client)
 			//   snekfetch.post(`https://discordbots.org/api/bots/472714545723342848/stats`)

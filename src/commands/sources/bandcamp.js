@@ -2,7 +2,7 @@ const Command = require('../../structures/Command');
 
 const play = require('../../utils/play.js');
 const spawnPlayer = require('../../utils/spawnPlayer.js');
-const patreon = require('../../resources/patreon.json');
+const patreon = require('../../../config/patreon.js');
 const premium = require('../../utils/premium/premium.js');
 
 module.exports = class Bandcamp extends Command {
