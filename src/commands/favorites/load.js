@@ -20,9 +20,8 @@ module.exports = class Load extends Command {
 		if (!permissions.has('SPEAK')) return message.channel.send('I do not have permission to speak in your voice channel.');
 
 		let player = client.music.players.get(message.guild.id);
+		if (player.playing == false && player) return message.channel.send(`Cannot play/queue songs while paused. Do \`${client.settings.prefix} resume\` to play.`);
 		if (!player) player = await spawnPlayer(client, message);
-
-		if (player.playing == false) return message.channel.send(`Cannot play/queue songs while paused. Do \`${client.settings.prefix} resume\` to play.`);
 
 		if (await songLimit() == patreon.defaultMaxSongs && player.queue.size >= patreon.defaultMaxSongs) return msg.edit(`You have reached the **maximum** amount of songs (${patreon.defaultMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`);
 		if (await songLimit() == patreon.premiumMaxSongs && player.queue.size >= patreon.premiumMaxSongs) return msg.edit(`You have reached the **maximum** amount of songs (${patreon.premiumMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`);
