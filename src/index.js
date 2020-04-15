@@ -1,5 +1,5 @@
-const { ShardingManager } = require('discord.js');
 const mongoose = require('mongoose');
+const { ShardingManager } = require('discord.js');
 require('dotenv').config();
 
 mongoose.connect(`mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/test`, {
@@ -9,6 +9,10 @@ mongoose.connect(`mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/
 
 const manager = new ShardingManager('./src/eartensifier.js', {
   token: process.env.DISCORD_TOKEN,
+  totalShards: 'auto',
+  shardList: 'auto',
+  mode: 'process',
+  respawn: 'true',
   timeout: 999999,
 });
 

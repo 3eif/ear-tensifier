@@ -4,7 +4,6 @@ const DBL = require('dblapi.js');
 class Client extends Discord.Client {
 	constructor() {
 		super();
-
 		this.commands = new Discord.Collection();
 		this.aliases = new Discord.Collection();
 		this.settings = require('./settings.js');
