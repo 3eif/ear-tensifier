@@ -25,8 +25,8 @@ module.exports = class Message extends Event {
 		if (!message.channel.guild) return message.channel.send('I can\'t execute commands inside DMs! Please run this command in a server.');
 
 		const mentionPrefix = new RegExp(`^<@!?${this.client.user.id}>( |)$`);
+		const rawMessageContent = message.content.toLowerCase();
 		let prefix;
-		let ignoreMsg;
 		servers.findOne({
 			serverID: message.guild.id,
 		}, async (err, s) => {
@@ -38,14 +38,12 @@ module.exports = class Message extends Event {
 					ignore: [],
 				});
 				await newServer.save().catch(e => this.client.log(e));
-				prefix = message.content.split(' ')[0].match(mentionPrefix) || this.client.settings.prefix;
-				ignoreMsg = false;
+				prefix = rawMessageContent.split(' ')[0].match(mentionPrefix) || this.client.settings.prefix;
 
-				const messageContent = message.content.toLowerCase();
-				if (message.content.indexOf(this.client.settings.prefix) === 0) {
+				if (rawMessageContent.indexOf(this.client.settings.prefix) === 0) {
 					prefix = this.client.settings.prefix;
 				}
-				else if (message.content.split(' ')[0].match(mentionPrefix)) {
+				else if (rawMessageContent.split(' ')[0].match(mentionPrefix)) {
 					prefix = mentionPrefix;
 				}
 				else {
@@ -55,14 +53,13 @@ module.exports = class Message extends Event {
 			else {
 				if (s.ignore.includes(message.channel.id)) { return; }
 
-				const messageContent = message.content.toLowerCase();
-				if (message.content.indexOf(this.client.settings.prefix) === 0) {
+				if (rawMessageContent.indexOf(this.client.settings.prefix) === 0) {
 					prefix = this.client.settings.prefix;
 				}
-				else if (message.content.indexOf(s.prefix) === 0) {
+				else if (rawMessageContent.indexOf(s.prefix) === 0) {
 					prefix = s.prefix;
 				}
-				else if (message.content.split(' ')[0].match(mentionPrefix)) {
+				else if (rawMessageContent.split(' ')[0].match(mentionPrefix)) {
 					prefix = mentionPrefix;
 				}
 				else {
@@ -74,22 +71,22 @@ module.exports = class Message extends Event {
 			let command;
 
 			if (prefix === this.client.settings.prefix && !this.client.settings.prefix.endsWith(' ')) {
-				args = message.content.split(' ');
+				args = rawMessageContent.split(' ');
 				command = args.shift().toLowerCase();
 				command = command.slice(this.client.settings.prefix.length);
 			}
 			else if (prefix === this.client.settings.prefix) {
-				args = message.content.split(' ');
+				args = rawMessageContent.split(' ');
 				args.shift();
 				command = args.shift().toLowerCase();
 			}
 			else if (prefix === s.prefix && !s.prefix.endsWith(' ')) {
-				args = message.content.split(' ');
+				args = rawMessageContent.split(' ');
 				command = args.shift().toLowerCase();
 				command = command.slice(s.prefix.length);
 			}
 			else {
-				args = message.content.split(' ');
+				args = rawMessageContent.split(' ');
 				args.shift();
 				command = args.shift().toLowerCase();
 			}
