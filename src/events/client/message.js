@@ -169,7 +169,7 @@ module.exports = class Message extends Event {
 					.setFooter(`${message.guild.name} (${message.guild.id})`, message.guild.iconURL())
 					.setTimestamp();
 
-				this.client.shardMessage(this.client, this.client.channelList.messageEvent, embed);
+				client.shardMessage(client, client.channelList.messageChannel, embed);
 
 				if (!cooldowns.has(commandName)) {
 					cooldowns.set(commandName, new Discord.Collection());
