@@ -18,7 +18,7 @@ module.exports = class Ready extends Event {
 	}
 
 	async run() {
-		// player(this.client);
+		player(this.client);
 
 		this.client.levels = new Map()
 			.set('none', 0.0)
