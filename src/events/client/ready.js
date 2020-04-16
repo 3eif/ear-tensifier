@@ -2,10 +2,16 @@
 const Discord = require('discord.js');
 const figlet = require('figlet');
 const mongoose = require('mongoose');
+const Sentry = require('@sentry/node');
 
 const Event = require('../../structures/Event');
 const player = require('../../player/player.js');
 const postHandler = require('../../handlers/post.js');
+
+Sentry.init({
+  dsn: process.env.SENTRY_URL,
+  environment: process.env.SENTRY_ENVIRONMENT,
+});
 
 mongoose.connect(`mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/test`, {
 	useNewUrlParser: true,
