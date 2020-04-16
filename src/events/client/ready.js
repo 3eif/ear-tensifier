@@ -2,6 +2,7 @@
 const Discord = require('discord.js');
 const figlet = require('figlet');
 const mongoose = require('mongoose');
+const statcord = require('statcord.js');
 const Sentry = require('@sentry/node');
 
 const Event = require('../../structures/Event');
@@ -71,6 +72,10 @@ module.exports = class Ready extends Event {
 						.setFooter(`${totalMembers} users`);
 
 					this.client.shardMessage(this.client, this.client.channelList.readyChannel, embed);
+
+					// const statClient = new statcord(process.env.STATCORD_KEY, this.client, true, true);
+					// const req = statClient.post();
+					// console.log(req.body);
 
 					if (this.client.user.id != '472714545723342848') return;
 					postHandler(this.client, totalGuilds, this.client.shard.count, this.client.shard.id, totalMembers);

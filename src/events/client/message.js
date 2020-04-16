@@ -71,22 +71,22 @@ module.exports = class Message extends Event {
 			let command;
 
 			if (prefix === this.client.settings.prefix && !this.client.settings.prefix.endsWith(' ')) {
-				args = rawMessageContent.split(' ');
+				args = message.content.split(' ');
 				command = args.shift().toLowerCase();
 				command = command.slice(this.client.settings.prefix.length);
 			}
 			else if (prefix === this.client.settings.prefix) {
-				args = rawMessageContent.split(' ');
+				args = message.content.split(' ');
 				args.shift();
 				command = args.shift().toLowerCase();
 			}
 			else if (prefix === s.prefix && !s.prefix.endsWith(' ')) {
-				args = rawMessageContent.split(' ');
+				args = message.content.split(' ');
 				command = args.shift().toLowerCase();
 				command = command.slice(s.prefix.length);
 			}
 			else {
-				args = rawMessageContent.split(' ');
+				args = message.content.split(' ');
 				args.shift();
 				command = args.shift().toLowerCase();
 			}
