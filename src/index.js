@@ -8,10 +8,7 @@ mongoose.connect(`mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/
   useUnifiedTopology: true,
 });
 
-let token;
-console.log(process.env.NODE_ENV);
-if(process.env.NODE_ENV == 'production') token = process.env.DISCORD_TOKEN;
-else token = process.env.DISCORD_TESTING_TOKEN;
+const token = process.env.DISCORD_TOKEN;
 
 const manager = new ShardingManager('./src/eartensifier.js', {
   token: token,

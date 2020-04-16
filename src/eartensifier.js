@@ -37,5 +37,4 @@ Sentry.init({
 
 ['commands', 'events'].forEach(handler => require(`./handlers/${handler}`)(client));
 
-if (client.environment == 'production') client.login(process.env.DISCORD_TOKEN);
-else client.login(process.env.DISCORD_TESTING_TOKEN);
+client.login(process.env.DISCORD_TOKEN);
