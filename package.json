@@ -21,6 +21,7 @@
     "discord.bots.gg": "^0.3.0-v1.2",
     "discord.js": "github:discordjs/discord.js",
     "dotenv": "^8.2.0",
+    "dotenv-flow": "^3.1.0",
     "enmap": "^5.2.4",
     "erela.js": "^1.1.7",
     "eslint": "^6.8.0",
@@ -45,9 +46,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node .",
-    "production": "NODE_ENV=production&&npm start",
-    "development": "set NODE_ENV=development&&npm start"
+    "start": "node ."
   },
   "repository": {
     "type": "git",

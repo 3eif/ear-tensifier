@@ -1,5 +1,11 @@
 /* eslint-disable no-unused-vars */
 module.exports = async (client, channelID, message) => {
-    if (typeof message === 'object') return client.shard.broadcastEval(`this.channels.cache.get("${channelID}").send({ embed: ${JSON.stringify(message.toJSON(), null, 4)} });`);
-    else return client.shard.broadcastEval(`this.channels.cache.get("${channelID}").send(message);`);
+    client.shard.broadcastEval(`
+	(async () => {
+		let channel = this.channels.cache.get('${channelID}');
+		if (channel) {
+			channel.send({ embed: ${JSON.stringify(message.toJSON(), null, 4)} });
+		}
+	})();
+    `);
 };

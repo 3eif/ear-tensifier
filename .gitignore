@@ -14,6 +14,8 @@ package-lock.json
 *.bat
 *.log
 *.env
+.env.development
+.env.production
 
 # Logs
 logs
