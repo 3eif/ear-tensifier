@@ -20,13 +20,12 @@ module.exports = class Join extends Command {
 				guild: message.guild,
 				textChannel: message.channel,
 				voiceChannel: message.member.voice.channel,
+				selfDeaf: true,
 			});
 		}
 		else {
 			message.member.voice.channel.join();
 		}
-
-		if (permissions.has('DEAFEN_MEMBERS') || permissions.has('ADMINISTRATOR')) message.guild.members.cache.get(client.user.id).voice.setDeaf(true);
 
 		return message.channel.send(`Joined ${client.emojiList.voice}**${message.member.voice.channel.name}**`);
 	}
