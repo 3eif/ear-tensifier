@@ -58,10 +58,6 @@ module.exports = class Ready extends Event {
 
 					this.client.log(`Ear Tensifier is online: ${this.client.shard.count} shards, ${totalGuilds} servers and ${totalMembers} members.`);
 
-					setInterval(() => {
-						this.client.user.setActivity(`ear help | ${totalGuilds} servers`);
-					}, 1800000);
-
 					const embed = new Discord.MessageEmbed()
 						.setAuthor('Ear Tensifier', this.client.settings.avatar)
 						.setColor(this.client.colors.main)
