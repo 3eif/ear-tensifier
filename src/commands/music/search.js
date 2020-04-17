@@ -64,12 +64,11 @@ module.exports = class Search extends Command {
 					});
 					break;
 
-				case 'PLAYLIST_LOADED':
-					// res.playlist.tracks.forEach(track => player.queue.add(track));
-					// const duration = Utils.formatTime(res.playlist.tracks.reduce((acc, cure) => ({duration: acc.duration + cure.duration})).duration, true);
-					// msg.edit(`**${res.playlist.info.name}** (${duration}) (${res.playlist.tracks.length} tracks) has been added to the queue by **${res.tracks[0].requester.tag}**`);
-					// if(!player.playing) player.play()
-					return message.channel.send('Playlist functionality is currently disabled. Please try again later.');
+					case 'PLAYLIST_LOADED':
+						res.playlist.tracks.forEach(track => player.queue.add(track));
+						msg.edit(`**${res.playlist.info.name}** (${Utils.formatTime(res.playlist.tracks.reduce((acc, cure) => ({ duration: acc.duration + cure.duration })).duration, true)}) (${res.playlist.tracks.length} tracks) has been added to the queue by **${res.playlist.tracks[0].requester.tag}**`);
+						if (!player.playing) player.play();
+						break;
 			}
 		}).catch(err => msg.edit(err.message));
 	}

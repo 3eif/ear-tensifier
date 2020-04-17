@@ -43,25 +43,26 @@ module.exports = async (client, textChannel, title, duration, author, uri) => {
 	const embed = new Discord.MessageEmbed()
 		.setAuthor(author);
 	if (uri.includes('soundcloud')) {
-		embed.attachFiles(['../../assets/soundcloud.png']);
+		embed.attachFiles(['./assets/soundcloud.png']);
 		embed.setThumbnail('attachment://soundcloud.png');
 		embed.setFooter('SoundCloud');
 		embed.setColor(client.colors.soundcloud);
 	}
 	else if (uri.includes('bandcamp')) {
-		embed.attachFiles(['../../assets/bandcamp.png']);
+		embed.attachFiles(['./assets/bandcamp.png']);
 		embed.setThumbnail('attachment://bandcamp.png');
 		embed.setFooter('bandcamp');
 		embed.setColor(client.colors.bandcamp);
 	}
+	// mixer
 	else if (uri.includes('beam.pro')) {
-		embed.attachFiles(['../../assets/mixer.png']);
+		embed.attachFiles(['./assets/mixer.png']);
 		embed.setThumbnail('attachment://mixer.png');
 		embed.setFooter('Mixer');
 		embed.setColor(client.colors.mixer);
 	}
 	else if (uri.includes('twitch')) {
-		embed.attachFiles(['../../assets/twitch.png']);
+		embed.attachFiles(['./assets/twitch.png']);
 		embed.setThumbnail('attachment://twitch.png');
 		embed.setFooter('Twitch');
 		embed.setColor(client.colors.twitch);

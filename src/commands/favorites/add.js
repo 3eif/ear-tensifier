@@ -79,11 +79,10 @@ module.exports = class Add extends Command {
 						break;
 
 					case 'PLAYLIST_LOADED':
-						// res.playlist.tracks.forEach(track => player.queue.add(track));
-						// const duration = Utils.formatTime(res.playlist.tracks.reduce((acc, cure) => ({ duration: acc.duration + cure.duration })).duration, true);
-						// msg.edit(`**${res.playlist.info.name}** (${duration}) (${res.playlist.tracks.length} tracks) has been added to the queue by **${res.playlist.tracks.requester}**`);
-						// if (!player.playing) player.play()
-						return msg.edit('Playlist functionality is currently disabled. Please try again later.');
+						res.playlist.tracks.forEach(track => songsToAdd.push(track));
+						msg.edit(`Added **${res.playlist.info.name}** (${Utils.formatTime(res.playlist.tracks.reduce((acc, cure) => ({ duration: acc.duration + cure.duration })).duration, true)}) (${res.playlist.tracks.length} tracks) to your favorites.`);
+						await addToDB(true);
+						break;
 				}
 				return;
 			}).catch(() => {
