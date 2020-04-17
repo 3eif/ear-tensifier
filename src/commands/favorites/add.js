@@ -81,7 +81,7 @@ module.exports = class Add extends Command {
 					case 'PLAYLIST_LOADED':
 						res.playlist.tracks.forEach(track => songsToAdd.push(track));
 						msg.edit(`Added **${res.playlist.info.name}** (${Utils.formatTime(res.playlist.tracks.reduce((acc, cure) => ({ duration: acc.duration + cure.duration })).duration, true)}) (${res.playlist.tracks.length} tracks) to your favorites.`);
-						await addToDB(true);
+						await addToDB(false);
 						break;
 				}
 				return;
