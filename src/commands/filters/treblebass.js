@@ -40,5 +40,5 @@ module.exports = class Trablebass extends Command {
 			.setColor(client.colors.main);
 		await delay(5000);
 		return msg.edit('', embed);
-}
+	}
 };
