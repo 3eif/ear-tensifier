@@ -179,13 +179,15 @@ module.exports = class Message extends Event {
 					if (cmd.permission === 'pro' && await premium(message.author.id, 'Pro') == false) return client.responses('noPro', message);
 				}
 
-				// if (cmd.voteLocked == true && await premium(message.author.id, 'Premium') == false && await premium(message.author.id, 'Pro') == false) {
-				// 	const voted = await getVoted(client, message.author);
-				// 	console.log(voted);
-				// 	if(!voted) {
-				// 		return message.channel.send('You must vote to use this command');
-				// 	}
-				// }
+				if (cmd.voteLocked == true && await premium(message.author.id, 'Premium') == false && await premium(message.author.id, 'Pro') == false) {
+					const voted = await getVoted(client, message.author);
+					console.log(voted);
+					if(!voted) {
+						const voteEmbed = new Discord.MessageEmbed()
+						.setDescription('You must **vote** to use this command. You can vote [here](https://top.gg/bot/472714545723342848/vote)');
+						return message.channel.send(voteEmbed);
+					}
+				}
 
 				if (cmd && !message.guild && cmd.guildOnly) return message.channel.send('I can\'t execute that command inside DMs!. Please run this command in a server.');
 
