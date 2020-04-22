@@ -10,7 +10,7 @@ module.exports = class Soft extends Command {
 			cooldown: '10',
 			inVoiceChannel: true,
 			sameVoiceChannel: true,
-			permission: 'premium',
+			voteLocked: true,
 		});
 	}
 	async run(client, message, args) {
