@@ -12,6 +12,7 @@ const userSchema = mongoose.Schema({
 	favorites: Array,
 	autoplay: Array,
 	voted: Boolean,
+	votedConst: Boolean,
 	lastVoted: Number,
 });
 

@@ -40,12 +40,14 @@ module.exports.startUp = async (client) => {
 						pro: false,
 						developer: false,
 						voted: true,
+						votedConst: true,
 						lastVoted: Date.now(),
 					});
 					await newUser.save().catch(e => console.log(e));
 				}
 				else {
 					u.voted = true;
+					u.votedConst = true;
 					u.lastVoted = Date.now();
 					await u.save().catch(e => console.log(e));
 				}
