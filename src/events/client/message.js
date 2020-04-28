@@ -5,7 +5,7 @@ const cooldowns = new Discord.Collection();
 const Event = require('../../structures/Event');
 const users = require('../../models/user.js');
 const servers = require('../../models/server.js');
-const bot = require('../../models/bot.js');
+const quickdb = require('quick.db');
 const commandsSchema = require('../../models/command.js');
 const premium = require('../../utils/premium/premium.js');
 const getVoted = require('../../utils/getVoted.js');
@@ -125,22 +125,24 @@ module.exports = class Message extends Event {
 
 				const commandName = cmd.name.toLowerCase();
 
-				/* Async Non-Blocking */
-				bot.findOne({ clientID: client.user.id }).then(async b => {
-					if (!b) {
-						const newClient = new bot({
-							clientID: client.user.id,
-							clientName: client.user.name,
-							messagesSent: 0,
-							songsPlayed: 0,
-						});
-						await newClient.save().catch(e => client.log(e));
-						b = await bot.findOne({ clientID: client.user.id });
-					}
+				// /* Async Non-Blocking */
+				// bot.findOne({ clientID: client.user.id }).then(async b => {
+				// 	if (!b) {
+				// 		const newClient = new bot({
+				// 			clientID: client.user.id,
+				// 			clientName: client.user.name,
+				// 			messagesSent: 0,
+				// 			songsPlayed: 0,
+				// 		});
+				// 		await newClient.save().catch(e => client.log(e));
+				// 		b = await bot.findOne({ clientID: client.user.id });
+				// 	}
 
-					b.messagesSent += 1;
-					b.save().catch(e => client.log(e));
-				});
+				// 	b.messagesSent += 1;
+				// 	b.save().catch(e => client.log(e));
+				// });
+
+				quickdb.add(`botMessages.${client.user.id}`, 1);
 
 				/* Async Non-Blocking */
 				commandsSchema.findOne({ commandName: commandName }).then(async c => {

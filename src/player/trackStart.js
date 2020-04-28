@@ -1,7 +1,7 @@
 const { Utils } = require('erela.js');
 const Discord = require('discord.js');
-const bot = require('../models/bot.js');
 const users = require('../models/user.js');
+const quickdb = require('quick.db');
 const songs = require('../models/song.js');
 const yts = require('yt-search');
 
@@ -11,14 +11,16 @@ module.exports = async (client, textChannel, title, duration, author, uri) => {
 	const thumbnail = `https://img.youtube.com/vi/${currentSong.identifier}/default.jpg`;
 	addDB(uri, title, author, duration, uri, thumbnail);
 
-	bot.findOne({
-		clientID: client.user.id,
-	}, async (err, b) => {
-		if (err) client.log(err);
+	// bot.findOne({
+	// 	clientID: client.user.id,
+	// }, async (err, b) => {
+	// 	if (err) client.log(err);
 
-		b.songsPlayed += 1;
-		await b.save().catch(e => client.log(e));
-	});
+	// 	b.songsPlayed += 1;
+	// 	await b.save().catch(e => client.log(e));
+	// });
+
+	quickdb.add(`songsPlayed.${client.user.id}`, 1);
 
 	users.findOne({ authorID: requester.id }).then(async messageUser => {
 		if (!messageUser) {
