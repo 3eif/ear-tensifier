@@ -7,7 +7,6 @@ module.exports = class Website extends Command {
 			description: 'Website of the bot',
 			usage: '',
 			enabled: true,
-			aliases: [],
 			cooldown: 5,
 			args: false,
 		});

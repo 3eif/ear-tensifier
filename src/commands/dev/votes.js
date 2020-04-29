@@ -7,7 +7,6 @@ module.exports = class Votes extends Command {
 			description: 'Shows # of votes',
 			usage: '',
 			enabled: true,
-			aliases: [],
 			cooldown: 5,
 			permission: 'dev',
 			args: false,

@@ -7,7 +7,6 @@ module.exports = class Invite extends Command {
 			description: 'Sends the invite link for the bot.',
 			usage: '',
 			enabled: true,
-			aliases: [],
 			cooldown: 5,
 			args: false,
 		});

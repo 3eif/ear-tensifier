@@ -4,10 +4,9 @@ module.exports = class Ping extends Command {
 	constructor(client) {
 		super(client, {
 			name: 'ping',
-			description: 'Bot/`s latency',
+			description: 'Bot latency',
 			usage: '',
 			enabled: true,
-			aliases: [],
 			cooldown: 5,
 			args: false,
 		});
