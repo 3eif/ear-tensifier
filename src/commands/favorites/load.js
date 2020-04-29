@@ -4,7 +4,6 @@ const users = require('../../models/user.js');
 const spawnPlayer = require('../../utils/spawnPlayer.js');
 const premium = require('../../utils/premium/premium.js');
 const patreon = require('../../../config/patreon.js');
-const { getPreview } = require('spotify-url-info');
 
 module.exports = class Load extends Command {
 	constructor(client) {
@@ -14,7 +13,7 @@ module.exports = class Load extends Command {
 			inVoiceChannel: true,
 		});
 	}
-	async run(client, message, args) {
+	async run(client, message) {
 		const permissions = message.member.voice.channel.permissionsFor(client.user);
 		if (!permissions.has('CONNECT')) return message.channel.send('I do not have permission to join your voice channel.');
 		if (!permissions.has('SPEAK')) return message.channel.send('I do not have permission to speak in your voice channel.');
@@ -59,13 +58,13 @@ module.exports = class Load extends Command {
 			content.then(async function() {
 				msg.edit(`Loaded **${songsToAdd} songs** into the queue. Type \`${client.settings.prefix}queue\` to see the queue.`);
 				const loaded = `Loaded **${songsToAdd} songs** into the queue. Type \`${client.settings.prefix}queue\` to see the queue.`;
-				const playlistInfo = await getPreview(args.join(' '));
+
 				if (u.favorites.length != songsToAdd) {
 					if (await songLimit() == patreon.defaultMaxSongs) msg.edit(`${loaded}.\nYou have reached the **maximum** amount of songs (${patreon.defaultMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`);
 					else if (await songLimit() == patreon.premiumMaxSongs) msg.edit(`${loaded}\nYou have reached the **maximum** amount of songs (${patreon.premiumMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`);
 					else if (await songLimit() == patreon.proMaxSongs) msg.edit(`${loaded}\nYou have reached the **maximum** amount of songs (${patreon.proMaxSongs} songs). Want more songs? Contact \`Tetra#0001\``);
 				}
-				else { msg.edit(`**${playlistInfo.title}** (${songsToAdd} tracks) has been added to the queue by **${message.author.tag}**`); }
+				else { msg.edit(loaded); }
 			});
 		});
 
