@@ -19,7 +19,6 @@ Click [here](https://eartensifier.net/invite) to invite Ear Tensifier to your se
 By default, Ear Tensifier's prefix is set to `ear `  and can be changed by doing `ear prefix <new prefix>`. For a full list of commands, type `ear help` or `ear help <command>` for specific details on a command. A detailed list of commands can be found [here](https://eartensifier.net/commands).
 
 ## License
-
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
 ## Self Hosting

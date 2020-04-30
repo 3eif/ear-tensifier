@@ -8,15 +8,8 @@ const Event = require('../../structures/Event');
 const player = require('../../player/player.js');
 const postHandler = require('../../handlers/post.js');
 
-Sentry.init({
-  dsn: process.env.SENTRY_URL,
-  environment: process.env.SENTRY_ENVIRONMENT,
-});
-
-mongoose.connect(`mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/test`, {
-	useNewUrlParser: true,
-	useUnifiedTopology: true,
-});
+require('../../providers/sentry.js');
+require('../../providers/mongo.js');
 
 module.exports = class Ready extends Event {
 	constructor(...args) {
