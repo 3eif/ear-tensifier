@@ -1,11 +1,13 @@
 <div align="center">
-    <img src="https://eartensifier.net/images/eartensifier.png" width="140px" height="140px" /><br>
+    <a href="https://botlist.space/bot/472714545723342848?utm_source=bls&utm_medium=widget&utm_campaign=472714545723342848">
+    <img src="https://api.botlist.space/widget/472714545723342848/4">
+</a>
 </div>
 
 [![Discord](https://discordapp.com/api/guilds/473426453204172811/embed.png?style=shield)](https://discord.gg/xKgKMAP)
-![](https://botlist.space/bot/472714545723342848/badge?property=servers&style=flat-square&color=4742C2)
-![](https://botlist.space/bot/472714545723342848/badge?property=shards&style=flat-square&color=4742C2)
-![](https://botlist.space/bot/472714545723342848/badge?property=status&style=flat-square&color=4742C2)
+![](https://botlist.space/bot/472714545723342848/badge?property=servers&style=flat-square&color=7089da)
+![](https://botlist.space/bot/472714545723342848/badge?property=shards&style=flat-square&color=7089da)
+![](https://botlist.space/bot/472714545723342848/badge?property=status&style=flat-square&color=7089da)
 
 <hr>
 
@@ -22,5 +24,3 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Self Hosting
 Self hosting Ear Tensifier is not supported and no help will be provided. I am not responsible or liable for any self hosted clones of Ear Tensifier.
-
-[![Ear Tensifier's Widget](https://api.botlist.space/widget/472714545723342848/4 "Ear Tensifier's Widget")](https://botlist.space/bot/472714545723342848?utm_source=bls&utm_medium=widget&utm_campaign=472714545723342848)
