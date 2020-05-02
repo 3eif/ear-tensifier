@@ -2,6 +2,7 @@ const Command = require('../../structures/Command');
 
 const Discord = require('discord.js');
 const { KSoftClient } = require('ksoft.js');
+const isAbsoluteUrl = require('is-absolute-url');
 
 const ksoft = new KSoftClient(process.env.KSOFT_TOKEN);
 
@@ -25,7 +26,7 @@ module.exports = class Lyrics extends Command {
 		}
 		else { song = args.join(' '); }
 
-
+		if(isAbsoluteUrl(song)) return msg.edit('Please provide a song name. Links are not supported.');
 		const data = await ksoft.lyrics.get(song, false)
 			.catch(err => {
 				return message.channel.send(err.message);

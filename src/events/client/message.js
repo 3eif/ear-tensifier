@@ -228,14 +228,14 @@ module.exports = class Message extends Event {
 
 
 				try {
-					const voted = await getVoted(client, message.author);
-					console.log(voted);
-					if (!voted) {
-						const random = Math.floor(Math.random() * 3);
-						if (random == 1) {
-							message.channel.send('**Enjoying the bot?** Show your support by voting! (voting unnlocks special filters such as `bassboost`): <https://top.gg/bot/472714545723342848/vote>');
-						}
-					}
+					// const voted = await getVoted(client, message.author);
+					// console.log(voted);
+					// if (!voted) {
+					// 	const random = Math.floor(Math.random() * 3);
+					// 	if (random == 1) {
+					// 		message.channel.send('**Enjoying the bot?** Show your support by voting! (voting unnlocks special filters such as `bassboost`): <https://top.gg/bot/472714545723342848/vote>');
+					// 	}
+					// }
 					cmd.run(client, message, args);
 				}
 				catch (e) {
