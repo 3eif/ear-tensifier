@@ -226,15 +226,16 @@ module.exports = class Message extends Event {
 					return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`${prefix} ${commandName} ${cmd.usage}\` or \`${prefix}${cmd.name} ${cmd.usage}\``);
 				}
 
-				const voted = await getVoted(client, message.author);
-				if (!voted) {
-					const random = Math.floor(Math.random() * 5);
-					if (random == 1) {
-						message.channel.send('**Enjoying the bot?** Show your support by voting! (voting unnlocks special filters such as `bassboost`): <https://top.gg/bot/472714545723342848/vote>');
-					}
-				}
 
 				try {
+					const voted = await getVoted(client, message.author);
+					console.log(voted);
+					if (!voted) {
+						const random = Math.floor(Math.random() * 3);
+						if (random == 1) {
+							message.channel.send('**Enjoying the bot?** Show your support by voting! (voting unnlocks special filters such as `bassboost`): <https://top.gg/bot/472714545723342848/vote>');
+						}
+					}
 					cmd.run(client, message, args);
 				}
 				catch (e) {

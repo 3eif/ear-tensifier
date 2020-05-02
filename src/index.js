@@ -1,4 +1,6 @@
 const { ShardingManager } = require('discord.js');
+const Sentry = require('@sentry/node');
+const mongoose = require('mongoose');
 require('dotenv').config();
 
 const manager = new ShardingManager('./src/eartensifier.js', {
@@ -10,8 +12,15 @@ const manager = new ShardingManager('./src/eartensifier.js', {
   timeout: 999999,
 });
 
-require('../../providers/sentry.js');
-require('../../providers/mongo.js');
+Sentry.init({
+  dsn: process.env.SENTRY_URL,
+  environment: process.env.SENTRY_ENVIRONMENT,
+});
+
+mongoose.connect(`mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/test`, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 manager.on('launch', shard => {
   console.log(`Shard [${shard.id}] launched`);
