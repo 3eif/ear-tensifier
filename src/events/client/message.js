@@ -184,9 +184,9 @@ module.exports = class Message extends Event {
 				if (cmd.voteLocked == true && await premium(message.author.id, 'Premium') == false && await premium(message.author.id, 'Pro') == false) {
 					const voted = await getVoted(client, message.author);
 					console.log(voted);
-					if(!voted) {
+					if (!voted) {
 						const voteEmbed = new Discord.MessageEmbed()
-						.setDescription('You must **vote** to use this command. You can vote [here](https://top.gg/bot/472714545723342848/vote)');
+							.setDescription('You must **vote** to use this command. You can vote [here](https://top.gg/bot/472714545723342848/vote)');
 						return message.channel.send(voteEmbed);
 					}
 				}
@@ -224,6 +224,14 @@ module.exports = class Message extends Event {
 				}
 				else if (cmd && !args[0] && cmd.args === true) {
 					return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`${prefix} ${commandName} ${cmd.usage}\` or \`${prefix}${cmd.name} ${cmd.usage}\``);
+				}
+
+				const voted = await getVoted(client, message.author);
+				if (!voted) {
+					const random = Math.floor(Math.random() * 5);
+					if (random == 1) {
+						message.channel.send('**Enjoying the bot?** Show your support by voting! (voting unnlocks special filters such as `bassboost`): <https://top.gg/bot/472714545723342848/vote>');
+					}
 				}
 
 				try {
