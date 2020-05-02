@@ -1,5 +1,5 @@
 <div align="center">
-    <a href="https://botlist.space/bot/472714545723342848?utm_source=bls&utm_medium=widget&utm_campaign=472714545723342848">
+    <a href="https://botlist.space/bot/472714545723342848?utm_source=bls&utm_medium=widget&utm_campaign=472714545723342848?background=FFFFFF">
     <img src="https://api.botlist.space/widget/472714545723342848/4">
 </a>
 </div>
