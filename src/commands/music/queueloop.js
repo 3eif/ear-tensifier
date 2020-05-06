@@ -15,7 +15,7 @@ module.exports = class Queueloop extends Command {
 	async run(client, message) {
 		const player = client.music.players.get(message.guild.id);
 
-		if (player.queueRepeat === true) {
+		if (player.queueRepeat == true) {
 			player.setQueueRepeat(false);
 			return message.channel.send('Queue has been unlooped.');
 		}

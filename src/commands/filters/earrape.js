@@ -20,6 +20,6 @@ module.exports = class Earrape extends Command {
 		player.setVolume(earrape);
 		player.setEQ(Array(6).fill(0).map((n, i) => ({ band: i, gain: 0.5 })));
 
-		return message.channel.send('Tensity set to **earrape**');
+		return message.channel.send('Tensity set to **earrape**. To reset the tensity, type `ear reset`.');
 	}
 };
