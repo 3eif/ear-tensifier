@@ -70,7 +70,7 @@ module.exports = class Spotify extends Command {
 			}
 		}
 		else {
-			return message.channel.send('Please provide a spotify album or track url.');
+			return msg.edit('Please provide a spotify album or track url.');
 		}
 
 		async function songLimit() {
