@@ -1,20 +1,6 @@
-const fetch = require('node-fetch');
+const statcord = require('statcord.js');
 
-module.exports = async (client, servers, users) => {
-    await fetch('https://statcord.com/mason/stats', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            id: client.user.id,
-            key: process.env.STATCORD_TOKEN,
-            servers: servers,
-            users: users,
-            commands :'0',
-            active:'0',
-            popular:[],
-        }),
-    }).then(res => res.json())
-    .then(json => console.log(json));
+module.exports = async (client) => {
+    const statclient = new statcord(process.env.STATCORD_TOKEN, client);
+    await statclient.autoPost();
 };

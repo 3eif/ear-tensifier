@@ -34,7 +34,7 @@ module.exports = class Ready extends Event {
 
 		this.client.user.setActivity('ear help', { type: 'LISTENING' });
 
-		if (this.client.shard.ids == this.client.shard.count - 1) {
+		if (this.client.shard.ids[0] == this.client.shard.count - 1) {
 
 			const promises = [
 				this.client.shard.fetchClientValues('guilds.cache.size'),
