@@ -3,6 +3,7 @@ const Command = require('../../structures/Command');
 const Discord = require('discord.js');
 const quickdb = require('quick.db');
 const cpuStat = require('cpu-stat');
+const os = require('os');
 
 class Stats extends Command {
 	constructor(client) {
@@ -69,7 +70,7 @@ class Stats extends Command {
 						.addField('Servers', `${totalGuilds} servers`, true)
 						.addField('Members', `${totalMembers} members`, true)
 						.addField('Shards', `${parseInt(client.shard.ids) + 1}/${client.shard.count}`, true)
-						.addField('Memory Used', `${totalMemory.toFixed(2)} mb`, true)
+						.addField('Memory Used', `${totalMemory.toFixed(2)} / ${(os.totalmem() / 1024 / 1024).toFixed(2)} MB`, true)
 						.addField('CPU usage', `${percent.toFixed(2)}%`, true)
 						.addField('Messages Sent', `${botMessages} messages`, true)
 						.addField('Songs Played', `${songsPlayed} songs`, true)
