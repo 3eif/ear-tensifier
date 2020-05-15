@@ -1,5 +1,6 @@
 <div align="center">
     <img src="https://eartensifier.net/images/eartensifier.png" width="140px" height="140px" /><br>
+    <h1>Ear Tensifier</h1>
 </div>
 <hr>
 
