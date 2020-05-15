@@ -10,6 +10,7 @@ radio.js
 tokens.json
 webhooks.json
 package-lock.json
+botlists.json
 
 *.bat
 *.log
