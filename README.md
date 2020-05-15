@@ -1,9 +1,9 @@
 <div align="center">
     <img src="https://eartensifier.net/images/eartensifier.png" width="140px" height="140px" /><br>
-    <h1>Ear Tensifier</h1>
 </div>
 <hr>
-
+<h1>Ear Tensifier</h1>
+    
 [![Discord](https://discordapp.com/api/guilds/473426453204172811/embed.png?style=shield)](https://discord.gg/xKgKMAP)
 [![Discord Bots](https://top.gg/api/widget/status/472714545723342848.svg?noavatar=true)](https://top.gg/bot/472714545723342848)
 [![Discord Bots](https://top.gg/api/widget/servers/472714545723342848.svg?noavatar=true)](https://top.gg/bot/472714545723342848)
