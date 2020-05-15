@@ -1,4 +1,4 @@
-const { ErelaClient, Player } = require('erela.js');
+const { ErelaClient, Player } = require('@tetracyl/erela.js');
 const trackStart = require('./trackStart.js');
 // eslint-disable-next-line no-unused-vars
 const autoPlay = require('./queueEnd.js');

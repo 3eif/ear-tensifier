@@ -1,6 +1,8 @@
 const Command = require('../../structures/Command');
 
-const { Utils } = require('erela.js');
+const moment = require('moment');
+const momentDurationFormatSetup = require('moment-duration-format');
+momentDurationFormatSetup(moment);
 const rewindNum = 10;
 
 module.exports = class Rewind extends Command {
@@ -18,10 +20,11 @@ module.exports = class Rewind extends Command {
 	async run(client, message, args) {
 		const player = client.music.players.get(message.guild.id);
 
+		const parsedDuration = moment.duration(player.position, 'milliseconds').format('hh:mm:ss', { trim: false });
 		if(args[0] && !isNaN(args[0])) {
 			if((player.position - args[0] * 1000) > 0) {
 				player.seek(player.position - args[0] * 1000);
-				return message.channel.send(`Rewinding to ${Utils.formatTime(player.position, true)}`);
+				return message.channel.send(`Rewinding to ${parsedDuration}`);
 			}
 			else {return message.channel.send('Cannot rewind beyond 00:00.');}
 		}
@@ -30,7 +33,7 @@ module.exports = class Rewind extends Command {
 		if(!args[0]) {
 			if((player.position - rewindNum * 1000) > 0) {
 				player.seek(player.position - rewindNum * 1000);
-				return message.channel.send(`Rewinding to ${Utils.formatTime(player.position, true)}`);
+				return message.channel.send(`Rewinding to ${parsedDuration}`);
 			}
 			else {
 				return message.channel.send('Cannot rewind beyond 00:00.');

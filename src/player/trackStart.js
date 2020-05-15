@@ -1,4 +1,4 @@
-const { Utils } = require('erela.js');
+const { Utils } = require('@tetracyl/erela.js');
 const Discord = require('discord.js');
 const users = require('../models/user.js');
 const quickdb = require('quick.db');
@@ -105,9 +105,9 @@ module.exports = async (client, textChannel, title, duration, author, uri) => {
 	if (uri.includes('youtube')) return;
 
 	embed.addField('Author', `${author}`, true);
-	if (duration.toString().length > 10) { embed.addField('Duration', '∞', true); }
-	else { embed.addField('Duration', `${Utils.formatTime(duration, true)}`, true); }
-	embed.setDescription(`**[${title}](${uri})**`);
+
+	const parsedDuration = moment.duration(duration, 'milliseconds').format('hh:mm:ss', { trim: false });
+	embed.setDescription(`**[${title}](${uri})** \`[${parsedDuration}]\``);
 	embed.addField('Requested by', requester, true);
 	embed.setTimestamp();
 	textChannel.send(embed);

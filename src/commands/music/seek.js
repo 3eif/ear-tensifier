@@ -1,6 +1,8 @@
 const Command = require('../../structures/Command');
 
-const { Utils } = require('erela.js');
+const moment = require('moment');
+const momentDurationFormatSetup = require('moment-duration-format');
+momentDurationFormatSetup(moment);
 
 module.exports = class Seek extends Command {
 	constructor(client) {
@@ -23,6 +25,7 @@ module.exports = class Seek extends Command {
 		if(args[0] * 1000 >= player.queue[0].duration || args[0] < 0) return message.channel.send('Cannot seek beyond length of song.');
 		player.seek(args[0] * 1000);
 
-		return message.channel.send(`Seeked to ${Utils.formatTime(player.position, true)}`);
+		const parsedDuration = moment.duration(player.position, 'milliseconds').format('hh:mm:ss', { trim: false });
+		return message.channel.send(`Seeked to ${parsedDuration}`);
 	}
 };

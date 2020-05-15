@@ -2,7 +2,9 @@ const Command = require('../../structures/Command');
 
 const users = require('../../models/user.js');
 const { getData, getPreview } = require('spotify-url-info');
-const { Utils } = require('erela.js');
+const moment = require('moment');
+const momentDurationFormatSetup = require('moment-duration-format');
+momentDurationFormatSetup(moment);
 
 module.exports = class Add extends Command {
 	constructor(client) {
@@ -63,7 +65,8 @@ module.exports = class Add extends Command {
 					case 'TRACK_LOADED':
 						songsToAdd.push(res.tracks[0]);
 						if (isPlaylist == 'no') {
-							msg.edit(`Added **${res.tracks[0].title}** (${Utils.formatTime(res.tracks[0].duration, true)}) to your favorites.`);
+							const parsedDuration = moment.duration(res.tracks[0].duration, 'milliseconds').format('hh:mm:ss', { trim: false });
+							msg.edit(`Added **${res.tracks[0].title}** (${parsedDuration}) to your favorites.`);
 							return await addToDB(false);
 						}
 						await addToDB(true);
@@ -72,7 +75,8 @@ module.exports = class Add extends Command {
 					case 'SEARCH_RESULT':
 						songsToAdd.push(res.tracks[0]);
 						if (isPlaylist == 'no') {
-							msg.edit(`Added **${res.tracks[0].title}** (${Utils.formatTime(res.tracks[0].duration, true)}) to your favorites.`);
+							const parsedDuration = moment.duration(res.tracks[0].duration, 'milliseconds').format('hh:mm:ss', { trim: false });
+							msg.edit(`Added **${res.tracks[0].title}** (${parsedDuration}) to your favorites.`);
 							return await addToDB(false);
 						}
 						await addToDB(true);
@@ -80,7 +84,9 @@ module.exports = class Add extends Command {
 
 					case 'PLAYLIST_LOADED':
 						res.playlist.tracks.forEach(track => songsToAdd.push(track));
-						msg.edit(`Added **${res.playlist.info.name}** (${Utils.formatTime(res.playlist.tracks.reduce((acc, cure) => ({ duration: acc.duration + cure.duration })).duration, true)}) (${res.playlist.tracks.length} tracks) to your favorites.`);
+						// eslint-disable-next-line no-case-declarations
+						const parsedDuration = moment.duration(res.playlist.tracks.reduce((acc, cure) => ({ duration: acc.duration + cure.duration })).duration, true, 'milliseconds').format('hh:mm:ss', { trim: false });
+						msg.edit(`Added **${res.playlist.info.name}** (${parsedDuration}}) (${res.playlist.tracks.length} tracks) to your favorites.`);
 						await addToDB(false);
 						break;
 				}

@@ -2,7 +2,9 @@
 const Command = require('../../structures/Command');
 
 const Discord = require('discord.js');
-const { Utils } = require('erela.js');
+const moment = require('moment');
+const momentDurationFormatSetup = require('moment-duration-format');
+momentDurationFormatSetup(moment);
 
 const spawnPlayer = require('../../utils/spawnPlayer.js');
 
@@ -33,7 +35,8 @@ module.exports = class Search extends Command {
 			switch (res.loadType) {
 				case 'TRACK_LOADED':
 					player.queue.add(res.tracks[0]);
-					msg.edit(`**${res.tracks[0].title}** (${Utils.formatTime(res.tracks[0].duration, true)}) has been added to the queue by **${res.playlist.tracks.requester}**`);
+					const parsedDuration = moment.duration(res.tracks[0].duration, 'milliseconds').format('hh:mm:ss', { trim: false });
+					msg.edit(`**${res.tracks[0].title}** (${parsedDuration}) has been added to the queue by **${res.playlist.tracks.requester}**`);
 					if (!player.playing) player.play();
 					break;
 				case 'SEARCH_RESULT':
@@ -55,7 +58,7 @@ module.exports = class Search extends Command {
 
 						const track = tracks[Number(m.content) - 1];
 						player.queue.add(track);
-						message.channel.send(`**${track.title}** (${Utils.formatTime(track.duration, true)}) has been added to the queue by **${track.requester.tag}**`);
+						message.channel.send(`**${track.title}** (${parsedDuration}) has been added to the queue by **${track.requester.tag}**`);
 						if (!player.playing) player.play();
 					});
 
@@ -66,7 +69,8 @@ module.exports = class Search extends Command {
 
 					case 'PLAYLIST_LOADED':
 						res.playlist.tracks.forEach(track => player.queue.add(track));
-						msg.edit(`**${res.playlist.info.name}** (${Utils.formatTime(res.playlist.tracks.reduce((acc, cure) => ({ duration: acc.duration + cure.duration })).duration, true)}) (${res.playlist.tracks.length} tracks) has been added to the queue by **${res.playlist.tracks[0].requester.tag}**`);
+						const parsedDuration2 = moment.duration(res.playlist.tracks.reduce((acc, cure) => ({ duration: acc.duration + cure.duration })).duration, 'milliseconds').format('hh:mm:ss', { trim: false });
+						msg.edit(`**${res.playlist.info.name}** (${parsedDuration2}) (${res.playlist.tracks.length} tracks) has been added to the queue by **${res.playlist.tracks[0].requester.tag}**`);
 						if (!player.playing) player.play();
 						break;
 			}
