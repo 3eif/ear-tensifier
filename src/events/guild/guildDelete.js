@@ -24,14 +24,6 @@ module.exports = class GuildCreate extends Event {
 				.setTimestamp();
 
 			this.client.shardMessage(this.client, this.client.channelList.guildChannel, embed);
-
-			//   const dbl = new DBL(config.dblToken, this.client)
-			//   snekfetch.post(`https://discordbots.org/api/bots/472714545723342848/stats`)
-			//   .set('Authorization', config.dblToken)
-			//   .send({ server_count: require('util').inspect(guilds.reduce((prev, val) => prev + val, 0)),
-			//         shard_count: this.client.shard.count})
-			//   .then(() => this.client.log(`Posted to dbl.`))
-			//   .catch((e) => console.error(e));
 		});
 	}
 };
