@@ -4,10 +4,13 @@ const users = require('../models/user.js');
 const quickdb = require('quick.db');
 const songs = require('../models/song.js');
 const yts = require('yt-search');
+const moment = require('moment');
+const momentDurationFormatSetup = require('moment-duration-format');
+momentDurationFormatSetup(moment);
 
 module.exports = async (client, textChannel, title, duration, author, uri) => {
 	const currentSong = client.music.players.get(textChannel.guild.id).queue[0];
-	const requester = currentSong.requester.username + '#' + currentSong.requester.discriminator;
+	const requester = currentSong.requester;
 	const thumbnail = `https://img.youtube.com/vi/${currentSong.identifier}/default.jpg`;
 	addDB(uri, title, author, duration, uri, thumbnail);
 
@@ -43,7 +46,7 @@ module.exports = async (client, textChannel, title, duration, author, uri) => {
 	});
 
 	const embed = new Discord.MessageEmbed()
-		.setAuthor(author);
+		.setAuthor('Now Playing', 'https://cdn.discordapp.com/emojis/673357192203599904.gif?v=1');
 	if (uri.includes('soundcloud')) {
 		embed.attachFiles(['./assets/soundcloud.png']);
 		embed.setThumbnail('attachment://soundcloud.png');
@@ -79,12 +82,18 @@ module.exports = async (client, textChannel, title, duration, author, uri) => {
 			embed.setFooter('Youtube');
 			embed.setColor(client.colors.youtube);
 
-			if (duration.toString().length > 10) { embed.addField('Duration', '∞', true); }
-			else { embed.addField('Duration', `${Utils.formatTime(duration, true)}`, true); }
-
-			embed.setDescription(`**[${title}](${uri})**`);
+			const parsedDuration = moment.duration(duration, 'milliseconds').format('hh:mm:ss', { trim: false });
+			embed.setDescription(`**[${title}](${uri})** \`[${parsedDuration}]\``);
+			embed.addField('Author', `${author}`, true);
 			embed.addField('Requested by', requester, true);
+
+			// const parsedDuration = moment.duration(duration, 'milliseconds').format('hh:mm:ss', { trim: false });
+			// const part = Math.floor((0 / duration) * 30);
+			// const uni = '▶';
+			// embed.addField(`Duration \`[${parsedDuration}]\``, `\`\`\`${uni} ${'─'.repeat(part) + '⚪' + '─'.repeat(30 - part)}\`\`\``);
+
 			embed.setTimestamp();
+
 			return textChannel.send(embed);
 		});
 	}
@@ -94,9 +103,10 @@ module.exports = async (client, textChannel, title, duration, author, uri) => {
 	}
 
 	if (uri.includes('youtube')) return;
+
+	embed.addField('Author', `${author}`, true);
 	if (duration.toString().length > 10) { embed.addField('Duration', '∞', true); }
 	else { embed.addField('Duration', `${Utils.formatTime(duration, true)}`, true); }
-
 	embed.setDescription(`**[${title}](${uri})**`);
 	embed.addField('Requested by', requester, true);
 	embed.setTimestamp();

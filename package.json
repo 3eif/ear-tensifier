@@ -30,6 +30,7 @@
     "is-absolute-url": "^3.0.3",
     "ksoft.js": "^3.1.4",
     "moment": "^2.24.0",
+    "moment-duration-format": "^2.3.2",
     "mongoose": "^5.8.11",
     "node-fetch": "^2.6.0",
     "novelcovid": "^1.0.4",
