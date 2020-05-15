@@ -1,7 +1,6 @@
 <div align="center">
     <img src="https://eartensifier.net/images/eartensifier.png" width="140px" height="140px" /><br>
 </div>
-<hr>
 <h1>Ear Tensifier</h1>
     
 [![Discord](https://discordapp.com/api/guilds/473426453204172811/embed.png?style=shield)](https://discord.gg/xKgKMAP)
