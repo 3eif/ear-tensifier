@@ -29,7 +29,8 @@ module.exports = class Play extends Command {
 		if (player && player.playing == false && player.queue[0]) return message.channel.send(`Cannot play/queue songs while paused. Do \`${client.settings.prefix} resume\` to play.`);
 		if (!player) player = await spawnPlayer(client, message);
 
-		const msg = await message.channel.send(`${client.emojiList.cd}  Searching for \`${args.join(' ')}\` (If the bot never finds a song, it has likely been ratelimited from Youtube. Please be patient until Youtube unbans the bot. Join this server if you're still confused: https://discord.gg/xKgKMAP)...`);
+		const msg = await message.channel.send(`${client.emojiList.cd}  Searching for \`${args.join(' ')}\`...`);
+		message.channel.send('If the bot never finds a song, it has likely been ratelimited from Youtube. Please be patient until Youtube unbans the bot. Join this server if you\'re still confused: discord.gg/xKgKMAP');
 
 		if (await songLimit() == patreon.defaultMaxSongs && player.queue.size >= patreon.defaultMaxSongs) return msg.edit(`You have reached the **maximum** amount of songs (${patreon.defaultMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`);
 		if (await songLimit() == patreon.premiumMaxSongs && player.queue.size >= patreon.premiumMaxSongs) return msg.edit(`You have reached the **maximum** amount of songs (${patreon.premiumMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`);
