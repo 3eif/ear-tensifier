@@ -30,7 +30,7 @@ module.exports = class Play extends Command {
 		if (!player) player = await spawnPlayer(client, message);
 
 		const msg = await message.channel.send(`${client.emojiList.cd}  Searching for \`${args.join(' ')}\`...`);
-		message.channel.send('If the bot never finds a song, it has likely been ratelimited from Youtube. Please be patient until Youtube unbans the bot. Join this server if you\'re still confused: discord.gg/xKgKMAP');
+		message.channel.send('If the bot never finds a song, it has likely been ratelimited from Youtube. Please be patient until Youtube unbans the bot. Join this server if you\'re still confused: discord.gg/xKgKMAP\nDo not kick the bot since this will be fixed soon. Thank you for understanding.');
 
 		if (await songLimit() == patreon.defaultMaxSongs && player.queue.size >= patreon.defaultMaxSongs) return msg.edit(`You have reached the **maximum** amount of songs (${patreon.defaultMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`);
 		if (await songLimit() == patreon.premiumMaxSongs && player.queue.size >= patreon.premiumMaxSongs) return msg.edit(`You have reached the **maximum** amount of songs (${patreon.premiumMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`);
