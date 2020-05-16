@@ -57,8 +57,9 @@ module.exports = class Search extends Command {
 						if (/cancel/i.test(m.content)) return collector.stop('cancelled');
 
 						const track = tracks[Number(m.content) - 1];
+						const parsedDuration2 = moment.duration(track.duration, 'milliseconds').format('hh:mm:ss', { trim: false });
 						player.queue.add(track);
-						message.channel.send(`**${track.title}** (${parsedDuration}) has been added to the queue by **${track.requester.tag}**`);
+						message.channel.send(`**${track.title}** (${parsedDuration2}) has been added to the queue by **${track.requester.tag}**`);
 						if (!player.playing) player.play();
 					});
 
