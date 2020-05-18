@@ -39,7 +39,7 @@ module.exports = class Profile extends Command {
 					.addField('User', `${user.user.tag}`, true)
 					.addField('Bio', 'No bio set')
 					.setColor(client.colors.main)
-					.setFooter(`Commands Used: ${u.commandsUsed} | Songs Played: ${u.songsPlayed}`)
+					.setFooter('Commands Used: 1 | Songs Played: 0')
 					.setTimestamp();
 				return msg.edit('', embed);
 			}

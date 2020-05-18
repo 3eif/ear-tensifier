@@ -15,6 +15,8 @@ module.exports = class Ignore extends Command {
 	async run(client, message, args) {
 		if (!message.member.hasPermission('MANAGE_CHANNELS')) return message.channel.send('You must have the `Manage Channels` permission to use this command.');
 
+		const msg = await message.channel.send(`${client.emojiList.loading} Ignoring commands from channel...`);
+
 		let channel;
 		if(message.mentions.channels.first() === undefined) {
 			if(!isNaN(args[0])) channel = args[0];
@@ -23,8 +25,6 @@ module.exports = class Ignore extends Command {
 		else {
 			channel = message.mentions.channels.first().id;
 		}
-
-		const msg = await message.channel.send(`${client.emojiList.loading} Ignoring commands from channel...`);
 
 		servers.findOne({
 			serverID: message.guild.id,

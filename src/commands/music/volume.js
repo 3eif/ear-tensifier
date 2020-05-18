@@ -16,9 +16,9 @@ module.exports = class Volume extends Command {
 		});
 	}
 	async run(client, message, args) {
-		if (!args[0]) return message.channel.send(`Current volume is set to: **${player.volume}**`);
-
 		const player = client.music.players.get(message.guild.id);
+
+		if (!args[0]) return message.channel.send(`Current volume is set to: **${player.volume}**`);
 
 		if (args[0].toLowerCase() == 'reset') {
 			player.setVolume(Number(client.settings.normal));
