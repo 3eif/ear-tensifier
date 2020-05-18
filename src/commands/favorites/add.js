@@ -47,9 +47,7 @@ module.exports = class Add extends Command {
 				await search(`${track.title} ${track.artist}`, 'no');
 			}
 		}
-		else {
-			await search(args.join(' '), 'no');
-		}
+		else { await search(args.join(' '), 'no'); }
 
 		async function search(sq, isPlaylist) {
 			let searchQuery = sq;
