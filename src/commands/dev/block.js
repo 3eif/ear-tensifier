@@ -44,10 +44,10 @@ module.exports = class Block extends Command {
 			}
 			else {
 				u.blocked = true;
+				await u.save().catch(e => client.log(e));
 			}
 
 			msg.edit(`Blocked **${user.user.tag}** from the bot.`);
-			await u.save().catch(e => client.log(e));
 		});
 	}
 };
