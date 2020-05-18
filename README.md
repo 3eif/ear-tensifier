@@ -3,6 +3,7 @@
 </div>
 <h1>Ear Tensifier</h1>
     
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/20eb2e26f8f7489991a62e7ea5b5f873)](https://app.codacy.com/manual/Tetracyl/EarTensifier?utm_source=github.com&utm_medium=referral&utm_content=Tetracyl/EarTensifier&utm_campaign=Badge_Grade_Dashboard)
 [![Discord](https://discordapp.com/api/guilds/473426453204172811/embed.png?style=shield)](https://discord.gg/xKgKMAP)
 [![Discord Bots](https://top.gg/api/widget/status/472714545723342848.svg?noavatar=true)](https://top.gg/bot/472714545723342848)
 [![Discord Bots](https://top.gg/api/widget/servers/472714545723342848.svg?noavatar=true)](https://top.gg/bot/472714545723342848)
