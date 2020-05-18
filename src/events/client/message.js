@@ -191,7 +191,7 @@ module.exports = class Message extends Event {
 					}
 				}
 
-				if (cmd && !message.guild && cmd.guildOnly) return message.channel.send('I can\'t execute that command inside DMs!. Please run this command in a server.');
+				if (!message.guild && cmd.guildOnly) return message.channel.send('I can\'t execute that command inside DMs!. Please run this command in a server.');
 
 				if (!client.settings.devs.includes(message.author.id)) {
 					if (!cooldowns.has(commandName)) {
@@ -220,12 +220,11 @@ module.exports = class Message extends Event {
 				else if (cmd.playing && !client.music.players.get(message.guild.id)) return client.responses('noSongsPlaying', message);
 
 				if (prefix == client.settings.prefix) {
-					if (cmd && !args[0] && cmd.args === true) return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`ear ${commandName} ${cmd.usage}\``);
+					if (!args[0] && cmd.args === true) return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`ear ${commandName} ${cmd.usage}\``);
 				}
-				else if (cmd && !args[0] && cmd.args === true) {
+				else if (!args[0] && cmd.args === true) {
 					return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`${prefix} ${commandName} ${cmd.usage}\` or \`${prefix}${cmd.name} ${cmd.usage}\``);
 				}
-
 
 				try {
 					// const voted = await getVoted(client, message.author);
