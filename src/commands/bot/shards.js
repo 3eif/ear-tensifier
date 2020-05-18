@@ -51,6 +51,7 @@ Servers: ${i[2]}\nChannels: ${i[3]}\nUsers: ${i[4]}\nMemory: ${i[5]} mb\nAPI Lat
 				let avgLatency = 0;
 				shardInfo.forEach(s => avgLatency += s[7]);
 				avgLatency = avgLatency / shardInfo.length;
+				avgLatency = Math.round(avgLatency);
 				const totalGuilds = results[0].reduce((prev, guildCount) => prev + guildCount, 0);
 				const totalMembers = results[1].reduce((prev, memberCount) => prev + memberCount, 0);
 

@@ -59,6 +59,7 @@ class Stats extends Command {
 				let avgLatency = 0;
 				shardInfo.forEach(s => avgLatency += s[7]);
 				avgLatency = avgLatency / shardInfo.length;
+				avgLatency = Math.round(avgLatency);
 
 				cpuStat.usagePercent(function(err, percent) {
 					const statsEmbed = new Discord.MessageEmbed()
