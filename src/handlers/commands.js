@@ -12,7 +12,7 @@ module.exports = client => {
 						const f = require(`../commands/${category}/${file}`);
 						const command = new f(client);
 						client.commands.set(command.name.toLowerCase(), command);
-						if (command && command.aliases && command.aliases.constructor.name === 'Array') {
+						if (command.aliases && command.aliases.constructor.name === 'Array') {
 							for (let i = 0; i < command.aliases.length; i++) {
 								client.aliases.set(command.aliases[i], command);
 							}
