@@ -21,14 +21,14 @@ module.exports = class AddServer extends Command {
                     serverID: message.guild.id,
                     prefix: this.client.settings.prefix,
                     ignore: [],
-                    roleSystem: false,
+                    roleSystem: true,
                 });
                 await newServer.save().catch(e => this.client.log(e));
             }
-
-            s.roleSystem = true;
-            await s.save().catch(e => client.log(e));
-            console.log(s.roleSystem);
+            else {
+                s.roleSystem = true;
+                await s.save().catch(e => client.log(e));
+            }
             return msg.edit('Role system has been setup.');
         });
     }
