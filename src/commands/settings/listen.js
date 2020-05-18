@@ -38,12 +38,13 @@ module.exports = class Listen extends Command {
 					ignore: [],
 				});
 				await newSever.save().catch(e => client.log(e));
+				return msg.edit('This channel is not being ignored!');
 			}
-
 			if (s.ignore.includes(channel)) {
 				for (let i = 0; i < s.ignore.length; i++) {
 					if (s.ignore[i] === channel) {
 						s.ignore.splice(i, 1);
+						await s.save().catch(e => client.log(e));
 						break;
 					}
 				}
@@ -51,7 +52,7 @@ module.exports = class Listen extends Command {
 			else {
 				return msg.edit('This channel is not being ignored!');
 			}
-			await s.save().catch(e => client.log(e));
+
 			const embed = new Discord.MessageEmbed()
 				.setAuthor(`${message.guild.name}`, message.guild.iconURL())
 				.setColor(client.colors.main)
