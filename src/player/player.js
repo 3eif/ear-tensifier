@@ -35,7 +35,7 @@ module.exports = async (client) => {
 	client.music.on('queueEnd', player => {
 		return client.music.players.destroy(player.guild.id);
 	});
-	client.music.on('trackStart', ({ textChannel }, { title, duration, author, uri, requester }) => {
-		trackStart(client, textChannel, title, duration, author, uri, requester);
+	client.music.on('trackStart', ({ textChannel }, { title, duration, author, uri }) => {
+		trackStart(client, textChannel, title, duration, author, uri);
 	});
 };
