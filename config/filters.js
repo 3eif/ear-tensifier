@@ -47,7 +47,7 @@ module.exports = {
         { 'band': 12, 'gain': -0.25 },
         { 'band': 13, 'gain': -0.25 },
     ],
-    'treblebess': [
+    'treblebass': [
         { 'band': 0, 'gain': 0.6 },
         { 'band': 1, 'gain': 0.67 },
         { 'band': 2, 'gain': 0.67 },
