@@ -19,7 +19,7 @@ module.exports = class Delete extends Command {
 		}, async (err, u) => {
 			if (err) client.log(err);
 
-			if (!u.favorites || u.favorites.length == 0 || !u.favorites.length) return msg.edit('You have no favorites. To add favorites type `ear add <search query/link>`');
+			if (!u.favorites || u.favorites.length === 0 || !u.favorites.length) return msg.edit('You have no favorites. To add favorites type `ear add <search query/link>`');
 			if (args[0].toLowerCase() == 'all') {
 				u.favorites = [];
 				msg.edit('Removed all songs from favorites.');
