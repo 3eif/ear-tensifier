@@ -52,7 +52,7 @@ module.exports = class Bassboost extends Command {
 			}
 			else { player.setEQ(Array(6).fill(0).map((n, i) => ({ band: i, gain: args[0] / 10 }))); }
 		}
-		else { player.setEQ(Array(6).fill(0).map((n, i) => ({ band: i, gain: args[0] / 10 }))); }
+		else player.setEQ(Array(6).fill(0).map((n, i) => ({ band: i, gain: args[0] / 10 })));
 
 		const msg = await message.channel.send(`${client.emojiList.loading} Setting bassboost to **${args[0]}dB**. This may take a few seconds...`);
 		const embed = new Discord.MessageEmbed()

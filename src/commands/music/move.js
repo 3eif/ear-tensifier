@@ -15,7 +15,7 @@ module.exports = class Move extends Command {
 	}
 	async run(client, message, args) {
 		if (isNaN(args[0])) return message.channel.send('Invalid number.');
-		if (args[0] == 0) return message.channel.send(`Cannot move a song that is already playing. To skip the current playing song type: \`${client.settings.prefix}skip\``);
+		if (args[0] === 0) return message.channel.send(`Cannot move a song that is already playing. To skip the current playing song type: \`${client.settings.prefix}skip\``);
 
 		const player = client.music.players.get(message.guild.id);
 		if ((args[0] > player.queue.size) || (args[0] && !player.queue[args[0]])) return message.channel.send('Song not found.');
