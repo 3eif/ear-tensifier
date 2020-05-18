@@ -15,7 +15,7 @@ module.exports = class Skipto extends Command {
 	}
 	async run(client, message, args) {
 		if (isNaN(args[0])) return message.channel.send('Invalid number.');
-		if (args[0] == 0) return message.channel.send(`Cannot skip to a song that is already playing. To skip the current playing song type: \`${client.settings.prefix}skip\``);
+		if (args[0] === 0) return message.channel.send(`Cannot skip to a song that is already playing. To skip the current playing song type: \`${client.settings.prefix}skip\``);
 
 		const player = client.music.players.get(message.guild.id);
 
