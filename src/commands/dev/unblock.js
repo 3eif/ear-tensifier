@@ -41,6 +41,7 @@ module.exports = class Unblock extends Command {
 			}
 			else if (u.blocked) {
 				u.blocked = false;
+				await u.save().catch(e => client.log(e));
 			}
 			else {
 				return msg.edit('That user is already unblocked.');
@@ -48,7 +49,6 @@ module.exports = class Unblock extends Command {
 
 			msg.edit(`Unblocked **${user.user.tag}** from the bot.`);
 			// client.channels.get(modlog).send(`${client.emojiList.whitelist} **${message.author.tag}** (${message.author.id}) unblocked **${user.user.tag}** (${user.id}). Reason: ${reason}`);
-			await u.save().catch(e => client.log(e));
 		});
 	}
 };
