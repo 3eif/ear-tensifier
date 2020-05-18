@@ -69,7 +69,7 @@ module.exports = class Ready extends Event {
 					this.client.shardMessage(this.client, this.client.channelList.readyChannel, embed);
 
 					if (this.client.user.id != '472714545723342848') return;
-					postHandler(this.client, totalGuilds, this.client.shard.count, this.client.shard.id, totalMembers);
+					postHandler(this.client, totalGuilds, this.client.shard.count);
 					require('../../utils/dbl.js').startUp(this.client);
 				});
 		}
