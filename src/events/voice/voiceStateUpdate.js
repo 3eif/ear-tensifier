@@ -23,7 +23,7 @@ module.exports = class VoiceStateUpdate extends Event {
 				await delay(this.client.settings.voiceLeave);
 
 				const vcMembers = oldVoice.guild.voice.channel.members.size;
-				if (vcMembers == 1) {
+				if (vcMembers === 1) {
 					const newPlayer = this.client.music.players.get(newVoice.guild.id);
 					if (newPlayer) {
 						this.client.music.players.destroy(player.guild.id);

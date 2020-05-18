@@ -6,7 +6,7 @@ module.exports = class ShardReady extends Event {
 	}
 
 	async run() {
-		const i = parseInt(this.client.shard.ids) + 1;
+		const i = parseInt(this.client.shard.ids, 10) + 1;
 		this.client.log(`[Shard ${i}] Reconnecting...`);
 	}
 };
