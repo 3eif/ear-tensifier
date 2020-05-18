@@ -1,4 +1,3 @@
-const { Utils } = require('@tetracyl/erela.js');
 const Discord = require('discord.js');
 const users = require('../models/user.js');
 const quickdb = require('quick.db');

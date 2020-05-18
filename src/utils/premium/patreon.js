@@ -23,8 +23,8 @@ module.exports = async (user, pledge) => {
 				else {
 					u.premium = false;
 					u.pro = false;
+					await u.save().catch(e => console.log(e));
 				}
-				await u.save().catch(e => console.log(e));
 			});
 			break;
 		}
@@ -49,8 +49,8 @@ module.exports = async (user, pledge) => {
 				else {
 					u.premium = true;
 					u.pro = false;
+					await u.save().catch(e => console.log(e));
 				}
-				await u.save().catch(e => console.log(e));
 			});
 			break;
 		}
@@ -75,8 +75,8 @@ module.exports = async (user, pledge) => {
 				else {
 					u.premium = true;
 					u.pro = true;
+					await u.save().catch(e => console.log(e));
 				}
-				await u.save().catch(e => console.log(e));
 			});
 			break;
 		}
