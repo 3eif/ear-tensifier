@@ -42,14 +42,16 @@ module.exports = class Prefix extends Command {
 			if (!s) {
 				const newSever = new servers({
 					serverID: message.guild.id,
-					prefix: client.settings.prefix,
+					prefix: f,
 					ignore: [],
 				});
 				await newSever.save().catch(e => client.log(e));
 			}
+			else {
+				s.prefix = f;
+				await s.save().catch(e => client.log(e));
+			}
 
-			s.prefix = f;
-			await s.save().catch(e => client.log(e));
 			const embed = new Discord.MessageEmbed()
 				.setAuthor(`${message.guild.name}`, message.guild.iconURL())
 				.setColor(client.colors.main)
