@@ -7,7 +7,6 @@ module.exports = class Volume extends Command {
 		super(client, {
 			name: 'volume',
 			description: 'Sets the volume of the song',
-			args: true,
 			cooldown: '10',
 			usage: '<volume #>',
 			inVoiceChannel: true,
