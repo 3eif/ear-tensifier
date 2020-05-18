@@ -26,10 +26,14 @@ module.exports = class Prefix extends Command {
 						prefix: client.settings.prefix,
 					});
 					await newSever.save().catch(e => client.log(e));
+					return message.channel.send(`The current prefix is \`${client.settings.prefix}\``);
 				}
-				return message.channel.send(`The current prefix is \`${s.prefix}\``);
+				else {
+					return message.channel.send(`The current prefix is \`${s.prefix}\``);
+				}
 			});
 		}
+
 		if (!args[0]) return;
 
 		const f = args[0].replace('_', ' ');
