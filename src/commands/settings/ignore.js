@@ -36,17 +36,19 @@ module.exports = class Ignore extends Command {
 					prefix: client.settings.prefix,
 					ignore: [],
 				});
+				newSever.ignore.push(channel);
 				await newSever.save().catch(e => client.log(e));
 			}
-
-			if(s.ignore.includes(channel)) return msg.edit('I am already ignoring this channel!');
-			s.ignore.push(channel);
-			await s.save().catch(e => console.log(e));
+			else {
+				if(s.ignore.includes(channel)) return msg.edit('I am already ignoring this channel!');
+				s.ignore.push(channel);
+				await s.save().catch(e => console.log(e));
+			}
 			const embed = new Discord.MessageEmbed()
 				.setAuthor(`${message.guild.name}`, message.guild.iconURL())
 				.setColor(client.colors.main)
 				.setDescription(`I will now ignore commands from ${args[0]}`)
-				.setFooter(`Tip: You can make me listen to commands again by doing ${s.prefix} listen`);
+				.setFooter(`Tip: You can make me listen to commands again by doing ${client.settings.prefix}listen`);
 			msg.edit('', embed);
 		});
 	}
