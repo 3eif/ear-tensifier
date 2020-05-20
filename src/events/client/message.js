@@ -226,6 +226,16 @@ module.exports = class Message extends Event {
 					return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`${prefix} ${commandName} ${cmd.usage}\` or \`${prefix}${cmd.name} ${cmd.usage}\``);
 				}
 
+				if(message.mentions.users.first()) {
+					return message.channel.send('Your argument included a mention which is an invalid argument type.');
+				}
+
+				const everyoneMention = '@everyone';
+				const hereMention = '@here';
+				if(message.content.includes(hereMention) || message.content.includes(everyoneMention)) {
+					return message.channel.send('Your argument included an `@here` or `@everyone` which is an invalid argument type.');
+				}
+
 				try {
 					// const voted = await getVoted(client, message.author);
 					// console.log(voted);
