@@ -25,7 +25,7 @@ module.exports = class Playskip extends Command {
 		const msg = await message.channel.send(`${client.emojiList.cd}  Searching for \`${args.join(' ')}\`...`);
 
 		let searchQuery;
-		if (args[0].startsWith('https://open.spotify.com')) {
+		if (args[0].startsWith(client.settings.spotifyURL)) {
 			const data = await getData(args.join(' '));
 			client.log(data);
 			if (data.type == 'playlist' || data.type == 'album') {

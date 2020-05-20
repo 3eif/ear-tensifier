@@ -36,7 +36,7 @@ module.exports = class Play extends Command {
 		if (await songLimit() == patreon.proMaxSongs && player.queue.size >= patreon.proMaxSongs) return msg.edit(`You have reached the **maximum** amount of songs (${patreon.proMaxSongs} songs). Want more songs? Contact the developer: \`Tetra#0001\``);
 
 		let searchQuery;
-		if (args[0].startsWith('https://open.spotify.com')) {
+		if (args[0].startsWith(client.settings.spotifyURL)) {
 			const data = await getData(args.join(' '));
 			if (data.type == 'playlist' || data.type == 'album') {
 				const sL = await songLimit();

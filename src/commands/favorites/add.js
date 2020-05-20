@@ -23,7 +23,7 @@ module.exports = class Add extends Command {
 		let dataLength = 0;
 		let playlistMessage = '';
 
-		if (args[0].startsWith('https://open.spotify.com')) {
+		if (args[0].startsWith(client.settings.spotifyURL)) {
 			const data = await getData(args.join(' '));
 			if (data.type == 'playlist' || data.type == 'album') {
 				if (data.type == 'playlist') {
