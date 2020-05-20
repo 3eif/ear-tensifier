@@ -38,4 +38,6 @@ module.exports = async (client, message, msg, player, searchQuery, playlist) => 
 			msg.edit(err.message);
 		});
 	});
+
+	search;
 };
