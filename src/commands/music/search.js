@@ -45,13 +45,13 @@ module.exports = class Search extends Command {
 
 					const results = res.tracks
 						.slice(0, 10)
-						.map(result => `**${++i} -** [${result.title}](${result.uri})`)
+						.map(result => `**${++i} -** [${result.title}](${result.uri}) \`[${moment.duration(result.duration, 'milliseconds').format('hh:mm:ss', { trim: false })}]\``)
 						.join('\n');
 
 					const embed = new Discord.MessageEmbed()
 						.setAuthor('Song Selection.', message.author.displayAvatarURL())
 						.setDescription(results)
-						.setFooter('Your response time closes within the next 30 seconds. Type \'cancel\' to cancel the selection')
+						.setFooter('Your response time closes within the next 30 seconds. Type "cancel" to cancel the selection, type "queueall" to queue all songs.')
 						.setColor(client.colors.main);
 					await msg.edit('', embed);
 
