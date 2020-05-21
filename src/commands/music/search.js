@@ -63,9 +63,9 @@ module.exports = class Search extends Command {
 						const response = await message.channel.awaitMessages(filter, { max: 1, time: 30000, errors: ['time'] });
 						const entry = response.first().content.toLowerCase();
 						if (entry === 'queueall' || entry === 'queue all') {
-							for (const track of tracks) {
-								player.queue.add(track);
-								message.channel.send(`**${tracks.length} songs** have been added to the queue by **${track.requester.tag}**.`);
+							for (let n = 0; n < tracks.legnth; n++) {
+								player.queue.add(tracks[n]);
+								if(tracks.legnth - 1 === n) message.channel.send(`**${tracks.length} songs** have been added to the queue by **${tracks[0].requester.tag}**.`);
 							}
 						}
 						else {
