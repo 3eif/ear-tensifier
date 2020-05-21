@@ -40,7 +40,7 @@ module.exports = class Search extends Command {
 					if (!player.playing) player.play();
 					break;
 				case 'SEARCH_RESULT':
-					let index = 0;
+					let i = 0;
 					const tracks = res.tracks.slice(0, 10);
 
 					const results = res.tracks
