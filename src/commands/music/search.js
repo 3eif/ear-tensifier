@@ -51,7 +51,7 @@ module.exports = class Search extends Command {
 					const embed = new Discord.MessageEmbed()
 						.setAuthor('Song Selection.', message.author.displayAvatarURL())
 						.setDescription(results)
-						.setFooter('Your response time closes within the next 30 seconds. Type "cancel" to cancel the selection, type "queue all" to queue all songs.')
+						.setFooter('Your response time closes within the next 30 seconds. Type "cancel" to cancel the selection, type "queueall" to queue all songs.')
 						.setColor(client.colors.main);
 					await msg.edit('', embed);
 
@@ -81,7 +81,6 @@ module.exports = class Search extends Command {
 						if (!player.playing) player.play();
 					}
 					catch (err) {
-						console.log(err);
 						message.channel.send('Cancelled selection.');
 					}
 					break;
