@@ -64,6 +64,8 @@ module.exports = class Search extends Command {
 						const entry = response.first().content.toLowerCase();
 						console.log(entry);
 						if (entry == 'queueall' || entry == 'queue all') {
+							console.log(tracks);
+							console.log(tracks.length);
 							for (let n = 0; n < tracks.legnth; n++) {
 								player.queue.add(tracks[n]);
 								if(tracks.length - 1 === n) {
