@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const botSchema = mongoose.Schema({
 	clientID: Number,
-	clidntName: String,
+	clientName: String,
 	messagesSent: Number,
 	songsPlayed: Number,
 });

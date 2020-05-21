@@ -4,7 +4,6 @@ const momentDurationFormatSetup = require('moment-duration-format');
 momentDurationFormatSetup(moment);
 
 module.exports = async (client, message, msg, player, searchQuery, playlist) => {
-
 	// eslint-disable-next-line no-unused-vars
 	const search = new Promise(async function(resolve, reject) {
 		client.music.search(searchQuery, message.author).then(async res => {
