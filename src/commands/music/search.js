@@ -61,7 +61,7 @@ module.exports = class Search extends Command {
 
 					try {
 						const response = await message.channel.awaitMessages(filter, { max: 1, time: 30000, errors: ['time'] });
-						const entry = response.content.toLowerCase();
+						const entry = response.first().content.toLowerCase();
 						console.log(entry);
 						if (entry === 'queueall') {
 							for (const track of tracks) {
