@@ -57,7 +57,7 @@ module.exports = class Search extends Command {
 
 					const filter = m =>
 						(message.author.id === m.author.id) &&
-						((parseInt(m.content) >= 1 && parseInt(m.content) <= tracks.length) || m.content.toLowerCase() === 'queueall');
+						((parseInt(m.content) >= 1 && parseInt(m.content) <= tracks.length) || m.content.toLowerCase() === 'queueall' || m.content.toLowerCase() === 'queue all' || m.content.toLowerCase() === 'cancel');
 
 					try {
 						const response = await message.channel.awaitMessages(filter, { max: 1, time: 30000, errors: ['time'] });
