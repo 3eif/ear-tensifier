@@ -62,27 +62,21 @@ module.exports = class Search extends Command {
 					try {
 						const response = await message.channel.awaitMessages(filter, { max: 1, time: 30000, errors: ['time'] });
 						const entry = response.first().content.toLowerCase();
-						console.log(entry);
-						if (entry == 'queueall' || entry == 'queue all') {
-							for (let n = 0; n < tracks.legnth; n++) {
-								console.log('added');
-								player.queue.add(tracks[n]);
-								if(tracks.length - 1 === n) {
-									message.channel.send(`**${tracks.length} songs** have been added to the queue by **${tracks[0].requester.tag}**.`);
-									player.play();
-								}
+						if (entry === 'queueall' || entry === 'queue all') {
+							for (const track of tracks) {
+								player.queue.add(track);
 							}
+							message.channel.send(`**${tracks.length} songs** have been added to the queue by **${tracks[0].requester.tag}**.`);
 						}
 						else {
 							const track = tracks[entry - 1];
 							player.queue.add(track);
 							const parsedDuration2 = moment.duration(track.duration, 'milliseconds').format('hh:mm:ss', { trim: false });
 							message.channel.send(`**${track.title}** (${parsedDuration2}) has been added to the queue by **${track.requester.tag}**`);
-							player.play();
 						}
+						if (!player.playing) player.play();
 					}
 					catch (err) {
-						console.log(err);
 						message.channel.send('Cancelled selection.');
 					}
 					break;
