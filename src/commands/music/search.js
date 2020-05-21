@@ -45,7 +45,7 @@ module.exports = class Search extends Command {
 
 					const results = res.tracks
 						.slice(0, 10)
-						.map(result => `**${++i} -** ${result.title} - ${result.uri}`)
+						.map(result => `**${++i} -** [${result.title}](${result.uri})`)
 						.join('\n');
 
 					const embed = new Discord.MessageEmbed()
@@ -67,7 +67,8 @@ module.exports = class Search extends Command {
 								player.queue.add(track);
 								console.log(`Loaded ${track.title}`);
 							}
-						} else {
+						}
+						else {
 							const track = tracks[entry - 1];
 							player.queue.add(track);
 							const parsedDuration2 = moment.duration(track.duration, 'milliseconds').format('hh:mm:ss', { trim: false });
@@ -78,24 +79,6 @@ module.exports = class Search extends Command {
 					catch (err) {
 						message.channel.send('Cancelled selection.');
 					}
-
-					const collector = message.channel.createMessageCollector(m => {
-						return m.author.id === message.author.id && new RegExp('^([1-9]|cancel)$', 'i').test(m.content);
-					}, { time: 30000, max: 1 });
-
-					collector.on('collect', m => {
-						if (/cancel/i.test(m.content)) return collector.stop('cancelled');
-
-						const track = tracks[Number(m.content) - 1];
-						const parsedDuration2 = moment.duration(track.duration, 'milliseconds').format('hh:mm:ss', { trim: false });
-						player.queue.add(track);
-						message.channel.send(`**${track.title}** (${parsedDuration2}) has been added to the queue by **${track.requester.tag}**`);
-						if (!player.playing) player.play();
-					});
-
-					collector.on('end', (_, reason) => {
-						if (['time', 'cancelled'].includes(reason)) return message.channel.send('Cancelled selection.');
-					});
 					break;
 
 				case 'PLAYLIST_LOADED':
