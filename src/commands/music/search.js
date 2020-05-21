@@ -61,15 +61,15 @@ module.exports = class Search extends Command {
 
 					try {
 						const response = await message.channel.awaitMessages(filter, { max: 1, time: 30000, errors: ['time'] });
-						const entry = response.first().content.toLowerCase();
-						if (entry === 'queueall' || entry === 'queue all') {
+						const entry = response.content.toLowerCase();
+						if(entry == 'cancel') {
+							return message.channel.send('Cancelled selection.');
+						}
+						if (entry === 'queueall' || entry == 'queue all') {
 							for (const track of tracks) {
 								player.queue.add(track);
 							}
 							message.channel.send(`**${tracks.length} songs** have been added to the queue by **${tracks[0].requester.tag}**.`);
-						}
-						else if(entry === 'cancel') {
-							return message.channel.send('Cancelled selection.');
 						}
 						else {
 							const track = tracks[entry - 1];
