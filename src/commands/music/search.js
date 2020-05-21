@@ -66,7 +66,10 @@ module.exports = class Search extends Command {
 						if (entry == 'queueall' || entry == 'queue all') {
 							for (let n = 0; n < tracks.legnth; n++) {
 								player.queue.add(tracks[n]);
-								if(tracks.legnth - 1 === n) message.channel.send(`**${tracks.length} songs** have been added to the queue by **${tracks[0].requester.tag}**.`);
+								if(tracks.length - 1 === n) {
+									message.channel.send(`**${tracks.length} songs** have been added to the queue by **${tracks[0].requester.tag}**.`);
+									if (!player.playing) player.play();
+								}
 							}
 						}
 						else {
@@ -74,8 +77,8 @@ module.exports = class Search extends Command {
 							player.queue.add(track);
 							const parsedDuration2 = moment.duration(track.duration, 'milliseconds').format('hh:mm:ss', { trim: false });
 							message.channel.send(`**${track.title}** (${parsedDuration2}) has been added to the queue by **${track.requester.tag}**`);
+							if (!player.playing) player.play();
 						}
-						if (!player.playing) player.play();
 					}
 					catch (err) {
 						console.log(err);
