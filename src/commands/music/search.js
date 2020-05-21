@@ -68,6 +68,9 @@ module.exports = class Search extends Command {
 							}
 							message.channel.send(`**${tracks.length} songs** have been added to the queue by **${tracks[0].requester.tag}**.`);
 						}
+						else if(entry === 'cancel') {
+							return message.channel.send('Cancelled selection.');
+						}
 						else {
 							const track = tracks[entry - 1];
 							player.queue.add(track);
