@@ -40,14 +40,44 @@ module.exports = class Search extends Command {
 					if (!player.playing) player.play();
 					break;
 				case 'SEARCH_RESULT':
-					let index = 1;
-					const tracks = res.tracks.slice(0, 9);
+					let index = 0;
+					const tracks = res.tracks.slice(0, 10);
+
+					const results = res.tracks
+						.slice(0, 10)
+						.map(result => `**${++i} -** ${result.title} - ${result.uri}`)
+						.join('\n');
+
 					const embed = new Discord.MessageEmbed()
 						.setAuthor('Song Selection.', message.author.displayAvatarURL())
-						.setDescription(tracks.map(video => `**${index++} -** ${video.title}`))
+						.setDescription(results)
 						.setFooter('Your response time closes within the next 30 seconds. Type \'cancel\' to cancel the selection')
 						.setColor(client.colors.main);
 					await msg.edit('', embed);
+
+					const filter = m =>
+						(message.author.id === m.author.id) &&
+						((parseInt(m.content) >= 1 && parseInt(m.content) <= tracks.length) || m.content.toLowerCase() === 'queueall');
+
+					try {
+						const response = await message.channel.awaitMessages(filter, { max: 1, time: 30000, errors: ['time'] });
+						const entry = response.first().content;
+						if (entry === 'queueall') {
+							for (const track of tracks) {
+								player.queue.add(track);
+								console.log(`Loaded ${track.title}`);
+							}
+						} else {
+							const track = tracks[entry - 1];
+							player.queue.add(track);
+							const parsedDuration2 = moment.duration(track.duration, 'milliseconds').format('hh:mm:ss', { trim: false });
+							message.channel.send(`**${track.title}** (${parsedDuration2}) has been added to the queue by **${track.requester.tag}**`);
+						}
+						if (!player.playing) player.play();
+					}
+					catch (err) {
+						message.channel.send('Cancelled selection.');
+					}
 
 					const collector = message.channel.createMessageCollector(m => {
 						return m.author.id === message.author.id && new RegExp('^([1-9]|cancel)$', 'i').test(m.content);
@@ -68,12 +98,12 @@ module.exports = class Search extends Command {
 					});
 					break;
 
-					case 'PLAYLIST_LOADED':
-						res.playlist.tracks.forEach(track => player.queue.add(track));
-						const parsedDuration2 = moment.duration(res.playlist.tracks.reduce((acc, cure) => ({ duration: acc.duration + cure.duration })).duration, 'milliseconds').format('hh:mm:ss', { trim: false });
-						msg.edit(`**${res.playlist.info.name}** (${parsedDuration2}) (${res.playlist.tracks.length} tracks) has been added to the queue by **${res.playlist.tracks[0].requester.tag}**`);
-						if (!player.playing) player.play();
-						break;
+				case 'PLAYLIST_LOADED':
+					res.playlist.tracks.forEach(track => player.queue.add(track));
+					const parsedDuration2 = moment.duration(res.playlist.tracks.reduce((acc, cure) => ({ duration: acc.duration + cure.duration })).duration, 'milliseconds').format('hh:mm:ss', { trim: false });
+					msg.edit(`**${res.playlist.info.name}** (${parsedDuration2}) (${res.playlist.tracks.length} tracks) has been added to the queue by **${res.playlist.tracks[0].requester.tag}**`);
+					if (!player.playing) player.play();
+					break;
 			}
 		}).catch(err => msg.edit(err.message));
 	}
