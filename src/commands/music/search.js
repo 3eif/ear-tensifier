@@ -57,19 +57,20 @@ module.exports = class Search extends Command {
 
 					const filter = m =>
 						(message.author.id === m.author.id) &&
-						((parseInt(m.content) >= 1 && parseInt(m.content) <= tracks.length) || m.content.toLowerCase() === 'queueall' || m.content.toLowerCase() === 'queue all' || m.content.toLowerCase() === 'cancel');
+						((parseInt(m.content) >= 1 && parseInt(m.content) <= tracks.length) || m.content.toLowerCase() === 'queueall' || m.content.toLowerCase() === 'cancel');
 
 					try {
 						const response = await message.channel.awaitMessages(filter, { max: 1, time: 30000, errors: ['time'] });
 						const entry = response.content.toLowerCase();
-						if(entry == 'cancel') {
-							return message.channel.send('Cancelled selection.');
-						}
-						if (entry === 'queueall' || entry == 'queue all') {
+						console.log(entry);
+						if (entry === 'queueall') {
 							for (const track of tracks) {
 								player.queue.add(track);
 							}
 							message.channel.send(`**${tracks.length} songs** have been added to the queue by **${tracks[0].requester.tag}**.`);
+						}
+						else if(entry === 'cancel') {
+							message.channel.send('Cancelled selection');
 						}
 						else {
 							const track = tracks[entry - 1];
@@ -80,7 +81,6 @@ module.exports = class Search extends Command {
 						if (!player.playing) player.play();
 					}
 					catch (err) {
-						console.log(err);
 						message.channel.send('Cancelled selection.');
 					}
 					break;
