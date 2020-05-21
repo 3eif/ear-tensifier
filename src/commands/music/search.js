@@ -51,7 +51,7 @@ module.exports = class Search extends Command {
 					const embed = new Discord.MessageEmbed()
 						.setAuthor('Song Selection.', message.author.displayAvatarURL())
 						.setDescription(results)
-						.setFooter('Your response time closes within the next 30 seconds. Type "cancel" to cancel the selection, type "queueall" to queue all songs.')
+						.setFooter('Your response time closes within the next 30 seconds. Type "cancel" to cancel the selection, type "queue all" to queue all songs.')
 						.setColor(client.colors.main);
 					await msg.edit('', embed);
 
@@ -61,11 +61,11 @@ module.exports = class Search extends Command {
 
 					try {
 						const response = await message.channel.awaitMessages(filter, { max: 1, time: 30000, errors: ['time'] });
-						const entry = response.first().content;
-						if (entry === 'queueall') {
+						const entry = response.first().content.toLowerCase();
+						if (entry === 'queueall' || entry === 'queue all') {
 							for (const track of tracks) {
 								player.queue.add(track);
-								console.log(`Loaded ${track.title}`);
+								message.channel.send(`**${tracks.length} songs** have been added to the queue by **${track.requester.tag}**.`);
 							}
 						}
 						else {
