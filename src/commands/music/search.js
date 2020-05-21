@@ -78,6 +78,7 @@ module.exports = class Search extends Command {
 						if (!player.playing) player.play();
 					}
 					catch (err) {
+						console.log(err);
 						message.channel.send('Cancelled selection.');
 					}
 					break;
