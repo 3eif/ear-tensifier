@@ -20,7 +20,7 @@ module.exports = class Charts extends Command {
 
 			for (let i = 0; i < 10; i++) {
 				try {
-					songsArr.push(`**${i + 1}.** ${res[i].songName} (${res[i].timesPlayed} plays)`);
+					songsArr.push(`**${i + 1}.** ${res[i].songName} (${res[i].timesPlayed.toLocaleString()} plays)`);
 				}
 				catch (e) {
 					return message.channel.send('An error occured.');

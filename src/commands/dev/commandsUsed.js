@@ -19,7 +19,7 @@ module.exports = class CommandsUsed extends Command {
 
 			for (let i = 0; i < 30; i++) {
 				try {
-					commandsArr.push(`${i + 1}.) ${res[i].timesUsed} | ${res[i].commandName}`);
+					commandsArr.push(`${i + 1}.) ${res[i].timesUsed.toLocaleString()} | ${res[i].commandName}`);
 				}
 				catch (e) {
 					return message.channel.send('An error occured.');
