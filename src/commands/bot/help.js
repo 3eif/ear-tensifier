@@ -23,7 +23,7 @@ module.exports = class Help extends Command {
 
 		const embed = new Discord.MessageEmbed()
 			.setAuthor('Commands', client.settings.avatar)
-			.setDescription(`A detailed list of commands can be found [here](https://eartensifier.net/commands)\nJoin the [support server](${client.settings.server}) for more help`)
+			.setDescription('A detailed list of commands can be found [here](https://eartensifier.net/commands)')
 			.setFooter(`For more information: ${client.settings.prefix}help <command>`)
 			.setColor(client.colors.main);
 
@@ -47,6 +47,7 @@ module.exports = class Help extends Command {
 			});
 
 			await msg.edit('', embed);
+			message.channel.send(`Need more help? Join the support server: ${client.settings.server}`);
 
 		}
 		else {

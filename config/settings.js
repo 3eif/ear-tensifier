@@ -10,5 +10,7 @@ module.exports = {
 	'spotifyURL': 'https://open.spotify.com',
 	'hiddenCommands': [
 		'shards',
+		'donate',
+		'role',
 	],
 };
