@@ -22,7 +22,7 @@ module.exports.startUp = async (client) => {
 			}, async (err, u) => {
 				if (err) console.log(err);
 				let oldLastVoted = 'Never';
-				let timesVoted = 0;
+				let timesVoted2 = 0;
 				if (!u) {
 					const newUser = new users({
 						authorID: votedUser.id,
@@ -43,7 +43,7 @@ module.exports.startUp = async (client) => {
 				else {
 					u.voted = true;
 					u.votedConst = true;
-					timesVoted = u.timesVoted;
+					timesVoted2 = u.timesVoted;
 					u.timesVoted++;
 					oldLastVoted = u.lastVoted;
 					u.lastVoted = Date.now();
@@ -53,8 +53,8 @@ module.exports.startUp = async (client) => {
 				const embed = new Discord.MessageEmbed()
 					.setAuthor(`${votedUser.tag} - (${votedUser.id})`, votedUser.displayAvatarURL())
 					.setDescription(`**${votedUser.username}** voted for the bot!`)
-					.addField('Times Voted', timesVoted, true)
-					.addField('Last Voted', oldLastVoted, true)
+					.addField('Times Voted', timesVoted2, true)
+					.addField('Last Voted', Date(oldLastVoted).toString(), true)
 					.setThumbnail(votedUser.displayAvatarURL())
 					.setColor(client.colors.main)
 					.setTimestamp();

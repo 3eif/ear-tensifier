@@ -21,7 +21,7 @@ class Stats extends Command {
 
 		const totalSeconds = process.uptime();
 		const realTotalSecs = Math.floor(totalSeconds % 60);
-		const days = Math.floor((totalSeconds % (31536 * 1000)) / 86400);
+		const days = Math.floor((totalSeconds % (31536 * 100)) / 86400);
 		const hours = Math.floor((totalSeconds / 3600) % 24);
 		const mins = Math.floor((totalSeconds / 60) % 60);
 
@@ -63,7 +63,7 @@ class Stats extends Command {
 				shardInfo.forEach(s => avgLatency += s[7]);
 				avgLatency = avgLatency / shardInfo.length;
 				avgLatency = Math.round(avgLatency);
-				const memoryPercentage = (totalMemory / (os.totalmem() / 1024 / 1024)).toFixed(3);
+				const memoryPercentage = (totalMemory / (os.totalmem() / 1024 / 1024)).toFixed(3) * 100;
 
 				cpuStat.usagePercent(function(err, percent) {
 					const statsEmbed = new Discord.MessageEmbed()
