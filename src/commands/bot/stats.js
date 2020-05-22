@@ -21,7 +21,7 @@ class Stats extends Command {
 
 		const totalSeconds = process.uptime();
 		const realTotalSecs = Math.floor(totalSeconds % 60);
-		const days = Math.floor((totalSeconds % 31536 * 10000) / 86400);
+		const days = Math.floor((totalSeconds % 31536 * 100000) / 86400);
 		const hours = Math.floor((totalSeconds / 3600) % 24);
 		const mins = Math.floor((totalSeconds / 60) % 60);
 
