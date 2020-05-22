@@ -45,7 +45,7 @@ module.exports = class Search extends Command {
 
 					const results = res.tracks
 						.slice(0, 10)
-						.map(result => `**${++i} -** [${result.title}](${result.uri}) \`[${moment.duration(result.duration, 'milliseconds').format('hh:mm:ss', { trim: false })}]\``)
+						.map(result => `**${++i} -** [${result.title}](${result.uri})`)
 						.join('\n');
 
 					const embed = new Discord.MessageEmbed()
