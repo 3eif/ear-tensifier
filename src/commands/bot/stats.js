@@ -41,7 +41,8 @@ class Stats extends Command {
 			this.users.cache.size,
 			(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2),
 			this.music.players.size,
-			this.ws.ping
+			this.ws.ping,
+			(process.memoryUsage().rss / 1024 / 1024).toFixed(2),
 		  ]`);
 
 		let totalMusicStreams = 0;
@@ -56,6 +57,8 @@ class Stats extends Command {
 
 				let totalMemory = 0;
 				shardInfo.forEach(s => totalMemory += parseInt(s[5]));
+				let totalRSS = 0;
+				shardInfo.forEach(s => totalRSS += parseInt(s[8]));
 				let avgLatency = 0;
 				shardInfo.forEach(s => avgLatency += s[7]);
 				avgLatency = avgLatency / shardInfo.length;
@@ -73,10 +76,10 @@ class Stats extends Command {
 						.addField('Members', `${totalMembers.toLocaleString()} members`, true)
 						.addField('Shards', `${parseInt(client.shard.ids) + 1}/${client.shard.count}`, true)
 						.addField('CPU usage', `${percent.toFixed(2)}%`, true)
-						.addField('Discord.js', `Version ${require('discord.js').version}`, true)
 						.addField('Messages Sent', `${botMessages.toLocaleString()}`, true)
 						.addField('Songs Played', `${songsPlayed.toLocaleString()}`, true)
 						.addField('Music Streams', `${totalMusicStreams.toLocaleString()}`, true)
+						.addField('RSS', `${totalRSS.toLocaleString()}`, true)
 						.addField('Memory Used', `\`\`\`${totalMemory.toFixed(2)} / ${(os.totalmem() / 1024 / 1024).toFixed(2)} MB | ${memoryPercentage}% used\`\`\``)
 						.addField('Uptime', `\`\`\`${days} days, ${hours} hours, ${mins} minutes, and ${realTotalSecs} seconds\`\`\``)
 						.setFooter(`Latency ${msg.createdTimestamp - message.createdTimestamp}ms`)
