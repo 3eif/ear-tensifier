@@ -13,13 +13,13 @@ module.exports = class CommandsUsed extends Command {
 	async run(client, message) {
 		const msg = await message.channel.send(`${client.emojiList.loading} Fetching most used commands...`);
 
-		commands.find().sort([['timesPlayed', 'descending']]).exec(async (err, res) => {
+		commands.find().sort([['timesUsed', 'descending']]).exec(async (err, res) => {
 			if (err) client.log(err);
 			const commandsArr = [];
 
 			for (let i = 0; i < 10; i++) {
 				try {
-					commandsArr.push(`**${i + 1}.** ${res[i].timesUsed} | ${res[i].commandName}`);
+					commandsArr.push(`${i + 1}.) ${res[i].timesUsed} | ${res[i].commandName}`);
 				}
 				catch (e) {
 					return message.channel.send('An error occured.');
