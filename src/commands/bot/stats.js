@@ -72,6 +72,7 @@ class Stats extends Command {
 						.addField('Members', `${totalMembers} members`, true)
 						.addField('Shards', `${parseInt(client.shard.ids) + 1}/${client.shard.count}`, true)
 						.addField('CPU usage', `${percent.toFixed(2)}%`, true)
+						.addField('Discord.js', `Version ${require('discord.js').version}`)
 						.addField('Messages Sent', `${botMessages}`, true)
 						.addField('Songs Played', `${songsPlayed}`, true)
 						.addField('Music Streams', `${totalMusicStreams}`, true)
