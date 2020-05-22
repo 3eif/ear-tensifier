@@ -11,6 +11,7 @@ module.exports = class Client extends Discord.Client {
             partials: [
                 'MESSAGE',
                 'CHANNEL',
+                'GUILD_MEMBER',
             ],
             ws: {
                 intents: [
