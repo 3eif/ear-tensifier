@@ -55,7 +55,7 @@ Servers: ${i[2]}\nChannels: ${i[3]}\nUsers: ${i[4]}\nMemory: ${i[5]} mb\nAPI Lat
 				const totalGuilds = results[0].reduce((prev, guildCount) => prev + guildCount, 0);
 				const totalMembers = results[1].reduce((prev, memberCount) => prev + memberCount, 0);
 
-				embed.addField('Total Stats', `Total Servers: **${totalGuilds}** - Total Users: **${totalMembers}** - Avg. Latency: **${avgLatency} ms** - Total Streams: **${totalMusicStreams}** - Total Memory: **${totalMemory.toFixed(2)} mb**`);
+				embed.addField('Total Stats', `Total Servers: **${totalGuilds.toLocaleString()}** - Total Users: **${totalMembers.toLocaleString()}** - Avg. Latency: **${avgLatency} ms** - Total Streams: **${totalMusicStreams}** - Total Memory: **${totalMemory.toFixed(2)} mb**`);
 				message.channel.send(embed);
 			});
 	}
