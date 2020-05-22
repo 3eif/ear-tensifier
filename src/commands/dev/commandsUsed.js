@@ -17,7 +17,7 @@ module.exports = class CommandsUsed extends Command {
 			if (err) client.log(err);
 			const commandsArr = [];
 
-			for (let i = 0; i < 10; i++) {
+			for (let i = 0; i < 30; i++) {
 				try {
 					commandsArr.push(`${i + 1}.) ${res[i].timesUsed} | ${res[i].commandName}`);
 				}
