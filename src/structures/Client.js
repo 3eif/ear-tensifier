@@ -17,7 +17,6 @@ module.exports = class Client extends Discord.Client {
                     'GUILDS',
                     'GUILD_MESSAGES',
                     'GUILD_VOICE_STATES',
-                    'GUILD_ROLES ',
                 ],
             },
         });
