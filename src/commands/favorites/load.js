@@ -2,7 +2,7 @@ const Command = require('../../structures/Command');
 
 const users = require('../../models/user.js');
 const spawnPlayer = require('../../utils/spawnPlayer.js');
-const premium = require('../../utils/premium/premium.js');
+const premium = require('../../utils/premium.js');
 const patreon = require('../../../config/patreon.js');
 
 module.exports = class Load extends Command {

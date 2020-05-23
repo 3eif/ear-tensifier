@@ -3,7 +3,7 @@ const Command = require('../../structures/Command');
 const play = require('../../utils/play.js');
 const spawnPlayer = require('../../utils/spawnPlayer.js');
 const patreon = require('../../../config/patreon.js');
-const premium = require('../../utils/premium/premium.js');
+const premium = require('../../utils/premium.js');
 
 module.exports = class Youtube extends Command {
 	constructor(client) {

@@ -7,7 +7,7 @@ const users = require('../../models/user.js');
 const servers = require('../../models/server.js');
 const quickdb = require('quick.db');
 const commandsSchema = require('../../models/command.js');
-const premium = require('../../utils/premium/premium.js');
+const premium = require('../../utils/premium.js');
 const getVoted = require('../../utils/getVoted.js');
 
 module.exports = class Message extends Event {
