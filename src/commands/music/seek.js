@@ -12,7 +12,6 @@ module.exports = class Seek extends Command {
 			cooldown: '10',
 			args: true,
 			usage: '<seconds>',
-			aliases: ['skipto'],
 			inVoiceChannel: true,
 			sameVoiceChannel: true,
 			playing: true,
