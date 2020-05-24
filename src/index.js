@@ -17,7 +17,7 @@ Sentry.init({
   environment: process.env.SENTRY_ENVIRONMENT,
 });
 
-mongoose.connect(`mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/test`, {
+mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });

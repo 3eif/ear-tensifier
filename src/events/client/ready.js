@@ -8,7 +8,7 @@ const Event = require('../../structures/Event');
 const player = require('../../player/player.js');
 const postHandler = require('../../handlers/post.js');
 
-mongoose.connect(`mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/test`, {
+mongoose.connect(process.env.MONGO_URL, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
 });
