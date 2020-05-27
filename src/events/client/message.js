@@ -161,14 +161,14 @@ module.exports = class Message extends Event {
 
 				client.log(`[Shard ${client.shard.ids}] ${commandName} used by ${message.author.tag} (${message.author.id}) from ${message.guild.name} (${message.guild.id})`);
 
-				const embed = new Discord.MessageEmbed()
-					.setAuthor(`${message.author.username}`, message.author.displayAvatarURL())
-					.setColor(client.colors.main)
-					.setDescription(`**${commandName}** command used by **${message.author.tag}** (${message.author.id})`)
-					.setFooter(`${message.guild.name} (${message.guild.id})`, message.guild.iconURL())
-					.setTimestamp();
+				// const embed = new Discord.MessageEmbed()
+				// 	.setAuthor(`${message.author.username}`, message.author.displayAvatarURL())
+				// 	.setColor(client.colors.main)
+				// 	.setDescription(`**${commandName}** command used by **${message.author.tag}** (${message.author.id})`)
+				// 	.setFooter(`${message.guild.name} (${message.guild.id})`, message.guild.iconURL())
+				// 	.setTimestamp();
 
-				client.shardMessage(client, client.channelList.messageChannel, embed);
+				// client.shardMessage(client, client.channelList.messageChannel, embed);
 
 				if (!cooldowns.has(commandName)) {
 					cooldowns.set(commandName, new Discord.Collection());

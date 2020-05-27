@@ -57,16 +57,16 @@ module.exports = class Ready extends Event {
 
 					this.client.log(`Ear Tensifier is online: ${this.client.shard.count} shards, ${totalGuilds} servers and ${totalMembers} members.`);
 
-					const embed = new Discord.MessageEmbed()
-						.setAuthor('Ear Tensifier', this.client.settings.avatar)
-						.setColor(this.client.colors.main)
-						.setDescription('Ear Tensifier is online.')
-						.addField('Shards', `**${this.client.shard.count}** shards`, true)
-						.addField('Servers', `**${totalGuilds}** servers`, true)
-						.setTimestamp()
-						.setFooter(`${totalMembers} users`);
+					// const embed = new Discord.MessageEmbed()
+					// 	.setAuthor('Ear Tensifier', this.client.settings.avatar)
+					// 	.setColor(this.client.colors.main)
+					// 	.setDescription('Ear Tensifier is online.')
+					// 	.addField('Shards', `**${this.client.shard.count}** shards`, true)
+					// 	.addField('Servers', `**${totalGuilds}** servers`, true)
+					// 	.setTimestamp()
+					// 	.setFooter(`${totalMembers} users`);
 
-					this.client.shardMessage(this.client, this.client.channelList.readyChannel, embed);
+					// this.client.shardMessage(this.client, this.client.channelList.readyChannel, embed);
 
 					if (this.client.user.id != '472714545723342848') return;
 					postHandler(this.client, totalGuilds, this.client.shard.count);

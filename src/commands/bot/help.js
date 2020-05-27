@@ -53,7 +53,7 @@ module.exports = class Help extends Command {
 		else {
 
 			if (!commands.has(args[0])) {
-				return message.reply('That\'s not a valid command!');
+				return msg.edit('That\'s not a valid command!');
 			}
 			const command = commands.get(args[0]);
 

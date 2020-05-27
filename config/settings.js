@@ -13,5 +13,6 @@ module.exports = {
 		'donate',
 		'role',
 		'radio',
+		'twitch',
 	],
 };
