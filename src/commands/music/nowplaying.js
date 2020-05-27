@@ -20,7 +20,7 @@ module.exports = class NowPlaying extends Command {
 
 		const parsedCurrentDuration = moment.duration(player.position, 'milliseconds').format('hh:mm:ss', { trim: false });
 		const parsedDuration = moment.duration(duration, 'milliseconds').format('hh:mm:ss', { trim: false });
-		const part = Math.floor((player.position / duration) * 15);
+		const part = Math.floor((player.position / duration) * 30);
 		const uni = player.playing ? '▶' : '⏸️';
 
 		const embed = new Discord.MessageEmbed()
