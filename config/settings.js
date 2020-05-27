@@ -12,5 +12,6 @@ module.exports = {
 		'shards',
 		'donate',
 		'role',
+		'radio',
 	],
 };

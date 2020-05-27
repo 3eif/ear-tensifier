@@ -61,7 +61,7 @@ module.exports = class Help extends Command {
 
 			if (command.description) data.push(`**Description:** ${command.description}`);
 			if (command.aliases == 'No aliases for this certain command') data.push('**Aliases:** This command has no aliases');
-			else data.push(`**Aliases:** ${command.aliases.join(', ')}`);
+			else data.push(`**Aliases:** ${command.aliases}`);
 			if (command.usage) data.push(`**Usage:** \`${client.settings.prefix}${command.name} ${command.usage}\``);
 
 			data.push(`**Cooldown:** ${command.cooldown || 3} second(s)`);
