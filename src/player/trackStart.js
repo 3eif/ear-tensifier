@@ -10,7 +10,7 @@ momentDurationFormatSetup(moment);
 module.exports = async (client, textChannel, title, duration, author, uri) => {
 	const currentSong = client.music.players.get(textChannel.guild.id).queue[0];
 	const requester = `<@${currentSong.requester.id}>`;
-	const thumbnail = `https://img.youtube.com/vi/${currentSong.identifier}/default.jpg`;
+	const thumbnail = `https://img.youtube.com/vi/${currentSong.identifier}/mqdefault.jpg`;
 	addDB(uri, title, author, duration, uri, thumbnail);
 
 	// bot.findOne({
