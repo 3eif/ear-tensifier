@@ -23,7 +23,7 @@ module.exports = class NowPlaying extends Command {
 		const part = Math.floor((player.position / duration) * 30);
 		const uni = player.playing ? '▶' : '⏸️';
 
-		const thumbnail = `https://img.youtube.com/vi/${identifier}/mqdefault.jpg`;
+		const thumbnail = `https://img.youtube.com/vi/${identifier}/maxresdefault.jpg`;
 		const user = `<@${requester.id}>`;
 
 		const embed = new Discord.MessageEmbed()
