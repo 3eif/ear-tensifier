@@ -1,5 +1,6 @@
 const { ErelaClient, Player } = require('@tetracyl/erela.js');
 const trackStart = require('./trackStart.js');
+const queueEnd = require('./queueEnd.js');
 
 module.exports = async (client) => {
 	const nodes = [{
@@ -31,7 +32,7 @@ module.exports = async (client) => {
 	});
 	client.music.on('nodeError', (node, error) => client.log(`Node error: ${error.message}`));
 	client.music.on('queueEnd', player => {
-		return client.music.players.destroy(player.guild.id);
+		queueEnd(client, player);
 	});
 	client.music.on('trackStart', ({ textChannel }, { title, duration, author, uri }) => {
 		trackStart(client, textChannel, title, duration, author, uri);

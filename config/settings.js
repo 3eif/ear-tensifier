@@ -14,5 +14,6 @@ module.exports = {
 		'role',
 		'radio',
 		'twitch',
+		'autoplay',
 	],
 };
