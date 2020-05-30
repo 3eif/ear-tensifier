@@ -74,6 +74,7 @@ module.exports = class Ready extends Event {
 
 					blapi.setLogging(true);
 					blapi.handle(this.client, botLists, 30);
+					console.log('t');
 
 					if (this.client.user.id != '472714545723342848') return;
 					postHandler(this.client, totalGuilds, this.client.shard.count);
