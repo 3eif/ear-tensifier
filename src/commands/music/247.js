@@ -6,7 +6,8 @@ module.exports = class TwentyFourSeven extends Command {
 			name: '24/7',
 			description: 'Stays in the voice channel even if no one is in it.',
 			aliases: ['stay', '247'],
-			playing: true,
+            playing: true,
+            permission: 'pro',
 		});
 	}
 	async run(client, message) {

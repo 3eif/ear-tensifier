@@ -6,5 +6,7 @@ module.exports = async (client, message) => {
         selfDeaf: true,
     });
 
+    player.twentyFourSeven = false;
+
     return player;
 };
