@@ -5,7 +5,6 @@ module.exports = class VoiceStateUpdate extends Event {
 		super(...args);
 	}
 
-	// eslint-disable-next-line no-unused-vars
 	async run(oldVoice, newVoice) {
 
 		const player = this.client.music.players.get(oldVoice.guild.id);
