@@ -72,6 +72,7 @@ module.exports = class Ready extends Event {
 
 					// this.client.shardMessage(this.client, this.client.channelList.readyChannel, embed);
 
+					blapi.setLogging(true);
 					blapi.handle(this.client, botLists, 30);
 
 					if (this.client.user.id != '472714545723342848') return;
