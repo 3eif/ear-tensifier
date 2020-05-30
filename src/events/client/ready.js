@@ -34,7 +34,7 @@ module.exports = class Ready extends Event {
 
 		const status = 'ear help';
 		const statusType = 'LISTENING';
-		this.client.shard.broadcastEval(`this.client.user.setActivity('status', { type: 'statusType' })`);
+		this.client.shard.broadcastEval('this.user.setActivity(status, { type: statusType })');
 
 		if (this.client.shard.ids[0] == this.client.shard.count - 1) {
 
