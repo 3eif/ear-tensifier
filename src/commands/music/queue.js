@@ -81,7 +81,7 @@ module.exports = class Queue extends Command {
 			const queueEmbed = new Discord.MessageEmbed()
 				.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
 				.setColor(client.colors.main)
-				.setDescription(`**Now Playing** - [${title}](${uri}) (${parsedDuration}) by ${author}.\n\n${queueStr}`)
+				.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` by ${author}.\n\n${queueStr}`)
 				.setFooter(`${player.queue.size} songs | ${parsedQueueDuration} total duration`);
 			message.channel.send(queueEmbed);
 		}
