@@ -24,7 +24,7 @@ module.exports = class Client extends Discord.Client {
         this.commands = new Discord.Collection();
         this.aliases = new Discord.Collection();
 
-        this.settings = require('../../config/settings.js');
+        this.settings = require('../settings.js');
         this.channelList = require('../../config/channels.js');
         this.filters = require('../../config/filters.js');
         this.colors = require('../../config/colors.js');

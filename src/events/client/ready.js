@@ -1,12 +1,14 @@
 /* eslint-disable no-unused-vars */
 const Discord = require('discord.js');
 const figlet = require('figlet');
+const blapi = require('blapi');
 const mongoose = require('mongoose');
 const Sentry = require('@sentry/node');
 
 const Event = require('../../structures/Event');
 const player = require('../../player/player.js');
 const postHandler = require('../../handlers/post.js');
+const botLists = require('../../../config/botlists.json');
 
 mongoose.connect(process.env.MONGO_URL, {
 	useNewUrlParser: true,
@@ -69,6 +71,8 @@ module.exports = class Ready extends Event {
 					// 	.setFooter(`${totalMembers} users`);
 
 					// this.client.shardMessage(this.client, this.client.channelList.readyChannel, embed);
+
+					blapi.handle(this.client, botLists, 30);
 
 					if (this.client.user.id != '472714545723342848') return;
 					postHandler(this.client, totalGuilds, this.client.shard.count);
