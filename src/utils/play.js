@@ -24,16 +24,16 @@ module.exports = async (client, message, msg, player, searchQuery, playlist) => 
 
 				case 'PLAYLIST_LOADED':
 					for (const track of res.playlist.tracks) {
-                        player.queue.add(track);
-                        if(!player.playing && player.queue.length == 1) player.play();
-                    }
+						player.queue.add(track);
+						if (!player.playing && player.queue.length == 1) player.play();
+					}
 					msg.edit(`**${res.playlist.info.name}** (${moment.duration(res.playlist.tracks.reduce((acc, cure) => ({ duration: acc.duration + cure.duration })).duration, 'milliseconds').format('hh:mm:ss', { trim: false })}) (${res.playlist.tracks.length} tracks) has been added to the queue by **${res.playlist.tracks[0].requester.tag}**`);
 					resolve();
 					break;
-
 			}
 			return;
 		}).catch(err => {
+			msg.edit(err.message);
 			if (playlist) return;
 			reject();
 			msg.edit(err.message);
