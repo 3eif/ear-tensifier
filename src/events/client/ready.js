@@ -76,6 +76,7 @@ module.exports = class Ready extends Event {
 					const statusType = 'LISTENING';
 					this.client.shard.broadcastEval(`this.user.setActivity('${status}', { type: '${statusType}' })`);
 
+					require('../../utils/voteHook.js').startUp(this.client);
 					if (this.client.user.id != '472714545723342848') return;
 					postHandler(this.client, totalGuilds, this.client.shard.count);
 					require('../../utils/dbl.js').startUp(this.client);
