@@ -7,6 +7,7 @@ module.exports = async (client, message, msg, player, searchQuery, playlist) => 
 	// eslint-disable-next-line no-unused-vars
 	const search = new Promise(async function(resolve, reject) {
 		client.music.search(searchQuery, message.author).then(async res => {
+			console.log(res);
 			switch (res.loadType) {
 				case 'TRACK_LOADED':
 					player.queue.add(res.tracks[0]);
