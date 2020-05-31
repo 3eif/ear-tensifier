@@ -23,6 +23,7 @@ module.exports = async (client, message, msg, player, searchQuery, playlist) => 
 					break;
 
 				case 'PLAYLIST_LOADED':
+					console.log('poop');
 					for (const track of res.playlist.tracks) {
 						player.queue.add(track);
 						if (!player.playing && player.queue.length == 1) player.play();
