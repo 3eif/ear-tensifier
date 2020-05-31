@@ -34,10 +34,6 @@ module.exports = class Ready extends Event {
 			.set('medium', 0.15)
 			.set('high', 0.25);
 
-		const status = 'ear help';
-		const statusType = 'LISTENING';
-		this.client.shard.broadcastEval(`this.user.setActivity('${status}', { type: '${statusType}' })`);
-
 		if (this.client.shard.ids[0] == this.client.shard.count - 1) {
 
 			const promises = [
@@ -75,6 +71,10 @@ module.exports = class Ready extends Event {
 					// blapi.setLogging(true);
 					// blapi.handle(this.client, botLists, 30);
 					// console.log('t');
+
+					const status = 'ear help';
+					const statusType = 'LISTENING';
+					this.client.shard.broadcastEval(`this.user.setActivity('${status}', { type: '${statusType}' })`);
 
 					if (this.client.user.id != '472714545723342848') return;
 					postHandler(this.client, totalGuilds, this.client.shard.count);
