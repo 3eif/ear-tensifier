@@ -22,6 +22,7 @@ module.exports.startUp = async (client) => {
     });
 
     listClient.on('upvote', async (voter) => {
+        console.log(voter);
         try {
             const votedUser = await client.users.fetch(voter.user);
 
