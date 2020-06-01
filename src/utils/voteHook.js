@@ -9,7 +9,7 @@ module.exports.startUp = async (client) => {
 
     Webhook.close().open();
 
-    Webhook.on('upvote', (body, headers) => {
+    Webhook.on('upvote', async (body) => {
         const timestamp = body.timestamp;
         const avatar = body.avatar;
         const userID = body.user.id;
