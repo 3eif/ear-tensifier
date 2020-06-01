@@ -29,7 +29,7 @@ module.exports = async (client, user) => {
         else {
             if(!Number.isInteger(u.votedTimes)) u.votedTimes = 1;
             else u.votedTimes++;
-            lastVotedTime = Date(u.lastVoted).toString();
+            lastVotedTime = moment(u.lastVotedTime, 'MM/DD/YYYY', true).format();
             console.log(lastVotedTime);
             u.lastVoted = Date.now();
             u.voted = true;
