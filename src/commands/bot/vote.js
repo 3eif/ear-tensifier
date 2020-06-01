@@ -8,6 +8,6 @@ module.exports = class Vote extends Command {
 		});
 	}
 	async run(client, message) {
-		return message.channel.send('https://top.gg/bot/472714545723342848/vote');
+		return message.channel.send('https://botlist.space/bot/472714545723342848/upvote');
 	}
 };
