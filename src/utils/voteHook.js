@@ -5,7 +5,7 @@ const users = require('../models/user.js');
 
 module.exports.startUp = async (client) => {
     const listClient = new BotList.WebSocket({
-        tokens: [process.env.BOTLISTSPACE_TOKEN],
+        tokens: [process.env.BOTLISTSPACE_TOKEN, process.env.BOTLISTSPACE_WEBHOOK_URL],
         reconnect: true,
     });
 
