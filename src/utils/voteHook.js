@@ -16,6 +16,8 @@ module.exports.startUp = async (client) => {
         const username = `${body.user.username}#${body.user.discriminator}`
         
         try {
+            const votedUser = await client.users.fetch(userID);
+
             users.findOne({
                 authorID: userID,
             }, async (err, u) => {
@@ -31,15 +33,15 @@ module.exports.startUp = async (client) => {
                         pro: false,
                         developer: false,
                         voted: true,
-                        timesVoted: 1,
+                        votedTimes: 1,
                         votedConst: true,
                         lastVoted: Date.now(),
                     });
                     await newUser.save().catch(e => console.log(e));
                 }
                 else {
-                    if(Number.isInteger(u.timesVoted)) u.timesVoted = 1;
-                    else u.timesVoted++;
+                    if(!Number.isInteger(u.votedTimes)) u.votedTimes = 1;
+                    else u.votedTimes++;
                     u.lastVoted = Date.now();
                     u.voted = true;
                     u.votedConst = true;
@@ -47,10 +49,10 @@ module.exports.startUp = async (client) => {
                 }
 
                 const embed = new Discord.MessageEmbed()
-                    .setAuthor(`${username} - (${userID}})`, avatar.displayAvatarURL())
+                    .setAuthor(`${username} - (${userID}})`, votedUser.displayAvatarURL())
                     .setDescription(`**${username}** voted for the bot!`)
-                    .addField('Times Voted', u.timesVoted)
-                    .setThumbnail(avatar.displayAvatarURL())
+                    .addField('Times Voted', u.votedTimes)
+                    .setThumbnail(votedUser.displayAvatarURL());
                     .setColor(client.colors.main)
                     .setTimestamp();
 
