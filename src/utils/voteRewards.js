@@ -29,8 +29,7 @@ module.exports = async (client, user) => {
         else {
             if(!Number.isInteger(u.votedTimes)) u.votedTimes = 1;
             else u.votedTimes++;
-            lastVotedTime = moment(u.lastVoted, 'MM/DD/YYYY', true).format();
-            console.log(lastVotedTime);
+            lastVotedTime = Date(u.lastVoted).toString();
             u.lastVoted = Date.now();
             u.voted = true;
             u.votedConst = true;
@@ -39,9 +38,7 @@ module.exports = async (client, user) => {
 
         const embed = new Discord.MessageEmbed()
             .setAuthor(`${user.tag} - (${user.id}})`, user.displayAvatarURL())
-            .setDescription(`**${user.username}** voted for the bot!`)
-            .addField('Times Voted', u.votedTimes, true)
-            .addField('Last Voted', lastVotedTime, true)
+            .setDescription(`**${user.username}** voted for the bot!\n\nTimes Voted: \`${u.votedTimes}\`\nLast Voted: \`${lastVotedTime}\``)
             .setThumbnail(user.displayAvatarURL())
             .setColor(client.colors.main)
             .setTimestamp();
