@@ -31,7 +31,7 @@ module.exports = async (client, user) => {
             else u.votedTimes++;
             lastVotedTime = new Date(u.lastVoted);
             console.log(u.lastVoted);
-            console.log(lastVotedTime);
+            console.log(u.lastVoted.getUTCDate());
             u.lastVoted = Date.now();
             u.voted = true;
             u.votedConst = true;
