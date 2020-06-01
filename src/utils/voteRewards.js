@@ -4,13 +4,13 @@ const users = require('../models/user.js');
 
 module.exports = async (client, user) => {    
     users.findOne({
-        authorID: userID,
+        authorID: user.id,
     }, async (err, u) => {
         if (err) console.log(err);
         let lastVotedTime = 'Never';
         if (!u) {
             const newUser = new users({
-                authorID: userID,
+                authorID: user.id,
                 bio: '',
                 songsPlayed: 0,
                 commandsUsed: 0,
