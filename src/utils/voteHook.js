@@ -10,7 +10,52 @@ module.exports.startUp = async (client) => {
     Webhook.close().open();
 
     Webhook.on('upvote', (body, headers) => {
-        console.log(body.timestamp);
+        const timestamp = body.timestamp;
+        const avatar = body.avatar;
+        const userID = body.user.id;
+        const username = `${body.user.username}#${body.user.discriminator}`
+        
+        try {
+            users.findOne({
+                authorID: userID,
+            }, async (err, u) => {
+                if (err) console.log(err);
+                if (!u) {
+                    const newUser = new users({
+                        authorID: userID,
+                        bio: '',
+                        songsPlayed: 0,
+                        commandsUsed: 0,
+                        blocked: false,
+                        premium: false,
+                        pro: false,
+                        developer: false,
+                        voted: true,
+                        timesVoted: 1,
+                        votedConst: true,
+                        lastVoted: Date.now(),
+                    });
+                    await newUser.save().catch(e => console.log(e));
+                }
+                else {
+                    u.voted = true;
+                    u.votedConst = true;
+                    await u.save().catch(e => console.log(e));
+                }
+
+                const embed = new Discord.MessageEmbed()
+                    .setAuthor(`${username} - (${userID}})`, avatar)
+                    .setDescription(`**${username}** voted for the bot!`)
+                    .setThumbnail(avatar)
+                    .setColor(client.colors.main)
+                    .setTimestamp();
+
+                client.shardMessage(client, client.channelList.dblChannel, embed);
+            });
+        }
+        catch (e) {
+            client.log(e);
+        }
     });
 
     // const listClient = new BotList.WebSocket({
