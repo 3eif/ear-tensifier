@@ -9,7 +9,7 @@ module.exports.startUp = async (client) => {
 
     Webhook.close().open();
 
-    Webhook.on('upvote', (body) => {
+    Webhook.on('upvote', async (body) => {
         const user = await client.users.fetch(body.user.id);
         voteRewards(client, user);
     });
