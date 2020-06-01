@@ -30,7 +30,6 @@ module.exports = async (client, user) => {
             else u.votedTimes++;
             const epoch = u.lastVoted;
             lastVotedTime = new Date(epoch);
-            lastVotedTime.toLocaleDateString();
             u.lastVoted = Date.now();
             u.voted = true;
             u.votedConst = true;
@@ -41,7 +40,7 @@ module.exports = async (client, user) => {
             .setAuthor(`${user.tag} - (${user.id}})`, user.displayAvatarURL())
             .setDescription(`**${user.username}** voted for the bot!`)
             .addField('Times Voted', u.votedTimes, true)
-            .addField('Last Voted', lastVotedTime, true)
+            .addField('Last Voted', lastVotedTime.toLocaleDateString(), true)
             .setThumbnail(user.displayAvatarURL())
             .setColor(client.colors.main)
             .setTimestamp();
