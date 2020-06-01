@@ -10,8 +10,7 @@ module.exports.startUp = async (client) => {
     Webhook.close().open();
 
     Webhook.on('upvote', (body, headers) => {
-        console.log(body);
-        console.log(headers);
+        console.log(body.timestamp);
     });
 
     // const listClient = new BotList.WebSocket({
