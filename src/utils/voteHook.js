@@ -52,7 +52,7 @@ module.exports.startUp = async (client) => {
                     .setAuthor(`${username} - (${userID}})`, votedUser.displayAvatarURL())
                     .setDescription(`**${username}** voted for the bot!`)
                     .addField('Times Voted', u.votedTimes)
-                    .setThumbnail(votedUser.displayAvatarURL());
+                    .setThumbnail(votedUser.displayAvatarURL())
                     .setColor(client.colors.main)
                     .setTimestamp();
 
