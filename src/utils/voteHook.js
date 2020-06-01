@@ -5,7 +5,7 @@ const BotListWebhook = require('webhook.space');
 const users = require('../models/user.js');
 
 module.exports.startUp = async (client) => {
-    const Webhook = new Space.Webhook({ port: 9837, path: '/', token: process.env.BOTLISTSPACE_TOKEN });
+    const Webhook = new BotListWebhook.Webhook({ port: 9837, path: '/', token: process.env.BOTLISTSPACE_TOKEN });
 
     Webhook.close().open();
 
