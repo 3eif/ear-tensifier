@@ -30,7 +30,7 @@ module.exports = async (client, user) => {
             if(!Number.isInteger(u.votedTimes)) u.votedTimes = 1;
             else u.votedTimes++;
             const epoch = u.lastVoted;
-            lastVotedTime = moment(epoch).format('MM/DD/YYYY');
+            lastVotedTime = new Date(epoch);
             u.lastVoted = Date.now();
             u.voted = true;
             u.votedConst = true;
