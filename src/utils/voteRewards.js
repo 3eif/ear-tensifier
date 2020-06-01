@@ -29,7 +29,7 @@ module.exports = async (client, user) => {
         else {
             if(!Number.isInteger(u.votedTimes)) u.votedTimes = 1;
             else u.votedTimes++;
-            lastVotedTime = Date(u.lastVoted).toString();
+            lastVotedTime = Date(u.lastVoted).toString().substring(0, 16);;
             u.lastVoted = Date.now();
             u.voted = true;
             u.votedConst = true;
