@@ -37,6 +37,7 @@ module.exports = async (client, message, msg, player, searchQuery, playlist) => 
 						reject();
 					}
 					else {
+						console.log('Searching again...');
 						play();
 						failedCount++;
 					}
