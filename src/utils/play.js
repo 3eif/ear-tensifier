@@ -16,7 +16,9 @@ module.exports = async (client, message, msg, player, searchQuery, playlist) => 
 		});
 	}
 
-	while(getRes() == 'NO_MATCHES') {
+	console.log(getRes());
+
+	while(getRes().loadType == 'NO_MATCHES') {
 		if(failedCount > 5) {
 			msg.edit('No tracks found. Please try again.');
 			break;
