@@ -48,6 +48,7 @@ module.exports = async (client, message, msg, player, searchQuery, playlist) => 
 					msg.edit('No tracks found. Please try again.');
 					reject();
 				}
+				else search();
 			}).catch(err => {
 				if (playlist) return;
 			});
