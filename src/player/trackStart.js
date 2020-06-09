@@ -40,6 +40,7 @@ module.exports = async (client, textChannel, title, duration, author, uri) => {
 			await newUser.save().catch(e => this.client.log(e));
 		}
 		else {
+			console.log('not found');
 			messageUser.songsPlayed++;
 			await messageUser.save().catch(e => this.client.log(e));
 		}
