@@ -1,9 +1,8 @@
 const Discord = require('discord.js');
-const moment = require('moment');
 
 const users = require('../models/user.js');
 
-module.exports = async (client, user) => {    
+module.exports = async (client, user) => {
     users.findOne({
         authorID: user.id,
     }, async (err, u) => {
@@ -29,7 +28,7 @@ module.exports = async (client, user) => {
         else {
             if(!Number.isInteger(u.votedTimes)) u.votedTimes = 1;
             else u.votedTimes++;
-            lastVotedTime = Date(u.lastVoted).toString().substring(0, 15);;
+            lastVotedTime = Date(u.lastVoted).toString().substring(0, 15);
             u.lastVoted = Date.now();
             u.voted = true;
             u.votedConst = true;

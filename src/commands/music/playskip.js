@@ -53,6 +53,8 @@ module.exports = class Playskip extends Command {
 			player.queue.splice(1, 0, player.queue[player.queue.size - 1]);
 			await delay(500);
 			player.queue.pop();
+			if(player.trackRepeat) player.setTrackRepeat(false);
+			if(player.queueRepeat) player.setQueueRepeat(false);
 			player.stop();
 		}
 	}

@@ -6,8 +6,6 @@ momentDurationFormatSetup(moment);
 
 module.exports = async (client, message, msg, player, searchQuery, playlist) => {
 	// eslint-disable-next-line no-unused-vars
-	let failedCount = 0;
-
 	function play() {
 		return new Promise(async function(resolve, reject) {
 			client.music.search(searchQuery, message.author).then(async res => {
@@ -32,14 +30,39 @@ module.exports = async (client, message, msg, player, searchQuery, playlist) => 
 					resolve();
 				}
 				else if (res.loadType == 'NO_MATCHES') {
-					if(failedCount > 5) {
-						msg.edit('No tracks found. Please try again.');
+					client.music.search(searchQuery, message.author).then(async res2 => {
+						if (res2.loadType == 'TRACK_LOADED') {
+							player.queue.add(res2.tracks[0]);
+							if (!playlist && msg) msg.edit(`**${res2.tracks[0].title}** (${moment.duration(res2.tracks[0].duration, 'milliseconds').format('hh:mm:ss', { trim: false })}) has been added to the queue by **${res2.tracks[0].requester.tag}**`);
+							if (!player.playing) player.play();
+							resolve();
+						}
+						else if (res2.loadType == 'SEARCH_res2ULT') {
+							player.queue.add(res2.tracks[0]);
+							if (!playlist && msg) msg.edit(`**${res2.tracks[0].title}** (${moment.duration(res2.tracks[0].duration, 'milliseconds').format('hh:mm:ss', { trim: false })}) has been added to the queue by **${res2.tracks[0].requester.tag}**`);
+							if (!player.playing) player.play();
+							resolve();
+						}
+						else if (res2.loadType == 'PLAYLIST_LOADED') {
+							for (const track of res2.playlist.tracks) {
+								player.queue.add(track);
+								if (!player.playing && player.queue.length == 1) player.play();
+							}
+							msg.edit(`**${res2.playlist.info.name}** (${moment.duration(res2.playlist.tracks.reduce((acc, cure) => ({ duration: acc.duration + cure.duration })).duration, 'milliseconds').format('hh:mm:ss', { trim: false })}) (${res2.playlist.tracks.length} tracks) has been added to the queue by **${res2.playlist.tracks[0].requester.tag}**`);
+							resolve();
+						}
+						else if (res2.loadType == 'NO_MATCHES') {
+							msg.edit('No tracks found. Please try again.');
+							reject();
+						}
+						else if(res2.loadType == 'LOAD_FAILED') {
+							msg.edit('No tracks found. Please try again.');
+							reject();
+						}
+					}).catch(err => {
+						if (playlist) return;
 						reject();
-					}
-					else {
-						play();
-						failedCount++;
-					}
+					});
 				}
 				else if(res.loadType == 'LOAD_FAILED') {
 					msg.edit('No tracks found. Please try again.');

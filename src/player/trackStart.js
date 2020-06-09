@@ -26,6 +26,7 @@ module.exports = async (client, textChannel, title, duration, author, uri) => {
 
 	users.findOne({ authorID: requester.id }).then(async messageUser => {
 		if (!messageUser) {
+			console.log('not found');
 			const newUser = new users({
 				authorID: requester.id,
 				bio: '',
@@ -39,8 +40,8 @@ module.exports = async (client, textChannel, title, duration, author, uri) => {
 			await newUser.save().catch(e => this.client.log(e));
 		}
 		else {
-			messageUser.songsPlayed += 1;
-			await messageUser.save().catch(e => console.error(e));
+			messageUser.songsPlayed++;
+			await messageUser.save().catch(e => this.client.log(e));
 		}
 	});
 
