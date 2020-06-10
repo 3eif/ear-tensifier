@@ -25,6 +25,4 @@ module.exports = async (client) => {
 	.on('playerMove', (player, currentChannel, newChannel) => {
 		player.voiceChannel = client.channels.cache.get(newChannel);
 	});
-
-	client.init(client.user.id);
 };
