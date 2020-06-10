@@ -1,5 +1,7 @@
+const { Player } = require('@tetracyl/erela.js');
+
 module.exports = async (client, message) => {
-    const player = client.manager.players.spawn({
+    const player = new Player({
         guild: message.guild,
         textChannel: message.channel,
         voiceChannel: message.member.voice.channel,

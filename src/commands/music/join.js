@@ -1,5 +1,7 @@
 const Command = require('../../structures/Command');
 
+const { Player } = require('@tetracyl/erela.js');
+
 module.exports = class Join extends Command {
 	constructor(client) {
 		super(client, {
@@ -16,7 +18,7 @@ module.exports = class Join extends Command {
 		if (!permissions.has('CONNECT')) return client.responses('noPermissionConnect', message);
 
 		if (!client.manager.players.get(message.guild.id)) {
-			client.manager.players.spawn({
+			new Player({
 				guild: message.guild,
 				textChannel: message.channel,
 				voiceChannel: message.member.voice.channel,
