@@ -27,6 +27,7 @@ module.exports = class Ready extends Event {
 
 	async run() {
 		player(this.client);
+		this.client.init(this.client.user.id);
 
 		if (this.client.shard.ids[0] == this.client.shard.count - 1) {
 
