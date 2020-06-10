@@ -15,7 +15,7 @@ module.exports = class Remove extends Command {
 		});
 	}
 	async run(client, message, args) {
-		const player = client.music.players.get(message.guild.id);
+		const player = client.manager.players.get(message.guild.id);
 
 		if (isNaN(args[0])) return message.channel.send('Invalid number.');
 

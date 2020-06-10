@@ -17,7 +17,7 @@ module.exports = class Skipto extends Command {
 		if (isNaN(args[0])) return message.channel.send('Invalid number.');
 		if (args[0] === 0) return message.channel.send(`Cannot skip to a song that is already playing. To skip the current playing song type: \`${client.settings.prefix}skip\``);
 
-		const player = client.music.players.get(message.guild.id);
+		const player = client.manager.players.get(message.guild.id);
 
 		if ((args[0] > player.queue.size) || (args[0] && !player.queue[args[0]])) return message.channel.send('Song not found.');
 		const { title } = player.queue[args[0]];

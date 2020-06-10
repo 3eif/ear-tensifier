@@ -12,7 +12,7 @@ module.exports = class Replay extends Command {
 		});
 	}
 	async run(client, message) {
-		const player = client.music.players.get(message.guild.id);
+		const player = client.manager.players.get(message.guild.id);
 
 		player.seek(0);
 		return message.channel.send('Replayed song...');

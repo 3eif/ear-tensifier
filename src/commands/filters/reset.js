@@ -15,7 +15,7 @@ module.exports = class Reset extends Command {
 		});
 	}
 	async run(client, message) {
-		const player = client.music.players.get(message.guild.id);
+		const player = client.manager.players.get(message.guild.id);
 		const delay = ms => new Promise(res => setTimeout(res, ms));
 
 		player.setEQ(Array(13).fill(0).map((n, i) => ({ band: i, gain: 0.1 })));

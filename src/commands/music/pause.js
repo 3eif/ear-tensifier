@@ -13,7 +13,7 @@ module.exports = class Pause extends Command {
 		});
 	}
 	async run(client, message) {
-		const player = client.music.players.get(message.guild.id);
+		const player = client.manager.players.get(message.guild.id);
 
 		player.pause(player.playing);
 		return message.channel.send(`Song is now **${player.playing ? 'resumed' : 'paused'}.**`);

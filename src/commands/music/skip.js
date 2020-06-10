@@ -12,7 +12,7 @@ module.exports = class Skip extends Command {
 		});
 	}
 	async run(client, message) {
-		const player = client.music.players.get(message.guild.id);
+		const player = client.manager.players.get(message.guild.id);
 
 		if(player.trackRepeat) player.setTrackRepeat(false);
 		if(player.queueRepeat) player.setQueueRepeat(false);

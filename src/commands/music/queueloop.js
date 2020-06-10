@@ -13,7 +13,7 @@ module.exports = class Queueloop extends Command {
 		});
 	}
 	async run(client, message) {
-		const player = client.music.players.get(message.guild.id);
+		const player = client.manager.players.get(message.guild.id);
 
 		if (player.queueRepeat === true) {
 			player.setQueueRepeat(false);

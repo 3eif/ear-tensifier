@@ -28,10 +28,10 @@ module.exports = class Search extends Command {
 
 		const msg = await message.channel.send(`${client.emojiList.cd}  Searching for \`${args.join(' ')}\`...`);
 
-		let player = client.music.players.get(message.guild.id);
+		let player = client.manager.players.get(message.guild.id);
 		if (!player) player = await spawnPlayer(client, message);
 
-		client.music.search(args.join(' '), message.author).then(async res => {
+		client.manager.search(args.join(' '), message.author).then(async res => {
 			switch (res.loadType) {
 				case 'TRACK_LOADED':
 					player.queue.add(res.tracks[0]);

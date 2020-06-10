@@ -12,10 +12,10 @@ module.exports = class Leave extends Command {
 		});
 	}
 	async run(client, message) {
-		const player = client.music.players.get(message.guild.id);
+		const player = client.manager.players.get(message.guild.id);
 
 		if(player) {
-			client.music.players.destroy(player.guild.id);
+			client.manager.players.destroy(player.guild.id);
 		}
 		else {message.member.voice.channel.leave();}
 

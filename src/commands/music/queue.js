@@ -17,7 +17,7 @@ module.exports = class Queue extends Command {
 		});
 	}
 	async run(client, message) {
-		const player = client.music.players.get(message.guild.id);
+		const player = client.manager.players.get(message.guild.id);
 
 		let index = 1;
 		let queueStr = '';

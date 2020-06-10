@@ -1,3 +1,3 @@
 module.exports = async (client, player) => {
-	return client.music.players.destroy(player.guild.id);
+	return client.manager.players.destroy(player.guild.id);
 };

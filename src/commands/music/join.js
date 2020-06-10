@@ -15,8 +15,8 @@ module.exports = class Join extends Command {
 		const permissions = voiceChannel.channel.permissionsFor(client.user);
 		if (!permissions.has('CONNECT')) return client.responses('noPermissionConnect', message);
 
-		if (!client.music.players.get(message.guild.id)) {
-			client.music.players.spawn({
+		if (!client.manager.players.get(message.guild.id)) {
+			client.manager.players.spawn({
 				guild: message.guild,
 				textChannel: message.channel,
 				voiceChannel: message.member.voice.channel,

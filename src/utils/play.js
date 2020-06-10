@@ -8,7 +8,7 @@ module.exports = async (client, message, msg, player, searchQuery, playlist) => 
 	// eslint-disable-next-line no-unused-vars
 	function play() {
 		return new Promise(async function(resolve, reject) {
-			client.music.search(searchQuery, message.author).then(async res => {
+			client.manager.search(searchQuery, message.author).then(async res => {
 				if (res.loadType == 'TRACK_LOADED') {
 					player.queue.add(res.tracks[0]);
 					if (!playlist && msg) msg.edit(`**${res.tracks[0].title}** (${moment.duration(res.tracks[0].duration, 'milliseconds').format('hh:mm:ss', { trim: false })}) has been added to the queue by **${res.tracks[0].requester.tag}**`);
@@ -30,7 +30,7 @@ module.exports = async (client, message, msg, player, searchQuery, playlist) => 
 					resolve();
 				}
 				else if (res.loadType == 'NO_MATCHES') {
-					client.music.search(searchQuery, message.author).then(async res2 => {
+					client.manager.search(searchQuery, message.author).then(async res2 => {
 						if (res2.loadType == 'TRACK_LOADED') {
 							player.queue.add(res2.tracks[0]);
 							if (!playlist && msg) msg.edit(`**${res2.tracks[0].title}** (${moment.duration(res2.tracks[0].duration, 'milliseconds').format('hh:mm:ss', { trim: false })}) has been added to the queue by **${res2.tracks[0].requester.tag}**`);
