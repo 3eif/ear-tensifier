@@ -31,6 +31,3 @@ manager.on('launch', shard => {
 });
 
 manager.spawn().catch((err) => console.log(err));
-
-manager.on('launch', shard => console.log(`Launched shard ${shard.id}`));
-manager.on('message', msg => console.log(`Message from shard: ${msg}`));
