@@ -28,12 +28,6 @@ module.exports = class Ready extends Event {
 	async run() {
 		player(this.client);
 
-		this.client.levels = new Map()
-			.set('none', 0.0)
-			.set('low', 0.1)
-			.set('medium', 0.15)
-			.set('high', 0.25);
-
 		if (this.client.shard.ids[0] == this.client.shard.count - 1) {
 
 			const promises = [
