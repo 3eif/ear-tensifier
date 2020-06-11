@@ -59,7 +59,7 @@ module.exports = class AutoPlay extends Command {
 				};
 			}
 
-			client.manager.search(searchQuery, message.author).then(async res => {
+			client.music.search(searchQuery, message.author).then(async res => {
 				switch (res.loadType) {
 					case 'TRACK_LOADED':
 						songsToAdd.push(res.tracks[0]);

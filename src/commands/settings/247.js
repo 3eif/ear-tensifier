@@ -11,7 +11,7 @@ module.exports = class TwentyFourSeven extends Command {
         });
     }
     async run(client, message) {
-        const player = client.manager.players.get(message.guild.id);
+        const player = client.music.players.get(message.guild.id);
 
         if (player.twentyFourSeven) {
             player.twentyFourSeven = false;

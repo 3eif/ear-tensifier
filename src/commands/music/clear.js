@@ -12,7 +12,7 @@ module.exports = class Clear extends Command {
 		});
 	}
 	async run(client, message) {
-		const player = client.manager.players.get(message.guild.id);
+		const player = client.music.players.get(message.guild.id);
 
 		player.queue.length = 1;
 		return message.channel.send('Cleared the queue.');

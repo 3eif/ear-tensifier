@@ -18,7 +18,7 @@ module.exports = class Rewind extends Command {
 		});
 	}
 	async run(client, message, args) {
-		const player = client.manager.players.get(message.guild.id);
+		const player = client.music.players.get(message.guild.id);
 
 		const parsedDuration = moment.duration(player.position, 'milliseconds').format('hh:mm:ss', { trim: false });
 		if(args[0] && !isNaN(args[0])) {

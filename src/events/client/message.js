@@ -217,7 +217,7 @@ module.exports = class Message extends Event {
 
 				if (cmd.inVoiceChannel && !message.member.voice.channel) return client.responses('noVoiceChannel', message);
 				else if (cmd.sameVoiceChannel && message.member.voice.channel.id !== message.guild.me.voice.channelID) return client.responses('sameVoiceChannel', message);
-				else if (cmd.playing && !client.manager.players.get(message.guild.id)) return client.responses('noSongsPlaying', message);
+				else if (cmd.playing && !client.music.players.get(message.guild.id)) return client.responses('noSongsPlaying', message);
 
 				if (prefix == client.settings.prefix) {
 					if (!args[0] && cmd.args === true) return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`ear ${commandName} ${cmd.usage}\``);

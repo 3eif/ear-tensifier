@@ -8,7 +8,7 @@ const momentDurationFormatSetup = require('moment-duration-format');
 momentDurationFormatSetup(moment);
 
 module.exports = async (client, textChannel, title, duration, author, uri) => {
-	const currentSong = client.manager.players.get(textChannel.guild.id).queue[0];
+	const currentSong = client.music.players.get(textChannel.guild.id).queue[0];
 	const requester = `<@${currentSong.requester.id}>`;
 	const thumbnail = `https://img.youtube.com/vi/${currentSong.identifier}/maxresdefault.jpg`;
 	addDB(uri, title, author, duration, uri, thumbnail);

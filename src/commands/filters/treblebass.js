@@ -16,7 +16,7 @@ module.exports = class Trablebass extends Command {
 	}
 	async run(client, message, args) {
 
-		const player = client.manager.players.get(message.guild.id);
+		const player = client.music.players.get(message.guild.id);
 		const delay = ms => new Promise(res => setTimeout(res, ms));
 
 		if (args[0] && (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off')) {

@@ -16,7 +16,7 @@ module.exports = class Equalizer extends Command {
 	}
 	async run(client, message, args) {
 
-		const player = client.manager.players.get(message.guild.id);
+		const player = client.music.players.get(message.guild.id);
 
 		if (!args[0]) {
 			const embed = new Discord.MessageEmbed()

@@ -19,7 +19,7 @@ module.exports = class Forward extends Command {
 		});
 	}
 	async run(client, message, args) {
-		const player = client.manager.players.get(message.guild.id);
+		const player = client.music.players.get(message.guild.id);
 
 		if (args[0] && !isNaN(args[0])) {
 			if ((player.position + args[0] * 1000) < player.queue[0].duration) {

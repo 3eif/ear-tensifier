@@ -14,7 +14,7 @@ module.exports = class Loop extends Command {
 		});
 	}
 	async run(client, message, args) {
-		const player = client.manager.players.get(message.guild.id);
+		const player = client.music.players.get(message.guild.id);
 
 		if (!args[0] || args[0].toLowerCase() == 'song') {
 			if (player.trackRepeat === false) {

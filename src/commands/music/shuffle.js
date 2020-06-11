@@ -13,7 +13,7 @@ module.exports = class Shuffle extends Command {
 		});
 	}
 	async run(client, message) {
-		const player = client.manager.players.get(message.guild.id);
+		const player = client.music.players.get(message.guild.id);
 
 		player.queue.shuffle();
 		return message.channel.send('Shuffled the queue...');

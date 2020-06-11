@@ -3,7 +3,7 @@ const trackStart = require('./trackStart.js');
 const queueEnd = require('./queueEnd.js');
 
 module.exports = async (client) => {
-	client.manager = new Manager({
+	client.music = new Manager({
 		nodes: [{
 			host: process.env.LAVALINK_HOST,
 			port: process.env.LAVALINK_PORT,

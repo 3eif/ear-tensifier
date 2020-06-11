@@ -18,7 +18,7 @@ module.exports = class Bassboost extends Command {
 		});
 	}
 	async run(client, message, args) {
-		const player = client.manager.players.get(message.guild.id);
+		const player = client.music.players.get(message.guild.id);
 		const delay = ms => new Promise(res => setTimeout(res, ms));
 
 		if (!args[0]) {

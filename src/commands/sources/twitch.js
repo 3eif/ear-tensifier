@@ -20,7 +20,7 @@ module.exports = class Twitch extends Command {
 		if (!permissions.has('CONNECT')) return client.responses('noPermissionConnect', message);
 		if (!permissions.has('SPEAK')) return client.responses('noPermissionSpeak', message);
 
-		let player = client.manager.players.get(message.guild.id);
+		let player = client.music.players.get(message.guild.id);
 		if (player && player.playing === false) return message.channel.send(`Cannot play/queue songs while paused. Do \`${client.settings.prefix} resume\` to play.`);
 		if (!player) player = await spawnPlayer(client, message);
 
