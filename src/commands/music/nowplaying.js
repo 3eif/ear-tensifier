@@ -16,11 +16,11 @@ module.exports = class NowPlaying extends Command {
 	}
 	async run(client, message) {
 		const player = client.music.players.get(message.guild.id);
-		const { title, author, duration, requester, uri, identifier } = player.current;
+		const { title, author, length, requester, uri, identifier } = player.current;
 
 		const parsedCurrentDuration = moment.duration(player.position, 'milliseconds').format('hh:mm:ss', { trim: false });
-		const parsedDuration = moment.duration(duration, 'milliseconds').format('hh:mm:ss', { trim: false });
-		const part = Math.floor((player.position / duration) * 30);
+		const parsedDuration = moment.duration(length, 'milliseconds').format('hh:mm:ss', { trim: false });
+		const part = Math.floor((player.position / length) * 30);
 		const uni = player.playing ? '▶' : '⏸️';
 
 		const thumbnail = `https://img.youtube.com/vi/${identifier}/maxresdefault.jpg`;

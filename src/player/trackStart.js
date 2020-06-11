@@ -7,11 +7,11 @@ const moment = require('moment');
 const momentDurationFormatSetup = require('moment-duration-format');
 momentDurationFormatSetup(moment);
 
-module.exports = async (client, textChannel, title, duration, author, uri) => {
+module.exports = async (client, textChannel, title, length, author, uri) => {
 	const currentSong = client.music.players.get(textChannel.guild.id).current;
 	const requester = `<@${currentSong.requester.id}>`;
 	const thumbnail = `https://img.youtube.com/vi/${currentSong.identifier}/maxresdefault.jpg`;
-	addDB(uri, title, author, duration, uri, thumbnail);
+	addDB(uri, title, author, length, uri, thumbnail);
 
 	// bot.findOne({
 	// 	clientID: client.user.id,
@@ -106,14 +106,14 @@ module.exports = async (client, textChannel, title, duration, author, uri) => {
 
 	embed.addField('Author', `${author}`, true);
 
-	const parsedDuration = moment.duration(duration, 'milliseconds').format('hh:mm:ss', { trim: false });
+	const parsedDuration = moment.duration(length, 'milliseconds').format('hh:mm:ss', { trim: false });
 	embed.setDescription(`**[${title}](${uri})** \`[${parsedDuration}]\``);
 	embed.addField('Requested by', requester, true);
 	embed.setTimestamp();
 	textChannel.send(embed);
 };
 
-function addDB(id, title, author, duration, url, thumbnail) {
+function addDB(id, title, author, length, url, thumbnail) {
 	let songType = '';
 	if (url.includes('youtube')) songType = 'youtube';
 	else if (url.includes('soundcloud')) songType = 'soundcloud';
@@ -132,7 +132,7 @@ function addDB(id, title, author, duration, url, thumbnail) {
 				songName: title,
 				songAuthor: author,
 				type: songType,
-				songDuration: duration,
+				songDuration: length,
 				timesPlayed: 1,
 				timesAdded: 0,
 				songThumbnail: thumbnail,

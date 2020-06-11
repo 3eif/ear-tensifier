@@ -19,8 +19,8 @@ module.exports = async (client) => {
 	.on('queueEnd', player => {
 		queueEnd(client, player);
 	})
-	.on('trackStart', ({ textChannel }, { title, duration, author, uri }) => {
-		trackStart(client, textChannel, title, duration, author, uri);
+	.on('trackStart', ({ textChannel }, { title, length, author, uri }) => {
+		trackStart(client, textChannel, title, length, author, uri);
 	})
 	.on('playerMove', (player, currentChannel, newChannel) => {
 		player.voiceChannel = client.channels.cache.get(newChannel);
