@@ -6,6 +6,6 @@ module.exports = class Raw extends Event {
 	}
 
 	async run(r) {
-        this.client.music.updateVoiceState(r);
+        if(this.client.music) this.client.music.updateVoiceState(r);
 	}
 };
