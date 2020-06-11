@@ -86,14 +86,14 @@ module.exports = async (client, textChannel, title, length, author, uri) => {
 	const playing = client.music.players.get(textChannel.guild.id).playing;
 	const parsedCurrentDuration = moment.duration(currentDuration, 'milliseconds').format('mm:ss', { trim: false });
 	const parsedDuration = moment.duration(length, 'milliseconds').format('mm:ss', { trim: false });
-	const part = Math.floor((currentDuration / length) * 20);
+	const part = Math.floor((currentDuration / length) * client.settings.embedDurationLength);
 	const uni = playing ? '▶' : '⏸️';
 
 	embed.addField('Author', author, true);
 	embed.setDescription(`**[${title}](${uri})**`);
 	embed.addField('Requested by', requester, true);
 
-	embed.addField('Duration', `\`\`\`${parsedCurrentDuration}/${parsedDuration}  ${uni} ${'─'.repeat(part) + '⚪' + '─'.repeat(20 - part)}\`\`\``);
+	embed.addField('Duration', `\`\`\`${parsedCurrentDuration}/${parsedDuration}  ${uni} ${'─'.repeat(part) + '⚪' + '─'.repeat(client.settings.embedDurationLength - part)}\`\`\``);
 	embed.setTimestamp();
 
 	return textChannel.send(embed);

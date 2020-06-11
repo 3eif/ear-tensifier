@@ -20,7 +20,7 @@ module.exports = class NowPlaying extends Command {
 
 		const parsedCurrentDuration = moment.duration(player.position, 'milliseconds').format('mm:ss', { trim: false });
 		const parsedDuration = moment.duration(length, 'milliseconds').format('mm:ss', { trim: false });
-		const part = Math.floor((player.position / length) * 20);
+		const part = Math.floor((player.position / length) * client.settings.embedDurationLength);
 		const uni = player.playing ? '▶' : '⏸️';
 
 		const thumbnail = `https://img.youtube.com/vi/${identifier}/maxresdefault.jpg`;
@@ -33,7 +33,7 @@ module.exports = class NowPlaying extends Command {
 			.setDescription(`**[${title}](${uri})**`)
 			.addField('Author', author, true)
 			.addField('Requested by', user, true)
-			.addField('Duration', `\`\`\`${parsedCurrentDuration}/${parsedDuration}  ${uni} ${'─'.repeat(part) + '⚪' + '─'.repeat(20 - part)}\`\`\``);
+			.addField('Duration', `\`\`\`${parsedCurrentDuration}/${parsedDuration}  ${uni} ${'─'.repeat(part) + '⚪' + '─'.repeat(client.settings.embedDurationLength - part)}\`\`\``);
 
 		return message.channel.send('', embed);
 	}
