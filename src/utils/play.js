@@ -9,6 +9,7 @@ module.exports = async (client, message, msg, player, searchQuery, playlist) => 
 	function play() {
 		return new Promise(async function(resolve, reject) {
 			client.music.search(searchQuery, message.author).then(async res => {
+				client.log(res.loadType);
 				if (res.loadType == 'TRACK_LOADED') {
 					player.queue.add(res.tracks[0]);
 					if (!playlist && msg) msg.edit(`**${res.tracks[0].title}** (${moment.duration(res.tracks[0].length, 'milliseconds').format('hh:mm:ss', { trim: false })}) has been added to the queue by **${res.tracks[0].requester.tag}**`);
