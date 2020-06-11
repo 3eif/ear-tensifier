@@ -7,6 +7,8 @@ momentDurationFormatSetup(moment);
 const fetch = require('node-fetch');
 const columnify = require('columnify');
 
+const getQueueDuration = require('../../utils/music/getQueueDuration.js');
+
 module.exports = class Queue extends Command {
 	constructor(client) {
 		super(client, {
@@ -24,7 +26,7 @@ module.exports = class Queue extends Command {
 		const { title, author, length, uri } = player.current;
 
 		const parsedDuration = moment.duration(length, 'milliseconds').format('hh:mm:ss', { trim: false });
-		const parsedQueueDuration = moment.duration(player.queue.duration, 'milliseconds').format('hh:mm:ss', { trim: false });
+		const parsedQueueDuration = moment.duration(getQueueDuration(), 'milliseconds').format('hh:mm:ss', { trim: false });
 
 		if (player.queue.size > 10) {
 			const songs = [];
@@ -70,7 +72,7 @@ module.exports = class Queue extends Command {
 							.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
 							.setColor(client.colors.main)
 							.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` by ${author}.\n\n${player.queue.slice(1, 11).map(song => `**${index++}** - [${song.title}](${song.uri}) (${moment.duration(song.length, 'milliseconds').format('hh:mm:ss', { trim: false })}) by ${song.author}.`).join('\n')}${queueStr}`)
-							.setFooter(`${player.queue.size} songs | ${parsedQueueDuration} total duration`);
+							.setFooter(`${player.queue.length} songs | ${parsedQueueDuration} total duration`);
 						message.channel.send(queueEmbed);
 					})
 					.catch(error => client.log('error', error));
