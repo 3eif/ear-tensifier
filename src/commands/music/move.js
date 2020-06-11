@@ -18,7 +18,7 @@ module.exports = class Move extends Command {
 		if (args[0] === 0) return message.channel.send(`Cannot move a song that is already playing. To skip the current playing song type: \`${client.settings.prefix}skip\``);
 
 		const player = client.music.players.get(message.guild.id);
-		if ((args[0] > player.queue.size) || (args[0] && !player.queue[args[0]])) return message.channel.send('Song not found.');
+		if ((args[0] > player.queue.length) || (args[0] && !player.queue[args[0]])) return message.channel.send('Song not found.');
 
 		if (!args[1]) {
 			const song = player.queue[args[0]];
@@ -28,7 +28,7 @@ module.exports = class Move extends Command {
 		}
 		else if (args[1]) {
 			if (args[1] == 0) return message.channel.send(`Cannot move a song that is already playing. To skip the current playing song type: \`${client.settings.prefix}skip\``);
-			if ((args[1] > player.queue.size) || !player.queue[args[1]]) return message.channel.send('Song not found.');
+			if ((args[1] > player.queue.length) || !player.queue[args[1]]) return message.channel.send('Song not found.');
 			const song = player.queue[args[0]];
 			player.queue.splice(args[0], 1);
 			player.queue.splice(args[1], 0, song);

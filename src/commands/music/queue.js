@@ -84,7 +84,7 @@ module.exports = class Queue extends Command {
 				.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
 				.setColor(client.colors.main)
 				.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` by ${author}.\n\n${queueStr}`)
-				.setFooter(`${player.queue.size} songs | ${parsedQueueDuration} total duration`);
+				.setFooter(`${player.queue.length} songs | ${parsedQueueDuration} total duration`);
 			message.channel.send(queueEmbed);
 		}
 	}

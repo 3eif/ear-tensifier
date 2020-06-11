@@ -21,7 +21,7 @@ module.exports = class Remove extends Command {
 
 		if (!args[1]) {
 			if (args[0] == 0) return message.channel.send(`Cannot remove a song that is already playing. To skip the song type: \`${client.settings.prefix}skip\``);
-			if (args[0] > player.queue.size) return message.channel.send('Song not found.');
+			if (args[0] > player.queue.length) return message.channel.send('Song not found.');
 
 			const { title } = player.queue[args[0]];
 
@@ -30,7 +30,7 @@ module.exports = class Remove extends Command {
 		}
 		else {
 			if (args[0] == 0 || args[1] == 0) return message.channel.send(`Cannot remove a song that is already playing. To skip the song type: \`${client.settings.prefix}skip\``);
-			if (args[0] > player.queue.size || args[1] > player.queue.size) return message.channel.send('Song not found.');
+			if (args[0] > player.queue.length || args[1] > player.queue.length) return message.channel.send('Song not found.');
 			if (args[0] > args[1]) return message.channel.send('Start amount must be bigger than end.');
 
 			const songsToRemove = args[1] - args[0];
