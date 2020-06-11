@@ -82,17 +82,17 @@ module.exports = async (client, textChannel, title, length, author, uri) => {
 			embed.setFooter('Youtube');
 			embed.setColor(client.colors.youtube);
 
-			const parsedDuration = moment.duration(length, 'milliseconds').format('hh:mm:ss', { trim: false });
 			embed.setTitle(author);
-			embed.setDescription(`**[${title}](${uri})** \`[${parsedDuration}]\``);
-			// embed.addField('Author', `${author}`, true);
+			embed.setDescription(`**[${title}](${uri})**`);
 			embed.addField('Requested by', requester, true);
 
-			// const parsedDuration = moment.duration(duration, 'milliseconds').format('hh:mm:ss', { trim: false });
-			// const part = Math.floor((0 / duration) * 30);
-			// const uni = '▶';
-			// embed.addField(`Duration \`[${parsedDuration}]\``, `\`\`\`${uni} ${'─'.repeat(part) + '⚪' + '─'.repeat(30 - part)}\`\`\``);
-
+			const currentDuration = client.music.players.get(textChannel.guild.id).position;
+			const playing = client.music.players.get(textChannel.guild.id).playing;
+			const parsedCurrentDuration = moment.duration(currentDuration, 'milliseconds').format('hh:mm:ss', { trim: false });
+			const parsedDuration = moment.duration(length, 'milliseconds').format('hh:mm:ss', { trim: false });
+			const part = Math.floor((currentDuration / length) * 30);
+			const uni = playing ? '▶' : '⏸️';
+			embed.addField('Duration', `\`\`\`${parsedCurrentDuration}/${parsedDuration}  ${uni} ${'─'.repeat(part) + '⚪' + '─'.repeat(30 - part)}\`\`\``);
 			embed.setTimestamp();
 
 			return textChannel.send(embed);
@@ -107,8 +107,16 @@ module.exports = async (client, textChannel, title, length, author, uri) => {
 
 	embed.addField('Author', `${author}`, true);
 
+	const currentDuration = client.music.players.get(textChannel.guild.id).position;
+	const playing = client.music.players.get(textChannel.guild.id).playing;
+	const parsedCurrentDuration = moment.duration(currentDuration, 'milliseconds').format('hh:mm:ss', { trim: false });
 	const parsedDuration = moment.duration(length, 'milliseconds').format('hh:mm:ss', { trim: false });
-	embed.setDescription(`**[${title}](${uri})** \`[${parsedDuration}]\``);
+	const part = Math.floor((currentDuration / length) * 30);
+	const uni = playing ? '▶' : '⏸️';
+	embed.addField('Duration', `\`\`\`${parsedCurrentDuration}/${parsedDuration}  ${uni} ${'─'.repeat(part) + '⚪' + '─'.repeat(30 - part)}\`\`\``);
+	embed.setTimestamp();
+
+	embed.setDescription(`**[${title}](${uri})**`);
 	embed.addField('Requested by', requester, true);
 	embed.setTimestamp();
 	textChannel.send(embed);

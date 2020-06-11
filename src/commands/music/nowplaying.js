@@ -33,7 +33,7 @@ module.exports = class NowPlaying extends Command {
 			.setDescription(`**[${title}](${uri})**`)
 			.addField('Author', author, true)
 			.addField('Requested by', user, true)
-			.addField(`Duration \`[${parsedDuration}]\``, `\`\`\`${uni} ${'─'.repeat(part) + '⚪' + '─'.repeat(30 - part)} ${parsedCurrentDuration}\`\`\``);
+			.addField('Duration', `\`\`\`${parsedCurrentDuration}/${parsedDuration}  ${uni} ${'─'.repeat(part) + '⚪' + '─'.repeat(30 - part)}\`\`\``);
 
 		return message.channel.send('', embed);
 	}
