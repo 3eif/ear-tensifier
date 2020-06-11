@@ -28,7 +28,7 @@ module.exports = class Queue extends Command {
 		const parsedDuration = moment.duration(length, 'milliseconds').format('hh:mm:ss', { trim: false });
 		const parsedQueueDuration = moment.duration(getQueueDuration(player), 'milliseconds').format('hh:mm:ss', { trim: false });
 
-		if (player.queue.size > 10) {
+		if (player.queue.length > 10) {
 			const songs = [];
 			// eslint-disable-next-line no-async-promise-executor
 			const content = new Promise(async function(resolve) {
