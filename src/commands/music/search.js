@@ -6,7 +6,7 @@ const moment = require('moment');
 const momentDurationFormatSetup = require('moment-duration-format');
 momentDurationFormatSetup(moment);
 
-const spawnPlayer = require('../../utils/spawnPlayer.js');
+const spawnPlayer = require('../../player/spawnPlayer.js');
 
 module.exports = class Search extends Command {
 	constructor(client) {

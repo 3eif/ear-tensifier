@@ -1,7 +1,7 @@
 const Command = require('../../structures/Command');
 
 const play = require('../../utils/play.js');
-const spawnPlayer = require('../../utils/spawnPlayer.js');
+const spawnPlayer = require('../../player/spawnPlayer.js');
 const { getData, getPreview } = require('spotify-url-info');
 
 module.exports = class Playskip extends Command {
