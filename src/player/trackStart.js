@@ -3,7 +3,6 @@ const Discord = require('discord.js');
 const users = require('../models/user.js');
 const quickdb = require('quick.db');
 const songs = require('../models/song.js');
-const yts = require('yt-search');
 const moment = require('moment');
 const momentDurationFormatSetup = require('moment-duration-format');
 momentDurationFormatSetup(moment);
@@ -74,50 +73,30 @@ module.exports = async (client, textChannel, title, length, author, uri) => {
 		embed.setColor(client.colors.twitch);
 	}
 	else if (uri.includes('youtube')) {
-		const opts = { videoId: currentSong.identifier };
-		yts(opts, function(err, video) {
-			embed.setThumbnail(thumbnail);
-			embed.setFooter('Youtube');
-			embed.setColor(client.colors.youtube);
-
-			const currentDuration = client.music.players.get(textChannel.guild.id).position;
-			const playing = client.music.players.get(textChannel.guild.id).playing;
-			const parsedCurrentDuration = moment.duration(currentDuration, 'milliseconds').format('mm:ss', { trim: false });
-			const parsedDuration = moment.duration(length, 'milliseconds').format('mm:ss', { trim: false });
-			const part = Math.floor((currentDuration / length) * 30);
-			const uni = playing ? '▶' : '⏸️';
-			embed.addField('Duration', `${parsedCurrentDuration}/${parsedDuration}`);
-			embed.setTimestamp();
-
-			embed.setTitle(author);
-			embed.setDescription(`**[${title}](${uri})**`);
-			embed.addField('Requested by', requester, true);
-
-			return textChannel.send(embed);
-		});
+		embed.setThumbnail(thumbnail);
+		embed.setFooter('Youtube');
+		embed.setColor(client.colors.youtube);
 	}
 	else {
 		embed.setColor(client.colors.main);
 		embed.setFooter('Other');
 	}
 
-	if (uri.includes('youtube')) return;
-
-	embed.setTitle(author);
-
 	const currentDuration = client.music.players.get(textChannel.guild.id).position;
 	const playing = client.music.players.get(textChannel.guild.id).playing;
 	const parsedCurrentDuration = moment.duration(currentDuration, 'milliseconds').format('mm:ss', { trim: false });
 	const parsedDuration = moment.duration(length, 'milliseconds').format('mm:ss', { trim: false });
-	const part = Math.floor((currentDuration / length) * 30);
+	const part = Math.floor((currentDuration / length) * 20);
 	const uni = playing ? '▶' : '⏸️';
-	embed.addField('Duration', `${parsedCurrentDuration}/${parsedDuration}`, true);
-	embed.setTimestamp();
 
+	embed.addField('Author', author, true);
 	embed.setDescription(`**[${title}](${uri})**`);
 	embed.addField('Requested by', requester, true);
+
+	embed.addField('Duration', `\`\`\`${parsedCurrentDuration}/${parsedDuration}  ${uni} ${'─'.repeat(part) + '⚪' + '─'.repeat(20 - part)}\`\`\``);
 	embed.setTimestamp();
-	textChannel.send(embed);
+
+	return textChannel.send(embed);
 };
 
 function addDB(id, title, author, length, url, thumbnail) {
