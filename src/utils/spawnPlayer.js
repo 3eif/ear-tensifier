@@ -1,4 +1,4 @@
-const { Player } = require('erela.js');
+const { Player } = require('@tetracyl/erela.js');
 
 module.exports = async (client, message) => {
     const player = new Player({
