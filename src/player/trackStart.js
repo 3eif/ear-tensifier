@@ -82,7 +82,7 @@ module.exports = async (client, textChannel, title, length, author, uri) => {
 			embed.setFooter('Youtube');
 			embed.setColor(client.colors.youtube);
 
-			const parsedDuration = moment.duration(duration, 'milliseconds').format('hh:mm:ss', { trim: false });
+			const parsedDuration = moment.duration(length, 'milliseconds').format('hh:mm:ss', { trim: false });
 			embed.setDescription(`**[${title}](${uri})** \`[${parsedDuration}]\``);
 			embed.addField('Author', `${author}`, true);
 			embed.addField('Requested by', requester, true);
