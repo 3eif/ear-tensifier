@@ -26,7 +26,7 @@ module.exports = class Queue extends Command {
 		const { title, author, length, uri } = player.current;
 
 		const parsedDuration = moment.duration(length, 'milliseconds').format('hh:mm:ss', { trim: false });
-		const parsedQueueDuration = moment.duration(getQueueDuration(), 'milliseconds').format('hh:mm:ss', { trim: false });
+		const parsedQueueDuration = moment.duration(getQueueDuration(player), 'milliseconds').format('hh:mm:ss', { trim: false });
 
 		if (player.queue.size > 10) {
 			const songs = [];
