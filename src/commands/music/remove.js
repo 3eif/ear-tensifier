@@ -25,7 +25,7 @@ module.exports = class Remove extends Command {
 
 			const { title } = player.queue[args[0]];
 
-			player.queue.splice(args[0], 1);
+			player.queue.splice(args[0] - 1, 1);
 			return message.channel.send(`Removed **${title}** from the queue`);
 		}
 		else {
@@ -34,7 +34,7 @@ module.exports = class Remove extends Command {
 			if (args[0] > args[1]) return message.channel.send('Start amount must be bigger than end.');
 
 			const songsToRemove = args[1] - args[0];
-			player.queue.splice(args[0], songsToRemove + 1);
+			player.queue.splice(args[0] - 1, songsToRemove + 1);
 			return message.channel.send(`Removed **${songsToRemove + 1}** songs from the queue`);
 		}
 	}

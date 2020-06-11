@@ -64,7 +64,7 @@ module.exports = class Queue extends Command {
 					redirect: 'follow',
 				};
 
-				fetch('https://haste.modcord.xyz/', requestOptions)
+				fetch('https://hasteb.in/documents', requestOptions)
 					.then(response => response.text())
 					.then(result => {
 						queueStr += `\n...and ${player.queue.length - 10} more [here](https://www.hasteb.in/${result.slice(8, result.length - 2)}.txt)`;

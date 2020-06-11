@@ -50,7 +50,7 @@ module.exports = class Playskip extends Command {
 		async function playskip() {
 			const delay = ms => new Promise(res => setTimeout(res, ms));
 			await delay(1500);
-			player.queue.splice(1, 0, player.queue[player.queue.length - 1]);
+			player.queue.splice(0, 0, player.queue[player.queue.length - 1]);
 			await delay(500);
 			player.queue.pop();
 			if(player.trackRepeat) player.setTrackRepeat(false);
