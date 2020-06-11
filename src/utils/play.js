@@ -12,19 +12,19 @@ module.exports = async (client, message, msg, player, searchQuery, playlist) => 
 				if (res.loadType == 'TRACK_LOADED') {
 					player.queue.add(res.tracks[0]);
 					if (!playlist && msg) msg.edit(`**${res.tracks[0].title}** (${moment.duration(res.tracks[0].duration, 'milliseconds').format('hh:mm:ss', { trim: false })}) has been added to the queue by **${res.tracks[0].requester.tag}**`);
-					if (!player.playing && !player.paused && player.queue.length === 1) player.play();
+					if (!player.playing && !player.paused && !player.queue.length) player.play();
 					resolve();
 				}
 				else if (res.loadType == 'SEARCH_RESULT') {
 					player.queue.add(res.tracks[0]);
 					if (!playlist && msg) msg.edit(`**${res.tracks[0].title}** (${moment.duration(res.tracks[0].duration, 'milliseconds').format('hh:mm:ss', { trim: false })}) has been added to the queue by **${res.tracks[0].requester.tag}**`);
-					if (!player.playing && !player.paused && player.queue.length === 1) player.play();
+					if (!player.playing && !player.paused && !player.queue.length) player.play();
 					resolve();
 				}
 				else if (res.loadType == 'PLAYLIST_LOADED') {
 					for (const track of res.playlist.tracks) {
 						player.queue.add(track);
-						if (!player.playing && !player.paused && player.queue.length === 1) player.play();
+						if (!player.playing && !player.paused && !player.queue.length) player.play();
 					}
 					msg.edit(`**${res.playlist.info.name}** (${moment.duration(res.playlist.tracks.reduce((acc, cure) => ({ duration: acc.duration + cure.duration })).duration, 'milliseconds').format('hh:mm:ss', { trim: false })}) (${res.playlist.tracks.length} tracks) has been added to the queue by **${res.playlist.tracks[0].requester.tag}**`);
 					resolve();
@@ -34,19 +34,19 @@ module.exports = async (client, message, msg, player, searchQuery, playlist) => 
 						if (res2.loadType == 'TRACK_LOADED') {
 							player.queue.add(res2.tracks[0]);
 							if (!playlist && msg) msg.edit(`**${res2.tracks[0].title}** (${moment.duration(res2.tracks[0].duration, 'milliseconds').format('hh:mm:ss', { trim: false })}) has been added to the queue by **${res2.tracks[0].requester.tag}**`);
-							if (!player.playing && !player.paused && player.queue.length === 1) player.play();
+							if (!player.playing && !player.paused && !player.queue.length) player.play();
 							resolve();
 						}
 						else if (res2.loadType == 'SEARCH_RESULT') {
 							player.queue.add(res2.tracks[0]);
 							if (!playlist && msg) msg.edit(`**${res2.tracks[0].title}** (${moment.duration(res2.tracks[0].duration, 'milliseconds').format('hh:mm:ss', { trim: false })}) has been added to the queue by **${res2.tracks[0].requester.tag}**`);
-							if (!player.playing && !player.paused && player.queue.length === 1) player.play();
+							if (!player.playing && !player.paused && !player.queue.length) player.play();
 							resolve();
 						}
 						else if (res2.loadType == 'PLAYLIST_LOADED') {
 							for (const track of res2.playlist.tracks) {
 								player.queue.add(track);
-								if (!player.playing && !player.paused && player.queue.length === 1) player.play();
+								if (!player.playing && !player.paused && !player.queue.length) player.play();
 							}
 							msg.edit(`**${res2.playlist.info.name}** (${moment.duration(res2.playlist.tracks.reduce((acc, cure) => ({ duration: acc.duration + cure.duration })).duration, 'milliseconds').format('hh:mm:ss', { trim: false })}) (${res2.playlist.tracks.length} tracks) has been added to the queue by **${res2.playlist.tracks[0].requester.tag}**`);
 							resolve();
