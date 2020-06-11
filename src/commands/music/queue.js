@@ -21,9 +21,9 @@ module.exports = class Queue extends Command {
 
 		let index = 1;
 		let queueStr = '';
-		const { title, author, duration, uri } = player.current;
+		const { title, author, length, uri } = player.current;
 
-		const parsedDuration = moment.duration(duration, 'milliseconds').format('hh:mm:ss', { trim: false });
+		const parsedDuration = moment.duration(length, 'milliseconds').format('hh:mm:ss', { trim: false });
 		const parsedQueueDuration = moment.duration(player.queue.duration, 'milliseconds').format('hh:mm:ss', { trim: false });
 
 		if (player.queue.size > 10) {
