@@ -1,6 +1,6 @@
 const Command = require('../../structures/Command');
 
-const { Player } = require('@tetracyl/erela.js');
+const { Player } = require('erela.js');
 
 module.exports = class Join extends Command {
 	constructor(client) {

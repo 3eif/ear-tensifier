@@ -5,7 +5,7 @@
   "main": "./src/index.js",
   "dependencies": {
     "@sentry/node": "^5.12.2",
-    "@tetracyl/erela.js": "^1.1.10",
+    "erela.js": "^1.1.10",
     "ascii": "^1.0.0",
     "bandcamp-scraper": "^1.2.5",
     "botlist.space": "^3.3.1",

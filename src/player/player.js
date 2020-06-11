@@ -1,4 +1,4 @@
-const { Manager } = require('@tetracyl/erela.js');
+const { Manager } = require('erela.js');
 const trackStart = require('./trackStart.js');
 const queueEnd = require('./queueEnd.js');
 
