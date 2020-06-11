@@ -16,7 +16,7 @@ module.exports = class NowPlaying extends Command {
 	}
 	async run(client, message) {
 		const player = client.music.players.get(message.guild.id);
-		const { title, author, duration, requester, uri, identifier } = player.queue[0];
+		const { title, author, duration, requester, uri, identifier } = player.current;
 
 		const parsedCurrentDuration = moment.duration(player.position, 'milliseconds').format('hh:mm:ss', { trim: false });
 		const parsedDuration = moment.duration(duration, 'milliseconds').format('hh:mm:ss', { trim: false });

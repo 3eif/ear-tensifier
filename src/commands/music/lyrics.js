@@ -22,7 +22,7 @@ module.exports = class Lyrics extends Command {
 		if (!args[0]) {
 			const player = client.music.players.get(message.guild.id);
 			if (!player) return message.channel.send('Please provide a song to search for lyrics or play a song.');
-			else song = player.queue[0].title;
+			else song = player.current.title;
 		}
 		else { song = args.join(' '); }
 
