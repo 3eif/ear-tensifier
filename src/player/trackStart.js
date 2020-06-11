@@ -93,7 +93,7 @@ module.exports = async (client, textChannel, title, length, author, uri) => {
 	embed.setDescription(`**[${title}](${uri})**`);
 	embed.addField('Requested by', requester, true);
 
-	embed.addField('Duration', `\`\`\`${parsedCurrentDuration}/${parsedDuration}  ${uni} ${'─'.repeat(part) + '⚪' + '─'.repeat(client.settings.embedDurationLength - part)}\`\`\``);
+	embed.addField(`Duration \`${parsedCurrentDuration}/${parsedDuration}\``, `\`\`\`${uni} ${'─'.repeat(part) + '⚪' + '─'.repeat(client.settings.embedDurationLength - part)}\`\`\``);
 	embed.setTimestamp();
 
 	return textChannel.send(embed);
