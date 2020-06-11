@@ -1,4 +1,4 @@
-module.exports = async (player) => {
+module.exports = player => {
     if (player.queue.length == 0) return player.current.length;
 
     let totalQueueDuration = 0;
