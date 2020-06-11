@@ -18,8 +18,8 @@ module.exports = class NowPlaying extends Command {
 		const player = client.music.players.get(message.guild.id);
 		const { title, author, length, requester, uri, identifier } = player.current;
 
-		const parsedCurrentDuration = moment.duration(player.position, 'milliseconds').format('hh:mm:ss', { trim: false });
-		const parsedDuration = moment.duration(length, 'milliseconds').format('hh:mm:ss', { trim: false });
+		const parsedCurrentDuration = moment.duration(player.position, 'milliseconds').format('mm:ss', { trim: false });
+		const parsedDuration = moment.duration(length, 'milliseconds').format('mm:ss', { trim: false });
 		const part = Math.floor((player.position / length) * 30);
 		const uni = player.playing ? '▶' : '⏸️';
 

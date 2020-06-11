@@ -25,8 +25,8 @@ module.exports = class Queue extends Command {
 		let queueStr = '';
 		const { title, author, length, uri } = player.current;
 
-		const parsedDuration = moment.duration(length, 'milliseconds').format('hh:mm:ss', { trim: false });
-		const parsedQueueDuration = moment.duration(getQueueDuration(player), 'milliseconds').format('hh:mm:ss', { trim: false });
+		const parsedDuration = moment.duration(length, 'milliseconds').format('mm:ss', { trim: false });
+		const parsedQueueDuration = moment.duration(getQueueDuration(player), 'milliseconds').format('mm:ss', { trim: false });
 
 		if (player.queue.length > 10) {
 			const songs = [];
@@ -34,7 +34,7 @@ module.exports = class Queue extends Command {
 			const content = new Promise(async function(resolve) {
 				for (let i = 0; i < player.queue.length; i++) {
 					const song = player.queue[i];
-					const parsedSongDuration = moment.duration(song.length, 'milliseconds').format('hh:mm:ss', { trim: false });
+					const parsedSongDuration = moment.duration(song.length, 'milliseconds').format('mm:ss', { trim: false });
 					const songObj = {
 						number: i + 1,
 						song: song.title,
@@ -71,7 +71,7 @@ module.exports = class Queue extends Command {
 						const queueEmbed = new Discord.MessageEmbed()
 							.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
 							.setColor(client.colors.main)
-							.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` by ${author}.\n\n${player.queue.slice(0, 10).map(song => `**${index++}** - [${song.title}](${song.uri}) (${moment.duration(song.length, 'milliseconds').format('hh:mm:ss', { trim: false })}) by ${song.author}.`).join('\n')}${queueStr}`)
+							.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` by ${author}.\n\n${player.queue.slice(0, 10).map(song => `**${index++}** - [${song.title}](${song.uri}) (${moment.duration(song.length, 'milliseconds').format('mm:ss', { trim: false })}) by ${song.author}.`).join('\n')}${queueStr}`)
 							.setFooter(`${player.queue.length} songs | ${parsedQueueDuration} total duration`);
 						message.channel.send(queueEmbed);
 					})
@@ -79,7 +79,7 @@ module.exports = class Queue extends Command {
 			});
 		}
 		else {
-			queueStr = `${player.queue.slice(0, 10).map(song => `**${index++}** - [${song.title}](${song.uri}) \`[${moment.duration(song.length, 'milliseconds').format('hh:mm:ss', { trim: false })}]\` by ${song.author}.`).join('\n')}`;
+			queueStr = `${player.queue.slice(0, 10).map(song => `**${index++}** - [${song.title}](${song.uri}) \`[${moment.duration(song.length, 'milliseconds').format('mm:ss', { trim: false })}]\` by ${song.author}.`).join('\n')}`;
 			const queueEmbed = new Discord.MessageEmbed()
 				.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
 				.setColor(client.colors.main)
