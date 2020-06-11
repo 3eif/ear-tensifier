@@ -22,7 +22,7 @@ module.exports = class Forward extends Command {
 		const player = client.music.players.get(message.guild.id);
 
 		if (args[0] && !isNaN(args[0])) {
-			if ((player.position + args[0] * 1000) < player.current.duration) {
+			if ((player.position + args[0] * 1000) < player.current.length) {
 				player.seek(player.position + args[0] * 1000);
 				const parsedDuration = moment.duration(player.position, 'milliseconds').format('hh:mm:ss', { trim: false });
 				return message.channel.send(`Fast-forwarded to ${parsedDuration}`);
@@ -32,7 +32,7 @@ module.exports = class Forward extends Command {
 		else if (args[0] && isNaN(args[0])) { return message.reply(`Invalid argument, must be a number.\nCorrect Usage: \`${client.settings.prefix}forward <seconds>\``); }
 
 		if (!args[0]) {
-			if ((player.position + fastForwardNum * 1000) < player.current.duration) {
+			if ((player.position + fastForwardNum * 1000) < player.current.length) {
 				player.seek(player.position + fastForwardNum * 1000);
 				const parsedDuration = moment.duration(player.position, 'milliseconds').format('hh:mm:ss', { trim: false });
 				return message.channel.send(`Fast-forwarded to ${parsedDuration}`);
