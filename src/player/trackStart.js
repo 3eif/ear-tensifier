@@ -86,7 +86,7 @@ module.exports = async (client, textChannel, title, length, author, uri) => {
 			const parsedDuration = moment.duration(length, 'milliseconds').format('mm:ss', { trim: false });
 			const part = Math.floor((currentDuration / length) * 30);
 			const uni = playing ? '▶' : '⏸️';
-			embed.addField('Duration', `\`\`\`${parsedCurrentDuration}/${parsedDuration}\`\`\``);
+			embed.addField('Duration', `${parsedCurrentDuration}/${parsedDuration}`);
 			embed.setTimestamp();
 
 			embed.setTitle(author);
@@ -111,7 +111,7 @@ module.exports = async (client, textChannel, title, length, author, uri) => {
 	const parsedDuration = moment.duration(length, 'milliseconds').format('mm:ss', { trim: false });
 	const part = Math.floor((currentDuration / length) * 30);
 	const uni = playing ? '▶' : '⏸️';
-	embed.addField('Duration', `\`\`\`${parsedCurrentDuration}/${parsedDuration}\`\`\``, true);
+	embed.addField('Duration', `${parsedCurrentDuration}/${parsedDuration}`, true);
 	embed.setTimestamp();
 
 	embed.setDescription(`**[${title}](${uri})**`);
