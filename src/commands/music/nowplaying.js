@@ -31,7 +31,7 @@ module.exports = class NowPlaying extends Command {
 			.setAuthor(player.playing ? 'Now Playing' : 'Paused', 'https://cdn.discordapp.com/emojis/673357192203599904.gif?v=1')
 			.setThumbnail(thumbnail)
 			.setDescription(`**[${title}](${uri})**`)
-			.setTitle(author, true)
+			.addField('Author', author, true)
 			.addField('Requested by', user, true)
 			.addField('Duration', `\`\`\`${parsedCurrentDuration}/${parsedDuration}  ${uni} ${'─'.repeat(part) + '⚪' + '─'.repeat(client.settings.embedDurationLength - part)}\`\`\``);
 
