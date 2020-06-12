@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const Command = require('../../structures/Command');
 
 const Discord = require('discord.js');
@@ -6,6 +7,7 @@ const momentDurationFormatSetup = require('moment-duration-format');
 momentDurationFormatSetup(moment);
 const fetch = require('node-fetch');
 const columnify = require('columnify');
+const Pagination = require('discord-paginationembed');
 
 const getQueueDuration = require('../../utils/music/getQueueDuration.js');
 
@@ -28,64 +30,59 @@ module.exports = class Queue extends Command {
 		const parsedDuration = moment.duration(length, 'milliseconds').format('mm:ss', { trim: false });
 		const parsedQueueDuration = moment.duration(getQueueDuration(player), 'milliseconds').format('mm:ss', { trim: false });
 
-		if (player.queue.length > 10) {
-			const songs = [];
-			// eslint-disable-next-line no-async-promise-executor
-			const content = new Promise(async function(resolve) {
-				for (let i = 0; i < player.queue.length; i++) {
-					const song = player.queue[i];
-					const parsedSongDuration = moment.duration(song.length, 'milliseconds').format('mm:ss', { trim: false });
-					const songObj = {
-						number: i + 1,
-						song: song.title,
-						author: song.author,
-						duration: parsedSongDuration,
-					};
-					songs.push(songObj);
-				}
-				resolve();
-			});
+		const FieldsEmbed = new Pagination.FieldsEmbed()
+			.setArray([{ name: 'John Doe' }, { name: 'Jane Doe' }])
+			.setAuthorizedUsers([message.author.id])
+			.setChannel(message.channel)
+			.setElementsPerPage(1)
+			// Initial page on deploy
+			.setPage(2)
+			.setPageIndicator(true)
+			.formatField('Name', i => i.name)
+			// Deletes the embed upon awaiting timeout
+			.setDeleteOnTimeout(true)
+			// Disable built-in navigation emojis, in this case: 🗑 (Delete Embed)
+			.setDisabledNavigationEmojis(['delete'])
+			// Sets whether function emojis should be deployed after navigation emojis
+			.setEmojisFunctionAfterNavigation(false);
 
-			content.then(async function() {
-				const columns = columnify(songs, {
-					minWidth: 5,
-					columnSplitter: ' | ',
-					config: {
-						song: { maxWidth: 125 },
-					},
-				});
+		FieldsEmbed.embed
+			.setColor(0xFF00AE)
+			.setDescription('Test Description');
 
-				const myHeaders = new fetch.Headers();
-				myHeaders.append('Content-Type', 'text/plain');
-				const requestOptions = {
-					method: 'POST',
-					headers: myHeaders,
-					body: columns,
-					redirect: 'follow',
-				};
+		await FieldsEmbed.build();
 
-				fetch('https://hasteb.in/documents', requestOptions)
-					.then(response => response.text())
-					.then(result => {
-						queueStr += `\n...and ${player.queue.length - 10} more [here](https://www.hasteb.in/${result.slice(8, result.length - 2)}.txt)`;
-						const queueEmbed = new Discord.MessageEmbed()
-							.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
-							.setColor(client.colors.main)
-							.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` by ${author}.\n\n${player.queue.slice(0, 10).map(song => `**${index++}** - [${song.title}](${song.uri}) (${moment.duration(song.length, 'milliseconds').format('mm:ss', { trim: false })}) by ${song.author}.`).join('\n')}${queueStr}`)
-							.setFooter(`${player.queue.length} songs | ${parsedQueueDuration} total duration`);
-						message.channel.send(queueEmbed);
-					})
-					.catch(error => client.log('error', error));
-			});
-		}
-		else {
-			queueStr = `${player.queue.slice(0, 10).map(song => `**${index++}** - [${song.title}](${song.uri}) \`[${moment.duration(song.length, 'milliseconds').format('mm:ss', { trim: false })}]\` by ${song.author}.`).join('\n')}`;
-			const queueEmbed = new Discord.MessageEmbed()
-				.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
-				.setColor(client.colors.main)
-				.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` by ${author}.\n\n${queueStr}`)
-				.setFooter(`${player.queue.length} songs | ${parsedQueueDuration} total duration`);
-			message.channel.send(queueEmbed);
-		}
+		// if (player.queue.length > 10) {
+		// 	const FieldsEmbed = new Pagination.FieldsEmbed()
+		// 		.setArray([{ name: 'John Doe' }, { name: 'Jane Doe' }])
+		// 		.setAuthorizedUsers([message.author.id])
+		// 		.setChannel(message.channel)
+		// 		.setElementsPerPage(1)
+		// 		// Initial page on deploy
+		// 		.setPage(2)
+		// 		.setPageIndicator(true)
+		// 		.formatField('Name', i => i.name)
+		// 		// Deletes the embed upon awaiting timeout
+		// 		.setDeleteOnTimeout(true)
+		// 		// Disable built-in navigation emojis, in this case: 🗑 (Delete Embed)
+		// 		.setDisabledNavigationEmojis(['delete'])
+		// 		// Sets whether function emojis should be deployed after navigation emojis
+		// 		.setEmojisFunctionAfterNavigation(false);
+
+		// 	FieldsEmbed.embed
+		// 		.setColor(0xFF00AE)
+		// 		.setDescription('Test Description');
+
+		// 	await FieldsEmbed.build();
+		// }
+		// else {
+		// 	queueStr = `${player.queue.slice(0, 10).map(song => `**${index++}** - [${song.title}](${song.uri}) \`[${moment.duration(song.length, 'milliseconds').format('mm:ss', { trim: false })}]\` by ${song.author}.`).join('\n')}`;
+		// 	const queueEmbed = new Discord.MessageEmbed()
+		// 		.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
+		// 		.setColor(client.colors.main)
+		// 		.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` by ${author}.\n\n${queueStr}`)
+		// 		.setFooter(`${player.queue.length} songs | ${parsedQueueDuration} total duration`);
+		// 	message.channel.send(queueEmbed);
+		// }
 	}
 };
