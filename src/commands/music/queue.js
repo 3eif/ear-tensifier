@@ -42,6 +42,8 @@ module.exports = class Queue extends Command {
 				pages.push(queueEmbed);
 			}
 
+			client.log(pages);
+
 			paginationEmbed(message, pages, ['⏪', '⏩'], 120000);
 		}
 		else {
