@@ -31,18 +31,16 @@ module.exports = class Queue extends Command {
 		const parsedQueueDuration = moment.duration(getQueueDuration(player), 'milliseconds').format('mm:ss', { trim: false });
 
 		const FieldsEmbed = new Pagination.FieldsEmbed()
-			.setArray([{ name: 'John Doe' }, { name: 'Jane Doe' }])
+			.setArray([{ name: 'John Doe' }, { name: 'dsfdsffsd Doe' }])
 			.setAuthorizedUsers([message.author.id])
 			.setChannel(message.channel)
 			.setElementsPerPage(1)
 			// Initial page on deploy
-			.setPage(2)
+			.setPage(1)
 			.setPageIndicator(true)
 			.formatField('Name', i => i.name)
 			// Deletes the embed upon awaiting timeout
-			.setDeleteOnTimeout(true)
 			// Disable built-in navigation emojis, in this case: 🗑 (Delete Embed)
-			.setDisabledNavigationEmojis(['delete'])
 			// Sets whether function emojis should be deployed after navigation emojis
 			.setEmojisFunctionAfterNavigation(false);
 
