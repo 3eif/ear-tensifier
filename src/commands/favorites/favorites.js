@@ -37,7 +37,7 @@ module.exports = class Favorites extends Command {
 				for (let i = 0; i < u.favorites.length; i++) {
 					const song = u.favorites[i];
 					const url = `https://www.youtube.com/watch?v=${song.identifier}`;
-					const parsedDuration = moment.duration(song.length, 'milliseconds').format('mm:ss', { trim: false });
+					const parsedDuration = moment.duration(song.length, 'milliseconds').format('hh:mm:ss', { trim: false });
 					str += `**${i + 1}** - [${song.title}](${url}) (${parsedDuration}) by ${song.author}\n`;
 					const songObj = {
 						number: i + 1,

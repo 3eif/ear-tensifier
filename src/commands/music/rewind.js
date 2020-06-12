@@ -20,7 +20,7 @@ module.exports = class Rewind extends Command {
 	async run(client, message, args) {
 		const player = client.music.players.get(message.guild.id);
 
-		const parsedDuration = moment.duration(player.position, 'milliseconds').format('mm:ss', { trim: false });
+		const parsedDuration = moment.duration(player.position, 'milliseconds').format('hh:mm:ss', { trim: false });
 		if(args[0] && !isNaN(args[0])) {
 			if((player.position - args[0] * 1000) > 0) {
 				player.seek(player.position - args[0] * 1000);

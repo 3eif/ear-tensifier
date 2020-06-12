@@ -64,7 +64,7 @@ module.exports = class AutoPlay extends Command {
 					case 'TRACK_LOADED':
 						songsToAdd.push(res.tracks[0]);
 						if (isPlaylist == 'no') {
-							const parsedDuration = moment.duration(res.tracks[0].length, 'milliseconds').format('mm:ss', { trim: false });
+							const parsedDuration = moment.duration(res.tracks[0].length, 'milliseconds').format('hh:mm:ss', { trim: false });
 							msg.edit(`Set **${res.tracks[0].title}** (${parsedDuration}) to autoplay.`);
 							return await addToDB(false);
 						}
@@ -74,7 +74,7 @@ module.exports = class AutoPlay extends Command {
 					case 'SEARCH_RESULT':
 						songsToAdd.push(res.tracks[0]);
 						if (isPlaylist == 'no') {
-							const parsedDuration = moment.duration(res.tracks[0].length, 'milliseconds').format('mm:ss', { trim: false });
+							const parsedDuration = moment.duration(res.tracks[0].length, 'milliseconds').format('hh:mm:ss', { trim: false });
 							msg.edit(`Set **${res.tracks[0].title}** (${parsedDuration}) to autoplay.`);
 							return await addToDB(false);
 						}
@@ -84,7 +84,7 @@ module.exports = class AutoPlay extends Command {
 					case 'PLAYLIST_LOADED':
 						res.playlist.tracks.forEach(track => songsToAdd.push(track));
 						// eslint-disable-next-line no-case-declarations
-						const parsedDuration = moment.duration(res.playlist.tracks.reduce((acc, cure) => ({ duration: acc.length + cure.length })).duration, true, 'milliseconds').format('mm:ss', { trim: false });
+						const parsedDuration = moment.duration(res.playlist.tracks.reduce((acc, cure) => ({ duration: acc.length + cure.length })).duration, true, 'milliseconds').format('hh:mm:ss', { trim: false });
 						msg.edit(`Set **${res.playlist.info.name}** (${parsedDuration}}) (${res.playlist.tracks.length} tracks) to autoplay.`);
 						await addToDB(false);
 						break;

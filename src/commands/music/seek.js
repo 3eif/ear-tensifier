@@ -24,7 +24,7 @@ module.exports = class Seek extends Command {
 		if(args[0] * 1000 >= player.current.length || args[0] < 0) return message.channel.send('Cannot seek beyond length of song.');
 		player.seek(args[0] * 1000);
 
-		const parsedDuration = moment.duration(player.position, 'milliseconds').format('mm:ss', { trim: false });
+		const parsedDuration = moment.duration(player.position, 'milliseconds').format('hh:mm:ss', { trim: false });
 		return message.channel.send(`Seeked to ${parsedDuration}`);
 	}
 };
