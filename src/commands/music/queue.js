@@ -30,25 +30,31 @@ module.exports = class Queue extends Command {
 		const parsedDuration = moment.duration(length, 'milliseconds').format('mm:ss', { trim: false });
 		const parsedQueueDuration = moment.duration(getQueueDuration(player), 'milliseconds').format('mm:ss', { trim: false });
 
-		const FieldsEmbed = new Pagination.FieldsEmbed()
-			.setArray([{ name: 'John Doe' }, { name: 'dsfdsffsd Doe' }])
+		const embeds = [];
+
+		for (let i = 1; i <= 5; ++i)
+			embeds.push(new Discord.MessageEmbed().addField('Page', i));
+
+		const myImage = message.author.displayAvatarURL();
+
+		new Pagination.Embeds()
+			.setArray(embeds)
 			.setAuthorizedUsers([message.author.id])
 			.setChannel(message.channel)
-			.setElementsPerPage(1)
-			// Initial page on deploy
-			.setPage(1)
 			.setPageIndicator(true)
-			.formatField('Name', i => i.name)
-			// Deletes the embed upon awaiting timeout
-			// Disable built-in navigation emojis, in this case: 🗑 (Delete Embed)
-			// Sets whether function emojis should be deployed after navigation emojis
-			.setEmojisFunctionAfterNavigation(false);
-
-		FieldsEmbed.embed
+			.setPage(3)
+			// Methods below are for customising all embeds
+			.setImage(myImage)
+			.setThumbnail(myImage)
+			.setTitle('Test Title')
+			.setDescription('Test Description')
+			.setFooter('Test Footer Text')
+			.setURL(myImage)
 			.setColor(0xFF00AE)
-			.setDescription('Test Description');
-
-		await FieldsEmbed.build();
+			.addField('\u200b', '\u200b')
+			.addField('Test Field 1', 'Test Field 1', true)
+			.addField('Test Field 2', 'Test Field 2', true)
+			.build();
 
 		// if (player.queue.length > 10) {
 		// 	const FieldsEmbed = new Pagination.FieldsEmbed()
