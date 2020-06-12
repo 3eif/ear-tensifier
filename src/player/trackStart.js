@@ -85,8 +85,8 @@ module.exports = async (client, textChannel, title, length, author, uri) => {
 	embed.setTitle(author);
 	const currentDuration = client.music.players.get(textChannel.guild.id).position;
 	const playing = client.music.players.get(textChannel.guild.id).playing;
-	const parsedCurrentDuration = moment.duration(currentDuration, 'milliseconds').format('hh:mm:ss', { trim: false });
-	const parsedDuration = moment.duration(length, 'milliseconds').format('hh:mm:ss', { trim: false });
+	const parsedCurrentDuration = moment.duration(currentDuration, 'milliseconds').format('mm:ss', { trim: false });
+	const parsedDuration = moment.duration(length, 'milliseconds').format('mm:ss', { trim: false });
 	const part = Math.floor((currentDuration / length) * client.settings.embedDurationLength);
 	const uni = playing ? '▶' : '⏸️';
 
