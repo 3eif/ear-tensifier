@@ -42,6 +42,9 @@ module.exports = class Queue extends Command {
 				if(args[0] > pagesNum) return message.channel.send(`There are only ${pagesNum} pages available.`);
 
 				let index2 = args[0] * 10;
+
+				client.log(pagesNum * args[0]);
+				client.log(pagesNum * args[0] + 10);
 				const queueStr2 = `${player.queue.slice(pagesNum * args[0], pagesNum * args[0] + 10).map(song => `**${index2++}** - [${song.title}](${song.uri}) \`[${moment.duration(song.length, 'milliseconds').format('mm:ss', { trim: false })}]\` by ${song.author}.`).join('\n')}`;
 				const queueEmbed2 = new Discord.MessageEmbed()
 					.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
