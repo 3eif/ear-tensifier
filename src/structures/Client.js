@@ -11,12 +11,14 @@ module.exports = class Client extends Discord.Client {
             partials: [
                 'MESSAGE',
                 'CHANNEL',
+                'REACTION',
             ],
             ws: {
                 intents: [
                     'GUILDS',
                     'GUILD_MESSAGES',
                     'GUILD_VOICE_STATES',
+                    'GUILD_MESSAGE_REACTIONS',
                 ],
             },
         });
@@ -36,7 +38,7 @@ module.exports = class Client extends Discord.Client {
 
         this.environment = process.env.NODE_ENV;
 
-        //this.dbl = new DBL(process.env.TOPGG_TOKEN, this);
+        // this.dbl = new DBL(process.env.TOPGG_TOKEN, this);
     }
 
     log(msg) {
