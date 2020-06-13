@@ -7,7 +7,7 @@ const momentDurationFormatSetup = require('moment-duration-format');
 momentDurationFormatSetup(moment);
 const fetch = require('node-fetch');
 const columnify = require('columnify');
-const Pagination = require('discord-paginationembed');
+const { PaginateContent } = require('discord-paginate');
 
 const getQueueDuration = require('../../utils/music/getQueueDuration.js');
 
@@ -23,54 +23,26 @@ module.exports = class Queue extends Command {
 	async run(client, message) {
 		const player = client.music.players.get(message.guild.id);
 
-		let index = 1;
-		let queueStr = '';
+		const index = 1;
+		const queueStr = '';
 		const { title, author, length, uri } = player.current;
 
 		const parsedDuration = moment.duration(length, 'milliseconds').format('mm:ss', { trim: false });
 		const parsedQueueDuration = moment.duration(getQueueDuration(player), 'milliseconds').format('mm:ss', { trim: false });
 
-		const FieldsEmbed = new Pagination.FieldsEmbed()
-			.setArray([{ name: 'John Doe' }, { name: 'Jane Doe' }])
-			.setAuthorizedUsers([message.author.id])
-			.setChannel(message.channel)
-			.setElementsPerPage(1)
-			// Initial page on deploy
-			.setPage(2)
-			.setPageIndicator(true)
-			.formatField('Name', i => i.name)
-			// Deletes the embed upon awaiting timeout
-			.setDeleteOnTimeout(true)
-			// Disable built-in navigation emojis, in this case: 🗑 (Delete Embed)
-			.setDisabledNavigationEmojis(['delete'])
-			// Set your own customised emojis
-			.setFunctionEmojis({
-				'🔄': (user, instance) => {
-					const field = instance.embed.fields[0];
+		/* Setting up pages */
+		const pages = [
+			'this is first page content',
+			'this is second page content',
+			{ embed: { description: 'You can also use embeds' } },
+			'this is another page',
+		];
 
-					if (field.name === 'Name')
-						field.name = user.tag;
-					else
-						field.name = 'Name';
-				},
-			})
-			// Similar to setFunctionEmojis() but this one takes only one emoji
-			.addFunctionEmoji('🅱', (_, instance) => {
-				const field = instance.embed.fields[0];
+		/* Create paginated content */
+		const paginated = new PaginateContent.DiscordJS(client, message, pages);
 
-				if (field.name.includes('🅱'))
-					field.name = 'Name';
-				else
-					field.name = 'Na🅱e';
-			})
-			// Sets whether function emojis should be deployed after navigation emojis
-			.setEmojisFunctionAfterNavigation(false);
-
-		FieldsEmbed.embed
-			.setColor(0xFF00AE)
-			.setDescription('Test Description');
-
-		await FieldsEmbed.build();
+		/* Initialize paginated content */
+		await paginated.init();
 
 
 		// if (player.queue.length > 10) {
