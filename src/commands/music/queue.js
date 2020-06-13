@@ -7,7 +7,7 @@ const momentDurationFormatSetup = require('moment-duration-format');
 momentDurationFormatSetup(moment);
 const fetch = require('node-fetch');
 const columnify = require('columnify');
-const Pagination = require('discord-paginationembed');
+const { Menu } = require('discord.js-menu');
 
 const getQueueDuration = require('../../utils/music/getQueueDuration.js');
 
@@ -23,37 +23,52 @@ module.exports = class Queue extends Command {
 	async run(client, message) {
 		const player = client.music.players.get(message.guild.id);
 
-		let index = 1;
-		let queueStr = '';
+		const index = 1;
+		const queueStr = '';
 		const { title, author, length, uri } = player.current;
 
 		const parsedDuration = moment.duration(length, 'milliseconds').format('mm:ss', { trim: false });
 		const parsedQueueDuration = moment.duration(getQueueDuration(player), 'milliseconds').format('mm:ss', { trim: false });
 
-		const FieldsEmbed = new Pagination.FieldsEmbed()
-			// A must: an array to paginate, can be an array of any type
-			.setArray([{ word: 'they are' }, { word: 'being treated' }])
-			// Set users who can only interact with the instance. Default: `[]` (everyone can interact).
-			// If there is only 1 user, you may omit the Array literal.
-			.setAuthorizedUsers([message.author.id])
-			// A must: sets the channel where to send the embed
-			.setChannel(message.channel)
-			// Elements to show per page. Default: 10 elements per page
-			.setElementsPerPage(2)
-			// Have a page indicator (shown on message content). Default: false
-			.setPageIndicator(false)
-			// Format based on the array, in this case we're formatting the page based on each object's `word` property
-			.formatField('Continue...', el => el.word);
-
-		// Customise embed
-		FieldsEmbed.embed
-			.setColor(0x00FFFF)
-			.setTitle('Jesus Yamato Saves the Day by Obliterating a Swarm of Abyssal Bombers!')
-			.setDescription('Akagi and Kaga give their thanks to their holy saviour today as...')
-			.setImage('https://lh5.googleusercontent.com/-TIcwCxc7a-A/AAAAAAAAAAI/AAAAAAAAAAA/Hij7_7Qa1j0/s900-c-k-no/photo.jpg');
-
-		// Deploy embed
-		FieldsEmbed.build();
+        new Menu(message.channel, message.author.id, [
+            {
+                name: 'main',
+                content: new Discord.MessageEmbed({
+                    title: 'Help',
+                    description: 'Commands list:',
+                    fields: [
+                        {
+                            name: 'command1',
+                            value: 'this command does stuff',
+                        },
+                    ],
+                }),
+                reactions: {
+                    '⏹': 'stop',
+                    '▶': 'next',
+                    '⚙': 'otherPage',
+                },
+            },
+            {
+                name: 'otherPage',
+                content: new Discord.MessageEmbed({
+                    title: 'More Help!',
+                    description: 'Here are some more commands!',
+                    fields: [
+                        {
+                            name: 'You get the idea.',
+                            value: 'You can create as many of these pages as you like.',
+                            // (Each page can only have 20 reactions, though. Discord's fault.)
+                        },
+                    ],
+                }),
+                reactions: {
+                    '⏹': 'stop',
+                    '◀': 'previous',
+                    '1️⃣': 'first',
+                },
+            },
+        ]);
 
 
 		// if (player.queue.length > 10) {
