@@ -7,7 +7,7 @@ const momentDurationFormatSetup = require('moment-duration-format');
 momentDurationFormatSetup(moment);
 const fetch = require('node-fetch');
 const columnify = require('columnify');
-const { PaginateContent } = require('discord-paginate');
+const Pagination = require('discord-paginationembed');
 
 const getQueueDuration = require('../../utils/music/getQueueDuration.js');
 
@@ -23,26 +23,37 @@ module.exports = class Queue extends Command {
 	async run(client, message) {
 		const player = client.music.players.get(message.guild.id);
 
-		const index = 1;
-		const queueStr = '';
+		let index = 1;
+		let queueStr = '';
 		const { title, author, length, uri } = player.current;
 
 		const parsedDuration = moment.duration(length, 'milliseconds').format('mm:ss', { trim: false });
 		const parsedQueueDuration = moment.duration(getQueueDuration(player), 'milliseconds').format('mm:ss', { trim: false });
 
-		/* Setting up pages */
-		const pages = [
-			'this is first page content',
-			'this is second page content',
-			{ embed: { description: 'You can also use embeds' } },
-			'this is another page',
-		];
+		const FieldsEmbed = new Pagination.FieldsEmbed()
+			// A must: an array to paginate, can be an array of any type
+			.setArray([{ word: 'they are' }, { word: 'being treated' }])
+			// Set users who can only interact with the instance. Default: `[]` (everyone can interact).
+			// If there is only 1 user, you may omit the Array literal.
+			.setAuthorizedUsers([message.author.id])
+			// A must: sets the channel where to send the embed
+			.setChannel(message.channel)
+			// Elements to show per page. Default: 10 elements per page
+			.setElementsPerPage(2)
+			// Have a page indicator (shown on message content). Default: false
+			.setPageIndicator(false)
+			// Format based on the array, in this case we're formatting the page based on each object's `word` property
+			.formatField('Continue...', el => el.word);
 
-		/* Create paginated content */
-		const paginated = new PaginateContent.DiscordJS(client, message, pages);
+		// Customise embed
+		FieldsEmbed.embed
+			.setColor(0x00FFFF)
+			.setTitle('Jesus Yamato Saves the Day by Obliterating a Swarm of Abyssal Bombers!')
+			.setDescription('Akagi and Kaga give their thanks to their holy saviour today as...')
+			.setImage('https://lh5.googleusercontent.com/-TIcwCxc7a-A/AAAAAAAAAAI/AAAAAAAAAAA/Hij7_7Qa1j0/s900-c-k-no/photo.jpg');
 
-		/* Initialize paginated content */
-		await paginated.init();
+		// Deploy embed
+		FieldsEmbed.build();
 
 
 		// if (player.queue.length > 10) {
