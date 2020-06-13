@@ -25,6 +25,7 @@ module.exports = class Queue extends Command {
 
 		const parsedDuration = moment.duration(length, 'milliseconds').format('mm:ss', { trim: false });
 		const parsedQueueDuration = moment.duration(getQueueDuration(player), 'milliseconds').format('mm:ss', { trim: false });
+		const pagesNum = Math.ceil(player.queue.length / 10);
 
 		let index = 1;
 		const queueStr = `${player.queue.slice(0, 10).map(song => `**${index++}** - [${song.title}](${song.uri}) \`[${moment.duration(song.length, 'milliseconds').format('mm:ss', { trim: false })}]\` by ${song.author}.`).join('\n')}`;
@@ -32,21 +33,21 @@ module.exports = class Queue extends Command {
 			.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
 			.setColor(client.colors.main)
 			.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` by ${author}.\n\n${queueStr}`)
-			.setFooter(`${player.queue.length} songs | ${parsedQueueDuration} total duration`);
+			.setFooter(`Page ${args[0]}/${pagesNum} | ${player.queue.length} songs | ${parsedQueueDuration} total duration`);
 
 		if (player.queue.length > 10) {
 			if (!args[0]) message.channel.send(queueEmbed);
 			else {
 				if(isNaN(args[0])) return message.channel.send('Page must be a number.');
-				const pagesNum = Math.ceil(player.queue.length / 10);
 				if(args[0] > pagesNum) return message.channel.send(`There are only ${pagesNum} pages available.`);
-				let index2 = 1;
+
+				let index2 = pagesNum * args[0];
 				const queueStr2 = `${player.queue.slice(pagesNum * args[0], pagesNum * args[0] + 10).map(song => `**${index2++}** - [${song.title}](${song.uri}) \`[${moment.duration(song.length, 'milliseconds').format('mm:ss', { trim: false })}]\` by ${song.author}.`).join('\n')}`;
 				const queueEmbed2 = new Discord.MessageEmbed()
 					.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
 					.setColor(client.colors.main)
 					.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` by ${author}.\n\n${queueStr2}`)
-					.setFooter(`${player.queue.length} songs | ${parsedQueueDuration} total duration`);
+					.setFooter(`Page ${args[0]}/${pagesNum} | ${player.queue.length} songs | ${parsedQueueDuration} total duration`);
 					message.channel.send(queueEmbed2);
 			}
 		}
