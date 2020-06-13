@@ -25,7 +25,7 @@ module.exports = class Queue extends Command {
 
 		const parsedDuration = moment.duration(length, 'milliseconds').format('mm:ss', { trim: false });
 		const parsedQueueDuration = moment.duration(getQueueDuration(player), 'milliseconds').format('mm:ss', { trim: false });
-		const pagesNum = Math.ceil(player.queue.length / 10);
+		const pagesNum = Math.floor(player.queue.length / 10);
 
 		let index = 1;
 		const queueStr = `${player.queue.slice(0, 10).map(song => `**${index++}** - [${song.title}](${song.uri}) \`[${moment.duration(song.length, 'milliseconds').format('mm:ss', { trim: false })}]\` by ${song.author}.`).join('\n')}`;
