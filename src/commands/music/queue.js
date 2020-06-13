@@ -33,7 +33,7 @@ module.exports = class Queue extends Command {
 			const pages = [];
 			let index = 1;
 			for (let i = 0; i < pagesNum; i++) {
-				const queueStr = `${player.queue.slice(pagesNum - 1, pagesNum * 10).map(song => `**${index++}** - [${song.title}](${song.uri}) \`[${moment.duration(song.length, 'milliseconds').format('mm:ss', { trim: false })}]\` by ${song.author}.`).join('\n')}`;
+				const queueStr = `${player.queue.slice(pagesNum * i, pagesNum + 10).map(song => `**${index++}** - [${song.title}](${song.uri}) \`[${moment.duration(song.length, 'milliseconds').format('mm:ss', { trim: false })}]\` by ${song.author}.`).join('\n')}`;
 				const queueEmbed = new Discord.MessageEmbed()
 					.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
 					.setColor(client.colors.main)
