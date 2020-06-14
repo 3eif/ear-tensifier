@@ -26,9 +26,6 @@ module.exports = class NowPlaying extends Command {
 		const thumbnail = `https://img.youtube.com/vi/${identifier}/maxresdefault.jpg`;
 		const user = `<@${requester.id}>`;
 
-		let nextUp = 'Nothing';
-		if(player.queue.length) nextUp = player.queue[0].title;
-
 		const embed = new Discord.MessageEmbed()
 			.setColor(client.colors.main)
 			.setAuthor(player.playing ? 'Now Playing' : 'Paused', 'https://cdn.discordapp.com/emojis/673357192203599904.gif?v=1')
@@ -36,7 +33,6 @@ module.exports = class NowPlaying extends Command {
 			.setDescription(`**[${title}](${uri})**`)
 			.addField('Author', author, true)
 			.addField('Requested By', user, true)
-			.addField('Up Next', nextUp)
 			.addField('Duration', `\`\`\`${parsedCurrentDuration}/${parsedDuration}  ${uni} ${'─'.repeat(part) + '⚪' + '─'.repeat(client.settings.embedDurationLength - part)}\`\`\``);
 
 		return message.channel.send('', embed);
