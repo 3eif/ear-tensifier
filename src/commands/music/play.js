@@ -1,6 +1,6 @@
 const Command = require('../../structures/Command');
 
-const play = require('../../utils/play.js');
+const play = require('../../utils/music/play.js');
 const spawnPlayer = require('../../player/spawnPlayer.js');
 const patreon = require('../../../config/patreon.js');
 const premium = require('../../utils/premium.js');

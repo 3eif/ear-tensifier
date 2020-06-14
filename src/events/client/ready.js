@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-const Discord = require('discord.js');
 const figlet = require('figlet');
 const blapi = require('blapi');
 const mongoose = require('mongoose');
@@ -63,9 +61,8 @@ module.exports = class Ready extends Event {
 
 					// this.client.shardMessage(this.client, this.client.channelList.readyChannel, embed);
 
-					// blapi.setLogging(true);
-					// blapi.handle(this.client, botLists, 30);
-					// console.log('t');
+					blapi.setLogging(true);
+					blapi.handle(this.client, botLists, 30);
 
 					const status = 'ear help';
 					const statusType = 'LISTENING';

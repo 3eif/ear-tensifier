@@ -1,6 +1,6 @@
 const Command = require('../../structures/Command');
 
-const play = require('../../utils/play.js');
+const play = require('../../utils/music/play.js');
 const spawnPlayer = require('../../player/spawnPlayer.js');
 const { getData, getPreview } = require('spotify-url-info');
 
