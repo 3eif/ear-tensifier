@@ -43,7 +43,7 @@ module.exports = class Queue extends Command {
 				if(isNaN(args[0])) return message.channel.send('Page must be a number.');
 				if(args[0] > pagesNum) return message.channel.send(`There are only ${pagesNum} pages available.`);
 
-				let index2 = args[0] * 10;
+				let index2 = args[0] * 10 - 10;
 				const pageStart = args[0] * 10 - 10;
 				const pageEnd = args[0] * 10;
 
