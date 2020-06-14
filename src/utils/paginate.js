@@ -3,11 +3,11 @@ module.exports = async (msg, pages, emojiList, timeout) => {
     if (!pages) throw new Error('Pages are not given.');
     if (emojiList.length !== 2) throw new Error('Need two emojis.');
     let page = 0;
-    const curPage = await msg.channel.send(pages[page]);
+    const curPage = await msg.channel.send(pages[page].setFooter(`Page ${page + 1} / ${pages.length}`));
     for (const emoji of emojiList) await curPage.react(emoji);
     const reactionCollector = curPage.createReactionCollector(
         (reaction, user) => emojiList.includes(reaction.emoji.name) && !user.bot,
-        { time: timeout },
+        { time: timeout }
     );
     reactionCollector.on('collect', reaction => {
         reaction.users.remove(msg.author);
@@ -21,6 +21,7 @@ module.exports = async (msg, pages, emojiList, timeout) => {
             default:
                 break;
         }
+        curPage.edit(pages[page].setFooter(`Page ${page + 1} / ${pages.length}`));
     });
     reactionCollector.on('end', () => curPage.reactions.removeAll());
     return curPage;
