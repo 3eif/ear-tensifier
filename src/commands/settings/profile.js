@@ -56,6 +56,7 @@ module.exports = class Profile extends Command {
 				const embed = new Discord.MessageEmbed()
 					.setThumbnail(user.user.displayAvatarURL())
 					.addField('User', `${user.user.tag}${ranks}`, true)
+					.addField('Bio', `${bio}`)
 					.setColor(client.colors.main)
 					.setFooter(`Commands Used: ${u.commandsUsed} | Songs Played: ${u.songsPlayed}`)
 					.setTimestamp();

@@ -5,7 +5,6 @@ const Discord = require('discord.js');
 const moment = require('moment');
 const momentDurationFormatSetup = require('moment-duration-format');
 momentDurationFormatSetup(moment);
-const paginationEmbed = require('discord.js-pagination');
 
 const getQueueDuration = require('../../utils/music/getQueueDuration.js');
 
@@ -47,8 +46,6 @@ module.exports = class Queue extends Command {
 				const pageStart = args[0] * 10 - 10;
 				const pageEnd = args[0] * 10;
 
-				client.log(pageStart);
-				client.log(pageEnd);
 				const queueStr2 = `${player.queue.slice(pageStart, pageEnd).map(song => `**${index2++}** - [${song.title}](${song.uri}) \`[${moment.duration(song.length, 'milliseconds').format('mm:ss', { trim: false })}]\` by ${song.author}.`).join('\n')}`;
 				const queueEmbed2 = new Discord.MessageEmbed()
 					.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
