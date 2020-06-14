@@ -46,27 +46,29 @@ module.exports = class Queue extends Command {
 					.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
 					.setColor(client.colors.main)
 					.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` by ${author}.\n\n${str}`)
-					.setFooter(`Page ${i}/${pagesNum} | ${player.queue.length} songs | ${parsedQueueDuration} total duration`);
+					.setFooter(`Page ${i + 1}/${pagesNum} | ${player.queue.length} songs | ${parsedQueueDuration} total duration`);
 				pages.push(embed);
 			}
 
-			if (!args[0]) paginate(message, pages, ['⏪', '⏩'], 120000);
-			else {
-				if (isNaN(args[0])) return message.channel.send('Page must be a number.');
-				if (args[0] > pagesNum) return message.channel.send(`There are only ${pagesNum} pages available.`);
+			paginate(message, pages, ['◀️', '▶️'], 120000);
 
-				let index2 = args[0] * 10 - 10;
-				const pageStart = args[0] * 10 - 10;
-				const pageEnd = args[0] * 10;
+			// if (!args[0]) paginate(message, pages, ['◀️', '▶️'], 120000);
+			// else {
+			// 	if (isNaN(args[0])) return message.channel.send('Page must be a number.');
+			// 	if (args[0] > pagesNum) return message.channel.send(`There are only ${pagesNum} pages available.`);
 
-				const queueStr2 = `${player.queue.slice(pageStart, pageEnd).map(song => `**${index2++}** - [${song.title}](${song.uri}) \`[${moment.duration(song.length, 'milliseconds').format('mm:ss', { trim: false })}]\` by ${song.author}.`).join('\n')}`;
-				const queueEmbed2 = new Discord.MessageEmbed()
-					.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
-					.setColor(client.colors.main)
-					.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` by ${author}.\n\n${queueStr2}`)
-					.setFooter(`Page ${args[0]}/${pagesNum} | ${player.queue.length - 1} songs | ${parsedQueueDuration} total duration`);
-				paginate(message, pages, ['◀️', '▶️'], 120000);
-			}
+			// 	let index2 = args[0] * 10 - 10;
+			// 	const pageStart = args[0] * 10 - 10;
+			// 	const pageEnd = args[0] * 10;
+
+			// 	const queueStr2 = `${player.queue.slice(pageStart, pageEnd).map(song => `**${index2++}** - [${song.title}](${song.uri}) \`[${moment.duration(song.length, 'milliseconds').format('mm:ss', { trim: false })}]\` by ${song.author}.`).join('\n')}`;
+			// 	const queueEmbed2 = new Discord.MessageEmbed()
+			// 		.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
+			// 		.setColor(client.colors.main)
+			// 		.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` by ${author}.\n\n${queueStr2}`)
+			// 		.setFooter(`Page ${args[0]}/${pagesNum} | ${player.queue.length - 1} songs | ${parsedQueueDuration} total duration`);
+			// 	paginate(message, pages, ['◀️', '▶️'], 120000);
+			// }
 		}
 	}
 };
