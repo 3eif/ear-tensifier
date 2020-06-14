@@ -22,8 +22,7 @@ module.exports = class Soft extends Command {
 			player.setEQ(Array(13).fill(0).map((n, i) => ({ band: i, gain: 0.15 })));
 			const msg = await message.channel.send(`${client.emojiList.loading} Turning off **soft**. This may take a few seconds...`);
 			const embed = new Discord.MessageEmbed()
-				.setAuthor(message.guild.name, message.guild.iconURL())
-				.setDescription('Soft off')
+				.setAuthor('Turned off **soft**', message.guild.iconURL())
 				.setColor(client.colors.main);
 			await delay(5000);
 			return msg.edit('', embed);
@@ -33,9 +32,7 @@ module.exports = class Soft extends Command {
 
 		const msg = await message.channel.send(`${client.emojiList.loading} Turning on **soft**. This may take a few seconds...`);
 		const embed = new Discord.MessageEmbed()
-			.setAuthor(message.guild.name, message.guild.iconURL())
-			.setDescription('Soft filter on')
-			.setFooter('Reset filter: ear reset')
+			.setAuthor('Turned on **soft**', message.guild.iconURL())
 			.setColor(client.colors.main);
 		await delay(5000);
 		return msg.edit('', embed);
