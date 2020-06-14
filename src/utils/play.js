@@ -34,6 +34,6 @@ module.exports = async (client, message, msg, player, searchQuery, playlist) => 
 				break;
 			}
 		}
-		else if(i >= 4) msg.edit('No tracks found.');
+		else if(i >= 4 && !playlist) msg.edit('No tracks found.');
 	}
 };

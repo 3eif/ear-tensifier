@@ -58,9 +58,11 @@ module.exports = class Add extends Command {
 				};
 			}
 
-			client.music.search(searchQuery, message.author).then(async res => {
-				switch (res.loadType) {
-					case 'TRACK_LOADED':
+			const tries = 5;
+			for(let i = 0; i < tries; i++) {
+				const res = await client.music.search(searchQuery, message.author);
+				if(res.loadType != 'NO_MATCHES') {
+					if (res.loadType == 'TRACK_LOADED') {
 						songsToAdd.push(res.tracks[0]);
 						if (isPlaylist == 'no') {
 							const parsedDuration = moment.duration(res.tracks[0].length, 'milliseconds').format('mm:ss', { trim: false });
@@ -69,8 +71,8 @@ module.exports = class Add extends Command {
 						}
 						await addToDB(true);
 						break;
-
-					case 'SEARCH_RESULT':
+					}
+					else if (res.loadType == 'SEARCH_RESULT') {
 						songsToAdd.push(res.tracks[0]);
 						if (isPlaylist == 'no') {
 							const parsedDuration = moment.duration(res.tracks[0].length, 'milliseconds').format('mm:ss', { trim: false });
@@ -79,19 +81,22 @@ module.exports = class Add extends Command {
 						}
 						await addToDB(true);
 						break;
-
-					case 'PLAYLIST_LOADED':
+					}
+					else if (res.loadType == 'PLAYLIST_LOADED') {
 						res.playlist.tracks.forEach(track => songsToAdd.push(track));
 						// eslint-disable-next-line no-case-declarations
 						const parsedDuration = moment.duration(res.playlist.tracks.reduce((acc, cure) => ({ duration: acc.length + cure.length })).duration, true, 'milliseconds').format('mm:ss', { trim: false });
 						msg.edit(`Added **${res.playlist.info.name}** (${parsedDuration}}) (${res.playlist.tracks.length} tracks) to your favorites.`);
 						await addToDB(false);
 						break;
+					}
+					else if(res.loadType == 'LOAD_FAILED') {
+						msg.edit('An error occured. Please try again.');
+						break;
+					}
 				}
-				return;
-			}).catch(() => {
-				search(searchQuery, isPlaylist);
-			});
+				else if(i >= 4 && isPlaylist != 'no') msg.edit('No tracks found.');
+			}
 		}
 
 		async function addToDB(playlist) {
