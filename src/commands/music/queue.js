@@ -33,7 +33,7 @@ module.exports = class Queue extends Command {
 			.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
 			.setColor(client.colors.main)
 			.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` by ${author}.\n\n${queueStr}`)
-			.setFooter(`Page 1/${pagesNum} | ${player.queue.length - 1} songs | ${parsedQueueDuration} total duration`);
+			.setFooter(`Page 1/${pagesNum} | ${player.queue.length} songs | ${parsedQueueDuration} total duration`);
 
 		if (player.queue.length <= 10) message.channel.send(queueEmbed);
 
@@ -48,7 +48,7 @@ module.exports = class Queue extends Command {
 					.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` by ${author}.\n\n${str}`)
 					.setFooter(`Page ${i + 1}/${pagesNum} | ${player.queue.length} songs | ${parsedQueueDuration} total duration`);
 				pages.push(embed);
-				if(i == pagesNum - 1) paginate(message, pages, ['◀️', '▶️'], 120000);
+				if(i == pagesNum - 1) paginate(message, pages, ['◀️', '▶️'], 120000, player.queue.length, parsedQueueDuration);
 			}
 
 			// if (!args[0]) paginate(message, pages, ['◀️', '▶️'], 120000);

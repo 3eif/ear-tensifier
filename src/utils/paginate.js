@@ -1,9 +1,9 @@
-module.exports = async (msg, pages, emojiList, timeout) => {
+module.exports = async (msg, pages, emojiList, timeout, queueLength, queueDuration) => {
     if (!msg && !msg.channel) throw new Error('Channel is inaccessible.');
     if (!pages) throw new Error('Pages are not given.');
     if (emojiList.length !== 2) throw new Error('Need two emojis.');
     let page = 0;
-    const curPage = await msg.channel.send(pages[page].setFooter(`Page ${page + 1} / ${pages.length}`));
+    const curPage = await msg.channel.send(pages[page].setFooter(`Page ${page + 1}/${pages.length} | ${queueLength} songs | ${queueDuration} total duration`));
     for (const emoji of emojiList) await curPage.react(emoji);
     const reactionCollector = curPage.createReactionCollector(
         (reaction, user) => emojiList.includes(reaction.emoji.name) && !user.bot,
@@ -21,7 +21,7 @@ module.exports = async (msg, pages, emojiList, timeout) => {
             default:
                 break;
         }
-        curPage.edit(pages[page].setFooter(`Page ${page + 1} / ${pages.length}`));
+        curPage.edit(pages[page].setFooter(`Page ${page + 1}/${pages.length} | ${queueLength} songs | ${queueDuration} total duration`));
     });
     reactionCollector.on('end', () => curPage.reactions.removeAll());
     return curPage;
