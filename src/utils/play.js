@@ -7,7 +7,7 @@ momentDurationFormatSetup(moment);
 module.exports = async (client, message, msg, player, searchQuery, playlist) => {
 	const tries = 5;
 	for(let i = 0; i < tries; i++) {
-		const res = await search();
+		const res = search();
 		if(res.loadType != 'NO_MATCHES') {
 			if (res.loadType == 'TRACK_LOADED') {
 				player.queue.add(res.tracks[0]);
@@ -37,8 +37,8 @@ module.exports = async (client, message, msg, player, searchQuery, playlist) => 
 		else if(i >= 4) msg.edit('No tracks found.');
 	}
 
-	async function search() {
-		await client.music.search(searchQuery, message.author).then(async res => {
+	function search() {
+		client.music.search(searchQuery, message.author).then(async res => {
 			return res;
 		}).catch(err => {
 			if (playlist) return;
