@@ -65,7 +65,7 @@ module.exports = class Queue extends Command {
 					.setColor(client.colors.main)
 					.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` by ${author}.\n\n${queueStr2}`)
 					.setFooter(`Page ${args[0]}/${pagesNum} | ${player.queue.length - 1} songs | ${parsedQueueDuration} total duration`);
-					paginationEmbed(message, pages, ['⏪', '⏩'], 120000);
+				paginationEmbed(message, pages, ['⏪', '⏩'], 120000);
 			}
 		}
 	}
