@@ -7,10 +7,10 @@ module.exports = async (msg, pages, emojiList, timeout, queueLength, queueDurati
     for (const emoji of emojiList) await curPage.react(emoji);
     const reactionCollector = curPage.createReactionCollector(
         (reaction, user) => emojiList.includes(reaction.emoji.name) && !user.bot,
-        { time: timeout }
+        { time: timeout },
     );
     reactionCollector.on('collect', reaction => {
-        reaction.users.remove(msg.author);
+        reaction.users.remove();
         switch (reaction.emoji.name) {
             case emojiList[0]:
                 page = page > 0 ? --page : pages.length - 1;
