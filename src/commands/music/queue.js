@@ -50,9 +50,7 @@ module.exports = class Queue extends Command {
 				pages.push(embed);
 			}
 
-			paginationEmbed(message, pages, ['⏪', '⏩'], 120000);
-
-			if (!args[0]) message.channel.send(queueEmbed);
+			if (!args[0]) paginationEmbed(message, pages, ['⏪', '⏩'], 120000);
 			else {
 				if(isNaN(args[0])) return message.channel.send('Page must be a number.');
 				if(args[0] > pagesNum) return message.channel.send(`There are only ${pagesNum} pages available.`);
@@ -67,10 +65,8 @@ module.exports = class Queue extends Command {
 					.setColor(client.colors.main)
 					.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` by ${author}.\n\n${queueStr2}`)
 					.setFooter(`Page ${args[0]}/${pagesNum} | ${player.queue.length - 1} songs | ${parsedQueueDuration} total duration`);
-				message.channel.send(queueEmbed2);
+					paginationEmbed(message, pages, ['⏪', '⏩'], 120000);
 			}
-
-			paginationEmbed(message, pages, ['⏪', '⏩'], 120000);
 		}
 	}
 };
