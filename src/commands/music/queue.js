@@ -33,7 +33,9 @@ module.exports = class Queue extends Command {
 			.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
 			.setColor(client.colors.main)
 			.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` by ${author}.\n\n${queueStr}`)
-			.setFooter(`Page 1/${pagesNum} | ${player.queue.length} songs | ${parsedQueueDuration} total duration`);
+			.setFooter(`Page 1/${pagesNum} | ${player.queue.length - 1} songs | ${parsedQueueDuration} total duration`);
+
+		if (player.queue.length <= 10 || args[0] == 1) message.channel.send(queueEmbed);
 
 		if (player.queue.length > 10) {
 			if (!args[0]) message.channel.send(queueEmbed);
@@ -50,11 +52,9 @@ module.exports = class Queue extends Command {
 					.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
 					.setColor(client.colors.main)
 					.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` by ${author}.\n\n${queueStr2}`)
-					.setFooter(`Page ${args[0]}/${pagesNum} | ${player.queue.length} songs | ${parsedQueueDuration} total duration`);
+					.setFooter(`Page ${args[0]}/${pagesNum} | ${player.queue.length - 1} songs | ${parsedQueueDuration} total duration`);
 					message.channel.send(queueEmbed2);
 			}
 		}
-
-		if (player.queue.length <= 10) message.channel.send(queueEmbed);
 	}
 };
