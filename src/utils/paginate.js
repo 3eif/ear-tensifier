@@ -10,7 +10,6 @@ module.exports = async (msg, pages, emojiList, timeout, queueLength, queueDurati
         { time: timeout },
     );
     reactionCollector.on('collect', (reaction, user) => {
-        console.log(user.bot);
         if(!user.bot) reaction.users.remove(user.id);
         switch (reaction.emoji.name) {
             case emojiList[0]:
