@@ -1,11 +1,11 @@
+/* eslint-disable no-unused-vars */
 const Command = require('../../structures/Command');
 
 const Discord = require('discord.js');
 const moment = require('moment');
 const momentDurationFormatSetup = require('moment-duration-format');
 momentDurationFormatSetup(moment);
-const fetch = require('node-fetch');
-const columnify = require('columnify');
+const paginationEmbed = require('discord.js-pagination');
 
 const getQueueDuration = require('../../utils/music/getQueueDuration.js');
 
@@ -18,74 +18,43 @@ module.exports = class Queue extends Command {
 			playing: true,
 		});
 	}
-	async run(client, message) {
+	async run(client, message, args) {
 		const player = client.music.players.get(message.guild.id);
 
-		let index = 1;
-		let queueStr = '';
 		const { title, author, length, uri } = player.current;
 
 		const parsedDuration = moment.duration(length, 'milliseconds').format('mm:ss', { trim: false });
 		const parsedQueueDuration = moment.duration(getQueueDuration(player), 'milliseconds').format('mm:ss', { trim: false });
+		const pagesNum = Math.floor(player.queue.length / 10);
+
+		let index = 1;
+		const queueStr = `${player.queue.slice(0, 10).map(song => `**${index++}** - [${song.title}](${song.uri}) \`[${moment.duration(song.length, 'milliseconds').format('mm:ss', { trim: false })}]\` by ${song.author}.`).join('\n')}`;
+		const queueEmbed = new Discord.MessageEmbed()
+			.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
+			.setColor(client.colors.main)
+			.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` by ${author}.\n\n${queueStr}`)
+			.setFooter(`Page 1/${pagesNum} | ${player.queue.length - 1} songs | ${parsedQueueDuration} total duration`);
+
+		if (player.queue.length <= 10 || args[0] == 1) message.channel.send(queueEmbed);
 
 		if (player.queue.length > 10) {
-			const songs = [];
-			// eslint-disable-next-line no-async-promise-executor
-			const content = new Promise(async function(resolve) {
-				for (let i = 0; i < player.queue.length; i++) {
-					const song = player.queue[i];
-					const parsedSongDuration = moment.duration(song.length, 'milliseconds').format('mm:ss', { trim: false });
-					const songObj = {
-						number: i + 1,
-						song: song.title,
-						author: song.author,
-						duration: parsedSongDuration,
-					};
-					songs.push(songObj);
-				}
-				resolve();
-			});
+			if (!args[0]) message.channel.send(queueEmbed);
+			else {
+				if(isNaN(args[0])) return message.channel.send('Page must be a number.');
+				if(args[0] > pagesNum) return message.channel.send(`There are only ${pagesNum} pages available.`);
 
-			content.then(async function() {
-				const columns = columnify(songs, {
-					minWidth: 5,
-					columnSplitter: ' | ',
-					config: {
-						song: { maxWidth: 125 },
-					},
-				});
+				let index2 = args[0] * 10;
 
-				const myHeaders = new fetch.Headers();
-				myHeaders.append('Content-Type', 'text/plain');
-				const requestOptions = {
-					method: 'POST',
-					headers: myHeaders,
-					body: columns,
-					redirect: 'follow',
-				};
-
-				fetch('https://hasteb.in/documents', requestOptions)
-					.then(response => response.text())
-					.then(result => {
-						queueStr += `\n...and ${player.queue.length - 10} more [here](https://www.hasteb.in/${result.slice(8, result.length - 2)}.txt)`;
-						const queueEmbed = new Discord.MessageEmbed()
-							.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
-							.setColor(client.colors.main)
-							.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` by ${author}.\n\n${player.queue.slice(0, 10).map(song => `**${index++}** - [${song.title}](${song.uri}) (${moment.duration(song.length, 'milliseconds').format('mm:ss', { trim: false })}) by ${song.author}.`).join('\n')}${queueStr}`)
-							.setFooter(`${player.queue.length} songs | ${parsedQueueDuration} total duration`);
-						message.channel.send(queueEmbed);
-					})
-					.catch(error => client.log('error', error));
-			});
-		}
-		else {
-			queueStr = `${player.queue.slice(0, 10).map(song => `**${index++}** - [${song.title}](${song.uri}) \`[${moment.duration(song.length, 'milliseconds').format('mm:ss', { trim: false })}]\` by ${song.author}.`).join('\n')}`;
-			const queueEmbed = new Discord.MessageEmbed()
-				.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
-				.setColor(client.colors.main)
-				.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` by ${author}.\n\n${queueStr}`)
-				.setFooter(`${player.queue.length} songs | ${parsedQueueDuration} total duration`);
-			message.channel.send(queueEmbed);
+				client.log(args[0] * 10);
+				client.log(args[0] * 10 + 10);
+				const queueStr2 = `${player.queue.slice(args[0] * 10, args[0] * 10 + 10).map(song => `**${index2++}** - [${song.title}](${song.uri}) \`[${moment.duration(song.length, 'milliseconds').format('mm:ss', { trim: false })}]\` by ${song.author}.`).join('\n')}`;
+				const queueEmbed2 = new Discord.MessageEmbed()
+					.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
+					.setColor(client.colors.main)
+					.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` by ${author}.\n\n${queueStr2}`)
+					.setFooter(`Page ${args[0]}/${pagesNum} | ${player.queue.length - 1} songs | ${parsedQueueDuration} total duration`);
+					message.channel.send(queueEmbed2);
+			}
 		}
 	}
 };

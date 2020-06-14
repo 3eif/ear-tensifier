@@ -36,7 +36,7 @@ module.exports = class Client extends Discord.Client {
 
         this.environment = process.env.NODE_ENV;
 
-        //this.dbl = new DBL(process.env.TOPGG_TOKEN, this);
+        // this.dbl = new DBL(process.env.TOPGG_TOKEN, this);
     }
 
     log(msg) {
