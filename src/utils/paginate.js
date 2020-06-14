@@ -23,6 +23,11 @@ module.exports = async (msg, pages, emojiList, timeout, queueLength, queueDurati
         }
         curPage.edit(pages[page].setFooter(`Page ${page + 1}/${pages.length} | ${queueLength} songs | ${queueDuration} total duration`));
     });
+
+    const userReactions = msg.reactions.cache.filter(reaction => !reaction.users.bot);
+	for (const reaction of userReactions.values()) {
+		await reaction.users.remove();
+    }
     reactionCollector.on('end', () => curPage.reactions.removeAll());
     return curPage;
 };
