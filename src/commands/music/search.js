@@ -43,12 +43,12 @@ module.exports = class Search extends Command {
 					break;
 				}
 				else if (res.loadType == 'SEARCH_RESULT') {
-					let i = 0;
+					let n = 0;
 					const tracks = res.tracks.slice(0, 10);
 
 					const results = res.tracks
 						.slice(0, 10)
-						.map(result => `**${++i} -** [${result.title}](${result.uri})`)
+						.map(result => `**${++n} -** [${result.title}](${result.uri})`)
 						.join('\n');
 
 					const embed = new Discord.MessageEmbed()

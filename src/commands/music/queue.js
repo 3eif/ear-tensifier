@@ -5,6 +5,7 @@ const Discord = require('discord.js');
 const moment = require('moment');
 const momentDurationFormatSetup = require('moment-duration-format');
 momentDurationFormatSetup(moment);
+const paginationEmbed = require('discord.js-pagination');
 
 const getQueueDuration = require('../../utils/music/getQueueDuration.js');
 
@@ -37,6 +38,20 @@ module.exports = class Queue extends Command {
 		if (player.queue.length <= 10 || args[0] == 1) message.channel.send(queueEmbed);
 
 		if (player.queue.length > 10) {
+			const pages = [];
+			let n = 1;
+			for (let i = 0; i < pagesNum; i++) {
+				const str = `${player.queue.slice(pagesNum * i, pagesNum * i + 10).map(song => `**${n++}** - [${song.title}](${song.uri}) \`[${moment.duration(song.length, 'milliseconds').format('mm:ss', { trim: false })}]\` by ${song.author}.`).join('\n')}`;
+				const embed = new Discord.MessageEmbed()
+					.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
+					.setColor(client.colors.main)
+					.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` by ${author}.\n\n${str}`)
+					.setFooter(`${player.queue.length} songs | ${parsedQueueDuration} total duration`);
+				pages.push(embed);
+			}
+
+			paginationEmbed(message, pages, ['⏪', '⏩'], 120000);
+
 			if (!args[0]) message.channel.send(queueEmbed);
 			else {
 				if(isNaN(args[0])) return message.channel.send('Page must be a number.');
@@ -52,8 +67,10 @@ module.exports = class Queue extends Command {
 					.setColor(client.colors.main)
 					.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` by ${author}.\n\n${queueStr2}`)
 					.setFooter(`Page ${args[0]}/${pagesNum} | ${player.queue.length - 1} songs | ${parsedQueueDuration} total duration`);
-					message.channel.send(queueEmbed2);
+				message.channel.send(queueEmbed2);
 			}
+
+			paginationEmbed(message, pages, ['⏪', '⏩'], 120000);
 		}
 	}
 };

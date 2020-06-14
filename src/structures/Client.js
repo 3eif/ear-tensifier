@@ -11,12 +11,14 @@ module.exports = class Client extends Discord.Client {
             partials: [
                 'MESSAGE',
                 'CHANNEL',
+                'REACTION',
             ],
             ws: {
                 intents: [
                     'GUILDS',
                     'GUILD_MESSAGES',
                     'GUILD_VOICE_STATES',
+                    'GUILD_MESSAGE_REACTIONS',
                 ],
             },
         });
