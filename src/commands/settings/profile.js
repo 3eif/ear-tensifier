@@ -50,7 +50,7 @@ module.exports = class Profile extends Command {
 				if (u.developer) ranks += ' ' + client.emojiList.developer;
 
 				let bio;
-				if (!u.bio) bio = 'No bio set';
+				if (!u.bio) bio = 'No bio set. To set your bio type `ear bio <desired bio>`';
 				else bio = u.bio;
 
 				const embed = new Discord.MessageEmbed()
