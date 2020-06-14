@@ -11,6 +11,7 @@ module.exports = async (msg, pages, emojiList, timeout, queueLength, queueDurati
     );
     reactionCollector.on('collect', reaction => {
         reaction.users.remove();
+        console.log(reaction.users);
         switch (reaction.emoji.name) {
             case emojiList[0]:
                 page = page > 0 ? --page : pages.length - 1;
@@ -23,11 +24,6 @@ module.exports = async (msg, pages, emojiList, timeout, queueLength, queueDurati
         }
         curPage.edit(pages[page].setFooter(`Page ${page + 1}/${pages.length} | ${queueLength} songs | ${queueDuration} total duration`));
     });
-
-    const userReactions = msg.reactions.cache.filter(reaction => !reaction.users.bot);
-	for (const reaction of userReactions.values()) {
-		await reaction.users.remove();
-    }
     reactionCollector.on('end', () => curPage.reactions.removeAll());
     return curPage;
 };
