@@ -6,7 +6,9 @@ const Sentry = require('@sentry/node');
 const Event = require('../../structures/Event');
 const player = require('../../player/player.js');
 const postHandler = require('../../handlers/post.js');
-const botLists = require('../../../config/botlists.json');
+const botLists = {
+	'bots.ondiscord.xyz': process.env.BOD,
+};
 
 mongoose.connect(process.env.MONGO_URL, {
 	useNewUrlParser: true,
