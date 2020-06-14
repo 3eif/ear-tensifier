@@ -7,7 +7,6 @@ momentDurationFormatSetup(moment);
 module.exports = async (client, message, msg, player, searchQuery, playlist) => {
 	const tries = 5;
 	for(let i = 0; i < tries; i++) {
-		client.log(await client.music.search('https://www.youtube.com/playlist?list=PLsPbDjZF3dvDF2FWzRtk6Fnd1l1wr6Q8O', message.author));
 		const res = await client.music.search(searchQuery, message.author);
 		if(res.loadType != 'NO_MATCHES') {
 			if (res.loadType == 'TRACK_LOADED') {

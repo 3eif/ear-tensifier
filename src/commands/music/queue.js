@@ -5,7 +5,6 @@ const Discord = require('discord.js');
 const moment = require('moment');
 const momentDurationFormatSetup = require('moment-duration-format');
 momentDurationFormatSetup(moment);
-const paginationEmbed = require('discord.js-pagination');
 
 const getQueueDuration = require('../../utils/music/getQueueDuration.js');
 
@@ -65,8 +64,36 @@ module.exports = class Queue extends Command {
 					.setColor(client.colors.main)
 					.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` by ${author}.\n\n${queueStr2}`)
 					.setFooter(`Page ${args[0]}/${pagesNum} | ${player.queue.length - 1} songs | ${parsedQueueDuration} total duration`);
-				paginationEmbed(message, pages, ['⏪', '⏩'], 120000);
+				paginationEmbed(message, pages, ['◀️', '▶️'], 120000);
 			}
 		}
+
+		const paginationEmbed = async (msg, pages, emojiList, timeout) => {
+			if (!msg && !msg.channel) throw new Error('Channel is inaccessible.');
+			if (!pages) throw new Error('Pages are not given.');
+			if (emojiList.length !== 2) throw new Error('Need two emojis.');
+			let page = 0;
+			const curPage = await msg.channel.send(pages[page]);
+			for (const emoji of emojiList) await curPage.react(emoji);
+			const reactionCollector = curPage.createReactionCollector(
+				(reaction, user) => emojiList.includes(reaction.emoji.name) && !user.bot,
+				{ time: timeout },
+			);
+			reactionCollector.on('collect', reaction => {
+				reaction.users.remove(msg.author);
+				switch (reaction.emoji.name) {
+					case emojiList[0]:
+						page = page > 0 ? --page : pages.length - 1;
+						break;
+					case emojiList[1]:
+						page = page + 1 < pages.length ? ++page : 0;
+						break;
+					default:
+						break;
+				}
+			});
+			reactionCollector.on('end', () => curPage.reactions.removeAll());
+			return curPage;
+		};
 	}
 };
