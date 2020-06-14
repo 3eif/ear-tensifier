@@ -9,6 +9,7 @@ module.exports = async (client, message, msg, player, searchQuery, playlist) => 
 	for(let i = 0; i < tries; i++) {
 		const res = await client.music.search(searchQuery, message.author);
 		client.log(res.loadType);
+		client.log(i);
 		if(res.loadType != 'NO_MATCHES') {
 			if (res.loadType == 'TRACK_LOADED') {
 				player.queue.add(res.tracks[0]);
