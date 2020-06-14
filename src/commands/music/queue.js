@@ -35,7 +35,7 @@ module.exports = class Queue extends Command {
 			.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` by ${author}.\n\n${queueStr}`)
 			.setFooter(`Page 1/${pagesNum} | ${player.queue.length - 1} songs | ${parsedQueueDuration} total duration`);
 
-		if (player.queue.length <= 10 || args[0] == 1) message.channel.send(queueEmbed);
+		if (player.queue.length <= 10) message.channel.send(queueEmbed);
 
 		if (player.queue.length > 10) {
 			const pages = [];
@@ -46,7 +46,7 @@ module.exports = class Queue extends Command {
 					.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
 					.setColor(client.colors.main)
 					.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` by ${author}.\n\n${str}`)
-					.setFooter(`${player.queue.length} songs | ${parsedQueueDuration} total duration`);
+					.setFooter(`Page ${i}/${pagesNum} | ${player.queue.length} songs | ${parsedQueueDuration} total duration`);
 				pages.push(embed);
 			}
 
