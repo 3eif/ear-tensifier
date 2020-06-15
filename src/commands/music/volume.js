@@ -31,9 +31,7 @@ module.exports = class Volume extends Command {
 		player.setVolume(volume);
 
 		const embed = new Discord.MessageEmbed()
-			.setAuthor(message.guild.name, message.guild.iconURL())
-			.setDescription(`Volume set to: **${args[0]}**`)
-			.setFooter('Default volume: 100')
+			.setAuthor(`Volume set to **${args[0]}**`, message.guild.iconURL())
 			.setColor(client.colors.main);
 		return message.channel.send(embed);
 	}

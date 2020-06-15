@@ -1,5 +1,7 @@
 const Command = require('../../structures/Command');
 
+const Discord = require('discord.js');
+
 const { earrape } = require('../../../config/volume.js');
 
 module.exports = class Earrape extends Command {
@@ -20,6 +22,9 @@ module.exports = class Earrape extends Command {
 		player.setVolume(earrape);
 		player.setEQ(Array(6).fill(0).map((n, i) => ({ band: i, gain: 0.5 })));
 
-		return message.channel.send('Tensity set to **earrape**. To reset the tensity, type `ear reset`.');
+		const embed = new Discord.MessageEmbed()
+			.setAuthor('Tensity set to **earrape**. To reset the tensity, type `ear reset`.', message.guild.iconURL())
+			.setColor(client.colors.main);
+		return message.channel.send(embed);
 	}
 };

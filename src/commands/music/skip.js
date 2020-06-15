@@ -5,7 +5,7 @@ module.exports = class Skip extends Command {
 		super(client, {
 			name: 'skip',
 			description: 'Skips the current song',
-			aliases: ['s'],
+			aliases: ['s', 'next'],
 			inVoiceChannel: true,
 			sameVoiceChannel: true,
 			playing: true,

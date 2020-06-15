@@ -25,9 +25,7 @@ module.exports = class Bassboost extends Command {
 			player.setEQ(Array(6).fill(0).map((n, i) => ({ band: i, gain: 0.65 })));
 			const msg = await message.channel.send(`${client.emojiList.loading} Turning on **bassboost**. This may take a few seconds...`);
 			const embed = new Discord.MessageEmbed()
-				.setAuthor(message.guild.name, message.guild.iconURL())
-				.setDescription('Bassboost on')
-				.setFooter('Reset filter: ear reset')
+				.setAuthor('Turned on **bassboost**', message.guild.iconURL())
 				.setColor(client.colors.main);
 			await delay(5000);
 			return msg.edit('', embed);
@@ -37,8 +35,7 @@ module.exports = class Bassboost extends Command {
 			player.setEQ(Array(13).fill(0).map((n, i) => ({ band: i, gain: 0.15 })));
 			const msg = await message.channel.send(`${client.emojiList.loading} Turning off **bassboost**. This may take a few seconds...`);
 			const embed = new Discord.MessageEmbed()
-				.setAuthor(message.guild.name, message.guild.iconURL())
-				.setDescription('Bassboost off')
+				.setAuthor('Turned off **bassboost**', message.guild.iconURL())
 				.setColor(client.colors.main);
 			await delay(5000);
 			return msg.edit('', embed);
@@ -56,9 +53,7 @@ module.exports = class Bassboost extends Command {
 
 		const msg = await message.channel.send(`${client.emojiList.loading} Setting bassboost to **${args[0]}dB**. This may take a few seconds...`);
 		const embed = new Discord.MessageEmbed()
-			.setAuthor(message.guild.name, message.guild.iconURL())
-			.setDescription(`Bassboost set to: **${args[0]}dB**`)
-			.setFooter('Default bassboost: 0')
+			.setAuthor(`Bassboost set to: **${args[0]}**`, message.guild.iconURL())
 			.setColor(client.colors.main);
 		await delay(5000);
 		return msg.edit('', embed);

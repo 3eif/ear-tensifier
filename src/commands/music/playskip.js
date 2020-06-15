@@ -1,7 +1,7 @@
 const Command = require('../../structures/Command');
 
-const play = require('../../utils/play.js');
-const spawnPlayer = require('../../utils/spawnPlayer.js');
+const play = require('../../utils/music/play.js');
+const spawnPlayer = require('../../player/spawnPlayer.js');
 const { getData, getPreview } = require('spotify-url-info');
 
 module.exports = class Playskip extends Command {
@@ -50,7 +50,7 @@ module.exports = class Playskip extends Command {
 		async function playskip() {
 			const delay = ms => new Promise(res => setTimeout(res, ms));
 			await delay(1500);
-			player.queue.splice(1, 0, player.queue[player.queue.size - 1]);
+			player.queue.splice(0, 0, player.queue[player.queue.length - 1]);
 			await delay(500);
 			player.queue.pop();
 			if(player.trackRepeat) player.setTrackRepeat(false);

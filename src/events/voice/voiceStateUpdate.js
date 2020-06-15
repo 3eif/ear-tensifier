@@ -11,7 +11,7 @@ module.exports = class VoiceStateUpdate extends Event {
 
 		if (!player) return;
 		if (player.twentyFourSeven) return;
-		if (!newVoice.guild.members.cache.get(this.client.user.id).voice.channelID) this.client.music.players.destroy(oldVoice.guild.id);
+		if (!newVoice.guild.members.cache.get(this.client.user.id).voice.channelID) player.destroy();
 		if (oldVoice.id === this.client.user.id) return;
 		if (!oldVoice.guild.members.cache.get(this.client.user.id).voice.channelID) return;
 		if (oldVoice.guild.members.cache.get(this.client.user.id).voice.channel.id === oldVoice.channelID) {
@@ -25,7 +25,7 @@ module.exports = class VoiceStateUpdate extends Event {
 				if (vcMembers === 1) {
 					const newPlayer = this.client.music.players.get(newVoice.guild.id);
 					if (newPlayer) {
-						this.client.music.players.destroy(player.guild.id);
+						player.destroy();
 					}
 					else { oldVoice.guild.voice.channel.leave(); }
 

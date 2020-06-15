@@ -1,7 +1,7 @@
 const Command = require('../../structures/Command');
 
-const play = require('../../utils/play.js');
-const spawnPlayer = require('../../utils/spawnPlayer.js');
+const play = require('../../utils/music/play.js');
+const spawnPlayer = require('../../player/spawnPlayer.js');
 const patreon = require('../../../config/patreon.js');
 const premium = require('../../utils/premium.js');
 const { getData, getPreview } = require('spotify-url-info');
@@ -30,9 +30,9 @@ module.exports = class Spotify extends Command {
 
 		const msg = await message.channel.send(`${client.emojiList.cd}  Searching for \`${args.join(' ')}\`...`);
 
-		if (await songLimit() == patreon.defaultMaxSongs && player.queue.size >= patreon.defaultMaxSongs) return msg.edit(`You have reached the **maximum** amount of songs (${patreon.defaultMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`);
-		if (await songLimit() == patreon.premiumMaxSongs && player.queue.size >= patreon.premiumMaxSongs) return msg.edit(`You have reached the **maximum** amount of songs (${patreon.premiumMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`);
-		if (await songLimit() == patreon.proMaxSongs && player.queue.size >= patreon.proMaxSongs) return msg.edit(`You have reached the **maximum** amount of songs (${patreon.proMaxSongs} songs). Want more songs? Contact the developer: \`Tetra#0001\``);
+		if (await songLimit() == patreon.defaultMaxSongs && player.queue.length >= patreon.defaultMaxSongs) return msg.edit(`You have reached the **maximum** amount of songs (${patreon.defaultMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`);
+		if (await songLimit() == patreon.premiumMaxSongs && player.queue.length >= patreon.premiumMaxSongs) return msg.edit(`You have reached the **maximum** amount of songs (${patreon.premiumMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`);
+		if (await songLimit() == patreon.proMaxSongs && player.queue.length >= patreon.proMaxSongs) return msg.edit(`You have reached the **maximum** amount of songs (${patreon.proMaxSongs} songs). Want more songs? Contact the developer: \`Tetra#0001\``);
 
 		if (args[0].startsWith(client.settings.spotifyURL)) {
 			const data = await getData(args.join(' '));

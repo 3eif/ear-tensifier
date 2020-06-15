@@ -1,14 +1,10 @@
-/* eslint-disable no-unused-vars */
-const Discord = require('discord.js');
 const figlet = require('figlet');
-const blapi = require('blapi');
 const mongoose = require('mongoose');
 const Sentry = require('@sentry/node');
 
 const Event = require('../../structures/Event');
 const player = require('../../player/player.js');
 const postHandler = require('../../handlers/post.js');
-const botLists = require('../../../config/botlists.json');
 
 mongoose.connect(process.env.MONGO_URL, {
 	useNewUrlParser: true,
@@ -27,12 +23,7 @@ module.exports = class Ready extends Event {
 
 	async run() {
 		player(this.client);
-
-		this.client.levels = new Map()
-			.set('none', 0.0)
-			.set('low', 0.1)
-			.set('medium', 0.15)
-			.set('high', 0.25);
+		this.client.music.init(this.client.user.id);
 
 		if (this.client.shard.ids[0] == this.client.shard.count - 1) {
 
@@ -68,9 +59,6 @@ module.exports = class Ready extends Event {
 
 					// this.client.shardMessage(this.client, this.client.channelList.readyChannel, embed);
 
-					// blapi.setLogging(true);
-					// blapi.handle(this.client, botLists, 30);
-					// console.log('t');
 
 					const status = 'ear help';
 					const statusType = 'LISTENING';

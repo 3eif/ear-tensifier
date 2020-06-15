@@ -1,7 +1,7 @@
 const Command = require('../../structures/Command');
 
-const play = require('../../utils/play.js');
-const spawnPlayer = require('../../utils/spawnPlayer.js');
+const play = require('../../utils/music/play.js');
+const spawnPlayer = require('../../player/spawnPlayer.js');
 
 module.exports = class Twitch extends Command {
 	constructor(client) {

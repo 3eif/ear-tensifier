@@ -23,8 +23,7 @@ module.exports = class Bass extends Command {
 			player.setEQ(Array(13).fill(0).map((n, i) => ({ band: i, gain: 0.15 })));
 			const msg = await message.channel.send(`${client.emojiList.loading} Turning off **bass**. This may take a few seconds...`);
 			const embed = new Discord.MessageEmbed()
-				.setAuthor(message.guild.name, message.guild.iconURL())
-				.setDescription('Bass off')
+				.setAuthor('Turned off **bass**', message.guild.iconURL())
 				.setColor(client.colors.main);
 			await delay(5000);
 			return msg.edit('', embed);
@@ -34,10 +33,8 @@ module.exports = class Bass extends Command {
 
 		const msg = await message.channel.send(`${client.emojiList.loading} Turning on **bass**. This may take a few seconds...`);
 		const embed = new Discord.MessageEmbed()
-			.setAuthor(message.guild.name, message.guild.iconURL())
-			.setDescription('Bass filter on')
-			.setFooter('Reset filter: ear reset')
-			.setColor(client.colors.main);
+		.setAuthor('Turned on **bass**', message.guild.iconURL())
+		.setColor(client.colors.main);
 		await delay(5000);
 		return msg.edit('', embed);
 	}
