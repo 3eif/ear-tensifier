@@ -6,7 +6,6 @@ const blapi = require('blapi');
 const botLists = require('../../../config/botlists.json');
 const Event = require('../../structures/Event');
 const player = require('../../player/player.js');
-const postHandler = require('../../handlers/post.js');
 
 mongoose.connect(process.env.MONGO_URL, {
 	useNewUrlParser: true,
@@ -30,7 +29,7 @@ module.exports = class Ready extends Event {
 		if (this.client.shard.ids[0] == this.client.shard.count - 1) {
 
 			const guildNum = await this.client.shard.fetchClientValues('guilds.cache.size');
-			const totalMembers = await this.client.shard.fetchClientValues('guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0)');
+			const totalMembers = guildNum.reduce((prev, guild) => prev + guild.memberCount, 0);
 			const totalGuilds = guildNum.reduce((total, shard) => total + shard, 0);
 
 			figlet(this.client.user.username, function(err, data) {
