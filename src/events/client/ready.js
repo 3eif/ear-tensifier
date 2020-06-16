@@ -29,7 +29,8 @@ module.exports = class Ready extends Event {
 		if (this.client.shard.ids[0] == this.client.shard.count - 1) {
 
 			const guildNum = await this.client.shard.fetchClientValues('guilds.cache.size');
-			const totalMembers = guildNum.reduce((prev, guild) => prev + guild.memberCount, 0);
+			const memberNum = await this.client.shard.fetchClientValues('guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0)');
+			const totalMembers = memberNum.results.reduce((prev, memberCount) => prev + memberCount, 0);
 			const totalGuilds = guildNum.reduce((total, shard) => total + shard, 0);
 
 			figlet(this.client.user.username, function(err, data) {
