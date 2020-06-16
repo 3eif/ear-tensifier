@@ -16,11 +16,11 @@ module.exports = class NowPlaying extends Command {
 	}
 	async run(client, message) {
 		const player = client.music.players.get(message.guild.id);
-		const { title, author, duration, requester, uri, identifier } = player.queue[0];
+		const { title, author, length, requester, uri, identifier } = player.current;
 
-		const parsedCurrentDuration = moment.duration(player.position, 'milliseconds').format('hh:mm:ss', { trim: false });
-		const parsedDuration = moment.duration(duration, 'milliseconds').format('hh:mm:ss', { trim: false });
-		const part = Math.floor((player.position / duration) * 30);
+		const parsedCurrentDuration = moment.duration(player.position, 'milliseconds').format('mm:ss', { trim: false });
+		const parsedDuration = moment.duration(length, 'milliseconds').format('mm:ss', { trim: false });
+		const part = Math.floor((player.position / length) * client.settings.embedDurationLength);
 		const uni = player.playing ? '▶' : '⏸️';
 
 		const thumbnail = `https://img.youtube.com/vi/${identifier}/maxresdefault.jpg`;
@@ -32,8 +32,8 @@ module.exports = class NowPlaying extends Command {
 			.setThumbnail(thumbnail)
 			.setDescription(`**[${title}](${uri})**`)
 			.addField('Author', author, true)
-			.addField('Requested by', user, true)
-			.addField(`Duration \`[${parsedDuration}]\``, `\`\`\`${uni} ${'─'.repeat(part) + '⚪' + '─'.repeat(30 - part)} ${parsedCurrentDuration}\`\`\``);
+			.addField('Requested By', user, true)
+			.addField('Duration', `\`\`\`${parsedCurrentDuration}/${parsedDuration}  ${uni} ${'─'.repeat(part) + '⚪' + '─'.repeat(client.settings.embedDurationLength - part)}\`\`\``);
 
 		return message.channel.send('', embed);
 	}

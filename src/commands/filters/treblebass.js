@@ -23,8 +23,7 @@ module.exports = class Trablebass extends Command {
 			player.setEQ(Array(13).fill(0).map((n, i) => ({ band: i, gain: 0.15 })));
 			const msg = await message.channel.send(`${client.emojiList.loading} Turning off **treblebass**. This may take a few seconds...`);
 			const embed = new Discord.MessageEmbed()
-				.setAuthor(message.guild.name, message.guild.iconURL())
-				.setDescription('Treblebass off')
+				.setAuthor('Turned off **treblebass**', message.guild.iconURL())
 				.setColor(client.colors.main);
 			await delay(5000);
 			return msg.edit('', embed);
@@ -34,9 +33,7 @@ module.exports = class Trablebass extends Command {
 
 		const msg = await message.channel.send(`${client.emojiList.loading} Turning on **treblebass**. This may take a few seconds...`);
 		const embed = new Discord.MessageEmbed()
-			.setAuthor(message.guild.name, message.guild.iconURL())
-			.setDescription('Treblebass on')
-			.setFooter('Reset filter: ear reset')
+			.setAuthor('Turned on **treblebass**', message.guild.iconURL())
 			.setColor(client.colors.main);
 		await delay(5000);
 		return msg.edit('', embed);

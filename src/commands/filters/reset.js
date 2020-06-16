@@ -1,5 +1,7 @@
 const Command = require('../../structures/Command');
 
+const Discord = require('discord.js');
+
 const { normal } = require('../../../config/volume.js');
 
 module.exports = class Reset extends Command {
@@ -22,7 +24,10 @@ module.exports = class Reset extends Command {
 		player.setVolume(normal);
 
 		const msg = await message.channel.send(`${client.emojiList.loading} Reseting filters to default...`);
+		const embed = new Discord.MessageEmbed()
+			.setAuthor('Turned off filters', message.guild.iconURL())
+			.setColor(client.colors.main);
 		await delay(5000);
-		return msg.edit('Filters set to default.');
+		return msg.edit('', embed);
 	}
 };

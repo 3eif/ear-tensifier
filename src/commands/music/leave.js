@@ -15,7 +15,7 @@ module.exports = class Leave extends Command {
 		const player = client.music.players.get(message.guild.id);
 
 		if(player) {
-			client.music.players.destroy(player.guild.id);
+			player.destroy();
 		}
 		else {message.member.voice.channel.leave();}
 

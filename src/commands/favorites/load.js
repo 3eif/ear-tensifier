@@ -1,7 +1,7 @@
 const Command = require('../../structures/Command');
 
 const users = require('../../models/user.js');
-const spawnPlayer = require('../../utils/spawnPlayer.js');
+const spawnPlayer = require('../../player/spawnPlayer.js');
 const premium = require('../../utils/premium.js');
 const patreon = require('../../../config/patreon.js');
 
@@ -24,9 +24,9 @@ module.exports = class Load extends Command {
 
 		const msg = await message.channel.send(`${client.emojiList.cd}  Loading favorites (This might take a few seconds)...`);
 
-		if (await songLimit() == patreon.defaultMaxSongs && player.queue.size >= patreon.defaultMaxSongs) return msg.edit(`You have reached the **maximum** amount of songs (${patreon.defaultMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`);
-		if (await songLimit() == patreon.premiumMaxSongs && player.queue.size >= patreon.premiumMaxSongs) return msg.edit(`You have reached the **maximum** amount of songs (${patreon.premiumMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`);
-		if (await songLimit() == patreon.proMaxSongs && player.queue.size >= patreon.proMaxSongs) return msg.edit(`You have reached the **maximum** amount of songs (${patreon.proMaxSongs} songs). Want more songs? Contact the developer: \`Tetra#0001\``);
+		if (await songLimit() == patreon.defaultMaxSongs && player.queue.length >= patreon.defaultMaxSongs) return msg.edit(`You have reached the **maximum** amount of songs (${patreon.defaultMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`);
+		if (await songLimit() == patreon.premiumMaxSongs && player.queue.length >= patreon.premiumMaxSongs) return msg.edit(`You have reached the **maximum** amount of songs (${patreon.premiumMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`);
+		if (await songLimit() == patreon.proMaxSongs && player.queue.length >= patreon.proMaxSongs) return msg.edit(`You have reached the **maximum** amount of songs (${patreon.proMaxSongs} songs). Want more songs? Contact the developer: \`Tetra#0001\``);
 
 		users.findOne({
 			authorID: message.author.id,

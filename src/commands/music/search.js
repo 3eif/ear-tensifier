@@ -6,7 +6,7 @@ const moment = require('moment');
 const momentDurationFormatSetup = require('moment-duration-format');
 momentDurationFormatSetup(moment);
 
-const spawnPlayer = require('../../utils/spawnPlayer.js');
+const spawnPlayer = require('../../player/spawnPlayer.js');
 
 module.exports = class Search extends Command {
 	constructor(client) {
@@ -31,21 +31,24 @@ module.exports = class Search extends Command {
 		let player = client.music.players.get(message.guild.id);
 		if (!player) player = await spawnPlayer(client, message);
 
-		client.music.search(args.join(' '), message.author).then(async res => {
-			switch (res.loadType) {
-				case 'TRACK_LOADED':
+		const tries = 5;
+		for(let i = 0; i < tries; i++) {
+			const res = await client.music.search(args.join(' '), message.author);
+			if(res.loadType != 'NO_MATCHES') {
+				if (res.loadType == 'TRACK_LOADED') {
 					player.queue.add(res.tracks[0]);
-					const parsedDuration = moment.duration(res.tracks[0].duration, 'milliseconds').format('hh:mm:ss', { trim: false });
+					const parsedDuration = moment.duration(res.tracks[0].length, 'milliseconds').format('mm:ss', { trim: false });
 					msg.edit(`**${res.tracks[0].title}** (${parsedDuration}) has been added to the queue by **${res.playlist.tracks.requester}**`);
 					if (!player.playing) player.play();
 					break;
-				case 'SEARCH_RESULT':
-					let i = 0;
+				}
+				else if (res.loadType == 'SEARCH_RESULT') {
+					let n = 0;
 					const tracks = res.tracks.slice(0, 10);
 
 					const results = res.tracks
 						.slice(0, 10)
-						.map(result => `**${++i} -** [${result.title}](${result.uri})`)
+						.map(result => `**${++n} -** [${result.title}](${result.uri})`)
 						.join('\n');
 
 					const embed = new Discord.MessageEmbed()
@@ -74,7 +77,7 @@ module.exports = class Search extends Command {
 						else {
 							const track = tracks[entry - 1];
 							player.queue.add(track);
-							const parsedDuration2 = moment.duration(track.duration, 'milliseconds').format('hh:mm:ss', { trim: false });
+							const parsedDuration2 = moment.duration(track.length, 'milliseconds').format('mm:ss', { trim: false });
 							message.channel.send(`**${track.title}** (${parsedDuration2}) has been added to the queue by **${track.requester.tag}**`);
 						}
 						if (!player.playing) player.play();
@@ -83,14 +86,20 @@ module.exports = class Search extends Command {
 						message.channel.send('Cancelled selection.');
 					}
 					break;
-
-				case 'PLAYLIST_LOADED':
+				}
+				else if (res.loadType == 'PLAYLIST_LOADED') {
 					res.playlist.tracks.forEach(track => player.queue.add(track));
-					const parsedDuration2 = moment.duration(res.playlist.tracks.reduce((acc, cure) => ({ duration: acc.duration + cure.duration })).duration, 'milliseconds').format('hh:mm:ss', { trim: false });
+					const parsedDuration2 = moment.duration(res.playlist.tracks.reduce((acc, cure) => ({ duration: acc.duration + cure.duration })).duration, 'milliseconds').format('mm:ss', { trim: false });
 					msg.edit(`**${res.playlist.info.name}** (${parsedDuration2}) (${res.playlist.tracks.length} tracks) has been added to the queue by **${res.playlist.tracks[0].requester.tag}**`);
 					if (!player.playing) player.play();
 					break;
+				}
+				else if(res.loadType == 'LOAD_FAILED') {
+					msg.edit('An error occured. Please try again.');
+					break;
+				}
 			}
-		}).catch(err => msg.edit(err.message));
+			else if(i >= 4 && res.loadType != 'PLAYLIST_LOADED') msg.edit('No tracks found.');
+		}
 	}
 };
