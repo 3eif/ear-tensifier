@@ -15,6 +15,7 @@ botlists.json
 *.bat
 *.log
 *.env
+*.development
 .env.development
 .env.production
 

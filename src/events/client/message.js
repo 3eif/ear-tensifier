@@ -16,7 +16,6 @@ module.exports = class Message extends Event {
 	}
 
 	async run(message) {
-		return;
 		if (message.author.bot) return;
 		if (message.channel.type === 'text') {
 			if (!message.guild.members.cache.get(this.client.user.id)) await message.guild.members.fetch(this.client.user.id);
