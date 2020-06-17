@@ -1,11 +1,10 @@
 const figlet = require('figlet');
 const mongoose = require('mongoose');
 const Sentry = require('@sentry/node');
-const blapi = require('blapi');
 
-const botLists = require('../../../config/botlists.json');
 const Event = require('../../structures/Event');
 const player = require('../../player/player.js');
+const postHandler = require('../../handlers/post.js');
 
 mongoose.connect(process.env.MONGO_URL, {
 	useNewUrlParser: true,
@@ -60,7 +59,7 @@ module.exports = class Ready extends Event {
 			this.client.shard.broadcastEval(`this.user.setActivity('${status}', { type: '${statusType}' })`);
 
 			if (this.client.user.id == '472714545723342848') {
-				blapi.manualPost(totalGuilds, this.client.user.id, botLists, null, guildNum.length, guildNum);
+				postHandler(this.client, totalGuilds, guildNum, this.client.shard.count);
 				require('../../utils/voteHook.js').startUp(this.client);
 				require('../../utils/dbl.js').startUp(this.client);
 			}

@@ -1,11 +1,12 @@
 /* eslint-disable no-unused-vars */
 const Discord = require('discord.js');
+const Statcord = require('statcord.js-beta');
+const quickdb = require('quick.db');
 const cooldowns = new Discord.Collection();
 
 const Event = require('../../structures/Event');
 const users = require('../../models/user.js');
 const servers = require('../../models/server.js');
-const quickdb = require('quick.db');
 const commandsSchema = require('../../models/command.js');
 const premium = require('../../utils/premium.js');
 const getVoted = require('../../utils/getVoted.js');
@@ -245,6 +246,8 @@ module.exports = class Message extends Event {
 					// 		message.channel.send('**Enjoying the bot?** Show your support by voting! (voting unnlocks special filters such as `bassboost`): <https://botlist.space/bot/472714545723342848/upvote>');
 					// 	}
 					// }
+					Statcord.ShardingClient.postCommand(commandName, message.author.id, client);
+ 
 					cmd.run(client, message, args);
 				}
 				catch (e) {

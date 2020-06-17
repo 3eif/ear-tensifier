@@ -1,6 +1,7 @@
-const statcord = require('statcord.js');
+const Statcord = require('statcord.js-beta');
 
 module.exports = async (client) => {
-    const statclient = new statcord(process.env.STATCORD_TOKEN, client);
-    await statclient.autoPost();
+    setInterval(function() {
+        Statcord.ShardingClient.post(client);
+    }, 1800000);
 };
