@@ -1,7 +1,7 @@
 const Command = require('../../structures/Command');
 
 const Discord = require('discord.js');
-const getVoted = require('../../utils/getVoted.js');
+const getVoted = require('../../utils/voting/getVoted.js');
 const servers = require('../../models/server.js');
 
 module.exports = class Role extends Command {

@@ -21,7 +21,7 @@ module.exports = async (type, message, args) => {
 		break;
 	}
 	case 'noPro': {
-		message.channel.send('This command is only available to **Pro** users. Click here to get premium: https://www.patreon.com/eartensifier');
+		message.channel.send('This command is only available to **Pro** users. Click here to get pro: https://www.patreon.com/eartensifier');
 		break;
 	}
 	case 'botVoiceChannel': {
@@ -34,6 +34,10 @@ module.exports = async (type, message, args) => {
 	}
 	case 'noPermissionSpeak': {
 		message.channel.send('I do not have permission to speak in your voice channel.');
+		break;
+	}
+	case 'noUser': {
+		message.channel.send('Please provide a valid user.');
 		break;
 	}
 	default: {

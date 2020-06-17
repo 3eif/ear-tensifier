@@ -47,7 +47,7 @@ module.exports = class Profile extends Command {
 
 				if (u.voted) ranks += ' ' + client.emojiList.voted;
 				if (u.premium) ranks += ' ' + client.emojiList.supporter;
-				if (u.developer) ranks += ' ' + client.emojiList.developer;
+				if (u.moderator) ranks += ' ' + client.emojiList.mod;
 
 				let bio;
 				if (!u.bio) bio = 'No bio set. To set your bio type `ear bio <desired bio>`';

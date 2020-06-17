@@ -8,7 +8,7 @@ module.exports = {
     'offline': '<:offline:722913835975049288>',
     'upvote': '👍',
     'downvote': '👎',
-    'developer': '<:dev:537828633461522442>',
+    'mod': '<:dev:537828633461522442>',
     'voted': '⬆',
     'supporter': '💵',
     'whitelist': '⚪',

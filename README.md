@@ -29,3 +29,10 @@ This project is licensed under the GNU General Public License v3.0 - see the [LI
 
 ## Self Hosting
 Self hosting Ear Tensifier is not supported and no help will be provided. I am not responsible or liable for any self hosted clones of Ear Tensifier.
+
+## Bot Lists
+[![Bots On Discord](https://bots.ondiscord.xyz/bots/472714545723342848/embed?theme=dark&showGuilds=true)](https://bots.ondiscord.xyz/bots/472714545723342848)
+[![Discord Bots](https://top.gg/api/widget/472714545723342848.svg)](https://top.gg/bot/472714545723342848)
+[![Discord Bot List](https://discordbotlist.com/api/bots/ear-tensifier/widget)](https://discordbotlist.com/bots/ear-tensifier)
+[![Discord Boats](https://discord.boats/api/widget/472714545723342848)](https://discord.boats/bot/472714545723342848)
+[![Glenn Bot List](https://glennbotlist.xyz/bot/472714545723342848/widget)](https://glennbotlist.xyz/bot/472714545723342848)

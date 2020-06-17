@@ -9,7 +9,7 @@ const users = require('../../models/user.js');
 const servers = require('../../models/server.js');
 const commandsSchema = require('../../models/command.js');
 const premium = require('../../utils/misc/premium.js');
-const getVoted = require('../../utils/getVoted.js');
+const getVoted = require('../../utils/voting/getVoted.js');
 
 module.exports = class Message extends Event {
 	constructor(...args) {
@@ -71,23 +71,25 @@ module.exports = class Message extends Event {
 			let args;
 			let command;
 
+			const messageContent = message.content.replace('`', '');
+
 			if (prefix === this.client.settings.prefix && !this.client.settings.prefix.endsWith(' ')) {
-				args = message.content.split(' ');
+				args = messageContent.split(' ');
 				command = args.shift().toLowerCase();
 				command = command.slice(this.client.settings.prefix.length);
 			}
 			else if (prefix === this.client.settings.prefix) {
-				args = message.content.split(' ');
+				args = messageContent.split(' ');
 				args.shift();
 				command = args.shift().toLowerCase();
 			}
 			else if (prefix === s.prefix && !s.prefix.endsWith(' ')) {
-				args = message.content.split(' ');
+				args = messageContent.split(' ');
 				command = args.shift().toLowerCase();
 				command = command.slice(s.prefix.length);
 			}
 			else {
-				args = message.content.split(' ');
+				args = messageContent.split(' ');
 				args.shift();
 				command = args.shift().toLowerCase();
 			}
@@ -227,13 +229,9 @@ module.exports = class Message extends Event {
 					return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`${prefix} ${commandName} ${cmd.usage}\` or \`${prefix}${cmd.name} ${cmd.usage}\``);
 				}
 
-				if(message.mentions.users.first()) {
-					return message.channel.send('Your argument included a mention which is an invalid argument type.');
-				}
-
 				const everyoneMention = '@everyone';
 				const hereMention = '@here';
-				if(message.content.includes(hereMention) || message.content.includes(everyoneMention)) {
+				if (messageContent.includes(hereMention) || messageContent.includes(everyoneMention)) {
 					return message.channel.send('Your argument included an `@here` or `@everyone` which is an invalid argument type.');
 				}
 
@@ -246,7 +244,7 @@ module.exports = class Message extends Event {
 					// 		message.channel.send('**Enjoying the bot?** Show your support by voting! (voting unnlocks special filters such as `bassboost`): <https://botlist.space/bot/472714545723342848/upvote>');
 					// 	}
 					// }
-					if(process.env.NODE_ENV == 'production') Statcord.ShardingClient.postCommand(commandName, message.author.id, client);
+					if (process.env.NODE_ENV == 'production') Statcord.ShardingClient.postCommand(commandName, message.author.id, client);
 
 					cmd.run(client, message, args);
 				}
