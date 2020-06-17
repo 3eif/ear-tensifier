@@ -25,7 +25,7 @@ module.exports = class Reset extends Command {
 
 		const msg = await message.channel.send(`${client.emojiList.loading} Reseting filters to default...`);
 		const embed = new Discord.MessageEmbed()
-			.setAuthor('Turned off filters', message.guild.iconURL())
+			.setDescription('Turned off filters')
 			.setColor(client.colors.main);
 		await delay(5000);
 		return msg.edit('', embed);

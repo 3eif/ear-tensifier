@@ -2,9 +2,7 @@
 const Command = require('../../structures/Command');
 
 const Discord = require('discord.js');
-const moment = require('moment');
-const momentDurationFormatSetup = require('moment-duration-format');
-momentDurationFormatSetup(moment);
+
 
 const spawnPlayer = require('../../player/spawnPlayer.js');
 
@@ -37,7 +35,7 @@ module.exports = class Search extends Command {
 			if(res.loadType != 'NO_MATCHES') {
 				if (res.loadType == 'TRACK_LOADED') {
 					player.queue.add(res.tracks[0]);
-					const parsedDuration = moment.duration(res.tracks[0].length, 'milliseconds').format('mm:ss', { trim: false });
+					const parsedDuration = client.formatDuration(res.tracks[0].length);
 					msg.edit(`**${res.tracks[0].title}** (${parsedDuration}) has been added to the queue by **${res.playlist.tracks.requester}**`);
 					if (!player.playing) player.play();
 					break;
@@ -77,7 +75,7 @@ module.exports = class Search extends Command {
 						else {
 							const track = tracks[entry - 1];
 							player.queue.add(track);
-							const parsedDuration2 = moment.duration(track.length, 'milliseconds').format('mm:ss', { trim: false });
+							const parsedDuration2 = client.formatDuration(track.length);
 							message.channel.send(`**${track.title}** (${parsedDuration2}) has been added to the queue by **${track.requester.tag}**`);
 						}
 						if (!player.playing) player.play();
@@ -89,7 +87,7 @@ module.exports = class Search extends Command {
 				}
 				else if (res.loadType == 'PLAYLIST_LOADED') {
 					res.playlist.tracks.forEach(track => player.queue.add(track));
-					const parsedDuration2 = moment.duration(res.playlist.tracks.reduce((acc, cure) => ({ duration: acc.duration + cure.duration })).duration, 'milliseconds').format('mm:ss', { trim: false });
+					const parsedDuration2 = client.formatDuration(res.playlist.tracks.reduce((acc, cure) => ({ duration: acc.duration + cure.duration })).duration);
 					msg.edit(`**${res.playlist.info.name}** (${parsedDuration2}) (${res.playlist.tracks.length} tracks) has been added to the queue by **${res.playlist.tracks[0].requester.tag}**`);
 					if (!player.playing) player.play();
 					break;

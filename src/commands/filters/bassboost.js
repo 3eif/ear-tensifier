@@ -1,4 +1,4 @@
-const premium = require('../../utils/premium.js');
+const premium = require('../../utils/misc/premium.js');
 const Discord = require('discord.js');
 
 const Command = require('../../structures/Command');
@@ -25,7 +25,7 @@ module.exports = class Bassboost extends Command {
 			player.setEQ(Array(6).fill(0).map((n, i) => ({ band: i, gain: 0.65 })));
 			const msg = await message.channel.send(`${client.emojiList.loading} Turning on **bassboost**. This may take a few seconds...`);
 			const embed = new Discord.MessageEmbed()
-				.setAuthor('Turned on **bassboost**', message.guild.iconURL())
+				.setDescription('Turned on **bassboost**')
 				.setColor(client.colors.main);
 			await delay(5000);
 			return msg.edit('', embed);
@@ -35,7 +35,7 @@ module.exports = class Bassboost extends Command {
 			player.setEQ(Array(13).fill(0).map((n, i) => ({ band: i, gain: 0.15 })));
 			const msg = await message.channel.send(`${client.emojiList.loading} Turning off **bassboost**. This may take a few seconds...`);
 			const embed = new Discord.MessageEmbed()
-				.setAuthor('Turned off **bassboost**', message.guild.iconURL())
+				.setDescription('Turned off **bassboost**')
 				.setColor(client.colors.main);
 			await delay(5000);
 			return msg.edit('', embed);
@@ -53,7 +53,7 @@ module.exports = class Bassboost extends Command {
 
 		const msg = await message.channel.send(`${client.emojiList.loading} Setting bassboost to **${args[0]}dB**. This may take a few seconds...`);
 		const embed = new Discord.MessageEmbed()
-			.setAuthor(`Bassboost set to: **${args[0]}**`, message.guild.iconURL())
+			.setDescription(`Bassboost set to: **${args[0]}**`)
 			.setColor(client.colors.main);
 		await delay(5000);
 		return msg.edit('', embed);

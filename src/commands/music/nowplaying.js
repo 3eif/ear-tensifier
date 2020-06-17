@@ -1,9 +1,7 @@
 const Command = require('../../structures/Command');
 
 const Discord = require('discord.js');
-const moment = require('moment');
-const momentDurationFormatSetup = require('moment-duration-format');
-momentDurationFormatSetup(moment);
+
 
 module.exports = class NowPlaying extends Command {
 	constructor(client) {
@@ -18,8 +16,8 @@ module.exports = class NowPlaying extends Command {
 		const player = client.music.players.get(message.guild.id);
 		const { title, author, length, requester, uri, identifier } = player.current;
 
-		const parsedCurrentDuration = moment.duration(player.position, 'milliseconds').format('mm:ss', { trim: false });
-		const parsedDuration = moment.duration(length, 'milliseconds').format('mm:ss', { trim: false });
+		const parsedCurrentDuration = client.formatDuration(player.position);
+		const parsedDuration = client.formatDuration(length);
 		const part = Math.floor((player.position / length) * client.settings.embedDurationLength);
 		const uni = player.playing ? '▶' : '⏸️';
 

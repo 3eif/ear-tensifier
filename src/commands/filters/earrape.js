@@ -23,7 +23,7 @@ module.exports = class Earrape extends Command {
 		player.setEQ(Array(6).fill(0).map((n, i) => ({ band: i, gain: 0.5 })));
 
 		const embed = new Discord.MessageEmbed()
-			.setAuthor('Tensity set to **earrape**. To reset the tensity, type `ear reset`.', message.guild.iconURL())
+			.setDescription('Tensity set to **earrape**. To reset the tensity, type `ear reset`.')
 			.setColor(client.colors.main);
 		return message.channel.send(embed);
 	}

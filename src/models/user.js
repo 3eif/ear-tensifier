@@ -9,6 +9,7 @@ const userSchema = mongoose.Schema({
 	premium: Boolean,
 	pro: Boolean,
 	developer: Boolean,
+	moderator: Boolean,
 	favorites: Array,
 	autoplay: Array,
 	voted: Boolean,

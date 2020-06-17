@@ -8,7 +8,7 @@ const Event = require('../../structures/Event');
 const users = require('../../models/user.js');
 const servers = require('../../models/server.js');
 const commandsSchema = require('../../models/command.js');
-const premium = require('../../utils/premium.js');
+const premium = require('../../utils/misc/premium.js');
 const getVoted = require('../../utils/getVoted.js');
 
 module.exports = class Message extends Event {
@@ -246,8 +246,8 @@ module.exports = class Message extends Event {
 					// 		message.channel.send('**Enjoying the bot?** Show your support by voting! (voting unnlocks special filters such as `bassboost`): <https://botlist.space/bot/472714545723342848/upvote>');
 					// 	}
 					// }
-					Statcord.ShardingClient.postCommand(commandName, message.author.id, client);
- 
+					if(process.env.NODE_ENV == 'production') Statcord.ShardingClient.postCommand(commandName, message.author.id, client);
+
 					cmd.run(client, message, args);
 				}
 				catch (e) {

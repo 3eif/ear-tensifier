@@ -1,9 +1,5 @@
 const Command = require('../../structures/Command');
 
-const moment = require('moment');
-const momentDurationFormatSetup = require('moment-duration-format');
-momentDurationFormatSetup(moment);
-
 module.exports = class Seek extends Command {
 	constructor(client) {
 		super(client, {
@@ -24,7 +20,7 @@ module.exports = class Seek extends Command {
 		if(args[0] * 1000 >= player.current.length || args[0] < 0) return message.channel.send('Cannot seek beyond length of song.');
 		player.seek(args[0] * 1000);
 
-		const parsedDuration = moment.duration(player.position, 'milliseconds').format('mm:ss', { trim: false });
+		const parsedDuration = client.formatDuration(player.position);
 		return message.channel.send(`Seeked to ${parsedDuration}`);
 	}
 };

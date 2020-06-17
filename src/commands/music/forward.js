@@ -1,8 +1,6 @@
 const Command = require('../../structures/Command');
 
-const moment = require('moment');
-const momentDurationFormatSetup = require('moment-duration-format');
-momentDurationFormatSetup(moment);
+
 const fastForwardNum = 10;
 
 module.exports = class Forward extends Command {
@@ -24,7 +22,7 @@ module.exports = class Forward extends Command {
 		if (args[0] && !isNaN(args[0])) {
 			if ((player.position + args[0] * 1000) < player.current.length) {
 				player.seek(player.position + args[0] * 1000);
-				const parsedDuration = moment.duration(player.position, 'milliseconds').format('mm:ss', { trim: false });
+				const parsedDuration = client.formatDuration(player.position);
 				return message.channel.send(`Fast-forwarded to ${parsedDuration}`);
 			}
 			else { return message.channel.send('Cannot forward beyond the song\'s duration.'); }
@@ -34,7 +32,7 @@ module.exports = class Forward extends Command {
 		if (!args[0]) {
 			if ((player.position + fastForwardNum * 1000) < player.current.length) {
 				player.seek(player.position + fastForwardNum * 1000);
-				const parsedDuration = moment.duration(player.position, 'milliseconds').format('mm:ss', { trim: false });
+				const parsedDuration = client.formatDuration(player.position);
 				return message.channel.send(`Fast-forwarded to ${parsedDuration}`);
 			}
 			else {

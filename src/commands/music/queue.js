@@ -2,11 +2,7 @@
 const Command = require('../../structures/Command');
 
 const Discord = require('discord.js');
-const moment = require('moment');
-const momentDurationFormatSetup = require('moment-duration-format');
-momentDurationFormatSetup(moment);
-
-const paginate = require('../../utils/paginate.js');
+const paginate = require('../../utils/music/paginate.js');
 const getQueueDuration = require('../../utils/music/getQueueDuration.js');
 
 module.exports = class Queue extends Command {
@@ -21,18 +17,19 @@ module.exports = class Queue extends Command {
 	async run(client, message, args) {
 		const player = client.music.players.get(message.guild.id);
 
-		const { title, author, length, uri } = player.current;
+		const { title, requester, length, uri } = player.current;
 
-		const parsedDuration = moment.duration(length, 'milliseconds').format('mm:ss', { trim: false });
-		const parsedQueueDuration = moment.duration(getQueueDuration(player), 'milliseconds').format('mm:ss', { trim: false });
-		const pagesNum = Math.ceil(player.queue.length / 10);
+		const parsedDuration = client.formatDuration(length);
+		const parsedQueueDuration = client.formatDuration(getQueueDuration(player));
+		let pagesNum = Math.ceil(player.queue.length / 10);
+		if(pagesNum == 0) pagesNum = 1;
 
 		let index = 1;
-		const queueStr = `${player.queue.slice(0, 10).map(song => `**${index++}** - [${song.title}](${song.uri}) \`[${moment.duration(song.length, 'milliseconds').format('mm:ss', { trim: false })}]\` by ${song.author}.`).join('\n')}`;
+		const queueStr = `${player.queue.slice(0, 10).map(song => `**${index++}** - [${song.title}](${song.uri}) \`[${client.formatDuration(song.length)}]\`| <@${song.requester.tag}>`).join('\n')}`;
 		const queueEmbed = new Discord.MessageEmbed()
 			.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
 			.setColor(client.colors.main)
-			.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` by ${author}.\n\n${queueStr}`)
+			.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` | <@${requester.id}>.\n\n${queueStr}`)
 			.setFooter(`Page 1/${pagesNum} | ${player.queue.length} songs | ${parsedQueueDuration} total duration`);
 
 		if (player.queue.length <= 10) return message.channel.send(queueEmbed);
@@ -46,11 +43,11 @@ module.exports = class Queue extends Command {
 				const pageStart = args[0] * 10 - 10;
 				const pageEnd = args[0] * 10;
 
-				const queueStr2 = `${player.queue.slice(pageStart, pageEnd).map(song => `**${index2++}** - [${song.title}](${song.uri}) \`[${moment.duration(song.length, 'milliseconds').format('mm:ss', { trim: false })}]\` by ${song.author}.`).join('\n')}`;
+				const queueStr2 = `${player.queue.slice(pageStart, pageEnd).map(song => `**${index2++}** - [${song.title}](${song.uri}) \`[${client.formatDuration(song.length)}]\`| <@${song.requester.tag}>`).join('\n')}`;
 				const queueEmbed2 = new Discord.MessageEmbed()
 					.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
 					.setColor(client.colors.main)
-					.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` by ${author}.\n\n${queueStr2}`)
+					.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` | <@${requester.id}>.\n\n${queueStr2}`)
 					.setFooter(`Page ${args[0]}/${pagesNum} | ${player.queue.length} songs | ${parsedQueueDuration} total duration`);
 				return message.channel.send(queueEmbed2);
 			}
@@ -58,11 +55,11 @@ module.exports = class Queue extends Command {
 				const pages = [];
 				let n = 1;
 				for (let i = 0; i < pagesNum; i++) {
-					const str = `${player.queue.slice(pagesNum * i, pagesNum * i + 10).map(song => `**${n++}** - [${song.title}](${song.uri}) \`[${moment.duration(song.length, 'milliseconds').format('mm:ss', { trim: false })}]\` by ${song.author}.`).join('\n')}`;
+					const str = `${player.queue.slice(i * 10, i * 10 + 10).map(song => `**${n++}** - [${song.title}](${song.uri}) \`[${client.formatDuration(song.length)}]\`| <@${song.requester.tag}>`).join('\n')}`;
 					const embed = new Discord.MessageEmbed()
 						.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
 						.setColor(client.colors.main)
-						.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` by ${author}.\n\n${str}`)
+						.setDescription(`**Now Playing** - [${title}](${uri}) \`[${parsedDuration}]\` | <@${requester.id}>.\n\n${str}`)
 						.setFooter(`Page ${i + 1}/${pagesNum} | ${player.queue.length} songs | ${parsedQueueDuration} total duration`);
 					pages.push(embed);
 					if(i == pagesNum - 1) paginate(message, pages, ['◀️', '▶️'], 120000, player.queue.length, parsedQueueDuration);

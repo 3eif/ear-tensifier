@@ -13,9 +13,10 @@ const manager = new ShardingManager('./src/eartensifier.js', {
   timeout: 999999,
 });
 
-const Statcord = require('statcord.js-beta');
-// eslint-disable-next-line no-unused-vars
-const statcord = new Statcord.ShardingClient(process.env.STATCORD_TOKEN, manager);
+if(process.env.NODE_ENV == 'production') {
+  const Statcord = require('statcord.js-beta');
+  new Statcord.ShardingClient(process.env.STATCORD_TOKEN, manager);
+}
 
 Sentry.init({
   dsn: process.env.SENTRY_URL,

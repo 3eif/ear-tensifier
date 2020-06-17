@@ -4,9 +4,7 @@ const Command = require('../../structures/Command');
 const Discord = require('discord.js');
 const fetch = require('node-fetch');
 const users = require('../../models/user.js');
-const moment = require('moment');
-const momentDurationFormatSetup = require('moment-duration-format');
-momentDurationFormatSetup(moment);
+
 const columnify = require('columnify');
 
 module.exports = class Favorites extends Command {
@@ -37,7 +35,7 @@ module.exports = class Favorites extends Command {
 				for (let i = 0; i < u.favorites.length; i++) {
 					const song = u.favorites[i];
 					const url = `https://www.youtube.com/watch?v=${song.identifier}`;
-					const parsedDuration = moment.duration(song.length, 'milliseconds').format('mm:ss', { trim: false });
+					const parsedDuration = client.formatDuration(song.length);
 					str += `**${i + 1}** - [${song.title}](${url}) (${parsedDuration}) by ${song.author}\n`;
 					const songObj = {
 						number: i + 1,

@@ -60,8 +60,8 @@ module.exports = class Ready extends Event {
 
 			if (this.client.user.id == '472714545723342848') {
 				postHandler(this.client, totalGuilds, guildNum, this.client.shard.count);
-				require('../../utils/voteHook.js').startUp(this.client);
-				require('../../utils/dbl.js').startUp(this.client);
+				require('../../utils/voting/blsHook.js').startUp(this.client);
+				require('../../utils/voting/dblHook.js').startUp(this.client);
 			}
 		}
 	}

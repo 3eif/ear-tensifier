@@ -32,9 +32,11 @@ module.exports = class Client extends Discord.Client {
         this.colors = require('../../config/colors.js');
         this.emojiList = require('../../config/emojis.js');
 
-        this.shardMessage = require('./../utils/shardMessage.js');
-        this.responses = require('./../utils/responses.js');
-        this.errors = require('./../utils/errors.js');
+        this.shardMessage = require('../utils/misc/shardMessage.js');
+        this.responses = require('../utils/misc/responses.js');
+        this.errors = require('../utils/misc/errors.js');
+        this.formatDuration = require('./../utils/music/formatDuration.js');
+        this.setFilter = require('./../utils/music/setFilter.js');
 
         this.environment = process.env.NODE_ENV;
 

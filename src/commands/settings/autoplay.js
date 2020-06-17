@@ -2,9 +2,7 @@ const Command = require('../../structures/Command');
 
 const users = require('../../models/user.js');
 const { getData, getPreview } = require('spotify-url-info');
-const moment = require('moment');
-const momentDurationFormatSetup = require('moment-duration-format');
-momentDurationFormatSetup(moment);
+
 
 module.exports = class AutoPlay extends Command {
 	constructor(client) {
@@ -64,7 +62,7 @@ module.exports = class AutoPlay extends Command {
 					case 'TRACK_LOADED':
 						songsToAdd.push(res.tracks[0]);
 						if (isPlaylist == 'no') {
-							const parsedDuration = moment.duration(res.tracks[0].length, 'milliseconds').format('mm:ss', { trim: false });
+							const parsedDuration = client.formatDuration(res.tracks[0].length);
 							msg.edit(`Set **${res.tracks[0].title}** (${parsedDuration}) to autoplay.`);
 							return await addToDB(false);
 						}
@@ -74,7 +72,7 @@ module.exports = class AutoPlay extends Command {
 					case 'SEARCH_RESULT':
 						songsToAdd.push(res.tracks[0]);
 						if (isPlaylist == 'no') {
-							const parsedDuration = moment.duration(res.tracks[0].length, 'milliseconds').format('mm:ss', { trim: false });
+							const parsedDuration = client.formatDuration(res.tracks[0].length);
 							msg.edit(`Set **${res.tracks[0].title}** (${parsedDuration}) to autoplay.`);
 							return await addToDB(false);
 						}
@@ -84,7 +82,7 @@ module.exports = class AutoPlay extends Command {
 					case 'PLAYLIST_LOADED':
 						res.playlist.tracks.forEach(track => songsToAdd.push(track));
 						// eslint-disable-next-line no-case-declarations
-						const parsedDuration = moment.duration(res.playlist.tracks.reduce((acc, cure) => ({ duration: acc.length + cure.length })).duration, true, 'milliseconds').format('mm:ss', { trim: false });
+						const parsedDuration = client.formatDuration(res.playlist.tracks.reduce((acc, cure) => ({ duration: acc.length + cure.length })).duration);
 						msg.edit(`Set **${res.playlist.info.name}** (${parsedDuration}}) (${res.playlist.tracks.length} tracks) to autoplay.`);
 						await addToDB(false);
 						break;

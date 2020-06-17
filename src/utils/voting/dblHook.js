@@ -1,5 +1,5 @@
 const DBL = require('dblapi.js');
-const voteRewards = require('./voteRewards.js');
+const voteRewards = require('../voteRewards.js');
 
 module.exports.startUp = async (client) => {
 	const dblWebhook = new DBL(process.env.TOPGG_TOKEN, {

@@ -3,9 +3,7 @@ const Discord = require('discord.js');
 const users = require('../models/user.js');
 const quickdb = require('quick.db');
 const songs = require('../models/song.js');
-const moment = require('moment');
-const momentDurationFormatSetup = require('moment-duration-format');
-momentDurationFormatSetup(moment);
+
 
 module.exports = async (client, textChannel, title, length, author, uri) => {
 	const currentSong = client.music.players.get(textChannel.guild.id).current;
@@ -85,8 +83,8 @@ module.exports = async (client, textChannel, title, length, author, uri) => {
 	embed.addField('Author', author, true);
 	const currentDuration = client.music.players.get(textChannel.guild.id).position;
 	const playing = client.music.players.get(textChannel.guild.id).playing;
-	const parsedCurrentDuration = moment.duration(currentDuration, 'milliseconds').format('mm:ss', { trim: false });
-	const parsedDuration = moment.duration(length, 'milliseconds').format('mm:ss', { trim: false });
+	const parsedCurrentDuration = client.formatDuration(currentDuration);
+	const parsedDuration = client.formatDuration(length);
 	const part = Math.floor((currentDuration / length) * client.settings.embedDurationLength);
 	const uni = playing ? '▶' : '⏸️';
 	embed.setDescription(`**[${title}](${uri})** [${parsedDuration}]`);

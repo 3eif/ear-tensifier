@@ -2,7 +2,7 @@ const Command = require('../../structures/Command');
 
 const users = require('../../models/user.js');
 const spawnPlayer = require('../../player/spawnPlayer.js');
-const premium = require('../../utils/premium.js');
+const premium = require('../../utils/misc/premium.js');
 const patreon = require('../../../config/patreon.js');
 
 module.exports = class Load extends Command {
@@ -19,7 +19,7 @@ module.exports = class Load extends Command {
 		if (!permissions.has('SPEAK')) return message.channel.send('I do not have permission to speak in your voice channel.');
 
 		let player = client.music.players.get(message.guild.id);
-		if (player && player.playing === false) return message.channel.send(`Cannot play/queue songs while paused. Do \`${client.settings.prefix} resume\` to play.`);
+		if (player && player.playing === false && player.current) return message.channel.send(`Cannot play/queue songs while paused. Do \`${client.settings.prefix} resume\` to play.`);
 		if (!player) player = await spawnPlayer(client, message);
 
 		const msg = await message.channel.send(`${client.emojiList.cd}  Loading favorites (This might take a few seconds)...`);
@@ -45,8 +45,8 @@ module.exports = class Load extends Command {
 						else songsToAdd = u.favorites.length;
 					}
 					for (let i = 0; i < songsToAdd; i++) {
-						player.queue.push(u.favorites[i]);
-						if (!player.playing) player.play();
+						player.queue.add(u.favorites[i]);
+						if (!player.playing && !player.paused && !player.queue.length) player.play();
 						if (i == songsToAdd - 1) resolve();
 					}
 				}
