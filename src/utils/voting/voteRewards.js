@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-const users = require('../models/user.js');
+const users = require('../../models/user.js');
 
 module.exports = async (client, user) => {
     users.findOne({
