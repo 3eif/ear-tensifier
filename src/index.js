@@ -1,7 +1,7 @@
 const { ShardingManager } = require('discord.js');
 const Sentry = require('@sentry/node');
 const mongoose = require('mongoose');
-process.env.NODE_ENV || (process.env.NODE_ENV = 'development');
+process.env.NODE_ENV || (process.env.NODE_ENV = 'production');
 require('dotenv-flow').config();
 
 const manager = new ShardingManager('./src/eartensifier.js', {
