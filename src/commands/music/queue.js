@@ -25,7 +25,7 @@ module.exports = class Queue extends Command {
 		if(pagesNum == 0) pagesNum = 1;
 
 		let index = 1;
-		const queueStr = `${player.queue.slice(0, 10).map(song => `**${index++}** - [${song.title}](${song.uri}) \`[${client.formatDuration(song.length)}]\`| <@${song.requester.tag}>`).join('\n')}`;
+		const queueStr = `${player.queue.slice(0, 10).map(song => `**${index++}** - [${song.title}](${song.uri}) \`[${client.formatDuration(song.length)}]\`| <@${song.requester.id}>`).join('\n')}`;
 		const queueEmbed = new Discord.MessageEmbed()
 			.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
 			.setColor(client.colors.main)
@@ -43,7 +43,7 @@ module.exports = class Queue extends Command {
 				const pageStart = args[0] * 10 - 10;
 				const pageEnd = args[0] * 10;
 
-				const queueStr2 = `${player.queue.slice(pageStart, pageEnd).map(song => `**${index2++}** - [${song.title}](${song.uri}) \`[${client.formatDuration(song.length)}]\`| <@${song.requester.tag}>`).join('\n')}`;
+				const queueStr2 = `${player.queue.slice(pageStart, pageEnd).map(song => `**${index2++}** - [${song.title}](${song.uri}) \`[${client.formatDuration(song.length)}]\`| <@${song.requester.id}>`).join('\n')}`;
 				const queueEmbed2 = new Discord.MessageEmbed()
 					.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
 					.setColor(client.colors.main)
@@ -55,7 +55,7 @@ module.exports = class Queue extends Command {
 				const pages = [];
 				let n = 1;
 				for (let i = 0; i < pagesNum; i++) {
-					const str = `${player.queue.slice(i * 10, i * 10 + 10).map(song => `**${n++}** - [${song.title}](${song.uri}) \`[${client.formatDuration(song.length)}]\`| <@${song.requester.tag}>`).join('\n')}`;
+					const str = `${player.queue.slice(i * 10, i * 10 + 10).map(song => `**${n++}** - [${song.title}](${song.uri}) \`[${client.formatDuration(song.length)}]\`| <@${song.requester.id}>`).join('\n')}`;
 					const embed = new Discord.MessageEmbed()
 						.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
 						.setColor(client.colors.main)

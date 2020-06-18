@@ -25,6 +25,10 @@ module.exports = class Ready extends Event {
 		player(this.client);
 		this.client.music.init(this.client.user.id);
 
+		const status = 'ear help';
+		const statusType = 'LISTENING';
+		this.client.user.setActivity(`${status}`, { type: `${statusType}` });
+
 		if (this.client.shard.ids[0] == this.client.shard.count - 1) {
 
 			const guildNum = await this.client.shard.fetchClientValues('guilds.cache.size');
@@ -54,9 +58,9 @@ module.exports = class Ready extends Event {
 
 			// this.client.shardMessage(this.client, this.client.channelList.readyChannel, embed);
 
-			const status = 'ear help';
-			const statusType = 'LISTENING';
-			this.client.shard.broadcastEval(`this.user.setActivity('${status}', { type: '${statusType}' })`);
+			// const status = 'ear help';
+			// const statusType = 'LISTENING';
+			// this.client.shard.broadcastEval(`this.user.setActivity('${status}', { type: '${statusType}' })`);
 
 			if (this.client.user.id == '472714545723342848') {
 				postHandler(this.client, totalGuilds, guildNum, this.client.shard.count);
