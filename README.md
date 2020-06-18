@@ -35,4 +35,3 @@ Self hosting Ear Tensifier is not supported and no help will be provided. I am n
 [![Discord Bots](https://top.gg/api/widget/472714545723342848.svg)](https://top.gg/bot/472714545723342848)
 [![Discord Bot List](https://discordbotlist.com/api/bots/ear-tensifier/widget)](https://discordbotlist.com/bots/ear-tensifier)
 [![Discord Boats](https://discord.boats/api/widget/472714545723342848)](https://discord.boats/bot/472714545723342848)
-[![Glenn Bot List](https://glennbotlist.xyz/bot/472714545723342848/widget)](https://glennbotlist.xyz/bot/472714545723342848)
