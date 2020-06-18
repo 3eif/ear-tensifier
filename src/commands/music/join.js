@@ -17,17 +17,12 @@ module.exports = class Join extends Command {
 		const permissions = voiceChannel.channel.permissionsFor(client.user);
 		if (!permissions.has('CONNECT')) return client.responses('noPermissionConnect', message);
 
-		if (!client.music.players.get(message.guild.id)) {
-			new Player({
-				guild: message.guild,
-				textChannel: message.channel,
-				voiceChannel: message.member.voice.channel,
-				selfDeaf: true,
-			});
-		}
-		else {
-			message.member.voice.channel.join();
-		}
+		new Player({
+			guild: message.guild,
+			textChannel: message.channel,
+			voiceChannel: message.member.voice.channel,
+			selfDeaf: true,
+		});
 
 		return message.channel.send(`Joined ${client.emojiList.voice}**${message.member.voice.channel.name}**`);
 	}
