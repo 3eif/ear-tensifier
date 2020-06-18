@@ -1,6 +1,6 @@
 const Command = require('../../structures/Command');
 
-const { Player } = require('@tetracyl/erela.js');
+const spawnPlayer = require('../../player/spawnPlayer.js');
 
 module.exports = class Join extends Command {
 	constructor(client) {
@@ -17,12 +17,7 @@ module.exports = class Join extends Command {
 		const permissions = voiceChannel.channel.permissionsFor(client.user);
 		if (!permissions.has('CONNECT')) return client.responses('noPermissionConnect', message);
 
-		new Player({
-			guild: message.guild,
-			textChannel: message.channel,
-			voiceChannel: message.member.voice.channel,
-			selfDeaf: true,
-		});
+		await spawnPlayer(client, message);
 
 		return message.channel.send(`Joined ${client.emojiList.voice}**${message.member.voice.channel.name}**`);
 	}
