@@ -23,8 +23,8 @@ class Lavalink extends Command {
         const free = Math.floor(stats.memory.free / 1024 / 1024);
         const reservable = Math.floor(stats.memory.reservable / 1024 / 1024);
 
-        const systemLoad = stats.cpu.systemLoad.toFixed(2);
-        const lavalinkLoad = stats.cpu.lavalinkLoad.toFixed(2);
+        const systemLoad = stats.cpu.systemLoad.toFixed(2) * 100;
+        const lavalinkLoad = stats.cpu.lavalinkLoad.toFixed(2) * 100;
 
         const totalSeconds = stats.uptime / 1000;
         const realTotalSecs = Math.floor(totalSeconds % 60);

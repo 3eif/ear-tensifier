@@ -46,8 +46,8 @@ class Stats extends Command {
 			this.music.nodes.array()[0].stats.playingPlayers,
 		  ]`);
 
-		const totalMusicStreams = this.music.nodes.array()[0].stats.players;
-		const playingMusicStreams = this.client.music.nodes.array()[0].stats.playingPlayers;
+		const totalMusicStreams = client.music.nodes.array()[0].stats.players;
+		const playingMusicStreams = client.music.nodes.array()[0].stats.playingPlayers;
 
 		Promise.all(promises)
 			.then(results => {
