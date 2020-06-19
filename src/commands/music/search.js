@@ -85,6 +85,7 @@ module.exports = class Search extends Command {
 					break;
 				}
 				else if (res.loadType == 'PLAYLIST_LOADED') {
+					return msg.edit('Playlists are temporarily disabled');
 					res.playlist.tracks.forEach(track => player.queue.add(track));
 					const parsedDuration2 = client.formatDuration(res.playlist.tracks.reduce((acc, cure) => ({ duration: acc.duration + cure.duration })).duration);
 					msg.edit(`**${res.playlist.info.name}** [${parsedDuration2}] (${res.playlist.tracks.length} tracks) has been added to the queue by **${res.playlist.tracks[0].requester.tag}**`);
