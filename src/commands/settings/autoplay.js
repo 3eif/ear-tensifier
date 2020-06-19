@@ -63,7 +63,7 @@ module.exports = class AutoPlay extends Command {
 						songsToAdd.push(res.tracks[0]);
 						if (isPlaylist == 'no') {
 							const parsedDuration = client.formatDuration(res.tracks[0].length);
-							msg.edit(`Set **${res.tracks[0].title}** (${parsedDuration}) to autoplay.`);
+							msg.edit(`Set **${res.tracks[0].title}** [${parsedDuration}] to autoplay.`);
 							return await addToDB(false);
 						}
 						await addToDB(true);
@@ -73,7 +73,7 @@ module.exports = class AutoPlay extends Command {
 						songsToAdd.push(res.tracks[0]);
 						if (isPlaylist == 'no') {
 							const parsedDuration = client.formatDuration(res.tracks[0].length);
-							msg.edit(`Set **${res.tracks[0].title}** (${parsedDuration}) to autoplay.`);
+							msg.edit(`Set **${res.tracks[0].title}** [${parsedDuration}] to autoplay.`);
 							return await addToDB(false);
 						}
 						await addToDB(true);

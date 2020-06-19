@@ -36,7 +36,7 @@ module.exports = class Favorites extends Command {
 					const song = u.favorites[i];
 					const url = `https://www.youtube.com/watch?v=${song.identifier}`;
 					const parsedDuration = client.formatDuration(song.length);
-					str += `**${i + 1}** - [${song.title}](${url}) (${parsedDuration}) by ${song.author}\n`;
+					str += `**${i + 1}** - [${song.title}](${url}) [${parsedDuration}] by ${song.author}\n`;
 					const songObj = {
 						number: i + 1,
 						song: song.title,

@@ -16,7 +16,6 @@ module.exports = class Bandcamp extends Command {
 		});
 	}
 	async run(client, message, args) {
-		if (!args[0]) return message.channel.send('Please provide a search query.');
 
 		const permissions = message.member.voice.channel.permissionsFor(client.user);
 		if (!permissions.has('CONNECT')) return client.responses('noPermissionConnect', message);

@@ -5,8 +5,6 @@ json.sqlite
 
 .vs
 
-radio.js
-
 tokens.json
 webhooks.json
 package-lock.json
