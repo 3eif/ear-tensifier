@@ -236,7 +236,7 @@ module.exports = class Message extends Event {
 
 				try {
 					if (await premium(message.author.id, 'Premium') == false && await premium(message.author.id, 'Pro') == false) {
-						const random = Math.floor(Math.random() * 25);
+						const random = Math.floor(Math.random() * 20);
 						if (random == 1) {
 							message.channel.send('**Enjoying the bot?** Show your support by reviewing it! <https://bots.ondiscord.xyz/bots/472714545723342848/review>');
 						}

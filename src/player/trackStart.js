@@ -80,16 +80,16 @@ module.exports = async (client, textChannel, title, length, author, uri) => {
 		embed.setFooter('Other');
 	}
 
-	embed.addField('Author', author, true);
 	const currentDuration = client.music.players.get(textChannel.guild.id).position;
 	const playing = client.music.players.get(textChannel.guild.id).playing;
 	const parsedCurrentDuration = client.formatDuration(currentDuration);
 	const parsedDuration = client.formatDuration(length);
 	const part = Math.floor((currentDuration / length) * client.settings.embedDurationLength);
 	const uni = playing ? '▶' : '⏸️';
+
+	embed.addField('Author', author, true);
 	embed.setDescription(`**[${title}](${uri})** [${parsedDuration}]`);
 	embed.addField('Requested by', requester, true);
-
 	// embed.addField(`Duration \`${parsedCurrentDuration}/${parsedDuration}\``, `\`\`\`${uni} ${'─'.repeat(part) + '⚪' + '─'.repeat(client.settings.embedDurationLength - part)}\`\`\``);
 	embed.setTimestamp();
 
