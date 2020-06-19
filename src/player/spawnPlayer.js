@@ -5,7 +5,7 @@ module.exports = async (client, message) => {
         guild: message.guild,
         textChannel: message.channel,
         voiceChannel: message.member.voice.channel,
-        selfDeaf: true,
+        selfDeafen: true,
     });
 
     player.twentyFourSeven = false;

@@ -8,7 +8,7 @@ const songs = require('../models/song.js');
 module.exports = async (client, textChannel, title, length, author, uri) => {
 	const currentSong = client.music.players.get(textChannel.guild.id).current;
 	const requester = `<@${currentSong.requester.id}>`;
-	const thumbnail = `https://img.youtube.com/vi/${currentSong.identifier}/maxresdefault.jpg`;
+	const thumbnail = `https://img.youtube.com/vi/${currentSong.identifier}/default.jpg`;
 	addDB(uri, title, author, length, uri, thumbnail);
 
 	// bot.findOne({

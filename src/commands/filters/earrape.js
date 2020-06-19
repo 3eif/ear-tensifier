@@ -20,7 +20,7 @@ module.exports = class Earrape extends Command {
 		const player = client.music.players.get(message.guild.id);
 
 		player.setVolume(earrape);
-		player.setEQ(Array(6).fill(0).map((n, i) => ({ band: i, gain: 0.5 })));
+		player.setEQ(...Array(6).fill(0).map((n, i) => ({ band: i, gain: 0.5 })));
 
 		const embed = new Discord.MessageEmbed()
 			.setDescription('Tensity set to **earrape**. To reset the tensity, type `ear reset`.')

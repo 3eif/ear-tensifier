@@ -186,7 +186,6 @@ module.exports = class Message extends Event {
 
 				if (cmd.voteLocked == true && await premium(message.author.id, 'Premium') == false && await premium(message.author.id, 'Pro') == false) {
 					const voted = await getVoted(client, message.author);
-					console.log(voted);
 					if (!voted) {
 						const voteEmbed = new Discord.MessageEmbed()
 							.setDescription('You must **vote** to use this command. You can vote [here](https://botlist.space/bot/472714545723342848/upvote)');

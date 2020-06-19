@@ -40,15 +40,16 @@ class Stats extends Command {
 			this.channels.cache.size,
 			this.users.cache.size,
 			(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2),
-			this.music.players.size,
+			this.music.nodes.array()[0].stats.players,
 			this.ws.ping,
 			(process.memoryUsage().rss / 1024 / 1024).toFixed(2),
+			this.music.nodes.array()[0].stats.playingPlayers,
 		  ]`);
 
 		let totalMusicStreams = 0;
-		shardInfo.forEach(i => {
-			totalMusicStreams += i[6];
-		});
+		shardInfo.forEach(i => totalMusicStreams += i[6]);
+		let playingMusicStreams = 0;
+		shardInfo.forEach(i => playingMusicStreams += i[9]);
 
 		Promise.all(promises)
 			.then(results => {
@@ -67,20 +68,20 @@ class Stats extends Command {
 
 				cpuStat.usagePercent(function(err, percent) {
 					const statsEmbed = new Discord.MessageEmbed()
-						.setAuthor('Ear Tensifier', client.user.displayAvatarURL())
+						.setAuthor('Ear Tensifier')
 						.setColor(client.colors.main)
 						.setThumbnail(client.settings.avatar)
 						.addField('Born On', client.user.createdAt)
 						.addField('Current Version', client.settings.version, true)
 						.addField('Servers', `${totalGuilds.toLocaleString()} servers`, true)
-						.addField('Members', `${totalMembers.toLocaleString()} members`, true)
+						.addField('Users', `${totalMembers.toLocaleString()} users`, true)
 						.addField('Shards', `${parseInt(client.shard.ids) + 1}/${client.shard.count}`, true)
 						.addField('CPU usage', `${percent.toFixed(2)}%`, true)
-						.addField('Messages Sent', `${botMessages.toLocaleString()}`, true)
+						.addField('Commands Used', `${botMessages.toLocaleString()}`, true)
 						.addField('Songs Played', `${songsPlayed.toLocaleString()}`, true)
-						.addField('Music Streams', `${totalMusicStreams.toLocaleString()}`, true)
-						.addField('RSS', `${totalRSS.toLocaleString()}`, true)
-						.addField('Memory Used', `\`\`\`${totalMemory.toFixed(2)} / ${(os.totalmem() / 1024 / 1024).toFixed(2)} MB | ${memoryPercentage}% used\`\`\``)
+						.addField('Players', `${totalMusicStreams.toLocaleString()}`, true)
+						.addField('Playing Players', `${playingMusicStreams.toLocaleString()}`, true)
+						.addField('Memory Used', `\`\`\`${totalRSS.toLocaleString()} RSS | ${totalMemory.toFixed(2)} / ${(os.totalmem() / 1024 / 1024).toFixed(2)} MB | ${memoryPercentage}% used\`\`\``)
 						.addField('Uptime', `\`\`\`${days} days, ${hours} hours, ${mins} minutes, and ${realTotalSecs} seconds\`\`\``)
 						.setFooter(`Latency ${msg.createdTimestamp - message.createdTimestamp}ms`)
 						.setTimestamp();

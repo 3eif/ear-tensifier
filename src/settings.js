@@ -16,5 +16,6 @@ module.exports = {
 		'role',
 		'twitch',
 		'autoplay',
+		'lavalink',
 	],
 };
