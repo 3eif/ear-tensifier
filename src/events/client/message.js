@@ -235,14 +235,12 @@ module.exports = class Message extends Event {
 				}
 
 				try {
-					// const voted = await getVoted(client, message.author);
-					// console.log(voted);
-					// if (!voted && await premium(message.author.id, 'Premium') == false && await premium(message.author.id, 'Pro') == false) {
-					// 	const random = Math.floor(Math.random() * 4);
-					// 	if (random == 1) {
-					// 		message.channel.send('**Enjoying the bot?** Show your support by voting! (voting unnlocks special filters such as `bassboost`): <https://botlist.space/bot/472714545723342848/upvote>');
-					// 	}
-					// }
+					if (await premium(message.author.id, 'Premium') == false && await premium(message.author.id, 'Pro') == false) {
+						const random = Math.floor(Math.random() * 25);
+						if (random == 1) {
+							message.channel.send('**Enjoying the bot?** Show your support by reviewing it! <https://bots.ondiscord.xyz/bots/472714545723342848/review>');
+						}
+					}
 					if (process.env.NODE_ENV == 'production') Statcord.ShardingClient.postCommand(commandName, message.author.id, client);
 
 					cmd.run(client, message, args);

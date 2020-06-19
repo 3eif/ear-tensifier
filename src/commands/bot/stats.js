@@ -46,10 +46,8 @@ class Stats extends Command {
 			this.music.nodes.array()[0].stats.playingPlayers,
 		  ]`);
 
-		let totalMusicStreams = 0;
-		shardInfo.forEach(i => totalMusicStreams += i[6]);
-		let playingMusicStreams = 0;
-		shardInfo.forEach(i => playingMusicStreams += i[9]);
+		const totalMusicStreams = this.music.nodes.array()[0].stats.players;
+		const playingMusicStreams = this.client.music.nodes.array()[0].stats.playingPlayers;
 
 		Promise.all(promises)
 			.then(results => {

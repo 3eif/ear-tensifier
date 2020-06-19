@@ -26,7 +26,7 @@ class Lavalink extends Command {
         const systemLoad = stats.cpu.systemLoad.toFixed(2);
         const lavalinkLoad = stats.cpu.lavalinkLoad.toFixed(2);
 
-        const totalSeconds = stats.uptime;
+        const totalSeconds = stats.uptime / 1000;
         const realTotalSecs = Math.floor(totalSeconds % 60);
         const days = Math.floor((totalSeconds % (31536 * 100)) / 86400);
         const hours = Math.floor((totalSeconds / 3600) % 24);
