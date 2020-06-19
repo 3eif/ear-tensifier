@@ -20,6 +20,7 @@ module.exports = async (client, message, msg, player, searchQuery, playlist) => 
 				break;
 			}
 			else if (res.loadType == 'PLAYLIST_LOADED') {
+				return msg.edit('Playlists are temporarily disabled');
 				for (const track of res.playlist.tracks) {
 					player.queue.add(track);
 					if (!player.playing && !player.paused && !player.queue.length) player.play();

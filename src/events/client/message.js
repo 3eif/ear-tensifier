@@ -2,6 +2,7 @@
 const Discord = require('discord.js');
 const Statcord = require('statcord.js-beta');
 const quickdb = require('quick.db');
+const chalk = require('chalk');
 const cooldowns = new Discord.Collection();
 
 const Event = require('../../structures/Event');
@@ -162,7 +163,7 @@ module.exports = class Message extends Event {
 					await c.save().catch(e => client.log(e));
 				});
 
-				client.log(`[Shard ${client.shard.ids}] ${commandName} used by ${message.author.tag} (${message.author.id}) from ${message.guild.name} (${message.guild.id})`);
+				client.log(chalk.white.dim(`[Shard ${client.shard.ids}] ${commandName} used by ${message.author.tag} (${message.author.id}) from ${message.guild.name} (${message.guild.id})`));
 
 				// const embed = new Discord.MessageEmbed()
 				// 	.setAuthor(`${message.author.username}`, message.author.displayAvatarURL())
@@ -235,12 +236,12 @@ module.exports = class Message extends Event {
 				}
 
 				try {
-					if (await premium(message.author.id, 'Premium') == false && await premium(message.author.id, 'Pro') == false) {
-						const random = Math.floor(Math.random() * 20);
-						if (random == 1) {
-							message.channel.send('**Enjoying the bot?** Show your support by reviewing it! <https://bots.ondiscord.xyz/bots/472714545723342848/review>');
-						}
-					}
+					// if (await premium(message.author.id, 'Premium') == false && await premium(message.author.id, 'Pro') == false) {
+					// 	const random = Math.floor(Math.random() * 20);
+					// 	if (random == 1) {
+					// 		message.channel.send('**Enjoying the bot?** Show your support by reviewing it! <https://bots.ondiscord.xyz/bots/472714545723342848/review>');
+					// 	}
+					// }
 					if (process.env.NODE_ENV == 'production') Statcord.ShardingClient.postCommand(commandName, message.author.id, client);
 
 					cmd.run(client, message, args);

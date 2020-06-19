@@ -80,6 +80,7 @@ module.exports = class AutoPlay extends Command {
 						break;
 
 					case 'PLAYLIST_LOADED':
+						return msg.edit('Playlists are temporarily disabled');
 						res.playlist.tracks.forEach(track => songsToAdd.push(track));
 						// eslint-disable-next-line no-case-declarations
 						const parsedDuration = client.formatDuration(res.playlist.tracks.reduce((acc, cure) => ({ duration: acc.length + cure.length })).duration);

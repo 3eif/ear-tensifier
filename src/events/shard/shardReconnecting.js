@@ -1,4 +1,5 @@
 const Event = require('../../structures/Event');
+const chalk = require('chalk');
 
 module.exports = class ShardReady extends Event {
 	constructor(...args) {
@@ -7,6 +8,6 @@ module.exports = class ShardReady extends Event {
 
 	async run() {
 		const i = parseInt(this.client.shard.ids, 10) + 1;
-		this.client.log(`[Shard ${i}] Reconnecting...`);
+		this.client.log(chalk.magenta(`[Shard ${i}] Reconnecting...`));
 	}
 };

@@ -1,6 +1,7 @@
 const figlet = require('figlet');
 const mongoose = require('mongoose');
 const Sentry = require('@sentry/node');
+const chalk = require('chalk');
 
 const Event = require('../../structures/Event');
 const player = require('../../player/player.js');
@@ -42,10 +43,10 @@ module.exports = class Ready extends Event {
 					console.dir(err);
 					return;
 				}
-				console.log(data);
+				console.log(chalk.magenta.bold(data));
 			});
 
-			this.client.log(`Ear Tensifier is online: ${this.client.shard.count} shards, ${totalGuilds} servers and ${totalMembers} members.`);
+			this.client.log(chalk.magenta.underline.bold(`Ear Tensifier is online: ${this.client.shard.count} shards, ${totalGuilds} servers and ${totalMembers} members.`));
 
 			// const embed = new Discord.MessageEmbed()
 			// 	.setAuthor('Ear Tensifier', this.client.settings.avatar)

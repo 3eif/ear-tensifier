@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const DBL = require('dblapi.js');
+const chalk = require('chalk');
 
 module.exports = class Client extends Discord.Client {
     constructor() {
@@ -44,7 +45,7 @@ module.exports = class Client extends Discord.Client {
     }
 
     log(msg) {
-        console.log(`[${new Date().toLocaleString()}] > ${msg}`);
+        console.log(chalk.white.bold(`[${new Date().toLocaleString()}]`) + chalk.white.bold(' > ') + msg);
     }
 
     async login(token = this.token) {
