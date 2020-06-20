@@ -22,7 +22,7 @@ module.exports = class Queue extends Command {
 		const parsedDuration = client.formatDuration(length);
 		const parsedQueueDuration = client.formatDuration(getQueueDuration(player));
 		let pagesNum = Math.ceil(player.queue.length / 10);
-		if(pagesNum == 0) pagesNum = 1;
+		if(pagesNum === 0) pagesNum = 1;
 
 		let index = 1;
 		const queueStr = `${player.queue.slice(0, 10).map(song => `**${index++}** - [${song.title}](${song.uri}) \`[${client.formatDuration(song.length)}]\`| <@${song.requester.id}>`).join('\n')}`;
