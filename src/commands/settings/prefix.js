@@ -36,7 +36,7 @@ module.exports = class Prefix extends Command {
 
 		if (!args[0]) return;
 
-		const f = args[0].replace('_', ' ');
+		const f = args[0].replace(/_/g, ' ');
 		const msg = await message.channel.send(`${client.emojiList.typing} Setting prefix to ${f}...`);
 
 		servers.findOne({

@@ -5,7 +5,7 @@ module.exports = class Replay extends Command {
 		super(client, {
 			name: 'replay',
 			description: 'Starts the song from the beginning.',
-			cooldown: '10',
+			cooldown: '4',
 			inVoiceChannel: true,
 			sameVoiceChannel: true,
 			playing: true,

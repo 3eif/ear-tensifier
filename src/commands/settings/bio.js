@@ -9,7 +9,7 @@ module.exports = class Profile extends Command {
             description: 'Sets your bio.',
             usage: '<bio>',
             args: true,
-            cooldown: '20',
+            cooldown: '4',
             aliases: ['setbio', 'set-bio', 'bioset'],
         });
     }

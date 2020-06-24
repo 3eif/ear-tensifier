@@ -9,6 +9,7 @@ module.exports = async (client, message) => {
     });
 
     player.twentyFourSeven = false;
+    player.previous = null;
     player.connect();
 
     return player;

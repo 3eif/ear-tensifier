@@ -5,7 +5,7 @@ module.exports = class Bass extends Command {
 		super(client, {
 			name: 'bass',
 			description: 'Turns on bass filter',
-			cooldown: '10',
+			cooldown: '4',
 			inVoiceChannel: true,
 			sameVoiceChannel: true,
 			playing: true,

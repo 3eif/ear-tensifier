@@ -11,7 +11,7 @@ module.exports = class Playskip extends Command {
 			description: 'Skips the current playing song and immediately plays the song provided.',
 			args: true,
 			usage: '<search query>',
-			cooldown: '10',
+			cooldown: '4',
 			inVoiceChannel: true,
 			sameVoiceChannel: true,
 			player: true,

@@ -5,7 +5,7 @@ module.exports = class Pause extends Command {
 		super(client, {
 			name: 'pause',
 			description: 'Pauses the song',
-			cooldown: '5',
+			cooldown: '4',
 			aliases: ['resume', 'stop'],
 			inVoiceChannel: true,
 			sameVoiceChannel: true,

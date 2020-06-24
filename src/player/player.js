@@ -1,5 +1,6 @@
 const { Manager } = require('@tetracyl/erela.js');
 const trackStart = require('./trackStart.js');
+const trackEnd = require('./trackEnd.js');
 const queueEnd = require('./queueEnd.js');
 
 module.exports = async (client) => {
@@ -19,8 +20,11 @@ module.exports = async (client) => {
 	.on('queueEnd', player => {
 		queueEnd(client, player);
 	})
-	.on('trackStart', ({ textChannel }, { title, length, author, uri }) => {
-		trackStart(client, textChannel, title, length, author, uri);
+	.on('trackStart', ({ textChannel }, { title, duration, author, uri }) => {
+		trackStart(client, textChannel, title, duration, author, uri);
+	})
+	.on('trackEnd', player => {
+		trackEnd(client, player);
 	})
 	.on('playerMove', (player, currentChannel, newChannel) => {
 		player.voiceChannel = client.channels.cache.get(newChannel);

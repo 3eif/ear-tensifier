@@ -48,21 +48,6 @@ module.exports = class Ready extends Event {
 
 			this.client.log(chalk.magenta.underline.bold(`Ear Tensifier is online: ${this.client.shard.count} shards, ${totalGuilds} servers and ${totalMembers} members.`));
 
-			// const embed = new Discord.MessageEmbed()
-			// 	.setAuthor('Ear Tensifier', this.client.settings.avatar)
-			// 	.setColor(this.client.colors.main)
-			// 	.setDescription('Ear Tensifier is online.')
-			// 	.addField('Shards', `**${this.client.shard.count}** shards`, true)
-			// 	.addField('Servers', `**${totalGuilds}** servers`, true)
-			// 	.setTimestamp()
-			// 	.setFooter(`${totalMembers} users`);
-
-			// this.client.shardMessage(this.client, this.client.channelList.readyChannel, embed);
-
-			// const status = 'ear help';
-			// const statusType = 'LISTENING';
-			// this.client.shard.broadcastEval(`this.user.setActivity('${status}', { type: '${statusType}' })`);
-
 			if (this.client.user.id == '472714545723342848') {
 				postHandler(this.client, totalGuilds, guildNum, this.client.shard.count);
 				require('../../utils/voting/blsHook.js').startUp(this.client);

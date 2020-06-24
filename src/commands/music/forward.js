@@ -8,7 +8,7 @@ module.exports = class Forward extends Command {
 		super(client, {
 			name: 'forward',
 			description: 'Fast forwards a song (default 10 seconds).',
-			cooldown: '10',
+			cooldown: '4',
 			usage: '<seconds>',
 			aliases: ['ff', 'fastforward'],
 			inVoiceChannel: true,

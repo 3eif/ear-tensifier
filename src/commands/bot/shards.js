@@ -7,7 +7,7 @@ module.exports = class Shards extends Command {
 		super(client, {
 			name: 'shards',
 			description: 'Displays the bot\'s shards',
-			cooldown: '5',
+			cooldown: '4',
 			aliases: ['shardstats', 'shardinfo'],
 			usage: '',
 			enabled: true,
@@ -26,7 +26,7 @@ module.exports = class Shards extends Command {
         this.shard.mode,
         this.guilds.cache.size,
         this.channels.cache.size,
-        this.users.cache.size,
+        this.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0),
         (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2),
 		this.music.players.size,
 		this.ws.ping

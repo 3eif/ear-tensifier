@@ -8,7 +8,7 @@ module.exports = class Help extends Command {
 	constructor(client) {
 		super(client, {
 			name: 'help',
-			description: 'Sends you a dm of detailed list of Ear Tensifier\'s commands.',
+			description: 'Sends you a detailed list of Ear Tensifier\'s commands.',
 			aliases: ['commands', 'list'],
 			cooldown: '30',
 			usage: '[command name]',

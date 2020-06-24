@@ -7,7 +7,7 @@ module.exports = class Volume extends Command {
 		super(client, {
 			name: 'volume',
 			description: 'Sets the volume of the song',
-			cooldown: '10',
+			cooldown: '4',
 			usage: '<volume #>',
 			inVoiceChannel: true,
 			sameVoiceChannel: true,
@@ -31,7 +31,7 @@ module.exports = class Volume extends Command {
 		player.setVolume(volume);
 
 		const embed = new Discord.MessageEmbed()
-			.setAuthor(`Volume set to **${args[0]}**`, message.guild.iconURL())
+			.setDescription(`Volume set to **${args[0]}**`)
 			.setColor(client.colors.main);
 		return message.channel.send(embed);
 	}

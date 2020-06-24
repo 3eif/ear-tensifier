@@ -4,25 +4,18 @@ const users = require('../models/user.js');
 const quickdb = require('quick.db');
 const songs = require('../models/song.js');
 
-
-module.exports = async (client, textChannel, title, length, author, uri) => {
+module.exports = async (client, textChannel, title, duration, author, uri) => {
 	const currentSong = client.music.players.get(textChannel.guild.id).current;
-	const requester = `<@${currentSong.requester.id}>`;
+	const player = client.music.players.get(textChannel.guild.id);
+	player.futurePrevious = player.current;
+	let requester = `<@${currentSong.requester.id}>`;
+	if(!currentSong.requester.id) requester = `<@${currentSong.requester}>`;
 	const thumbnail = `https://img.youtube.com/vi/${currentSong.identifier}/default.jpg`;
-	addDB(uri, title, author, length, uri, thumbnail);
-
-	// bot.findOne({
-	// 	clientID: client.user.id,
-	// }, async (err, b) => {
-	// 	if (err) client.log(err);
-
-	// 	b.songsPlayed += 1;
-	// 	await b.save().catch(e => client.log(e));
-	// });
+	addDB(uri, title, author, duration, uri, thumbnail);
 
 	quickdb.add(`songsPlayed.${client.user.id}`, 1);
 
-	users.findOne({ authorID: currentSong.requester.id }).then(async messageUser => {
+	users.findOne({ authorID: (!currentSong.requester.id ? currentSong.requester : currentSong.requester.id) }).then(async messageUser => {
 		if (!messageUser) {
 			console.log('not found');
 			const newUser = new users({
@@ -83,8 +76,8 @@ module.exports = async (client, textChannel, title, length, author, uri) => {
 	const currentDuration = client.music.players.get(textChannel.guild.id).position;
 	const playing = client.music.players.get(textChannel.guild.id).playing;
 	const parsedCurrentDuration = client.formatDuration(currentDuration);
-	const parsedDuration = client.formatDuration(length);
-	const part = Math.floor((currentDuration / length) * client.settings.embedDurationLength);
+	const parsedDuration = client.formatDuration(duration);
+	const part = Math.floor((currentDuration / duration) * client.settings.embedDurationLength);
 	const uni = playing ? '▶' : '⏸️';
 
 	embed.addField('Author', author, true);
@@ -96,7 +89,7 @@ module.exports = async (client, textChannel, title, length, author, uri) => {
 	return textChannel.send(embed);
 };
 
-function addDB(id, title, author, length, url, thumbnail) {
+function addDB(id, title, author, duration, url, thumbnail) {
 	let songType = '';
 	if (url.includes('youtube')) songType = 'youtube';
 	else if (url.includes('soundcloud')) songType = 'soundcloud';
@@ -115,7 +108,7 @@ function addDB(id, title, author, length, url, thumbnail) {
 				songName: title,
 				songAuthor: author,
 				type: songType,
-				songDuration: length,
+				songDuration: duration,
 				timesPlayed: 1,
 				timesAdded: 0,
 				songThumbnail: thumbnail,

@@ -5,7 +5,7 @@ module.exports = class Seek extends Command {
 		super(client, {
 			name: 'seek',
 			description: 'Skips to a timestamp in the song.',
-			cooldown: '10',
+			cooldown: '4',
 			args: true,
 			usage: '<seconds>',
 			inVoiceChannel: true,

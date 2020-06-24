@@ -5,7 +5,7 @@ module.exports = class Pop extends Command {
 		super(client, {
 			name: 'pop',
 			description: 'Turns on pop filter',
-			cooldown: '10',
+			cooldown: '4',
 			inVoiceChannel: true,
 			sameVoiceChannel: true,
 			playing: true,

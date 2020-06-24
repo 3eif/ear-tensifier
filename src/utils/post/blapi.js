@@ -1,4 +1,3 @@
-/* eslint-disable no-shadow */
 const blapi = require('blapi');
 const botLists = require('../../../config/botlists.json');
 

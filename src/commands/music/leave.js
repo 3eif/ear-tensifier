@@ -6,7 +6,7 @@ module.exports = class Leave extends Command {
 			name: 'leave',
 			description: 'The bot leaves the voice channel it is currently in.',
 			aliases: ['disconnect', 'fuckoff', 'leave', 'dc'],
-			cooldown: '10',
+			cooldown: '4',
 			inVoiceChannel: true,
 			sameVoiceChannel: true,
 		});

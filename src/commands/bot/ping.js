@@ -7,7 +7,7 @@ module.exports = class Ping extends Command {
 			description: 'Bot latency',
 			usage: '',
 			enabled: true,
-			cooldown: 5,
+			cooldown: 4,
 			args: false,
 		});
 	}

@@ -5,7 +5,7 @@ module.exports = class Queueloop extends Command {
 		super(client, {
 			name: 'queueloop',
 			description: 'Loops the queue',
-			cooldown: '10',
+			cooldown: '4',
 			aliases: ['loopqueue', 'repeatqueue', 'queuerepeat'],
 			inVoiceChannel: true,
 			sameVoiceChannel: true,

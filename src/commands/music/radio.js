@@ -48,7 +48,13 @@ module.exports = class Radio extends Command {
 					player.play();
 				}
 				else {
-					return message.channel.send(`**${res.tracks[0].title}** [Live] has been added to the queue by **${res.tracks[0].requester.tag}**`);
+					return message.channel.send('', client.queuedEmbed(
+						res.tracks[0].title,
+						null,
+						res.tracks[0].duration,
+						null,
+						res.tracks[0].requester,
+					));
 				}
 			}
 		});

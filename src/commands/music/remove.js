@@ -7,7 +7,7 @@ module.exports = class Remove extends Command {
 			description: 'Removes a song from the queue',
 			args: true,
 			usage: '<song position>',
-			cooldown: '10',
+			cooldown: '4',
 			aliases: ['removefrom', 'removerange'],
 			inVoiceChannel: true,
 			sameVoiceChannel: true,

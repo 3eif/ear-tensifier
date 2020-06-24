@@ -9,7 +9,7 @@ module.exports = class Bassboost extends Command {
 			name: 'bassboost',
 			description: 'Bassboosts a song',
 			aliases: ['bb'],
-			cooldown: '10',
+			cooldown: '4',
 			usage: '<amount (-10 - 10)>',
 			voteLocked: true,
 			inVoiceChannel: true,

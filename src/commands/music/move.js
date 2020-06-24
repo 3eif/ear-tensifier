@@ -7,7 +7,7 @@ module.exports = class Move extends Command {
 			description: 'Moves a song to another location in the queue.',
 			args: true,
 			usage: '<old position> <new position>',
-			cooldown: '10',
+			cooldown: '4',
 			inVoiceChannel: true,
 			sameVoiceChannel: true,
 			playing: true,

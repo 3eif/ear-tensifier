@@ -34,8 +34,13 @@ module.exports = class Search extends Command {
 			if(res.loadType != 'NO_MATCHES') {
 				if (res.loadType == 'TRACK_LOADED') {
 					player.queue.add(res.tracks[0]);
-					const parsedDuration = client.formatDuration(res.tracks[0].length);
-					msg.edit(`**${res.tracks[0].title}** [${parsedDuration}] has been added to the queue by **${res.playlist.tracks.requester}**`);
+					msg.edit('', client.queuedEmbed(
+						res.tracks[0].title,
+						res.tracks[0].uri,
+						res.tracks[0].duration,
+						null,
+						res.tracks[0].requester,
+					));
 					if (!player.playing) player.play();
 					break;
 				}
@@ -66,7 +71,13 @@ module.exports = class Search extends Command {
 							for (const track of tracks) {
 								player.queue.add(track);
 							}
-							message.channel.send(`**${tracks.length} songs** have been added to the queue by **${tracks[0].requester.tag}**.`);
+							message.channel.send(msg.edit('', client.queuedEmbed(
+								null,
+								null,
+								null,
+								tracks.length,
+								tracks[0].requester,
+							)));
 						}
 						else if(entry === 'cancel') {
 							message.channel.send('Cancelled selection');
@@ -74,8 +85,13 @@ module.exports = class Search extends Command {
 						else {
 							const track = tracks[entry - 1];
 							player.queue.add(track);
-							const parsedDuration2 = client.formatDuration(track.length);
-							message.channel.send(`**${track.title}** [${parsedDuration2}] has been added to the queue by **${track.requester.tag}**`);
+							message.channel.send(msg.edit('', client.queuedEmbed(
+								res.tracks[0].title,
+								res.tracks[0].uri,
+								track.duration,
+								null,
+								res.tracks[0].requester,
+							)));
 						}
 						if (!player.playing) player.play();
 					}
@@ -85,10 +101,16 @@ module.exports = class Search extends Command {
 					break;
 				}
 				else if (res.loadType == 'PLAYLIST_LOADED') {
-					return msg.edit('Playlists are temporarily disabled');
 					res.playlist.tracks.forEach(track => player.queue.add(track));
-					const parsedDuration2 = client.formatDuration(res.playlist.tracks.reduce((acc, cure) => ({ duration: acc.duration + cure.duration })).duration);
-					msg.edit(`**${res.playlist.info.name}** [${parsedDuration2}] (${res.playlist.tracks.length} tracks) has been added to the queue by **${res.playlist.tracks[0].requester.tag}**`);
+					msg.edit('', client.queuedEmbed(
+						res.playlist.info.name,
+						res.playlist.info.uri,
+						res.playlist.tracks.reduce((acc, cure) => ({
+							duration: acc.duration + cure.duration,
+						})).duration,
+						res.playlist.tracks.length,
+						res.playlist.tracks[0].requester.id,
+					));
 					if (!player.playing) player.play();
 					break;
 				}

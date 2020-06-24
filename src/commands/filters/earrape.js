@@ -10,7 +10,7 @@ module.exports = class Earrape extends Command {
 			name: 'earrape',
 			description: 'Earrapes a song.',
 			aliases: ['veryloud', 'hell', 'loud'],
-			cooldown: '10',
+			cooldown: '4',
 			inVoiceChannel: true,
 			sameVoiceChannel: true,
 			playing: true,

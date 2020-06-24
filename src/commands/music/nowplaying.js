@@ -14,15 +14,15 @@ module.exports = class NowPlaying extends Command {
 	}
 	async run(client, message) {
 		const player = client.music.players.get(message.guild.id);
-		const { title, author, length, requester, uri, identifier } = player.current;
+		const { title, author, duration, requester, uri, identifier } = player.current;
 
 		const parsedCurrentDuration = client.formatDuration(player.position);
-		const parsedDuration = client.formatDuration(length);
-		const part = Math.floor((player.position / length) * client.settings.embedDurationLength);
+		const parsedDuration = client.formatDuration(duration);
+		const part = Math.floor((player.position / duration) * client.settings.embedDurationLength);
 		const uni = player.playing ? '▶' : '⏸️';
 
-		const thumbnail = `https://img.youtube.com/vi/${identifier}/maxresdefault.jpg`;
-		const user = `<@${requester.id}>`;
+		const thumbnail = `https://img.youtube.com/vi/${identifier}/default.jpg`;
+		const user = `<@${!requester.id ? requester : requester.id}>`;
 
 		const embed = new Discord.MessageEmbed()
 			.setColor(client.colors.main)

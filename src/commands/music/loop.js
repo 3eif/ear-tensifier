@@ -7,7 +7,7 @@ module.exports = class Loop extends Command {
 			description: 'Repeats the current queue/song',
 			aliases: ['repeat', 'unloop'],
 			usage: '<queue/song>',
-			cooldown: '10',
+			cooldown: '4',
 			inVoiceChannel: true,
 			sameVoiceChannel: true,
 			playing: true,

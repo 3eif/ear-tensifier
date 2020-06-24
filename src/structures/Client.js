@@ -38,10 +38,13 @@ module.exports = class Client extends Discord.Client {
         this.errors = require('../utils/misc/errors.js');
         this.formatDuration = require('./../utils/music/formatDuration.js');
         this.setFilter = require('./../utils/music/setFilter.js');
+        this.queuedEmbed = require('./../utils/music/queuedEmbed.js');
+        this.songLimit = require('./../utils/music/songLimit.js');
+        this.getSongLimit = require('./../utils/music/getSongLimit.js');
 
         this.environment = process.env.NODE_ENV;
 
-        if(this.environment == 'production') this.dbl = new DBL(process.env.TOPGG_TOKEN, this);
+        // if(this.environment == 'production') this.dbl = new DBL(process.env.TOPGG_TOKEN, this);
     }
 
     log(msg) {

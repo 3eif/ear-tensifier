@@ -1,9 +1,9 @@
 module.exports = player => {
-    if (player.queue.length === 0) return player.current.length;
+    if (player.queue.length === 0) return player.current.duration;
 
-    let totalQueueDuration = 0;
+    let totalQueueDuration = player.current.duration;
     for(let i = 0; i < player.queue.length; i++) {
-        totalQueueDuration += player.queue[i].length;
+        totalQueueDuration += player.queue[i].duration;
     }
     return totalQueueDuration;
 };

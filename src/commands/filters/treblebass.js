@@ -6,7 +6,7 @@ module.exports = class Trablebass extends Command {
 			name: 'treblebass',
 			description: 'Turns on treblebass filter',
 			aliases: ['tb'],
-			cooldown: '10',
+			cooldown: '4',
 			inVoiceChannel: true,
 			sameVoiceChannel: true,
 			playing: true,

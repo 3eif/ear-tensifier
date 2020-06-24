@@ -36,8 +36,8 @@ module.exports = async (client, user) => {
         }
 
         const embed = new Discord.MessageEmbed()
-            .setAuthor(`${user.tag} - (${user.id}})`, user.displayAvatarURL())
-            .setDescription(`**${user.username}** voted for the bot!\n\nTimes Voted: \`${u.votedTimes}\`\nLast Voted: \`${lastVotedTime}\``)
+            .setAuthor(`${user.tag} - (${user.id})`, user.displayAvatarURL())
+            .setDescription(`**${user.username}** voted for the bot!\n\nTimes Voted: \`${u.votedTimes}\``)
             .setThumbnail(user.displayAvatarURL())
             .setColor(client.colors.main)
             .setTimestamp();

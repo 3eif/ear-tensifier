@@ -7,7 +7,7 @@ module.exports = class Skipto extends Command {
 			description: 'Skips to a certain song in the queue',
 			args: true,
 			usage: '<song position>',
-			cooldown: '10',
+			cooldown: '4',
 			inVoiceChannel: true,
 			sameVoiceChannel: true,
 			playing: true,

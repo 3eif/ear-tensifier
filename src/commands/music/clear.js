@@ -5,7 +5,7 @@ module.exports = class Clear extends Command {
 		super(client, {
 			name: 'clear',
 			description: 'Clears the queue.',
-			cooldown: '10',
+			cooldown: '4',
 			inVoiceChannel: true,
 			sameVoiceChannel: true,
 			playing: true,

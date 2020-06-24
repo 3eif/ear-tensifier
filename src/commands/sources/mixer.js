@@ -25,6 +25,9 @@ module.exports = class Mixer extends Command {
 
 		const msg = await message.channel.send(`${client.emojiList.cd}  Searching for \`${args.join(' ')}\`...`);
 
+		const songLimit = await client.songLimit(message.author.id, player.queue.length);
+		if(songLimit) return msg.edit(`You have reached the **maximum** amount of songs (${songLimit} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`);
+
 		const searchQuery = {
 			source: 'mixer',
 			query: args.slice(0).join(' '),

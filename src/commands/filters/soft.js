@@ -5,7 +5,7 @@ module.exports = class Soft extends Command {
 		super(client, {
 			name: 'soft',
 			description: 'Turns on soft filter',
-			cooldown: '10',
+			cooldown: '4',
 			inVoiceChannel: true,
 			sameVoiceChannel: true,
 			voteLocked: true,

@@ -10,7 +10,7 @@ module.exports = class Reset extends Command {
 			name: 'reset',
 			description: 'Resets the filters to normal.',
 			aliases: ['normal'],
-			cooldown: '10',
+			cooldown: '4',
 			inVoiceChannel: true,
 			sameVoiceChannel: true,
 			playing: true,

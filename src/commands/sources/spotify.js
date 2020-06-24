@@ -12,7 +12,7 @@ module.exports = class Spotify extends Command {
 			name: 'spotify',
 			description: 'Plays a spotify track.',
 			usage: '<spotify link>',
-			cooldown: '5',
+			cooldown: '4',
 			args: true,
 			inVoiceChannel: true,
 		});
@@ -29,14 +29,13 @@ module.exports = class Spotify extends Command {
 
 		const msg = await message.channel.send(`${client.emojiList.cd}  Searching for \`${args.join(' ')}\`...`);
 
-		if (await songLimit() == patreon.defaultMaxSongs && player.queue.length >= patreon.defaultMaxSongs) return msg.edit(`You have reached the **maximum** amount of songs (${patreon.defaultMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`);
-		if (await songLimit() == patreon.premiumMaxSongs && player.queue.length >= patreon.premiumMaxSongs) return msg.edit(`You have reached the **maximum** amount of songs (${patreon.premiumMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`);
-		if (await songLimit() == patreon.proMaxSongs && player.queue.length >= patreon.proMaxSongs) return msg.edit(`You have reached the **maximum** amount of songs (${patreon.proMaxSongs} songs). Want more songs? Contact the developer: \`Tetra#0001\``);
+		const songLimit = await client.songLimit(message.author.id, player.queue.length);
+		if(songLimit) return msg.edit(`You have reached the **maximum** amount of songs (${songLimit} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`);
 
 		if (args[0].startsWith(client.settings.spotifyURL)) {
 			const data = await getData(args.join(' '));
 			if (data.type == 'playlist' || data.type == 'album') {
-				const sL = await songLimit();
+				const sL = await client.getSongLimit(message.author.id);
 				let songsToAdd = 0;
 				if (player.queue.length == 0) { songsToAdd = Math.min(sL, data.tracks.items.length); }
 				else {
@@ -56,12 +55,8 @@ module.exports = class Spotify extends Command {
 					});
 				}
 				const playlistInfo = await getPreview(args.join(' '));
-				if (data.tracks.items.length != songsToAdd) {
-					if (await songLimit() == patreon.defaultMaxSongs) msg.edit(`**${playlistInfo.title}** (${songsToAdd} tracks) has been added to the queue by **${message.author.tag}**\nYou have reached the **maximum** amount of songs (${patreon.defaultMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`);
-					else if (await songLimit() == patreon.premiumMaxSongs) msg.edit(`**${playlistInfo.title}** (${songsToAdd} tracks) has been added to the queue by **${message.author.tag}**\nYou have reached the **maximum** amount of songs (${patreon.premiumMaxSongs} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`);
-					else if (await songLimit() == patreon.proMaxSongs) msg.edit(`**${playlistInfo.title}** (${songsToAdd} tracks) has been added to the queue by **${message.author.tag}**\nYou have reached the **maximum** amount of songs (${patreon.proMaxSongs} songs). Want more songs? Contact \`Tetra#0001\``);
-				}
-				else { msg.edit(`**${playlistInfo.title}** (${songsToAdd} tracks) has been added to the queue by **${message.author.tag}**`); }
+				if (data.tracks.items.length != songsToAdd) msg.edit('', client.queuedEmbed(playlistInfo.title, args[0], null, songsToAdd, message.author).setFooter('You have reached the max amount of songs in the queue. Purchase premium or pro to get more.'));
+				else msg.edit('', client.queuedEmbed(playlistInfo.title, args[0], null, songsToAdd, message.author));
 			}
 			else if (data.type == 'track') {
 				const track = await getPreview(args.join(' '));
@@ -70,14 +65,6 @@ module.exports = class Spotify extends Command {
 		}
 		else {
 			return msg.edit('Please provide a spotify album or track url.');
-		}
-
-		async function songLimit() {
-			const hasPremium = await premium(message.author.id, 'Premium');
-			const hasPro = await premium(message.author.id, 'Pro');
-			if (!hasPremium && !hasPro) return patreon.defaultMaxSongs;
-			if (hasPremium && !hasPro) return patreon.premiumMaxSongs;
-			if (hasPremium && hasPro) return patreon.proMaxSongs;
 		}
 	}
 };

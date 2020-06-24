@@ -122,32 +122,21 @@ module.exports = class Message extends Event {
 			});
 
 			async function runCommand(client) {
+				if (!message.guild.me.hasPermission('SEND_MESSAGES') || !message.guild.me.hasPermission('READ_MESSAGE_HISTORY')) return message.author.send(`I don't have permission to read/send messages in **${message.channel.name}**!\nPlease join the support server if you need help: ${client.settings.server}`);
+				if(!message.guild.me.hasPermission('EMBED_LINKS')) return message.channel.send(`I don't have permission to send embeds in **${message.channel.name}**!\nPlease join the support server if you need help: ${client.settings.server}`);
+
+				const permissions = message.channel.permissionsFor(client.user);
+				if (!permissions.has('SEND_MESSAGES') || !permissions.has('READ_MESSAGE_HISTORY')) return message.author.send(`I don't have permission to read/send messages in **${message.channel.name}**!\nPlease join the support server if you need help: ${client.settings.server}`);
+				if (!permissions.has('EMBED_LINKS')) return message.channel.send(`I don't have permission to send embeds in **${message.channel.name}**!\nPlease join the support server if you need help: ${client.settings.server}`);
+
 				let cmd;
 				if (client.commands.has(command)) cmd = client.commands.get(command);
 				else if (client.aliases.has(command)) cmd = client.aliases.get(command);
 				else return;
 
 				const commandName = cmd.name.toLowerCase();
-
-				// /* Async Non-Blocking */
-				// bot.findOne({ clientID: client.user.id }).then(async b => {
-				// 	if (!b) {
-				// 		const newClient = new bot({
-				// 			clientID: client.user.id,
-				// 			clientName: client.user.name,
-				// 			messagesSent: 0,
-				// 			songsPlayed: 0,
-				// 		});
-				// 		await newClient.save().catch(e => client.log(e));
-				// 		b = await bot.findOne({ clientID: client.user.id });
-				// 	}
-
-				// 	b.messagesSent += 1;
-				// 	b.save().catch(e => client.log(e));
-				// });
-
 				quickdb.add(`botMessages.${client.user.id}`, 1);
-
+				if (process.env.NODE_ENV == 'production') Statcord.ShardingClient.postCommand(commandName, message.author.id, client);
 				/* Async Non-Blocking */
 				commandsSchema.findOne({ commandName: commandName }).then(async c => {
 					if (!c) {
@@ -164,15 +153,6 @@ module.exports = class Message extends Event {
 				});
 
 				client.log(chalk.white.dim(`[Shard ${client.shard.ids}] ${commandName} used by ${message.author.tag} (${message.author.id}) from ${message.guild.name} (${message.guild.id})`));
-
-				// const embed = new Discord.MessageEmbed()
-				// 	.setAuthor(`${message.author.username}`, message.author.displayAvatarURL())
-				// 	.setColor(client.colors.main)
-				// 	.setDescription(`**${commandName}** command used by **${message.author.tag}** (${message.author.id})`)
-				// 	.setFooter(`${message.guild.name} (${message.guild.id})`, message.guild.iconURL())
-				// 	.setTimestamp();
-
-				// client.shardMessage(client, client.channelList.messageChannel, embed);
 
 				if (!cooldowns.has(commandName)) {
 					cooldowns.set(commandName, new Discord.Collection());
@@ -202,15 +182,15 @@ module.exports = class Message extends Event {
 					}
 					const now = Date.now();
 					const timestamps = cooldowns.get(commandName);
-					const cooldownAmount = (cmd.cooldown || 5) * 1000;
+					const cooldownAmount = Math.floor(cmd.cooldown || 5) * 1000;
 					if (!timestamps.has(message.author.id)) {
 						timestamps.set(message.author.id, now);
 						setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 					}
 					else {
 						const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
-						if (now < expirationTime) {
-							const timeLeft = (expirationTime - now) / 1000;
+						const timeLeft = (expirationTime - now) / 1000;
+						if (now < expirationTime && timeLeft > 0.9) {
 							return message.reply(`Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${commandName}\` command.`);
 						}
 						timestamps.set(message.author.id, now);
@@ -236,14 +216,6 @@ module.exports = class Message extends Event {
 				}
 
 				try {
-					// if (await premium(message.author.id, 'Premium') == false && await premium(message.author.id, 'Pro') == false) {
-					// 	const random = Math.floor(Math.random() * 20);
-					// 	if (random == 1) {
-					// 		message.channel.send('**Enjoying the bot?** Show your support by reviewing it! <https://bots.ondiscord.xyz/bots/472714545723342848/review>');
-					// 	}
-					// }
-					if (process.env.NODE_ENV == 'production') Statcord.ShardingClient.postCommand(commandName, message.author.id, client);
-
 					cmd.run(client, message, args);
 				}
 				catch (e) {

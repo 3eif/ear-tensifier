@@ -4,6 +4,7 @@ module.exports = async (msg, pages, emojiList, timeout, queueLength, queueDurati
     if (emojiList.length !== 2) throw new Error('Need two emojis.');
     let page = 0;
     const curPage = await msg.channel.send(pages[page].setFooter(`Page ${page + 1}/${pages.length} | ${queueLength} songs | ${queueDuration} total duration`));
+    if(pages.length == 0) return;
     for (const emoji of emojiList) await curPage.react(emoji);
     const reactionCollector = curPage.createReactionCollector(
         (reaction, user) => emojiList.includes(reaction.emoji.name) && !user.bot,

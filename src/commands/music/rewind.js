@@ -8,7 +8,7 @@ module.exports = class Rewind extends Command {
 		super(client, {
 			name: 'rewind',
 			description: 'Rewinds a song (default 10 seconds).',
-			cooldown: '10',
+			cooldown: '4',
 			usage: '<seconds>',
 			inVoiceChannel: true,
 			sameVoiceChannel: true,

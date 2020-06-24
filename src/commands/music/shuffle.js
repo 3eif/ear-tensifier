@@ -6,7 +6,7 @@ module.exports = class Shuffle extends Command {
 			name: 'shuffle',
 			description: 'Shuffles the queue.',
 			aliases: ['mix'],
-			cooldown: 10,
+			cooldown: 4,
 			inVoiceChannel: true,
 			sameVoiceChannel: true,
 			playing: true,
