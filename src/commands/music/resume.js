@@ -3,10 +3,9 @@ const Command = require('../../structures/Command');
 module.exports = class Pause extends Command {
 	constructor(client) {
 		super(client, {
-			name: 'pause',
-			description: 'Pauses the song',
+			name: 'resume',
+			description: 'Resumes the song',
 			cooldown: '4',
-			aliases: ['stop'],
 			inVoiceChannel: true,
 			sameVoiceChannel: true,
 			playing: true,
