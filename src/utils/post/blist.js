@@ -9,13 +9,15 @@ module.exports = async (client, servers, shards, shardCount) => {
     async function post() {
         await axios.post(
             'https://blist.xyz/api/bot/472714545723342848/stats/',
+            JSON.stringify({
+                'Server-Count': servers.toString(),
+                'Shard-Count': shardCount.toString(),
+            }),
             {
                 method: 'POST',
                 headers: {
                     'Authorization': process.env.BLIST_TOKEN,
                     'Content-Type': 'application/json',
-                    'Server-Count': servers.toString(),
-                    'Shard-Count': shardCount.toString(),
                 },
             },
         ).then(client.log('Posted bot stats to blist.xyz')).catch(function(error) {

@@ -10,7 +10,7 @@ module.exports = class Help extends Command {
 			name: 'help',
 			description: 'Sends you a detailed list of Ear Tensifier\'s commands.',
 			aliases: ['commands', 'list'],
-			cooldown: '30',
+			cooldown: '5',
 			usage: '[command name]',
 		});
 	}
