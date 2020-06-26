@@ -62,7 +62,7 @@ module.exports = class Queue extends Command {
 						.setDescription(`**Now Playing**: [${title}](${uri}) \`[${parsedDuration}]\` • <@${!requester.id ? requester : requester.id}>.\n\n**Up Next**:\n${str}`)
 						.setFooter(`Page ${i + 1}/${pagesNum} | ${player.queue.length} song(s) | ${parsedQueueDuration} total duration`);
 					pages.push(embed);
-					if(i == pagesNum - 1) paginate(message, pages, ['◀️', '▶️'], 120000, player.queue.length, parsedQueueDuration);
+					if(i == pagesNum - 1) paginate(client, message, pages, ['◀️', '▶️'], 120000, player.queue.length, parsedQueueDuration);
 				}
 			}
 		}

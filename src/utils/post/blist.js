@@ -4,14 +4,14 @@ module.exports = async (client, servers, shards, shardCount) => {
     post();
     setInterval(async function() {
         post();
-    }, 300000);
+    }, 1800000);
 
     async function post() {
         await axios.post(
             'https://blist.xyz/api/bot/472714545723342848/stats/',
             JSON.stringify({
-                'Server-Count': servers.toString(),
-                'Shard-Count': shardCount.toString(),
+                'server_count': servers.toString(),
+                'shard_count': shardCount.toString(),
             }),
             {
                 method: 'POST',

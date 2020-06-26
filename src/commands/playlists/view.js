@@ -56,7 +56,7 @@ module.exports = class View extends Command {
 					.setTimestamp()
 					.setFooter(`Page ${i + 1}/${pagesNum} | ${p.songs.length} songs | ${client.formatDuration(totalQueueDuration)} total duration`);
 				pages.push(embed);
-				if (i == pagesNum - 1 && pagesNum > 1) paginate(message, pages, ['◀️', '▶️'], 120000, p.songs.length, client.formatDuration(totalQueueDuration));
+				if (i == pagesNum - 1 && pagesNum > 1) paginate(client, message, pages, ['◀️', '▶️'], 120000, p.songs.length, client.formatDuration(totalQueueDuration));
 				else if(pagesNum == 1) message.channel.send(embed);
 			}
 		});
