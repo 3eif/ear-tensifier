@@ -166,7 +166,7 @@ module.exports = class Message extends Event {
 					const voted = await getVoted(client, message.author);
 					if (!voted) {
 						const voteEmbed = new Discord.MessageEmbed()
-							.setDescription('You must **vote** to use this command. You can vote [here](https://botlist.space/bot/472714545723342848/upvote)');
+							.setDescription('You must **vote** to use this command. You can vote [here](https://top.gg/bot/472714545723342848/vote)');
 						return message.channel.send(voteEmbed);
 					}
 				}
