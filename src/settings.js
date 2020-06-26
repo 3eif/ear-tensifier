@@ -1,7 +1,7 @@
 module.exports = {
 	'prefix': 'ear ',
 	'testing': false,
-	'version': '1.5.1',
+	'version': '1.5.2',
 	'server': 'https://discord.gg/xKgKMAP',
 	'voiceLeave': '60000',
 	'voteCooldown': 43200000,
