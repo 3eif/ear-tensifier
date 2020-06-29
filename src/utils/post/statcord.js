@@ -1,4 +1,4 @@
-const Statcord = require('statcord.js-beta');
+const Statcord = require('statcord.js');
 
 module.exports = async (client) => {
     Statcord.ShardingClient.post(client);
