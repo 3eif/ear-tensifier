@@ -4,5 +4,5 @@ module.exports = async (client) => {
     Statcord.ShardingClient.post(client);
     setInterval(function() {
         Statcord.ShardingClient.post(client);
-    }, 1800000);
+    }, 60000);
 };
