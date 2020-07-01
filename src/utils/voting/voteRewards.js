@@ -7,6 +7,7 @@ module.exports = async (client, user) => {
         authorID: user.id,
     }, async (err, u) => {
         if (err) console.log(err);
+        // eslint-disable-next-line no-unused-vars
         let lastVotedTime = 'Never';
         if (!u) {
             const newUser = new users({
@@ -43,5 +44,7 @@ module.exports = async (client, user) => {
             .setTimestamp();
 
         client.shardMessage(client, client.channelList.dblChannel, embed);
+
+        return user.send('Thank you for voting. You can now use filter commands! (You can vote again in 12 hours)');
     });
 };
