@@ -43,8 +43,6 @@ module.exports = class Client extends Discord.Client {
         this.getSongLimit = require('./../utils/music/getSongLimit.js');
 
         this.environment = process.env.NODE_ENV;
-
-        if(this.environment == 'production') this.dbl = new DBL(process.env.TOPGG_TOKEN, this);
     }
 
     log(msg) {
