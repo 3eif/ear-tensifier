@@ -18,7 +18,6 @@ module.exports = class Message extends Event {
 	}
 
 	async run(message) {
-		return;
 		if (message.author.bot) return;
 		if (message.channel.type === 'text') {
 			if (!message.guild.members.cache.get(this.client.user.id)) await message.guild.members.fetch(this.client.user.id);
@@ -150,7 +149,7 @@ module.exports = class Message extends Event {
 					await c.save().catch(e => client.log(e));
 				});
 
-				client.log(chalk.white.dim(`[Shard ${client.shard.ids}] ${commandName} used by ${message.author.tag} (${message.author.id}) from ${message.guild.name} (${message.guild.id})`));
+				client.log(chalk.white.dim(`[Shard ${client.shard.ids}] ${commandName} used by ${message.author.id} from ${message.guild.id}`));
 
 				if (!cooldowns.has(commandName)) {
 					cooldowns.set(commandName, new Discord.Collection());
