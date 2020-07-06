@@ -14,7 +14,7 @@ module.exports = async (client, msg, pages, emojiList, timeout, queueLength, que
         { time: timeout },
     );
     reactionCollector.on('collect', (reaction, user) => {
-        if(!user.bot && permissions.has('MANAGE_MESSAGES ')) reaction.users.remove(user.id);
+        if(!user.bot && permissions.has('MANAGE_MESSAGES')) reaction.users.remove(user.id);
         switch (reaction.emoji.name) {
             case emojiList[0]:
                 page = page > 0 ? --page : pages.length - 1;
