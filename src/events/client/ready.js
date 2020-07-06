@@ -24,7 +24,9 @@ module.exports = class Ready extends Event {
 
 	async run() {
 		player(this.client);
-		this.client.music.init(this.client.user.id);
+		await this.client.music.init(this.client.user.id)
+		.on('socketError', ({ id }, error) => console.error(`${id} ran into an error`, error))
+		.on('socketReady', (node) => console.log(`${node.id} connected.`));
 
 		const status = 'ear help';
 		const statusType = 'LISTENING';

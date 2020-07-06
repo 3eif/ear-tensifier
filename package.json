@@ -33,6 +33,7 @@
     "got": "^11.3.0",
     "is-absolute-url": "^3.0.3",
     "ksoft.js": "^3.1.4",
+    "lavaclient": "^3.0.5",
     "mongoose": "^5.9.19",
     "node-fetch": "^2.6.0",
     "quick.db": "^7.1.1",
