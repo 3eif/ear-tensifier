@@ -18,22 +18,23 @@ module.exports = class Forward extends Command {
 	}
 	async run(client, message, args) {
 		const player = client.music.players.get(message.guild.id);
+		const currentSongLength = client.decode(player.queue.current.song).length;
 
 		if (args[0] && !isNaN(args[0])) {
-			if ((player.position + args[0] * 1000) < player.current.length) {
+			if ((player.position + args[0] * 1000) < currentSongLength) {
+				const newDur = client.formatDuration(player.position + args[0] * 1000);
 				player.seek(player.position + args[0] * 1000);
-				const parsedDuration = client.formatDuration(player.position);
-				return message.channel.send(`Fast-forwarded to ${parsedDuration}`);
+				return message.channel.send(`Fast-forwarded to ${newDur}`);
 			}
 			else { return message.channel.send('Cannot forward beyond the song\'s duration.'); }
 		}
 		else if (args[0] && isNaN(args[0])) { return message.reply(`Invalid argument, must be a number.\nCorrect Usage: \`${client.settings.prefix}forward <seconds>\``); }
 
 		if (!args[0]) {
-			if ((player.position + fastForwardNum * 1000) < player.current.length) {
+			if ((player.position + fastForwardNum * 1000) < currentSongLength) {
+				const newDur = client.formatDuration(player.position + fastForwardNum * 1000);
 				player.seek(player.position + fastForwardNum * 1000);
-				const parsedDuration = client.formatDuration(player.position);
-				return message.channel.send(`Fast-forwarded to ${parsedDuration}`);
+				return message.channel.send(`Fast-forwarded to ${newDur}`);
 			}
 			else {
 				return message.channel.send('Cannot forward beyond the song\'s duration.');

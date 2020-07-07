@@ -18,11 +18,11 @@ module.exports = class Rewind extends Command {
 	async run(client, message, args) {
 		const player = client.music.players.get(message.guild.id);
 
-		const parsedDuration = client.formatDuration(player.position);
 		if(args[0] && !isNaN(args[0])) {
 			if((player.position - args[0] * 1000) > 0) {
+				const newDur = client.formatDuration(player.position - args[0] * 1000);
 				player.seek(player.position - args[0] * 1000);
-				return message.channel.send(`Rewinding to ${parsedDuration}`);
+				return message.channel.send(`Rewinding to ${newDur}`);
 			}
 			else {return message.channel.send('Cannot rewind beyond 00:00.');}
 		}
@@ -30,8 +30,9 @@ module.exports = class Rewind extends Command {
 
 		if(!args[0]) {
 			if((player.position - rewindNum * 1000) > 0) {
+				const newDur = client.formatDuration(player.position - rewindNum * 1000);
 				player.seek(player.position - rewindNum * 1000);
-				return message.channel.send(`Rewinding to ${parsedDuration}`);
+				return message.channel.send(`Rewinding to ${newDur}`);
 			}
 			else {
 				return message.channel.send('Cannot rewind beyond 00:00.');
