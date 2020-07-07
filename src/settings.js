@@ -9,7 +9,7 @@ module.exports = {
 	'embedDurationLength': '30',
 	'supportID': '473426453204172811',
 	'avatar': 'https://cdn.discordapp.com/attachments/673196460958941197/684411318718955559/eatensifier.png',
-	'devs': '275831434772742144',
+	'devs': ['275831434772742144', '396096412116320258'],
 	'spotifyURL': 'https://open.spotify.com',
 	'hiddenCommands': [
 		'shards',

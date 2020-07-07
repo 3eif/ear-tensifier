@@ -48,8 +48,4 @@ module.exports = class Client extends Discord.Client {
     log(msg) {
         console.log(chalk.white.bold(`[${new Date().toLocaleString()}]`) + chalk.white.bold(' > ') + msg);
     }
-
-    async login(token = this.token) {
-        super.login(token);
-    }
 };

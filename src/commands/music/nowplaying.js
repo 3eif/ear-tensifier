@@ -1,7 +1,7 @@
 const Command = require('../../structures/Command');
 
 const Discord = require('discord.js');
-
+const { decode } = require("@lavalink/encoding");
 
 module.exports = class NowPlaying extends Command {
 	constructor(client) {
@@ -14,15 +14,18 @@ module.exports = class NowPlaying extends Command {
 	}
 	async run(client, message) {
 		const player = client.music.players.get(message.guild.id);
-		const { title, author, duration, requester, uri, identifier } = player.current;
+		const { song, id } = player.queue.current;
+
+		let { title, author, length, uri, identifier } = decode(song);
+		length = Number(length);
 
 		const parsedCurrentDuration = client.formatDuration(player.position);
-		const parsedDuration = client.formatDuration(duration);
-		const part = Math.floor((player.position / duration) * client.settings.embedDurationLength);
+		const parsedDuration = client.formatDuration(length);
+		const part = Math.floor((player.position / length) * Number(client.settings.embedDurationLength));
 		const uni = player.playing ? '▶' : '⏸️';
 
 		const thumbnail = `https://img.youtube.com/vi/${identifier}/default.jpg`;
-		const user = `<@${!requester.id ? requester : requester.id}>`;
+		const user = `<@${id}>`;
 
 		const embed = new Discord.MessageEmbed()
 			.setColor(client.colors.main)

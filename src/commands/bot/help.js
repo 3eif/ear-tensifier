@@ -29,8 +29,8 @@ module.exports = class Help extends Command {
 
 		if (!args.length) {
 
-			categories.forEach(async (category) => {
-				if (category == 'dev') return;
+			for (const category of categories) {
+				if (category === 'dev') continue;
 
 				const helpCommands = [];
 				let categoryCommands = '';
@@ -44,7 +44,7 @@ module.exports = class Help extends Command {
 				for (let i = 0; i < helpCommands.length; i++) categoryCommands += helpCommands[i];
 				const categoryName = category.charAt(0).toUpperCase() + category.slice(1);
 				embed.addField(`${categoryName} (${commandsFile.length})`, categoryCommands);
-			});
+			}
 
 			await msg.edit('', embed);
 			message.channel.send(`Need more help? Join the support server: ${client.settings.server}`);
@@ -60,9 +60,11 @@ module.exports = class Help extends Command {
 			data.push(`**Name:** ${command.name}`);
 
 			if (command.description) data.push(`**Description:** ${command.description}`);
-			if (command.aliases == 'No aliases for this certain command') data.push('**Aliases:** This command has no aliases');
+
+			if (command.aliases === 'No aliases for this certain command') data.push('**Aliases:** This command has no aliases');
 			else data.push(`**Aliases:** \`${command.aliases}\``);
-			if (command.usage == 'No usage provided') data.push(`**Usage:** \`${client.settings.prefix}${command.name}\``);
+
+			if (command.usage === 'No usage provided') data.push(`**Usage:** \`${client.settings.prefix}${command.name}\``);
 			else data.push(`**Usage:** \`${client.settings.prefix}${command.name} ${command.usage}\``);
 
 			data.push(`**Cooldown:** ${command.cooldown || 3} second(s)`);

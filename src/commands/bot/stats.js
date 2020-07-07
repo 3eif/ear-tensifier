@@ -25,8 +25,8 @@ class Stats extends Command {
 		const hours = Math.floor((totalSeconds / 3600) % 24);
 		const mins = Math.floor((totalSeconds / 60) % 60);
 
-		const botMessages = await quickdb.fetch(`botMessages.${client.user.id}`);
-		const songsPlayed = await quickdb.fetch(`songsPlayed.${client.user.id}`);
+		const botMessages = await quickdb.fetch(`botMessages.${client.user.id}`) || 0;
+		const songsPlayed = await quickdb.fetch(`songsPlayed.${client.user.id}`) || 0;
 
 		const promises = [
 			client.shard.fetchClientValues('guilds.cache.size'),
@@ -40,14 +40,14 @@ class Stats extends Command {
 			this.channels.cache.size,
 			this.users.cache.size,
 			(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2),
-			this.music.nodes.array()[0].stats.players,
+			this.music.ideal[0].stats.players,
 			this.ws.ping,
 			(process.memoryUsage().rss / 1024 / 1024).toFixed(2),
-			this.music.nodes.array()[0].stats.playingPlayers,
+			this.music.ideal[0].stats.playingPlayers,
 		  ]`);
 
-		const totalMusicStreams = client.music.nodes.array()[0].stats.players;
-		const playingMusicStreams = client.music.nodes.array()[0].stats.playingPlayers;
+		const totalMusicStreams = client.music.ideal[0].stats.players;
+		const playingMusicStreams = client.music.ideal[0].stats.playingPlayers;
 
 		Promise.all(promises)
 			.then(results => {
@@ -56,12 +56,15 @@ class Stats extends Command {
 
 				let totalMemory = 0;
 				shardInfo.forEach(s => totalMemory += parseInt(s[5]));
+
 				let totalRSS = 0;
 				shardInfo.forEach(s => totalRSS += parseInt(s[8]));
+
 				let avgLatency = 0;
 				shardInfo.forEach(s => avgLatency += s[7]);
 				avgLatency = avgLatency / shardInfo.length;
 				avgLatency = Math.round(avgLatency);
+
 				const memoryPercentage = ((totalMemory / (os.totalmem() / 1024 / 1024)).toFixed(3) * 100).toFixed(2);
 
 				cpuStat.usagePercent(function(err, percent) {

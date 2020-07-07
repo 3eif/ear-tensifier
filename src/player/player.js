@@ -1,7 +1,4 @@
 const { Manager } = require('lavaclient');
-const trackStart = require('./trackStart.js');
-const trackEnd = require('./trackEnd.js');
-const queueEnd = require('./queueEnd.js');
 
 module.exports = async (client) => {
 	const nodes = [
@@ -21,6 +18,7 @@ module.exports = async (client) => {
 			return;
 		},
 	});
+
 	// .on('nodeError', (node, error) => client.log(`Node error: ${error.message}`))
 	// .on('queueEnd', player => {
 	// 	queueEnd(client, player);

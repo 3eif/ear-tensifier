@@ -4,6 +4,7 @@ const { main } = require('../../../config/colors.js');
 
 module.exports = (trackName, trackLink, trackDuration, tracks, trackRequester) => {
     let embedString = 'Queued ';
+
     if(trackName && !trackLink) embedString += `**${trackName}**`;
     if(trackName && trackLink) embedString += `**[${trackName}](${trackLink})**`;
     if(trackDuration) embedString += ` [${formatDuration(trackDuration)}]`;
@@ -16,5 +17,6 @@ module.exports = (trackName, trackLink, trackDuration, tracks, trackRequester) =
     const embed = new MessageEmbed()
         .setDescription(embedString)
         .setColor(main);
+
     return embed;
 };

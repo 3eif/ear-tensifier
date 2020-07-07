@@ -13,12 +13,7 @@ module.exports = class Leave extends Command {
 	}
 	async run(client, message) {
 		const player = client.music.players.get(message.guild.id);
-
-		if(player) {
-			player.destroy();
-		}
-		else {message.member.voice.channel.leave();}
-
+		if (player) player.disconnect(true);
 		return message.channel.send(`Left ${client.emojiList.voice}**${message.member.voice.channel.name}**`);
 	}
 };

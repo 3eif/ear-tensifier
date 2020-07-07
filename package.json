@@ -4,6 +4,7 @@
   "description": "Discord music bot written in javascript using discord.js https://eartensifier.net",
   "main": "./src/index.js",
   "dependencies": {
+    "@lavalink/encoding": "^0.1.1",
     "@sentry/node": "^5.17.0",
     "@tetracyl/erela.js": "^1.4.0",
     "ascii": "^1.0.0",
@@ -56,7 +57,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node .",
     "production": "NODE_ENV=production&&npm start",
-    "development": "set NODE_ENV=development&&npm start"
+    "development": "NODE_ENV=development npm start"
   },
   "repository": {
     "type": "git",

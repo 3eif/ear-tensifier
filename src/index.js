@@ -13,7 +13,7 @@ const manager = new ShardingManager('./src/eartensifier.js', {
   timeout: 999999,
 });
 
-if(process.env.NODE_ENV == 'production') {
+if(process.env.NODE_ENV === 'production') {
   const Statcord = require('statcord.js-beta');
   new Statcord.ShardingClient(process.env.STATCORD_TOKEN, manager);
 }

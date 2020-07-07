@@ -16,7 +16,7 @@ class Lavalink extends Command {
     async run(client, message) {
         const msg = await message.channel.send(`${client.emojiList.loading} Gathering stats...`);
 
-        const stats = client.music.nodes.array()[0].stats;
+        const stats = client.music.ideal[0].stats;
 
         const allocated = Math.floor(stats.memory.allocated / 1024 / 1024);
         const used = Math.floor(stats.memory.used / 1024 / 1024);
@@ -42,7 +42,10 @@ class Lavalink extends Command {
             .addField('Uptime', `\`\`\`${days} days, ${hours} hours, ${mins} minutes, and ${realTotalSecs} seconds\`\`\``)
             .setTimestamp();
 
-        if(typeof stats.frameStats != 'undefined') statsEmbed.addField('Frame Stats', `\`\`\`Sent: ${stats.frameStats.sent}\nDeficit: ${stats.frameStats.deficit}\nNulled: ${stats.frameStats.nulled}\`\`\``);
+        if (typeof stats.frameStats != 'undefined') {
+            statsEmbed.addField('Frame Stats', `\`\`\`Sent: ${stats.frameStats.sent}\nDeficit: ${stats.frameStats.deficit}\nNulled: ${stats.frameStats.nulled}\`\`\``);
+        }
+
         return msg.edit('', statsEmbed);
     }
 }
