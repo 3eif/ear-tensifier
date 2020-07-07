@@ -14,7 +14,7 @@ module.exports = class Clear extends Command {
 	async run(client, message) {
 		const player = client.music.players.get(message.guild.id);
 
-		player.queue.length = [];
+		player.queue.next.length = [];
 		return message.channel.send('Cleared the queue.');
 	}
 };
