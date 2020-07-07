@@ -14,7 +14,7 @@ module.exports = class Previous extends Command {
 	async run(client, message) {
         const player = client.music.players.get(message.guild.id);
         if(player.previous == null) return message.channel.send('There are no previous songs.');
-        player.queue.unshift(player.previous);
+        player.queue.next.unshift(player.previous);
         player.stop();
 	}
 };

@@ -3,10 +3,14 @@ const Discord = require('discord.js');
 const users = require('../models/user.js');
 const quickdb = require('quick.db');
 const songs = require('../models/song.js');
+const { decode } = require('@lavalink/encoding');
 
-module.exports = async (client, textChannel, title, duration, author, uri) => {
+module.exports = async (client, textChannel, next) => {
+    const { title, length, author, uri } = decode(next.song);
+    const duration = Number(length);
     const player = client.music.players.get(textChannel.guild.id);
     const current = player.queue.current;
+    player.futurePrevious = current;
     const song = require('@lavalink/encoding').decode(current.song);
 
     let requester = `<@${current.id}>`;
