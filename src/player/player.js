@@ -4,12 +4,16 @@ const trackEnd = require('./trackEnd.js');
 const queueEnd = require('./queueEnd.js');
 
 module.exports = async (client) => {
-	client.music = new Manager({
-		nodes: [{
+	const nodes = [
+		{
+			id: 'main',
 			host: process.env.LAVALINK_HOST,
 			port: process.env.LAVALINK_PORT,
 			password: process.env.LAVALINK_PASSWORD,
-		}],
+		},
+	];
+
+	client.music = new Manager(nodes, {
 		shards: client.shard.count,
 		send(id, data) {
 			const guild = client.guilds.cache.get(id);
