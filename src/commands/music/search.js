@@ -30,7 +30,7 @@ module.exports = class Search extends Command {
 
 		const tries = 5;
 		for(let i = 0; i < tries; i++) {
-			const res = await client.music.search(args.join(' '), message.author);
+			const res = await player.manager.search(args.join(' '), message.author);
 			if(res.loadType != 'NO_MATCHES') {
 				if (res.loadType == 'TRACK_LOADED') {
 					player.queue.add(res.tracks[0]);
