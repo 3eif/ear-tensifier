@@ -19,7 +19,7 @@ module.exports = class Skipto extends Command {
 
 		const player = client.music.players.get(message.guild.id);
 		if ((args[0] > player.queue.next.length) || (args[0] && !player.queue.next[args[0] - 1])) return message.channel.send('Song not found.');
-		const { title } = player.queue.next[args[0] - 1];
+		const { title } = client.decode(player.queue.next[args[0] - 1].song);
 		if (args[0] == 1) player.stop();
 		player.queue.next.splice(0, args[0] - 1);
 		player.stop();
