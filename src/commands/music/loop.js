@@ -18,7 +18,7 @@ module.exports = class Loop extends Command {
         const player = client.music.players.get(message.guild.id);
 
         if (!args[0] || args[0].toLowerCase() === 'song') {
-            await player.queue.loop('song');
+            player.queue.loop('song');
             if (!player.queue.repeat.song)
                 return message.channel.send('Song is now being looped');
             else return message.channel.send('Song has been unlooped');

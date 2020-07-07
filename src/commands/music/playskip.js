@@ -50,11 +50,11 @@ module.exports = class Playskip extends Command {
 		async function playskip() {
 			const delay = ms => new Promise(res => setTimeout(res, ms));
 			await delay(1500);
-			player.queue.splice(0, 0, player.queue[player.queue.length - 1]);
+			player.queue.next.unshift(player.queue.next[player.queue.length - 1]);
 			await delay(500);
 			player.queue.pop();
-			if(player.trackRepeat) player.setTrackRepeat(false);
-			if(player.queueRepeat) player.setQueueRepeat(false);
+			if(player.queue.repeat.song) player.queue.loop('song');
+			if(player.queue.repeat.queue) player.queue.loop('queue');
 			player.stop();
 		}
 	}
