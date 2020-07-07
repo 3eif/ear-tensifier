@@ -1,9 +1,12 @@
-module.exports = player => {
-    if (player.queue.length === 0) return player.current.duration;
+const { decode } = require('@lavalink/encoding');
 
-    let totalQueueDuration = player.current.duration;
+module.exports = player => {
+    const currentSongLength = Number(decode(player.queue.next[0].song).length) - player.position;
+    if (player.queue.next.length === 0) return currentSongLength;
+
+    let totalQueueDuration = currentSongLength;
     for(let i = 0; i < player.queue.length; i++) {
-        totalQueueDuration += player.queue[i].duration;
+        totalQueueDuration += Number(decode(player.queue.next[i].song).length);
     }
     return totalQueueDuration;
 };
