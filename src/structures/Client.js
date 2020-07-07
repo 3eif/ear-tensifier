@@ -42,6 +42,7 @@ module.exports = class Client extends Discord.Client {
         this.songLimit = require('./../utils/music/songLimit.js');
         this.getSongLimit = require('./../utils/music/getSongLimit.js');
 
+        this.decode = require('@lavalink/encoding').decode;
         this.environment = process.env.NODE_ENV;
     }
 
