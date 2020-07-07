@@ -2,7 +2,6 @@
 const Command = require('../../structures/Command');
 
 const Discord = require('discord.js');
-const { decode } = require('@lavalink/encoding');
 const paginate = require('../../utils/music/paginate.js');
 const getQueueDuration = require('../../utils/music/getQueueDuration.js');
 
@@ -20,7 +19,7 @@ module.exports = class Queue extends Command {
 
 		const { song, id } = player.queue.current;
 		// eslint-disable-next-line prefer-const
-		let { title, length, uri } = decode(song);
+		let { title, length, uri } = client.decode(song);
 		length = Number(length);
 
 		const parsedDuration = client.formatDuration(length);

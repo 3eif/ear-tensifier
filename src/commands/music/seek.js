@@ -17,7 +17,8 @@ module.exports = class Seek extends Command {
 		if(isNaN(args[0])) return message.reply(`Invalid number. Please provide a number in seconds.\nCorrect Usage: \`${client.settings.prefix}seek <seconds>\``);
 
 		const player = client.music.players.get(message.guild.id);
-		if(args[0] * 1000 >= player.current.length || args[0] < 0) return message.channel.send('Cannot seek beyond length of song.');
+		const { length } = client.decode(player.queue.current.song);
+		if(args[0] * 1000 >= Number(length) || args[0] < 0) return message.channel.send('Cannot seek beyond length of song.');
 		player.seek(args[0] * 1000);
 
 		const parsedDuration = client.formatDuration(player.position);
