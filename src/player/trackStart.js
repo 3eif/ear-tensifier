@@ -7,7 +7,7 @@ const songs = require('../models/song.js');
 module.exports = async (client, textChannel, title, duration, author, uri) => {
     const player = client.music.players.get(textChannel.guild.id);
     const current = player.queue.current;
-    const song = require("@lavalink/encoding").decode(current.song);
+    const song = require('@lavalink/encoding').decode(current.song);
 
     let requester = `<@${current.id}>`;
     if (!current.id) requester = `<@${current.requester}>`;
@@ -31,7 +31,8 @@ module.exports = async (client, textChannel, title, duration, author, uri) => {
                 developer: false,
             });
             await newUser.save().catch(e => this.client.log(e));
-        } else {
+        }
+        else {
             messageUser.songsPlayed++;
             await messageUser.save().catch(e => this.client.log(e));
         }
@@ -45,7 +46,8 @@ module.exports = async (client, textChannel, title, duration, author, uri) => {
         embed.setThumbnail('attachment://soundcloud.png');
         embed.setFooter('SoundCloud');
         embed.setColor(client.colors.soundcloud);
-    } else if (uri.includes('bandcamp')) {
+    }
+    else if (uri.includes('bandcamp')) {
         embed.attachFiles(['./assets/bandcamp.png']);
         embed.setThumbnail('attachment://bandcamp.png');
         embed.setFooter('bandcamp');
@@ -57,16 +59,19 @@ module.exports = async (client, textChannel, title, duration, author, uri) => {
         embed.setThumbnail('attachment://mixer.png');
         embed.setFooter('Mixer');
         embed.setColor(client.colors.mixer);
-    } else if (uri.includes('twitch')) {
+    }
+    else if (uri.includes('twitch')) {
         embed.attachFiles(['./assets/twitch.png']);
         embed.setThumbnail('attachment://twitch.png');
         embed.setFooter('Twitch');
         embed.setColor(client.colors.twitch);
-    } else if (uri.includes('youtube')) {
+    }
+    else if (uri.includes('youtube')) {
         embed.setThumbnail(thumbnail);
         embed.setFooter('Youtube');
         embed.setColor(client.colors.youtube);
-    } else {
+    }
+    else {
         embed.setColor(client.colors.main);
         embed.setFooter('Other');
     }
@@ -112,7 +117,8 @@ function addDB(id, title, author, duration, url, thumbnail) {
                 songThumbnail: thumbnail,
             });
             await newSong.save().catch(e => console.log(e));
-        } else {
+        }
+        else {
             s.timesPlayed += 1;
             await s.save().catch(e => console.log(e));
         }

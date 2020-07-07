@@ -1,7 +1,7 @@
 const Command = require('../../structures/Command');
 
 const Discord = require('discord.js');
-const { decode } = require("@lavalink/encoding");
+const { decode } = require('@lavalink/encoding');
 
 module.exports = class NowPlaying extends Command {
 	constructor(client) {
@@ -16,6 +16,7 @@ module.exports = class NowPlaying extends Command {
 		const player = client.music.players.get(message.guild.id);
 		const { song, id } = player.queue.current;
 
+		// eslint-disable-next-line prefer-const
 		let { title, author, length, uri, identifier } = decode(song);
 		length = Number(length);
 

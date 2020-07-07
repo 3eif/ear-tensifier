@@ -5,8 +5,7 @@ const chalk = require('chalk');
 
 const Event = require('../../structures/Event');
 const postHandler = require('../../handlers/post.js');
-const { Manager } = require('lavaclient');
-const { QueuePlugin } = require('lavaclient-queue');
+const createManager = require('../../player/createManager.js');
 
 mongoose.connect(process.env.MONGO_URL, {
 	useNewUrlParser: true,
@@ -24,45 +23,20 @@ module.exports = class Ready extends Event {
 	}
 
 	async run() {
-		const client = this.client;
-
-		const nodes = [
-			{
-				id: 'main',
-				host: process.env.LAVALINK_HOST,
-				port: process.env.LAVALINK_PORT,
-				password: process.env.LAVALINK_PASSWORD,
-			},
-		];
-
-		client.music = new Manager(nodes, {
-			shards: client.shard.count,
-			send(id, data) {
-				const guild = client.guilds.cache.get(id);
-				if (guild) guild.shard.send(data);
-				return;
-			},
-		});
-
-		client.music.use(new QueuePlugin());
-		await client.music.init(client.user.id);
-		client.music.on('socketError', ({ id }, error) => console.error(`${id} ran into an error`, error));
-		client.music.on('socketReady', (node) => console.log(`${node.id} connected.`));
-		client.ws.on('VOICE_STATE_UPDATE', (upd) => client.music.stateUpdate(upd));
-		client.ws.on('VOICE_SERVER_UPDATE', (upd) => client.music.serverUpdate(upd));
+		createManager(this.client);
 
 		const status = 'ear help';
 		const statusType = 'LISTENING';
-		client.user.setActivity(`${status}`, { type: `${statusType}` });
+		this.client.user.setActivity(`${status}`, { type: `${statusType}` });
 
-		if (client.shard.ids[0] === client.shard.count - 1) {
+		if (this.client.shard.ids[0] === this.client.shard.count - 1) {
 
-			const guildNum = await client.shard.fetchClientValues('guilds.cache.size');
-			const memberNum = await client.shard.broadcastEval('this.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0)');
+			const guildNum = await this.client.shard.fetchClientValues('guilds.cache.size');
+			const memberNum = await this.client.shard.broadcastEval('this.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0)');
 			const totalMembers = memberNum.reduce((prev, memberCount) => prev + memberCount, 0);
 			const totalGuilds = guildNum.reduce((total, shard) => total + shard, 0);
 
-			figlet(client.user.username, function(err, data) {
+			figlet(this.client.user.username, function(err, data) {
 				if (err) {
 					console.log('Something went wrong...');
 					console.dir(err);
@@ -71,12 +45,12 @@ module.exports = class Ready extends Event {
 				console.log(chalk.magenta.bold(data));
 			});
 
-			client.log(chalk.magenta.underline.bold(`Ear Tensifier is online: ${client.shard.count} shards, ${totalGuilds} servers and ${totalMembers} members.`));
+			this.client.log(chalk.magenta.underline.bold(`Ear Tensifier is online: ${this.client.shard.count} shards, ${totalGuilds} servers and ${totalMembers} members.`));
 
-			if (client.user.id === '472714545723342848') {
-				postHandler(client, totalGuilds, guildNum, client.shard.count);
-				await require('../../utils/voting/blsHook.js').startUp(client);
-				await require('../../utils/voting/dblHook.js').startUp(client);
+			if (this.client.user.id === '472714545723342848') {
+				postHandler(this.client, totalGuilds, guildNum, this.client.shard.count);
+				await require('../../utils/voting/blsHook.js').startUp(this.client);
+				await require('../../utils/voting/dblHook.js').startUp(this.client);
 			}
 		}
 	}
