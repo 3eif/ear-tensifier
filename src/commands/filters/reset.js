@@ -20,7 +20,7 @@ module.exports = class Reset extends Command {
 		const player = client.music.players.get(message.guild.id);
 		const delay = ms => new Promise(res => setTimeout(res, ms));
 
-		player.setEQ(...Array(13).fill(0).map((n, i) => ({ band: i, gain: 0.1 })));
+		player.setEqualizer(Array(13).fill(0).map((n, i) => ({ band: i, gain: 0.1 })));
 		player.setVolume(normal);
 
 		const msg = await message.channel.send(`${client.emojiList.loading} Reseting filters to default...`);

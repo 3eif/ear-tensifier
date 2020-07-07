@@ -30,7 +30,7 @@ module.exports = class Equalizer extends Command {
 			return message.channel.send(embed);
 		}
 		else if (args[0] == 'off' || args[0] == 'reset') {
-			player.setEQ(...Array(13).fill(0).map((n, i) => ({ band: i, gain: 0.15 })));
+			player.setEqualizer(Array(13).fill(0).map((n, i) => ({ band: i, gain: 0.15 })));
 		}
 
 		const bands = args.join(' ').split(/[ ]+/);
@@ -43,7 +43,7 @@ module.exports = class Equalizer extends Command {
 
 		for (let i = 0; i < bands.length; i++) {
 			if (i > 13) break;
-			player.setEQ(...[{ band: i, gain: (bands[i]) / 10 }]);
+			player.setEqualizer([{ band: i, gain: (bands[i]) / 10 }]);
 			bandsStr += `${bands[i]} `;
 		}
 

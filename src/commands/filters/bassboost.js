@@ -22,7 +22,7 @@ module.exports = class Bassboost extends Command {
 		const delay = ms => new Promise(res => setTimeout(res, ms));
 
 		if (!args[0]) {
-			player.setEQ(...Array(6).fill(0).map((n, i) => ({ band: i, gain: 0.65 })));
+			player.setEqualizer(Array(6).fill(0).map((n, i) => ({ band: i, gain: 0.65 })));
 			const msg = await message.channel.send(`${client.emojiList.loading} Turning on **bassboost**. This may take a few seconds...`);
 			const embed = new Discord.MessageEmbed()
 				.setDescription('Turned on **bassboost**')
@@ -32,7 +32,7 @@ module.exports = class Bassboost extends Command {
 		}
 
 		if (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off') {
-			player.setEQ(...Array(13).fill(0).map((n, i) => ({ band: i, gain: 0.15 })));
+			player.setEqualizer(Array(13).fill(0).map((n, i) => ({ band: i, gain: 0.15 })));
 			const msg = await message.channel.send(`${client.emojiList.loading} Turning off **bassboost**. This may take a few seconds...`);
 			const embed = new Discord.MessageEmbed()
 				.setDescription('Turned off **bassboost**')
@@ -47,9 +47,9 @@ module.exports = class Bassboost extends Command {
 			if (await premium(message.author.id, 'Premium') == false) {
 				return message.channel.send('Only **Premium** users can set the bassboost higher. Click here to get premium: https://www.patreon.com/join/eartensifier');
 			}
-			else { player.setEQ(...Array(6).fill(0).map((n, i) => ({ band: i, gain: args[0] / 10 }))); }
+			else { player.setEqualizer(Array(6).fill(0).map((n, i) => ({ band: i, gain: args[0] / 10 }))); }
 		}
-		else player.setEQ(...Array(6).fill(0).map((n, i) => ({ band: i, gain: args[0] / 10 })));
+		else player.setEqualizer(Array(6).fill(0).map((n, i) => ({ band: i, gain: args[0] / 10 })));
 
 		const msg = await message.channel.send(`${client.emojiList.loading} Setting bassboost to **${args[0]}dB**. This may take a few seconds...`);
 		const embed = new Discord.MessageEmbed()

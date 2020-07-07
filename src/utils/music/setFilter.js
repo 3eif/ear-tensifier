@@ -6,7 +6,7 @@ module.exports = async (client, message, filter, state) => {
     const player = client.music.players.get(message.guild.id);
 
     if (!state) {
-        player.setEQ(...Array(13).fill(0).map((n, i) => ({ band: i, gain: 0.15 })));
+        player.setEqualizer(Array(13).fill(0).map((n, i) => ({ band: i, gain: 0.15 })));
         const msg = await message.channel.send(`${client.emojiList.loading} Turning off **${filter}**. This may take a few seconds...`);
         const embed = new Discord.MessageEmbed()
             .setAuthor(`Turned off **${filter}**`)
@@ -17,16 +17,16 @@ module.exports = async (client, message, filter, state) => {
     else if (state) {
         switch (filter) {
             case 'bass':
-                player.setEQ(...client.filters.bass);
+                player.setEqualizer(client.filters.bass);
                 break;
             case 'soft':
-                player.setEQ(...client.filters.soft);
+                player.setEqualizer(client.filters.soft);
                 break;
             case 'pop':
-                player.setEQ(...client.filters.pop);
+                player.setEqualizer(client.filters.pop);
                 break;
             case 'treblebass':
-                player.setEQ(...client.filters.treblebass);
+                player.setEqualizer(client.filters.treblebass);
                 break;
             default:
         }
