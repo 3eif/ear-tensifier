@@ -1,8 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-async-promise-executor */
-
-
 module.exports = async (client, message, msg, player, searchQuery, playlist) => {
+    let tries = 0;
     const source = { soundcloud: 'sc' }[searchQuery.source] || 'yt';
 
     let search = searchQuery.query || searchQuery;
@@ -46,7 +43,8 @@ module.exports = async (client, message, msg, player, searchQuery, playlist) => 
             if (!player.playing && !player.paused) player.queue.start();
             return;
         }
-        return load();
+        tries++;
+        if(tries < 5) return load();
     }
 
     return load();
