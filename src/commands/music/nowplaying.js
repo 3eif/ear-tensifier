@@ -13,10 +13,9 @@ module.exports = class NowPlaying extends Command {
 	}
 	async run(client, message) {
 		const player = client.music.players.get(message.guild.id);
-		const { song, id } = player.queue.current;
 
 		// eslint-disable-next-line prefer-const
-		let { title, author, length, uri, identifier } = client.decode(song);
+		let { title, author, length, uri, identifier, requester } = player.queue.current;
 		length = Number(length);
 
 		const parsedCurrentDuration = client.formatDuration(player.position);
@@ -25,7 +24,7 @@ module.exports = class NowPlaying extends Command {
 		const uni = player.playing ? '▶' : '⏸️';
 
 		const thumbnail = `https://img.youtube.com/vi/${identifier}/default.jpg`;
-		const user = `<@${id}>`;
+		const user = `<@${requester}>`;
 
 		const embed = new Discord.MessageEmbed()
 			.setColor(client.colors.main)

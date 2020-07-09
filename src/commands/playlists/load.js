@@ -13,13 +13,10 @@ module.exports = class Load extends Command {
 			args: true,
 			usage: '<playlist name>',
 			permission: 'pro',
+			botPermissions: ['CONNECT', 'SPEAK'],
 		});
 	}
 	async run(client, message, args) {
-		const permissions = message.member.voice.channel.permissionsFor(client.user);
-		if (!permissions.has('CONNECT')) return message.channel.send('I do not have permission to join your voice channel.');
-		if (!permissions.has('SPEAK')) return message.channel.send('I do not have permission to speak in your voice channel.');
-
 		let player = client.music.players.get(message.guild.id);
 		if (player && player.playing === false && player.current) return message.channel.send(`Cannot play/queue songs while paused. Do \`${client.settings.prefix} resume\` to play.`);
 		if (!player) player = await spawnPlayer(client, message);
@@ -57,10 +54,11 @@ module.exports = class Load extends Command {
 			// eslint-disable-next-line no-async-promise-executor
 			const content = new Promise(async function(resolve) {
 				for (let i = 0; i < songsToAdd; i++) {
-					player.queue.add(p.songs[i]);
-					if (!player.playing && !player.paused && !player.queue.length) player.play();
+					player.queue.add(p.songs[i], message.author.id);
 					if (i == songsToAdd - 1) resolve();
 				}
+
+				if (!player.playing && !player.paused) player.queue.start();
 			});
 
 			content.then(async function() {

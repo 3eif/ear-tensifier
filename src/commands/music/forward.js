@@ -18,7 +18,7 @@ module.exports = class Forward extends Command {
 	}
 	async run(client, message, args) {
 		const player = client.music.players.get(message.guild.id);
-		const currentSongLength = client.decode(player.queue.current.song).length;
+		const currentSongLength = player.queue.current.length;
 
 		if (args[0] && !isNaN(args[0])) {
 			if ((player.position + args[0] * 1000) < currentSongLength) {

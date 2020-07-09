@@ -39,13 +39,13 @@ module.exports = class View extends Command {
 
 			let totalQueueDuration = 0;
 			for(let i = 0; i < p.songs.length; i++) {
-				totalQueueDuration += p.songs[i].duration;
+				totalQueueDuration += p.songs[i].info.length;
 			}
 
 			const pages = [];
 			let n = 1;
 			for (let i = 0; i < pagesNum; i++) {
-				const str = `${p.songs.slice(i * 10, i * 10 + 10).map(song => `**${n++}.** [${song.title}](https://www.youtube.com/watch?v=${song.identifier}) \`[${client.formatDuration(song.duration)}]\``).join('\n')}`;
+				const str = `${p.songs.slice(i * 10, i * 10 + 10).map(song => `**${n++}.** [${song.info.title}](https://www.youtube.com/watch?v=${song.info.identifier}) \`[${client.formatDuration(song.info.length)}]\``).join('\n')}`;
 				const embed = new Discord.MessageEmbed()
 					.setAuthor(message.author.tag, message.author.displayAvatarURL())
 					.setThumbnail(message.author.displayAvatarURL())

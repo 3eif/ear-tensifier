@@ -3,6 +3,7 @@ const Command = require('../../structures/Command');
 const playlists = require('../../models/playlist.js');
 const Discord = require('discord.js');
 const { getData, getPreview } = require('spotify-url-info');
+const ytsr = require('ytsr');
 
 module.exports = class Create extends Command {
 	constructor(client) {
@@ -53,8 +54,8 @@ module.exports = class Create extends Command {
 		}
 		else await search(args.slice(1).join(' '), 'no');
 
-		async function search(sq, isPlaylist) {
-			let searchQuery = sq;
+		async function search(s, isPlaylist) {
+			let searchQuery = s;
 			if (['youtube', 'soundcloud', 'bandcamp', 'mixer', 'twitch'].includes(args[1].toLowerCase())) {
 				searchQuery = {
 					source: args[1],
@@ -62,48 +63,49 @@ module.exports = class Create extends Command {
 				};
 			}
 
-			const tries = 5;
-			for (let i = 0; i < tries; i++) {
-				const res = await client.music.search(searchQuery, message.author);
-				if (res.loadType != 'NO_MATCHES') {
-					if (res.loadType == 'TRACK_LOADED') {
+			const source = { soundcloud: 'sc' }[searchQuery.source] || 'yt';
+
+			let sq = searchQuery.query || searchQuery;
+			if (!/^https?:\/\//.test(sq)) sq = `${source}search:${sq}`;
+
+			const { rest } = client.music.ideal[0];
+			const res = await rest.resolve(sq);
+			if (res.loadType !== 'NO_MATCHES' && res.loadType !== 'LOAD_FAILED') {
+				switch (res.loadType) {
+					case 'SEARCH_RESULT':
+					case 'TRACK_LOADED': {
+						const tracks = [await rest.decode(res.tracks[0].track)];
+						const rawTrack = res.tracks[0];
+						rawTrack.requester = message.author.id;
 						songsToAdd.push(res.tracks[0]);
 						if (isPlaylist == 'no') {
-							const parsedDuration = client.formatDuration(res.tracks[0].duration);
-							playlistMessage = `Added **${res.tracks[0].title}** [${parsedDuration}] to **${playlistName}**.`;
+							const parsedDuration = client.formatDuration(tracks[0].length);
+							playlistMessage = `Added **${tracks[0].title}** [${parsedDuration}] to **${playlistName}**.`;
 							return await addSongs(false);
 						}
 						await addSongs(true);
 						break;
 					}
-					else if (res.loadType == 'SEARCH_RESULT') {
-						songsToAdd.push(res.tracks[0]);
-						if (isPlaylist == 'no') {
-							const parsedDuration = client.formatDuration(res.tracks[0].duration);
-							playlistMessage = `Added **${res.tracks[0].title}** [${parsedDuration}] to **${playlistName}**.`;
-							return await addSongs(false);
+					case 'PLAYLIST_LOADED': {
+						for(let n = 0; n < res.tracks.length; n++) {
+							songsToAdd.push(res.tracks[n]);
 						}
-						await addSongs(true);
-						break;
-					}
-					else if (res.loadType == 'PLAYLIST_LOADED') {
-						for(let n = 0; n < res.playlist.tracks.length; n++) {
-							songsToAdd.push(res.playlist.tracks[n]);
-						}
-						// eslint-disable-next-line no-case-declarations
-						const parsedDuration = client.formatDuration(res.playlist.tracks.reduce((acc, cure) => ({ duration: acc.duration + cure.duration })).duration);
-						playlistMessage = `Added **${res.playlist.info.name}** (${parsedDuration}) (${res.playlist.tracks.length} tracks) to **${playlistName}**.`;
+						const parsedDuration = client.formatDuration(res.tracks.reduce((d, t) => d + t.info.length, 0));
+						playlistMessage = `Added **${res.playlistInfo.name}** (${parsedDuration}) (${res.tracks.length} tracks) to **${playlistName}**.`;
 						await addSongs(false);
 						break;
 					}
-					else if (res.loadType == 'LOAD_FAILED') {
-						msg.edit('An error occured. Please try again.');
-						noTracks++;
-						break;
-					}
 				}
-				else if (i >= 4 && isPlaylist == 'no') msg.edit('No tracks found.');
-				else if (i >= 4 && isPlaylist == 'yes') noTracks++;
+				return;
+			}
+			else {
+				const searchResult = await ytsr(searchQuery, { limit: 1 });
+				if(searchResult.results == 0) {
+					noTracks++;
+					return msg.edit('No results found.');
+				}
+				const videoIdentifier = searchResult.items[0].link.replace('https://www.youtube.com/watch?v=', '');
+				return search(videoIdentifier);
 			}
 		}
 

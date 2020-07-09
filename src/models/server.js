@@ -4,7 +4,7 @@ const serverSchema = mongoose.Schema({
 	serverID: String,
 	prefix: String,
 	ignore: Array,
-	roleSystem: Boolean,
+	player: Map,
 });
 
 module.exports = mongoose.model('servers', serverSchema);

@@ -1,9 +1,7 @@
 const Command = require('../../structures/Command');
 
-const play = require('../../utils/music/play.js');
+const play = require('../../player/loadTracks.js');
 const spawnPlayer = require('../../player/spawnPlayer.js');
-const patreon = require('../../../config/patreon.js');
-const premium = require('../../utils/misc/premium.js');
 
 module.exports = class Soundcloud extends Command {
 	constructor(client) {
@@ -13,14 +11,10 @@ module.exports = class Soundcloud extends Command {
 			args: true,
 			usage: '<song link>',
 			inVoiceChannel: true,
+			botPermissions: ['CONNECT', 'SPEAK'],
 		});
 	}
 	async run(client, message, args) {
-
-		const permissions = message.member.voice.channel.permissionsFor(client.user);
-		if (!permissions.has('CONNECT')) return client.responses('noPermissionConnect', message);
-		if (!permissions.has('SPEAK')) return client.responses('noPermissionSpeak', message);
-
 		let player = client.music.players.get(message.guild.id);
 		if (player && player.playing === false) return message.channel.send(`Cannot play/queue songs while paused. Do \`${client.settings.prefix} resume\` to play.`);
 		if (!player) player = await spawnPlayer(client, message);

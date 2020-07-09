@@ -5,24 +5,24 @@ const quickdb = require('quick.db');
 const songs = require('../models/song.js');
 
 module.exports = async (client, textChannel, next) => {
-    const { title, length, author, uri } = client.decode(next.song);
-    const duration = Number(length);
+
     const player = client.music.players.get(textChannel.guild.id);
+    if(player.msgSent) return;
+    player.msgSent = true;
+    const { title, length, author, uri, identifier } = next;
+    const duration = Number(length);
     const current = player.queue.current;
-    player.futurePrevious = current;
-    const song = require('@lavalink/encoding').decode(current.song);
 
     let requester = `<@${current.id}>`;
     if (!current.id) requester = `<@${current.requester}>`;
 
-    const thumbnail = `https://img.youtube.com/vi/${song.identifier}/default.jpg`;
+    const thumbnail = `https://img.youtube.com/vi/${identifier}/default.jpg`;
 
     addDB(uri, title, author, duration, uri, thumbnail);
     quickdb.add(`songsPlayed.${client.user.id}`, 1);
 
     users.findOne({ authorID: (!current.id ? current.requester : current.id) }).then(async messageUser => {
         if (!messageUser) {
-            console.log('not found');
             const newUser = new users({
                 authorID: current.id,
                 bio: '',

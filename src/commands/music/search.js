@@ -14,13 +14,10 @@ module.exports = class Search extends Command {
 			usage: '<search query>',
 			args: true,
 			inVoiceChannel: true,
+			botPermissions: ['CONNECT', 'SPEAK'],
 		});
 	}
 	async run(client, message, args) {
-		const permissions = message.member.voice.channel.permissionsFor(client.user);
-		if (!permissions.has('CONNECT')) return client.responses('noPermissionConnect', message);
-		if (!permissions.has('SPEAK')) return client.responses('noPermissionSpeak', message);
-
 		const msg = await message.channel.send(`${client.emojiList.cd}  Searching for \`${args.join(' ')}\`...`);
 
 		let player = client.music.players.get(message.guild.id);
@@ -49,7 +46,7 @@ module.exports = class Search extends Command {
 						null,
 						res.tracks[0].info.requester,
 					));
-					if (!player.playing) player.queue.start();
+					if (!player.playing && !player.paused) player.queue.start();
 					break;
 				}
 				else if (res.loadType == 'SEARCH_RESULT') {

@@ -16,10 +16,8 @@ module.exports = class Queue extends Command {
 	}
 	async run(client, message, args) {
 		const player = client.music.players.get(message.guild.id);
-
-		const { song, id } = player.queue.current;
 		// eslint-disable-next-line prefer-const
-		let { title, length, uri } = client.decode(song);
+		let { title, length, uri, requester } = player.queue.current;
 		length = Number(length);
 
 		const parsedDuration = client.formatDuration(length);
@@ -28,10 +26,10 @@ module.exports = class Queue extends Command {
 		if (pagesNum === 0) pagesNum = 1;
 
 		const songStrings = [];
-		for (let i = 0; i < player.queue.next.length; i++) {
-			const track = client.decode(player.queue.next[i].song);
+		for (let i = 0; i < player.queue.tracks.length; i++) {
+			const track = player.queue.tracks[i];
 			songStrings.push(
-				`**${i + 1}.** [${track.title}](${track.uri}) \`[${client.formatDuration(track.length)}]\` • <@${player.queue.next[i].id}>
+				`**${i + 1}.** [${track.title}](${track.uri}) \`[${client.formatDuration(track.length)}]\` • <@${player.queue.tracks[i].requester}>
 				`);
 		}
 
@@ -41,7 +39,7 @@ module.exports = class Queue extends Command {
 			const embed = new Discord.MessageEmbed()
 				.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
 				.setColor(client.colors.main)
-				.setDescription(`**Now Playing**: [${title}](${uri}) \`[${parsedDuration}]\` • <@${id}>.\n\n**Up Next**:\n${str}`)
+				.setDescription(`**Now Playing**: [${title}](${uri}) \`[${parsedDuration}]\` • <@${requester}>.\n\n**Up Next**:\n${str == '' ? ' Nothing' : str }`)
 				.setFooter(`Page ${i + 1}/${pagesNum} | ${player.queue.length} song(s) | ${parsedQueueDuration} total duration`);
 			pages.push(embed);
 		}

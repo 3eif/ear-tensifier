@@ -13,5 +13,6 @@ module.exports = class Command {
     this.inVoiceChannel = options.inVoiceChannel || false;
     this.sameVoiceChannel = options.sameVoiceChannel || false;
     this.playing = options.playing || false;
+    this.botPermissions = options.botPermissions || [];
   }
 };

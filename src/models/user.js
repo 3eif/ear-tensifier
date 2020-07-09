@@ -10,8 +10,6 @@ const userSchema = mongoose.Schema({
 	pro: Boolean,
 	developer: Boolean,
 	moderator: Boolean,
-	favorites: Array,
-	autoplay: Array,
 	voted: Boolean,
 	votedTimes: Number,
 	votedConst: Boolean,

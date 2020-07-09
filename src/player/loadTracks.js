@@ -1,14 +1,14 @@
+const ytsr = require('ytsr');
+
 module.exports = async (client, message, msg, player, searchQuery, playlist) => {
-    let tries = 0;
     const source = { soundcloud: 'sc' }[searchQuery.source] || 'yt';
 
-    let search = searchQuery.query || searchQuery;
-    if (!/^https?:\/\//.test(search)) search = `${source}search:${search}`;
+    let sq = searchQuery.query || searchQuery;
+    if (!/^https?:\/\//.test(sq)) sq = `${source}search:${sq}`;
 
-    async function load() {
+    async function load(search) {
         const res = await player.manager.search(search);
-
-        if (res.loadType !== 'NO_MATCHES') {
+        if (res.loadType !== 'NO_MATCHES' && res.loadType !== 'LOAD_FAILED') {
             switch (res.loadType) {
                 case 'SEARCH_RESULT':
                 case 'TRACK_LOADED':
@@ -24,8 +24,6 @@ module.exports = async (client, message, msg, player, searchQuery, playlist) => 
                         ));
 
                     break;
-                case 'LOAD_FAILED':
-                    return msg.edit('An error occurred. Please try again.');
                 case 'PLAYLIST_LOADED':
                     player.queue.add(res.tracks.map((t) => t.track), message.author.id);
 
@@ -36,16 +34,17 @@ module.exports = async (client, message, msg, player, searchQuery, playlist) => 
                         res.tracks.length,
                         message.author.id,
                     ));
-
                     break;
             }
-
-            if (!player.playing && !player.paused) player.queue.start();
+            if (!player.playing && !player.paused && !player.msgSent) player.queue.start();
             return;
         }
-        tries++;
-        if(tries < 5) return load();
+        else {
+            const searchResult = await ytsr(searchQuery, { limit: 1 });
+            if(searchResult.results == 0) return msg.edit('No results found.');
+            const videoIdentifier = searchResult.items[0].link.replace('https://www.youtube.com/watch?v=', '');
+            return load(videoIdentifier);
+        }
     }
-
-    return load();
+    return load(sq);
 };

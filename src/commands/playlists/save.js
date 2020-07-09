@@ -26,8 +26,8 @@ module.exports = class Save extends Command {
         songsToAdd.push(player.current);
         songsToAdd[0].requester = message.author.id;
         for(let i = 0; i < player.queue.length; i++) {
-            player.queue[i].requester = message.author.id;
-            songsToAdd.push(player.queue[i]);
+            player.queue.tracks[i].requester = message.author.id;
+            songsToAdd.push(player.queue.tracks[i]);
         }
 
         playlists.findOne({

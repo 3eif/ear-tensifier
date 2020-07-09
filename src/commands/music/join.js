@@ -8,14 +8,12 @@ module.exports = class Join extends Command {
 			name: 'join',
 			description: 'Joins the voice channel you are in.',
 			aliases: ['summon'],
+			botPermissions: ['CONNECT'],
 		});
 	}
 	async run(client, message) {
 		const voiceChannel = message.member.voice;
 		if (!voiceChannel) return client.responses('noVoiceChannel', message);
-
-		const permissions = voiceChannel.channel.permissionsFor(client.user);
-		if (!permissions.has('CONNECT')) return client.responses('noPermissionConnect', message);
 
 		await spawnPlayer(client, message);
 

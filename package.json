@@ -8,7 +8,8 @@
     "@sentry/node": "^5.17.0",
     "@tetracyl/erela.js": "^1.4.0",
     "ascii": "^1.0.0",
-    "bandcamp-scraper": "^1.2.5",
+    "bandcamp-scraper": "^1.2.6",
+    "bc-search": "^1.0.7",
     "blapi": "^2.0.0",
     "botlist.space": "^3.3.1",
     "canvas": "^2.6.1",
@@ -35,7 +36,8 @@
     "is-absolute-url": "^3.0.3",
     "ksoft.js": "^3.1.4",
     "lavaclient": "^3.0.7",
-    "lavaclient-queue": "^2.0.0",
+    "lavaclient-queue": "^2.0.2",
+    "lavaclient-rest": "^2.0.3",
     "mongoose": "^5.9.19",
     "node-fetch": "^2.6.0",
     "quick.db": "^7.1.1",
@@ -47,7 +49,8 @@
     "statcord.js-beta": "^2.2.0",
     "vultrex.api": "^3.1.0",
     "webhook.space": "^1.0.0",
-    "yt-search": "^1.1.2"
+    "yt-search": "^1.1.2",
+    "ytsr": "^0.1.15"
   },
   "devDependencies": {},
   "publishConfig": {

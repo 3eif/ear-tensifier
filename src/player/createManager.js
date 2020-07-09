@@ -1,5 +1,6 @@
 const { Manager } = require('lavaclient');
 const { QueuePlugin } = require('lavaclient-queue');
+const { RESTPlugin } = require('lavaclient-rest');
 
 module.exports = async (client) => {
 	const nodes = [
@@ -12,6 +13,7 @@ module.exports = async (client) => {
 	];
 
     client.music = new Manager(nodes, {
+        plugins: [new QueuePlugin(), new RESTPlugin()],
         shards: client.shard.count,
         send(id, data) {
             const guild = client.guilds.cache.get(id);
@@ -20,7 +22,6 @@ module.exports = async (client) => {
         },
     });
 
-    client.music.use(new QueuePlugin());
     await client.music.init(client.user.id);
 
     client.music.on('socketError', ({ id }, error) => console.error(`${id} ran into an error`, error));

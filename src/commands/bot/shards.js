@@ -36,13 +36,12 @@ module.exports = class Shards extends Command {
 			.setColor(client.colors.main)
 			.setAuthor('Ear Tensifier', client.user.displayAvatarURL());
 
-		let totalMusicStreams = 0;
+		const totalMusicStreams = client.music.ideal[0].stats.players;
 		shardInfo.forEach(i => {
 			const status = i[1] === 'process' ? client.emojiList.online : client.emojiList.offline;
 			embed.addField(`${status} Shard ${(parseInt(i[0]) + 1).toString()}`, `\`\`\`js
 Servers: ${i[2].toLocaleString()}\nChannels: ${i[3].toLocaleString()}\nUsers: ${i[4].toLocaleString()}
 Memory: ${i[5].toLocaleString()} MB\nAPI: ${i[7].toLocaleString()} ms\nPlayers: ${i[6].toLocaleString()}\`\`\``, true);
-			totalMusicStreams += i[6];
 		});
 
 		Promise.all(promises)
