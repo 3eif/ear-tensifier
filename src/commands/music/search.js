@@ -62,13 +62,13 @@ module.exports = class Search extends Command {
 							for (const track of tracks) {
 								player.queue.add(track);
 							}
-							message.channel.send(msg.edit('', client.queuedEmbed(
+							msg.edit('', client.queuedEmbed(
 								null,
 								null,
 								null,
 								tracks.length,
 								tracks[0].requester,
-							)));
+							));
 						}
 						else if(entry === 'cancel') {
 							message.channel.send('Cancelled selection');
@@ -76,13 +76,13 @@ module.exports = class Search extends Command {
 						else {
 							const track = tracks[entry - 1];
 							player.queue.add(track);
-							message.channel.send(msg.edit('', client.queuedEmbed(
+							msg.edit('', client.queuedEmbed(
 								res.tracks[0].title,
 								res.tracks[0].uri,
 								track.duration,
 								null,
 								res.tracks[0].requester,
-							)));
+							));
 						}
 						if (!player.playing) player.play();
 					}
