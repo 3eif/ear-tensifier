@@ -1,9 +1,5 @@
-/* eslint-disable no-case-declarations */
 const Command = require('../../structures/Command');
-
 const Discord = require('discord.js');
-
-
 const spawnPlayer = require('../../player/spawnPlayer.js');
 
 module.exports = class Search extends Command {
@@ -14,15 +10,10 @@ module.exports = class Search extends Command {
 			usage: '<search query>',
 			args: true,
 			inVoiceChannel: true,
+			botPermissions: ['CONNECT', 'SPEAK'],
 		});
 	}
 	async run(client, message, args) {
-		if (!message.member.voice.channel) return client.responses('noVoiceChannel', message);
-
-		const permissions = message.member.voice.channel.permissionsFor(client.user);
-		if (!permissions.has('CONNECT')) return client.responses('noPermissionConnect', message);
-		if (!permissions.has('SPEAK')) return client.responses('noPermissionSpeak', message);
-
 		const msg = await message.channel.send(`${client.emojiList.cd}  Searching for \`${args.join(' ')}\`...`);
 
 		let player = client.music.players.get(message.guild.id);

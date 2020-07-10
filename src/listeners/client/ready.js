@@ -4,7 +4,7 @@ const Sentry = require('@sentry/node');
 const chalk = require('chalk');
 
 const Event = require('../../structures/Event');
-const player = require('../../player/player.js');
+const createManager = require('../../player/createManager.js');
 const postHandler = require('../../handlers/post.js');
 
 mongoose.connect(process.env.MONGO_URL, {
@@ -23,7 +23,7 @@ module.exports = class Ready extends Event {
 	}
 
 	async run() {
-		player(this.client);
+		createManager(this.client);
 		this.client.music.init(this.client.user.id);
 
 		const status = 'ear help';

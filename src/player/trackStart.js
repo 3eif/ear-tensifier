@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 const Discord = require('discord.js');
-const users = require('../models/user.js');
 const quickdb = require('quick.db');
+const users = require('../models/user.js');
 const songs = require('../models/song.js');
 
 module.exports = async (client, textChannel, title, duration, author, uri) => {

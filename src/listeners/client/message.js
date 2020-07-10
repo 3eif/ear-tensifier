@@ -173,6 +173,20 @@ module.exports = class Message extends Event {
 
 				if (!message.guild && cmd.guildOnly) return message.channel.send('I can\'t execute that command inside DMs!. Please run this command in a server.');
 
+				if (cmd.inVoiceChannel && !message.member.voice.channel) return client.responses('noVoiceChannel', message);
+				else if (cmd.sameVoiceChannel && message.member.voice.channel.id !== message.guild.me.voice.channelID) return client.responses('sameVoiceChannel', message);
+				else if (cmd.playing && !client.music.players.get(message.guild.id)) return client.responses('noSongsPlaying', message);
+
+				if (prefix == client.settings.prefix) {
+					if (!args[0] && cmd.args === true) return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`ear ${commandName} ${cmd.usage}\``);
+				}
+				else if (!args[0] && cmd.args === true) {
+					return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`${prefix} ${commandName} ${cmd.usage}\` or \`${prefix}${cmd.name} ${cmd.usage}\``);
+				}
+
+				if (cmd.botPermissions.includes('CONNECT') && !message.member.voice.channel.permissionsFor(client.user).has('CONNECT')) return client.responses('noPermissionConnect', message);
+				if (cmd.botPermissions.includes('SPEAK') && !message.member.voice.channel.permissionsFor(client.user).has('SPEAK')) return client.responses('noPermissionSpeak', message);
+
 				if (!client.settings.devs.includes(message.author.id)) {
 					if (!cooldowns.has(commandName)) {
 						cooldowns.set(commandName, new Discord.Collection());
@@ -195,17 +209,6 @@ module.exports = class Message extends Event {
 					}
 				}
 
-				if (cmd.inVoiceChannel && !message.member.voice.channel) return client.responses('noVoiceChannel', message);
-				else if (cmd.sameVoiceChannel && message.member.voice.channel.id !== message.guild.me.voice.channelID) return client.responses('sameVoiceChannel', message);
-				else if (cmd.playing && !client.music.players.get(message.guild.id)) return client.responses('noSongsPlaying', message);
-
-				if (prefix == client.settings.prefix) {
-					if (!args[0] && cmd.args === true) return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`ear ${commandName} ${cmd.usage}\``);
-				}
-				else if (!args[0] && cmd.args === true) {
-					return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`${prefix} ${commandName} ${cmd.usage}\` or \`${prefix}${cmd.name} ${cmd.usage}\``);
-				}
-
 				const everyoneMention = '@everyone';
 				const hereMention = '@here';
 				if (messageContent.includes(hereMention) || messageContent.includes(everyoneMention)) {
@@ -220,7 +223,6 @@ module.exports = class Message extends Event {
 					message.reply('There was an error trying to execute that command!');
 				}
 			}
-
 		});
 	}
 };

@@ -16,9 +16,9 @@ class Event {
 	}
 
 	reload() {
-		const path = `../events/${this.name}.js`;
+		const path = `../listeners/${this.name}.js`;
 		delete require.cache[path];
-		require(`../events/${this.name}.js`);
+		require(`../listeners/${this.name}.js`);
 	}
 }
 

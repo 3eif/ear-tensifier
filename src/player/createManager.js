@@ -18,13 +18,13 @@ module.exports = async (client) => {
 	})
 	.on('nodeError', (node, error) => client.log(`Node error: ${error.message}`))
 	.on('queueEnd', player => {
-		queueEnd(client, player);
+		queueEnd(player);
 	})
 	.on('trackStart', ({ textChannel }, { title, duration, author, uri }) => {
 		trackStart(client, textChannel, title, duration, author, uri);
 	})
 	.on('trackEnd', player => {
-		trackEnd(client, player);
+		trackEnd(player);
 	})
 	.on('playerMove', (player, currentChannel, newChannel) => {
 		player.voiceChannel = client.channels.cache.get(newChannel);

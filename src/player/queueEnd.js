@@ -1,3 +1,3 @@
-module.exports = async (client, player) => {
+module.exports = async (player) => {
 	return player.destroy();
 };

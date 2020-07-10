@@ -1,3 +1,3 @@
-module.exports = async (client, player) => {
+module.exports = async (player) => {
     player.previous = player.futurePrevious;
 };

@@ -12,13 +12,10 @@ module.exports = class Radio extends Command {
 			usage: '<radio channel>',
 			inVoiceChannel: true,
 			permission: 'premium',
+			botPermissions: ['CONNECT', 'SPEAK'],
 		});
 	}
 	async run(client, message, args) {
-		const permissions = message.member.voice.channel.permissionsFor(client.user);
-		if(!permissions.has('CONNECT')) return client.responses('noPermissionConnect', message);
-		if(!permissions.has('SPEAK')) return client.responses('noPermissionSpeak', message);
-
 		const query = args.join(' ');
 		if (!args[0]) return message.channel.send('Please provide a song name or link to search.');
 

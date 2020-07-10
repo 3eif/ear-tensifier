@@ -1,13 +1,10 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-async-promise-executor */
-
+const ytsr = require('ytsr');
 
 module.exports = async (client, message, msg, player, searchQuery, playlist) => {
-	const tries = 5;
-	for (let i = 0; i < tries; i++) {
-		const res = await client.music.search(searchQuery, message.author);
-		if (res.loadType != 'NO_MATCHES') {
-			if (res.loadType == 'TRACK_LOADED') {
+	async function load(search) {
+		const res = await client.music.search(search, message.author);
+		if (res.loadType !== 'NO_MATCHES' && res.loadType !== 'LOAD_FAILED') {
+            if(res.loadType == 'TRACK_LOADED' || res.loadType == 'SEARCH_RESULT') {
 				player.queue.add(res.tracks[0]);
 				if (!playlist && msg) msg.edit('', client.queuedEmbed(
 					res.tracks[0].title,
@@ -17,21 +14,6 @@ module.exports = async (client, message, msg, player, searchQuery, playlist) => 
 					res.tracks[0].requester,
 				));
 				if (!player.playing && !player.paused && !player.queue.length) player.play();
-				break;
-			}
-			else if (res.loadType == 'SEARCH_RESULT') {
-				player.queue.add(res.tracks[0]);
-				if (!playlist && msg) {
-					msg.edit('', client.queuedEmbed(
-						res.tracks[0].title,
-						res.tracks[0].uri,
-						res.tracks[0].duration,
-						null,
-						res.tracks[0].requester,
-					));
-				}
-				if (!player.playing && !player.paused && !player.queue.length) player.play();
-				break;
 			}
 			else if (res.loadType == 'PLAYLIST_LOADED') {
 
@@ -48,13 +30,15 @@ module.exports = async (client, message, msg, player, searchQuery, playlist) => 
 					res.playlist.tracks.length,
 					res.playlist.tracks[0].requester.id,
 				));
-				break;
 			}
-			else if (res.loadType == 'LOAD_FAILED') {
-				msg.edit('An error occured. Please try again.');
-				break;
-			}
+            return;
 		}
-		else if (i >= 4 && !playlist) msg.edit('No tracks found.');
+        else {
+            const searchResult = await ytsr(searchQuery, { limit: 1 });
+            if(searchResult.results == 0) return msg.edit('No results found.');
+            const videoIdentifier = searchResult.items[0].link.replace('https://www.youtube.com/watch?v=', '');
+            return load(videoIdentifier);
+        }
 	}
+	return load(searchQuery);
 };

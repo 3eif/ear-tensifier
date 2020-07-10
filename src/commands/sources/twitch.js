@@ -1,6 +1,6 @@
 const Command = require('../../structures/Command');
 
-const play = require('../../utils/music/play.js');
+const play = require('../../player/loadTracks.js');
 const spawnPlayer = require('../../player/spawnPlayer.js');
 
 module.exports = class Twitch extends Command {
@@ -11,14 +11,10 @@ module.exports = class Twitch extends Command {
 			args: true,
 			usage: '<stream link>',
 			inVoiceChannel: true,
+			botPermissions: ['CONNECT', 'SPEAK'],
 		});
 	}
 	async run(client, message, args) {
-
-		const permissions = message.member.voice.channel.permissionsFor(client.user);
-		if (!permissions.has('CONNECT')) return client.responses('noPermissionConnect', message);
-		if (!permissions.has('SPEAK')) return client.responses('noPermissionSpeak', message);
-
 		let player = client.music.players.get(message.guild.id);
 		if (player && player.playing === false) return message.channel.send(`Cannot play/queue songs while paused. Do \`${client.settings.prefix} resume\` to play.`);
 		if (!player) player = await spawnPlayer(client, message);
