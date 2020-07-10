@@ -149,7 +149,7 @@ module.exports = class Message extends Event {
 					await c.save().catch(e => client.log(e));
 				});
 
-				client.log(chalk.white.dim(`[Shard ${client.shard.ids}] ${commandName} used by ${message.author.id} from ${message.guild.id}`));
+				client.log(chalk.white.dim(`[Shard ${client.shard.ids + 1}] ${commandName} used by ${message.author.id} from ${message.guild.id}`));
 
 				if (!cooldowns.has(commandName)) {
 					cooldowns.set(commandName, new Discord.Collection());

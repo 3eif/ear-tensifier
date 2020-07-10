@@ -1,6 +1,5 @@
 const BotListWebhook = require('webhook.space');
-
-const voteRewards = require('./voteRewards.js');
+const voteRewards = require('../utils/voting/voteRewards.js');
 
 module.exports.startUp = async (client) => {
     const Webhook = new BotListWebhook.Webhook({ port: 9837, path: '/', token: process.env.BOTLISTSPACE_TOKEN });

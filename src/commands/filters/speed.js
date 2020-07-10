@@ -9,7 +9,6 @@ module.exports = class Speed extends Command {
 			cooldown: '4',
 			inVoiceChannel: true,
 			sameVoiceChannel: true,
-            voteLocked: true,
             usage: '<speed>',
 			args: true,
 		});

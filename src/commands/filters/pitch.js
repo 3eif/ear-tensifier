@@ -9,7 +9,6 @@ module.exports = class Pitch extends Command {
 			cooldown: '4',
 			inVoiceChannel: true,
 			sameVoiceChannel: true,
-			voteLocked: true,
 			usage: '<pitch>',
 			args: true,
 		});

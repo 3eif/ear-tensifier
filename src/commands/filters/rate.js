@@ -9,7 +9,6 @@ module.exports = class Rate extends Command {
 			cooldown: '4',
 			inVoiceChannel: true,
 			sameVoiceChannel: true,
-            voteLocked: true,
             usage: '<rate>',
 			args: true,
 		});

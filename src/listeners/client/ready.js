@@ -49,10 +49,20 @@ module.exports = class Ready extends Event {
 			this.client.log(chalk.magenta.underline.bold(`Ear Tensifier is online: ${this.client.shard.count} shards, ${totalGuilds} servers and ${totalMembers} members.`));
 
 			if (this.client.user.id == '472714545723342848') {
-				postHandler(this.client, totalGuilds, guildNum, this.client.shard.count);
-				require('../../utils/voting/blsHook.js').startUp(this.client);
-				require('../../utils/voting/dblHook.js').startUp(this.client);
+				await post(this.client);
+				setInterval(async function() {
+					await post(this.client);
+				}, 1800000);
+
+				require('../../webhooks/blsHook.js').startUp(this.client);
+				require('../../webhooks/dblHook.js').startUp(this.client);
 			}
+		}
+
+		async function post(client) {
+			const guildNum = await client.shard.fetchClientValues('guilds.cache.size');
+			const totalGuilds = guildNum.reduce((total, shard) => total + shard, 0);
+			postHandler(client, totalGuilds, guildNum, client.shard.count);
 		}
 	}
 };
