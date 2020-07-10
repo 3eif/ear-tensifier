@@ -5,7 +5,7 @@
   "main": "./src/index.js",
   "dependencies": {
     "@sentry/node": "^5.17.0",
-    "@tetracyl/erela.js": "^1.4.0",
+    "@tetracyl/erela.js": "^1.5.1",
     "ascii": "^1.0.0",
     "bandcamp-scraper": "^1.2.5",
     "blapi": "^2.0.0",
@@ -44,7 +44,8 @@
     "statcord.js-beta": "^2.2.0",
     "vultrex.api": "^3.1.0",
     "webhook.space": "^1.0.0",
-    "yt-search": "^1.1.2"
+    "yt-search": "^1.1.2",
+    "ytsr": "^0.1.15"
   },
   "devDependencies": {},
   "publishConfig": {

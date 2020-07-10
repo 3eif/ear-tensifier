@@ -28,17 +28,18 @@ module.exports = class Queue extends Command {
 		for (let i = 0; i < player.queue.length; i++) {
 			const song = player.queue[i];
 			songStrings.push(
-				`**${i + 1}.** [${song.title}](${song.uri}) \`[${client.formatDuration(song.length)}]\` • <@${!song.requester.id ? song.requester : song.requester.id}>
+				`**${i + 1}.** [${song.title}](${song.uri}) \`[${client.formatDuration(song.duration)}]\` • <@${!song.requester.id ? song.requester : song.requester.id}>
 				`);
 		}
 
+		const user = `<@${!requester.id ? requester : requester.id}>`;
 		const pages = [];
 		for (let i = 0; i < pagesNum; i++) {
 			const str = songStrings.slice(i * 10, i * 10 + 10).join('');
 			const embed = new Discord.MessageEmbed()
 				.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
 				.setColor(client.colors.main)
-				.setDescription(`**Now Playing**: [${title}](${uri}) \`[${parsedDuration}]\` • <@${requester}>.\n\n**Up Next**:${str == '' ? '  Nothing' : '\n' + str }`)
+				.setDescription(`**Now Playing**: [${title}](${uri}) \`[${parsedDuration}]\` • ${user}.\n\n**Up Next**:${str == '' ? '  Nothing' : '\n' + str }`)
 				.setFooter(`Page ${i + 1}/${pagesNum} | ${player.queue.length} song(s) | ${parsedQueueDuration} total duration`);
 			pages.push(embed);
 		}

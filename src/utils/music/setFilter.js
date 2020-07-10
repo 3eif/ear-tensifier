@@ -6,10 +6,10 @@ module.exports = async (client, message, filter, state) => {
     const player = client.music.players.get(message.guild.id);
 
     if (!state) {
-        player.setEQ(...Array(13).fill(0).map((n, i) => ({ band: i, gain: 0.15 })));
+        player.setFilter('filters', client.filters.reset);
         const msg = await message.channel.send(`${client.emojiList.loading} Turning off **${filter}**. This may take a few seconds...`);
         const embed = new Discord.MessageEmbed()
-            .setAuthor(`Turned off **${filter}**`)
+            .setDescription(`Turned off **${filter}**`)
             .setColor(client.colors.main);
         await delay(5000);
         return msg.edit('', embed);
@@ -17,16 +17,16 @@ module.exports = async (client, message, filter, state) => {
     else if (state) {
         switch (filter) {
             case 'bass':
-                player.setEQ(...client.filters.bass);
-                break;
-            case 'soft':
-                player.setEQ(...client.filters.soft);
-                break;
-            case 'pop':
-                player.setEQ(...client.filters.pop);
+                player.setFilter('filters', client.filters.bass);
                 break;
             case 'treblebass':
-                player.setEQ(...client.filters.treblebass);
+                player.setFilter('filters', client.filters.treblebass);
+                break;
+            case 'nightcore':
+                player.setFilter('filters', client.filters.nightcore);
+                break;
+            case 'vaporwave':
+                player.setFilter('filters', client.filters.vaporwave);
                 break;
             default:
         }

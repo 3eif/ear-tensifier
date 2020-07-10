@@ -17,7 +17,7 @@ module.exports = class Volume extends Command {
 	async run(client, message, args) {
 		const player = client.music.players.get(message.guild.id);
 
-		if (!args[0]) return message.channel.send(`Current volume is set to: **${player.volume}**`);
+		if (!args[0]) return message.channel.send(`Current volume is set to: **${player.volume}%**`);
 
 		if (args[0].toLowerCase() == 'reset') {
 			player.setVolume(Number(client.settings.normal));
@@ -31,7 +31,7 @@ module.exports = class Volume extends Command {
 		player.setVolume(volume);
 
 		const embed = new Discord.MessageEmbed()
-			.setDescription(`Volume set to **${args[0]}**`)
+			.setDescription(`Volume set to **${args[0]}%**`)
 			.setColor(client.colors.main);
 		return message.channel.send(embed);
 	}

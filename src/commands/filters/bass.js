@@ -14,8 +14,8 @@ module.exports = class Bass extends Command {
 	}
 	async run(client, message, args) {
 		if (args[0] && (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off')) {
-			client.setFilter(client, message, 'bass', false);
+			client.setFilter(client, message, client.filters.bass, 'bass', false);
 		}
-		else client.setFilter(client, message, 'bass', true);
+		else client.setFilter(client, message, client.filters.bass, 'bass', true);
 	}
 };

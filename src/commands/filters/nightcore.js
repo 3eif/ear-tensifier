@@ -1,20 +1,21 @@
 const Command = require('../../structures/Command');
 
-module.exports = class Soft extends Command {
+module.exports = class Nightcore extends Command {
 	constructor(client) {
 		super(client, {
-			name: 'soft',
-			description: 'Turns on soft filter',
+			name: 'nightcore',
+			description: 'Turns on nightcore filter',
 			cooldown: '4',
 			inVoiceChannel: true,
 			sameVoiceChannel: true,
+			playing: true,
 			voteLocked: true,
 		});
 	}
 	async run(client, message, args) {
 		if (args[0] && (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off')) {
-			client.setFilter(client, message, 'soft', false);
+			client.setFilter(client, message, 'nightcore', false);
 		}
-		else client.setFilter(client, message, 'soft', true);
+		else client.setFilter(client, message, 'nightcore', true);
 	}
 };
