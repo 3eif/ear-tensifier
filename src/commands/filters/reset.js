@@ -1,8 +1,5 @@
 const Command = require('../../structures/Command');
-
 const Discord = require('discord.js');
-
-const { normal } = require('../../../config/volume.js');
 
 module.exports = class Reset extends Command {
 	constructor(client) {
