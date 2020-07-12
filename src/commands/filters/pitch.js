@@ -14,6 +14,7 @@ module.exports = class Pitch extends Command {
 		});
 	}
 	async run(client, message, args) {
+		return message.channel.send('This command is currently disabled due to performance issues. Please consider donating to help upgrade our server: https://www.patreon.com/eartensifier');
 		const player = client.music.players.get(message.guild.id);
 		const delay = ms => new Promise(res => setTimeout(res, ms));
 		if (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off') {
