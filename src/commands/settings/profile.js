@@ -14,8 +14,12 @@ module.exports = class Profile extends Command {
 	async run(client, message, args) {
 		const msg = await message.channel.send(`${client.emojiList.loading} Fetching profile...`);
 
-		const user = message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.member;
-		if (!user) return msg.edit('User not found');
+		let user;
+		if(args[0]) {
+			user = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
+			if (!user) return msg.edit('User not found');
+		}
+		else user = message.author;
 
 		users.findOne({
 			authorID: user.id,

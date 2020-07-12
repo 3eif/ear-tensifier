@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
-const DBL = require('dblapi.js');
 const chalk = require('chalk');
+const DBL = require('dblapi.js');
 
 module.exports = class Client extends Discord.Client {
     constructor() {
@@ -43,6 +43,8 @@ module.exports = class Client extends Discord.Client {
         this.getSongLimit = require('./../utils/music/getSongLimit.js');
 
         this.environment = process.env.NODE_ENV;
+
+        // if(this.environment == 'production') this.dbl = new DBL(process.env.TOPGG_TOKEN, { statsInterval: 900000 }, this);
     }
 
     log(msg) {

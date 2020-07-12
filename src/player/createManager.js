@@ -18,7 +18,7 @@ module.exports = async (client) => {
 	})
 	.on('nodeError', (node, error) => client.log(`Node error: ${error.message}`))
 	.on('queueEnd', player => {
-		queueEnd(player);
+		queueEnd(client, player);
 	})
 	.on('trackStart', ({ textChannel }, { title, duration, author, uri }) => {
 		trackStart(client, textChannel, title, duration, author, uri);
