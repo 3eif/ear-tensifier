@@ -6,7 +6,7 @@ module.exports = async (client, message, filter, state) => {
     const player = client.music.players.get(message.guild.id);
 
     if (!state) {
-        player.setFilter('filters', client.filters.reset);
+        player.setEQ(...Array(13).fill(0).map((n, i) => ({ band: i, gain: 0.1 })));
         const msg = await message.channel.send(`${client.emojiList.loading} Turning off **${filter}**. This may take a few seconds...`);
         const embed = new Discord.MessageEmbed()
             .setDescription(`Turned off **${filter}**`)
