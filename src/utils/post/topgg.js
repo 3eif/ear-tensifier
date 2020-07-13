@@ -2,19 +2,19 @@ const axios = require('axios');
 
 module.exports = async (client, servers, shardCount) => {
     await axios.post(
-        'https://blist.xyz/api/bot/472714545723342848/stats/',
+        'https://top.gg/api/bots/472714545723342848/stats',
         JSON.stringify({
-            'server_count': servers.toString(),
-            'shard_count': shardCount.toString(),
+            'server_count': servers,
+            'shard_count': shardCount,
         }),
         {
             method: 'POST',
             headers: {
-                'Authorization': process.env.BLIST_TOKEN,
+                'Authorization': process.env.TOPGG_TOKEN,
                 'Content-Type': 'application/json',
             },
         },
-    ).then(client.log('Posted bot stats to blist.xyz')).catch(function(error) {
+    ).then(client.log('Posted bot stats to top.gg')).catch(function(error) {
         console.log(error);
     });
 };

@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const chalk = require('chalk');
-const DBL = require('dblapi.js');
+// const DBL = require('dblapi.js');
 
 module.exports = class Client extends Discord.Client {
     constructor() {

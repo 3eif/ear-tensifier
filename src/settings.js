@@ -1,7 +1,6 @@
 module.exports = {
 	'prefix': 'ear ',
-	'testing': false,
-	'version': '1.5.2',
+	'version': '1.6.2',
 	'server': 'https://discord.gg/xKgKMAP',
 	'voiceLeave': '60000',
 	'voteCooldown': 43200000,
@@ -15,7 +14,6 @@ module.exports = {
 		'shards',
 		'donate',
 		'role',
-		'twitch',
 		'autoplay',
 		'lavalink',
 	],

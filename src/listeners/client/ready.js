@@ -2,6 +2,7 @@ const figlet = require('figlet');
 const mongoose = require('mongoose');
 const Sentry = require('@sentry/node');
 const chalk = require('chalk');
+const axios = require('axios');
 
 const Event = require('../../structures/Event');
 const createManager = require('../../player/createManager.js');
@@ -60,9 +61,14 @@ module.exports = class Ready extends Event {
 		}
 
 		async function post(client) {
-			const guildNum = await client.shard.fetchClientValues('guilds.cache.size');
-			const totalGuilds = guildNum.reduce((total, shard) => total + shard, 0);
-			postHandler(client, totalGuilds, guildNum, client.shard.count);
+			await axios.get('https://statcord.com/mason/stats/472714545723342848')
+			.then(function(response) {
+				const res = response.data.data;
+				postHandler(client, Number(res[res.length - 1].servers), client.shard.count);
+			});
+			// const guildNum = await client.shard.fetchClientValues('guilds.cache.size');
+			// const totalGuilds = guildNum.reduce((total, shard) => total + shard, 0);
+			// postHandler(client, totalGuilds, guildNum, client.shard.count);
 		}
 	}
 };

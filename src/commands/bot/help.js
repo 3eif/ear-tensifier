@@ -38,7 +38,8 @@ module.exports = class Help extends Command {
 
 				for (let i = 0; i < commandsFile.length; i++) {
 					const commandName = commandsFile[i].split('.')[0];
-					if(!client.settings.hiddenCommands.includes(commandName)) helpCommands.push(`\`${commandName}\`,  `);
+					if(!client.settings.hiddenCommands.includes(commandName) && i < commandsFile.length - 1) helpCommands.push(`\`${commandName}\`,  `);
+					else if(!client.settings.hiddenCommands.includes(commandName)) helpCommands.push(`\`${commandName}\``);
 				}
 
 				for (let i = 0; i < helpCommands.length; i++) categoryCommands += helpCommands[i];
