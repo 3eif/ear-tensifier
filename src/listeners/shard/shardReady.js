@@ -8,6 +8,6 @@ module.exports = class ShardReady extends Event {
 
 	async run() {
 		const i = parseInt(this.client.shard.ids, 10) + 1;
-		this.client.log(chalk.magenta.bold(`[Shard ${i}] Ready`));
+		this.client.log(chalk.green.bold(`[Shard ${i}] Ready`));
 	}
 };
