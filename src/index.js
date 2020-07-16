@@ -13,17 +13,13 @@ const manager = new ShardingManager('./src/eartensifier.js', {
   timeout: 999999,
 });
 
-if(process.env.NODE_ENV == 'production') {
+if (process.env.NODE_ENV == 'production') {
   const Statcord = require('statcord.js-beta');
   // eslint-disable-next-line no-unused-vars
   const statcord = new Statcord.ShardingClient({
     key: process.env.STATCORD_TOKEN,
     manager,
-});
-
-//   statClient.registerCustomFieldHandler(1, async (manager) => {
-//     // Get and return your data as a string
-// });
+  });
 }
 
 Sentry.init({
