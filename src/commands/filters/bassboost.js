@@ -30,7 +30,7 @@ module.exports = class Bassboost extends Command {
 		}
 
 		if (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off') {
-			player.setEQ(...Array(13).fill(0).map((n, i) => ({ band: i, gain: 0.15 })));
+			player.setFilter('filters', client.filters.reset);
 			const msg = await message.channel.send(`${client.emojiList.loading} Turning off **bassboost**. This may take a few seconds...`);
 			const embed = new Discord.MessageEmbed()
 				.setDescription('Turned off **bassboost**')

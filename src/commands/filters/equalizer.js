@@ -30,7 +30,7 @@ module.exports = class Equalizer extends Command {
 			return message.channel.send(embed);
 		}
 		else if (args[0] == 'off' || args[0] == 'reset') {
-			player.setEQ(...Array(13).fill(0).map((n, i) => ({ band: i, gain: 0.15 })));
+			player.setFilter('filters', client.filters.reset);
 		}
 
 		const bands = args.join(' ').split(/[ ]+/);
