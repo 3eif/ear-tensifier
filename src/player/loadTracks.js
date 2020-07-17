@@ -1,6 +1,7 @@
 const ytsr = require('ytsr');
 
 module.exports = async (client, message, msg, player, searchQuery, playlist) => {
+	let tries = 0;
 	async function load(search) {
 		const res = await client.music.search(search, message.author);
 		if (res.loadType !== 'NO_MATCHES' && res.loadType !== 'LOAD_FAILED') {
@@ -35,9 +36,11 @@ module.exports = async (client, message, msg, player, searchQuery, playlist) => 
 		}
         else {
             const searchResult = await ytsr(searchQuery, { limit: 1 });
-            if(searchResult.results == 0) return msg.edit('No results found.');
-            const videoIdentifier = searchResult.items[0].link.replace('https://www.youtube.com/watch?v=', '');
-            return load(videoIdentifier);
+            if(tries > 7) return msg.edit('No results found.');
+            else {
+				tries++;
+				return load(searchResult.items[0].link);
+			}
         }
 	}
 	return load(searchQuery);
