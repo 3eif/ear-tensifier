@@ -31,8 +31,8 @@ This project is licensed under the GNU General Public License v3.0 - see the [LI
 Self hosting Ear Tensifier is not supported and no help will be provided. I am not responsible or liable for any self hosted clones of Ear Tensifier.
 
 ## Contributors
-- [2D] (https://github.com/MeLike2D): Provided modified lavalink version with filters.
-- [MrAugu] (https://github.com/MrAugu): Cleaned up spaghetti code.
+- [2D](https://github.com/MeLike2D): Provided modified lavalink version with filters.
+- [MrAugu](https://github.com/MrAugu): Cleaned up spaghetti code.
 - [Sxmurai](https://github.com/Sxmurai/): Cleaned up spaghetti code.
 
 ## Bot Lists
