@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 const Discord = require('discord.js');
-const quickdb = require('quick.db');
 const users = require('../models/user.js');
 const songs = require('../models/song.js');
+const bot = require('../models/bot.js');
 
 module.exports = async (client, textChannel, title, duration, author, uri) => {
 	const currentSong = client.music.players.get(textChannel.guild.id).current;
@@ -13,7 +13,13 @@ module.exports = async (client, textChannel, title, duration, author, uri) => {
 	const thumbnail = `https://img.youtube.com/vi/${currentSong.identifier}/default.jpg`;
 	addDB(uri, title, author, duration, uri, thumbnail);
 
-	quickdb.add(`songsPlayed.${client.user.id}`, 1);
+	bot.findOne({
+		clientID: client.user.id,
+	}, async (err, b) => {
+		if (err) client.log(err);
+		b.songsPlayed += 1;
+		await b.save().catch(e => client.log(e));
+	});
 
 	users.findOne({ authorID: (!currentSong.requester.id ? currentSong.requester : currentSong.requester.id) }).then(async messageUser => {
 		if (!messageUser) {

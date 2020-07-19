@@ -4,6 +4,7 @@ module.exports = {
 	'server': 'https://discord.gg/xKgKMAP',
 	'voiceLeave': '60000',
 	'voteCooldown': 43200000,
+	'postCooldown': 60000,
 	'playlistSongLimit': '500',
 	'embedDurationLength': '30',
 	'supportID': '473426453204172811',
@@ -12,9 +13,7 @@ module.exports = {
 	'spotifyURL': 'https://open.spotify.com',
 	'hiddenCommands': [
 		'shards',
-		'donate',
 		'role',
-		'autoplay',
 		'lavalink',
 	],
 };

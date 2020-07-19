@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 const Discord = require('discord.js');
 const Statcord = require('statcord.js-beta');
-const quickdb = require('quick.db');
 const chalk = require('chalk');
 const cooldowns = new Discord.Collection();
 
@@ -11,6 +10,7 @@ const servers = require('../../models/server.js');
 const commandsSchema = require('../../models/command.js');
 const premium = require('../../utils/misc/premium.js');
 const getVoted = require('../../utils/voting/getVoted.js');
+const bot = require('../../models/bot.js');
 
 module.exports = class Message extends Event {
 	constructor(...args) {
@@ -122,6 +122,22 @@ module.exports = class Message extends Event {
 			});
 
 			async function runCommand(client) {
+				bot.findOne({ clientID: client.user.id }).then(async b => {
+					if (!b) {
+						const newClient = new bot({
+							clientID: client.user.id,
+							clientName: client.user.name,
+							commandsUsed: 0,
+							songsPlayed: 0,
+						});
+						await newClient.save().catch(e => client.log(e));
+						b = await bot.findOne({ clientID: client.user.id });
+					}
+
+					b.commandsUsed += 1;
+					b.save().catch(e => client.log(e));
+				});
+
 				const permissions = message.channel.permissionsFor(client.user);
 				if (!permissions.has('SEND_MESSAGES') || !permissions.has('READ_MESSAGE_HISTORY')) return message.author.send(`I don't have permission to read/send messages in **${message.channel.name}**!\nPlease join the support server if you need help: ${client.settings.server}`);
 				if (!permissions.has('EMBED_LINKS')) return message.channel.send(`I don't have permission to send embeds in **${message.channel.name}**!\nPlease join the support server if you need help: ${client.settings.server}`);
@@ -132,7 +148,6 @@ module.exports = class Message extends Event {
 				else return;
 
 				const commandName = cmd.name.toLowerCase();
-				quickdb.add(`botMessages.${client.user.id}`, 1);
 				if (process.env.NODE_ENV == 'production') Statcord.ShardingClient.postCommand(commandName, message.author.id, client);
 				/* Async Non-Blocking */
 				commandsSchema.findOne({ commandName: commandName }).then(async c => {
@@ -179,10 +194,16 @@ module.exports = class Message extends Event {
 				else if (cmd.playing && !client.music.players.get(message.guild.id)) return client.responses('noSongsPlaying', message);
 
 				if (prefix == client.settings.prefix) {
-					if (!args[0] && cmd.args === true) return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`ear ${commandName} ${cmd.usage}\``);
+					if (!args[0] && cmd.args === true) {
+						const embed = new Discord.MessageEmbed()
+						.setDescription(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`ear ${commandName} ${cmd.usage}\``);
+						return message.channel.send(embed);
+					}
 				}
 				else if (!args[0] && cmd.args === true) {
-					return message.channel.send(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`${prefix} ${commandName} ${cmd.usage}\` or \`${prefix}${cmd.name} ${cmd.usage}\``);
+					const embed = new Discord.MessageEmbed()
+					.setDescription(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`${prefix} ${commandName} ${cmd.usage}\` or \`${prefix}${cmd.name} ${cmd.usage}\``);
+					return message.channel.send(embed);
 				}
 
 				if (cmd.botPermissions.includes('CONNECT') && !message.member.voice.channel.permissionsFor(client.user).has('CONNECT')) return client.responses('noPermissionConnect', message);

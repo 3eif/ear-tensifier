@@ -9,7 +9,6 @@ module.exports = class Bassboost extends Command {
 			aliases: ['bb'],
 			cooldown: '4',
 			usage: '<amount (-10 - 10)>',
-			voteLocked: true,
 			inVoiceChannel: true,
 			sameVoiceChannel: true,
 			playing: true,

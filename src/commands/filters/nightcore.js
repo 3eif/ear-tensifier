@@ -9,7 +9,7 @@ module.exports = class Nightcore extends Command {
 			inVoiceChannel: true,
 			sameVoiceChannel: true,
 			playing: true,
-			permission: 'premium',
+			permission: 'pro',
 		});
 	}
 	async run(client, message, args) {

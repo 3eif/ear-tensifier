@@ -11,6 +11,7 @@ module.exports = class Speed extends Command {
 			sameVoiceChannel: true,
             usage: '<speed>',
 			args: true,
+			permission: 'pro',
 		});
 	}
 	async run(client, message, args) {

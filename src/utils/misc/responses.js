@@ -1,3 +1,6 @@
+const { MessageEmbed } = require('discord.js');
+const colors = require('../../../config/colors.js');
+
 module.exports = async (type, message, args) => {
 	switch (type) {
 		case 'reloadError': {
@@ -17,15 +20,21 @@ module.exports = async (type, message, args) => {
 			break;
 		}
 		case 'noPremium': {
-			message.channel.send('This command is only available to **Premium** users. Click here to get premium: https://www.patreon.com/eartensifier');
+			const embed = new MessageEmbed()
+			.setDescription('This command is only available to **Premium** users due to performance issues.\nClick here to get premium: [patreon.com/eartensifier](https://patreon.com/eartensifier)')
+			.setColor(colors.main);
+			message.channel.send(embed);
 			break;
 		}
 		case 'noPro': {
-			message.channel.send('This command is only available to **Pro** users. Click here to get pro: https://www.patreon.com/eartensifier');
+			const embed = new MessageEmbed()
+			.setDescription('This command is only available to **Pro** users due to performance issues.\nClick here to get premium: [patreon.com/eartensifier](https://patreon.com/eartensifier)')
+			.setColor(colors.main);
+			message.channel.send(embed);
 			break;
 		}
 		case 'botVoiceChannel': {
-			message.channel.send('The bot is not currently in a vc.');
+			message.channel.send('The bot is currently not in a vc.');
 			break;
 		}
 		case 'noPermissionConnect': {

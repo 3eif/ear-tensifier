@@ -7,4 +7,6 @@ module.exports = {
     'soundcloud': '#FD8B1B',
     'twitch': '#6442A4',
     'bandcamp': '#619AA9',
+    'added': '#2ECC71',
+    'removed': '#E74C3C',
 };

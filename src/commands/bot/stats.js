@@ -1,9 +1,10 @@
 const Command = require('../../structures/Command');
 
 const Discord = require('discord.js');
-const quickdb = require('quick.db');
 const cpuStat = require('cpu-stat');
 const os = require('os');
+
+const bot = require('../../models/bot.js');
 
 class Stats extends Command {
 	constructor(client) {
@@ -24,9 +25,6 @@ class Stats extends Command {
 		const days = Math.floor((totalSeconds % (31536 * 100)) / 86400);
 		const hours = Math.floor((totalSeconds / 3600) % 24);
 		const mins = Math.floor((totalSeconds / 60) % 60);
-
-		const botMessages = await quickdb.fetch(`botMessages.${client.user.id}`);
-		const songsPlayed = await quickdb.fetch(`songsPlayed.${client.user.id}`);
 
 		const promises = [
 			client.shard.fetchClientValues('guilds.cache.size'),
@@ -49,6 +47,10 @@ class Stats extends Command {
 		const totalMusicStreams = client.music.nodes.array()[0].stats.players;
 		const playingMusicStreams = client.music.nodes.array()[0].stats.playingPlayers;
 
+		bot.findOne({
+			clientID: client.user.id,
+		}, async (err, b) => {
+			if (err) client.log(err);
 		Promise.all(promises)
 			.then(results => {
 				const totalGuilds = results[0].reduce((prev, guildCount) => prev + guildCount, 0);
@@ -75,8 +77,8 @@ class Stats extends Command {
 						.addField('Users', `${totalMembers.toLocaleString()} users`, true)
 						.addField('Shards', `${parseInt(client.shard.ids) + 1}/${client.shard.count}`, true)
 						.addField('CPU usage', `${percent.toFixed(2)}%`, true)
-						.addField('Commands Used', `${botMessages.toLocaleString()}`, true)
-						.addField('Songs Played', `${songsPlayed.toLocaleString()}`, true)
+						.addField('Commands Used', `${b.commandsUsed.toLocaleString()}`, true)
+						.addField('Songs Played', `${b.songsPlayed.toLocaleString()}`, true)
 						.addField('Players', `${totalMusicStreams.toLocaleString()}`, true)
 						.addField('Playing Players', `${playingMusicStreams.toLocaleString()}`, true)
 						.addField('Memory Used', `\`\`\`${totalRSS.toLocaleString()} RSS | ${totalMemory.toFixed(2)} / ${(os.totalmem() / 1024 / 1024).toFixed(2)} MB | ${memoryPercentage}% used\`\`\``)
@@ -87,6 +89,7 @@ class Stats extends Command {
 				});
 			})
 			.catch(console.error);
+		});
 	}
 }
 

@@ -17,4 +17,6 @@ module.exports = {
     'blacklist': '⚫',
     'time': '<:time:685859906821161053>',
     'voice': '<:voice:672305962027188235>',
+    'added': '<:added:734219403687624736>',
+    'removed': '<:botDeleted:734219450311639122>',
 };

@@ -43,7 +43,7 @@ module.exports = async (client, user) => {
             .setColor(client.colors.main)
             .setTimestamp();
 
-        client.shardMessage(client, client.channelList.dblChannel, embed);
+        client.shardMessage(client, client.channelList.voteChannel, embed);
 
         return user.send('Thank you for voting. You can now use filter commands! (You can vote again in 12 hours)');
     });

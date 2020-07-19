@@ -2,11 +2,11 @@ const figlet = require('figlet');
 const mongoose = require('mongoose');
 const Sentry = require('@sentry/node');
 const chalk = require('chalk');
+const Statcord = require('statcord.js-beta');
 // const axios = require('axios');
 
 const Event = require('../../structures/Event');
 const createManager = require('../../player/createManager.js');
-const postHandler = require('../../handlers/post.js');
 
 mongoose.connect(process.env.MONGO_URL, {
 	useNewUrlParser: true,
@@ -32,7 +32,6 @@ module.exports = class Ready extends Event {
 		this.client.user.setActivity(`${status}`, { type: `${statusType}` });
 
 		if (this.client.shard.ids[0] == this.client.shard.count - 1) {
-
 			const guildNum = await this.client.shard.fetchClientValues('guilds.cache.size');
 			const memberNum = await this.client.shard.broadcastEval('this.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0)');
 			const totalMembers = memberNum.reduce((prev, memberCount) => prev + memberCount, 0);
@@ -50,25 +49,14 @@ module.exports = class Ready extends Event {
 			this.client.log(chalk.magenta.underline.bold(`Ear Tensifier is online: ${this.client.shard.count} shards, ${totalGuilds} servers and ${totalMembers} members.`));
 
 			if (this.client.user.id == '472714545723342848') {
-				await post(this.client);
+				Statcord.ShardingClient.post(this.client);
 				setInterval(async function() {
-					await post(this.client);
+					Statcord.ShardingClient.post(this.client);
 				}, 1800000);
 
 				require('../../webhooks/blsHook.js').startUp(this.client);
 				require('../../webhooks/dblHook.js').startUp(this.client);
 			}
-		}
-
-		async function post(client) {
-			// await axios.get('https://statcord.com/mason/stats/472714545723342848')
-			// .then(function(response) {
-			// 	const res = response.data.data;
-			// 	postHandler(client, Number(res[res.length - 1].servers), client.shard.count);
-			// });
-			const guildNum = await client.shard.fetchClientValues('guilds.cache.size');
-			const totalGuilds = guildNum.reduce((total, shard) => total + shard, 0);
-			postHandler(client, totalGuilds, client.shard.count);
 		}
 	}
 };

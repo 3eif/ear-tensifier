@@ -36,7 +36,7 @@ module.exports = class Shards extends Command {
 			.setColor(client.colors.main)
 			.setAuthor('Ear Tensifier', client.user.displayAvatarURL());
 
-		let totalMusicStreams = 0;
+		let totalMusicStreams = client.music.nodes.array()[0].stats.players;
 		shardInfo.forEach(i => {
 			const status = i[1] === 'process' ? client.emojiList.online : client.emojiList.offline;
 			embed.addField(`${status} Shard ${(parseInt(i[0]) + 1).toString()}`, `\`\`\`js

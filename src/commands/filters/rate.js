@@ -11,6 +11,7 @@ module.exports = class Rate extends Command {
 			sameVoiceChannel: true,
             usage: '<rate>',
 			args: true,
+			permission: 'pro',
 		});
 	}
 	async run(client, message, args) {
