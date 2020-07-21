@@ -33,7 +33,7 @@ module.exports = class Play extends Command {
 			if (data.type == 'playlist' || data.type == 'album') {
 				const sL = await client.getSongLimit(message.author.id);
 				let songsToAdd = 0;
-				if (player.queue.length == 0) { songsToAdd = Math.min(sL, data.tracks.items.length); }
+				if (!player.queue.length) { songsToAdd = Math.min(sL, data.tracks.items.length); }
 				else {
 					const totalSongs = player.queue.length + data.tracks.items.length;
 					if (totalSongs > sL) songsToAdd = Math.min(sL - player.queue.length, data.tracks.items.length);
