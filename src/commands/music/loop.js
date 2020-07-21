@@ -17,7 +17,7 @@ module.exports = class Loop extends Command {
 		const player = client.music.players.get(message.guild.id);
 
 		if (!args[0] || args[0].toLowerCase() == 'song') {
-			if (player.trackRepeat === false) {
+			if (!player.trackRepeat) {
 				player.setTrackRepeat(true);
 				return message.channel.send('Song is now being looped');
 			}
@@ -27,7 +27,7 @@ module.exports = class Loop extends Command {
 			}
 		}
 		else if (args[0] == 'queue') {
-			if (player.queueRepeat === true) {
+			if (player.queueRepeat) {
 				player.setQueueRepeat(false);
 				return message.channel.send('Queue has been unlooped.');
 			}
