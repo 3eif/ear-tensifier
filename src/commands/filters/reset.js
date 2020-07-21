@@ -18,6 +18,7 @@ module.exports = class Reset extends Command {
 		const delay = ms => new Promise(res => setTimeout(res, ms));
 
 		player.setFilter('filters', client.filters.reset);
+		player.setVolume(100);
 
 		const msg = await message.channel.send(`${client.emojiList.loading} Reseting filters to default...`);
 		const embed = new Discord.MessageEmbed()

@@ -6,25 +6,12 @@ const bot = require('../models/bot.js');
 
 module.exports = (client, servers, count) => {
 	bot.findOne({ clientID: client.user.id }).then(async b => {
-		if (!b) {
-			const newClient = new bot({
-				clientID: client.user.id,
-				clientName: client.user.name,
-				commandsUsed: 0,
-				songsPlayed: 0,
-				lastPosted: Date.now(),
-			});
-			await newClient.save().catch(e => client.log(e));
+		if(b.lastPosted < Date.now() - client.settings.postCooldown) {
+			b.lastPosted = Date.now();
 			post();
 		}
-		else {
-			if(b.lastPosted < Date.now() - client.settings.postCooldown) {
-				b.lastPosted = Date.now();
-				post();
-			}
-			else return;
-			b.save().catch(e => client.log(e));
-		}
+		else return;
+		b.save().catch(e => client.log(e));
 	});
 
 	function post() {
