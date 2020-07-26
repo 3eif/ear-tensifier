@@ -28,7 +28,8 @@ module.exports = class Rate extends Command {
 		}
 
 		if (isNaN(args[0])) return message.channel.send('Amount must be a real number.');
-        if (args[0] < 0) return message.channel.send('Rate must be greater than 0.');
+		if (args[0] < 0) return message.channel.send('Rate must be greater than 0.');
+		if (args[0] > 10) return message.channel.send('Rate must be less than 10.');
 
 		player.setFilter('filters', {
 			timescale: { rate: args[0] },
