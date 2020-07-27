@@ -1,6 +1,6 @@
 const Command = require('../../structures/Command');
 
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js'); // destructor MessageEmbed from discord.js
 
 class Lavalink extends Command {
     constructor(client) {
@@ -13,37 +13,66 @@ class Lavalink extends Command {
             args: false,
         });
     }
-    async run(client, message) {
-        const msg = await message.channel.send(`${client.emojiList.loading} Gathering stats...`);
 
-        const stats = client.music.nodes.array()[0].stats;
+    async run(client, message) {.
+        // changed message, as "Stats" could be anything
+        const msg = await message.channel.send(`${client.emojiList.loading} Getting lavalink stats...`);
 
-        const allocated = Math.floor(stats.memory.allocated / 1024 / 1024);
-        const used = Math.floor(stats.memory.used / 1024 / 1024);
-        const free = Math.floor(stats.memory.free / 1024 / 1024);
-        const reservable = Math.floor(stats.memory.reservable / 1024 / 1024);
+        // we can destructor a bunch of thigns
+        const { 
+            memory, 
+            cpu, 
+            uptime, 
+            frameStats,
+            playingPlayers,
+            players,
+        } = client.music.nodes.first().stats; // ErelaClient#nodes returns a Collection<number, Node>, therefore we can use Collection#first();
 
-        const systemLoad = (stats.cpu.systemLoad * 100).toFixed(2);
-        const lavalinkLoad = (stats.cpu.lavalinkLoad * 100).toFixed(2);
+        const allocated = Math.floor(memory.allocated / 1024 / 1024);
+        const used = Math.floor(memory.used / 1024 / 1024);
+        const free = Math.floor(memory.free / 1024 / 1024);
+        const reservable = Math.floor(memory.reservable / 1024 / 1024);
 
-        const totalSeconds = stats.uptime / 1000;
-        const realTotalSecs = Math.floor(totalSeconds % 60);
-        const days = Math.floor((totalSeconds % (31536 * 100)) / 86400);
-        const hours = Math.floor((totalSeconds / 3600) % 24);
-        const mins = Math.floor((totalSeconds / 60) % 60);
+        const systemLoad = (cpu.systemLoad * 100).toFixed(2);
+        const lavalinkLoad = (cpu.lavalinkLoad * 100).toFixed(2);
+        
+        // get the uptime using a better method
+        const uptime = this.uptime(uptime);
 
-        const statsEmbed = new Discord.MessageEmbed()
+        const embed = new MessageEmbed() // change var to embed
             .setAuthor('Lavalink Statistics')
             .setColor(client.colors.main)
             .setThumbnail(client.settings.avatar)
-            .addField('Playing Players/Players', `\`\`\`${stats.playingPlayers} playing / ${stats.players} players\`\`\``)
+            .addField('Playing Players/Players', `\`\`\`${playingPlayers} playing / ${players} players\`\`\``)
             .addField('Memory', `\`\`\`Allocated: ${allocated} MB\nUsed: ${used} MB\nFree: ${free} MB\nReservable: ${reservable} MB\`\`\``)
-            .addField('CPU', `\`\`\`Cores: ${stats.cpu.cores}\nSystem Load: ${systemLoad}%\nLavalink Load: ${lavalinkLoad}%\`\`\``)
-            .addField('Uptime', `\`\`\`${days} days, ${hours} hours, ${mins} minutes, and ${realTotalSecs} seconds\`\`\``)
-            .setTimestamp();
+            .addField('CPU', `\`\`\`Cores: ${cpu.cores}\nSystem Load: ${systemLoad}%\nLavalink Load: ${lavalinkLoad}%\`\`\``)
+            .addField('Uptime', `\`\`\`${uptime}\`\`\``)
+            .setTimestamp(Date.now());
 
-        if(typeof stats.frameStats != 'undefined') statsEmbed.addField('Frame Stats', `\`\`\`Sent: ${stats.frameStats.sent}\nDeficit: ${stats.frameStats.deficit}\nNulled: ${stats.frameStats.nulled}\`\`\``);
-        return msg.edit('', statsEmbed);
+        if (frameStats) { // from the old code, "typeof stats.frameStats != 'undefined'" was completely uneeded.
+            const { sent, deficit, nulled } = frameStats;
+            embed.addField('Frame Stats', `\`\`\`Sent: ${sent}\nDeficit: ${deficit}\nNulled: ${nulled}\`\`\``);
+        }
+
+        return msg.edit('', embed);
+    }
+
+    uptime(time) {
+        const calculations = {
+            week: Math.floor(time / (1000 * 60 * 60 * 24 * 7)),
+            day: Math.floor(time / (1000 * 60 * 60 * 24)),
+            hour: Math.floor((time / (1000 * 60 * 60)) % 24),
+            minute: Math.floor((time / (1000 * 60)) % 60),
+            second: Math.floor((time / 1000) % 60),
+        }
+
+        let str = ``;
+
+        for (const [key, val] of Object.entries(calculations)) {
+            if (val > 0) str += `${val} ${key}${val > 1 ? "s" : ""} `
+        }
+
+        return str;
     }
 }
 
