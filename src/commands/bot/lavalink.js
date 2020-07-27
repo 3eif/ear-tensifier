@@ -51,7 +51,7 @@ class Lavalink extends Command {
 
         const { sent, deficit, nulled } = frameStats;
 
-        if (stats.frameStats) // from the old code, "typeof stats.frameStats != 'undefined'" was completely uneeded.
+        if (frameStats) // from the old code, "typeof stats.frameStats != 'undefined'" was completely uneeded.
             embed.addField('Frame Stats', `\`\`\`Sent: ${sent}\nDeficit: ${deficit}\nNulled: ${nulled}\`\`\``);
         return msg.edit('', embed);
     }
