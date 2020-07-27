@@ -1,6 +1,6 @@
 const Command = require('../../structures/Command');
 
-const { MessageEmbed } = require('discord.js'); // destructor MessageEmbed from discord.js
+const { MessageEmbed } = require('discord.js');
 
 class Lavalink extends Command {
     constructor(client) {
@@ -14,19 +14,17 @@ class Lavalink extends Command {
         });
     }
 
-    async run(client, message) {.
-        // changed message, as "Stats" could be anything
+    async run(client, message) {
         const msg = await message.channel.send(`${client.emojiList.loading} Getting lavalink stats...`);
 
-        // we can destructor a bunch of thigns
-        const { 
-            memory, 
-            cpu, 
-            uptime, 
+        const {
+            memory,
+            cpu,
+            uptime,
             frameStats,
             playingPlayers,
             players,
-        } = client.music.nodes.first().stats; // ErelaClient#nodes returns a Collection<number, Node>, therefore we can use Collection#first();
+        } = client.music.nodes.first().stats;
 
         const allocated = Math.floor(memory.allocated / 1024 / 1024);
         const used = Math.floor(memory.used / 1024 / 1024);
@@ -35,25 +33,24 @@ class Lavalink extends Command {
 
         const systemLoad = (cpu.systemLoad * 100).toFixed(2);
         const lavalinkLoad = (cpu.lavalinkLoad * 100).toFixed(2);
-        
-        // get the uptime using a better method
-        const uptime = this.uptime(uptime);
 
-        const embed = new MessageEmbed() // change var to embed
+        const botUptime = this.uptime(uptime);
+
+        const embed = new MessageEmbed()
             .setAuthor('Lavalink Statistics')
             .setColor(client.colors.main)
             .setThumbnail(client.settings.avatar)
             .addField('Playing Players/Players', `\`\`\`${playingPlayers} playing / ${players} players\`\`\``)
             .addField('Memory', `\`\`\`Allocated: ${allocated} MB\nUsed: ${used} MB\nFree: ${free} MB\nReservable: ${reservable} MB\`\`\``)
             .addField('CPU', `\`\`\`Cores: ${cpu.cores}\nSystem Load: ${systemLoad}%\nLavalink Load: ${lavalinkLoad}%\`\`\``)
-            .addField('Uptime', `\`\`\`${uptime}\`\`\``)
+            .addField('Uptime', `\`\`\`${botUptime}\`\`\``)
             .setTimestamp(Date.now());
 
-        if (frameStats) { // from the old code, "typeof stats.frameStats != 'undefined'" was completely uneeded.
+
+        if (frameStats) {
             const { sent, deficit, nulled } = frameStats;
             embed.addField('Frame Stats', `\`\`\`Sent: ${sent}\nDeficit: ${deficit}\nNulled: ${nulled}\`\`\``);
         }
-
         return msg.edit('', embed);
     }
 
@@ -64,12 +61,12 @@ class Lavalink extends Command {
             hour: Math.floor((time / (1000 * 60 * 60)) % 24),
             minute: Math.floor((time / (1000 * 60)) % 60),
             second: Math.floor((time / 1000) % 60),
-        }
+        };
 
-        let str = ``;
+        let str = '';
 
         for (const [key, val] of Object.entries(calculations)) {
-            if (val > 0) str += `${val} ${key}${val > 1 ? "s" : ""} `
+            if (val > 0) str += `${val} ${key}${val > 1 ? 's' : ''} `;
         }
 
         return str;
