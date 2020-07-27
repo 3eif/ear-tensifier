@@ -49,10 +49,11 @@ class Lavalink extends Command {
             .addField('Uptime', `\`\`\`${uptime}\`\`\``)
             .setTimestamp(Date.now());
 
-        const { sent, deficit, nulled } = frameStats;
-
-        if (frameStats) // from the old code, "typeof stats.frameStats != 'undefined'" was completely uneeded.
+        if (frameStats) { // from the old code, "typeof stats.frameStats != 'undefined'" was completely uneeded.
+            const { sent, deficit, nulled } = frameStats;
             embed.addField('Frame Stats', `\`\`\`Sent: ${sent}\nDeficit: ${deficit}\nNulled: ${nulled}\`\`\``);
+        }
+
         return msg.edit('', embed);
     }
 
