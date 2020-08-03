@@ -48,6 +48,7 @@ module.exports = class Help extends Command {
 			});
 
 			await msg.edit('', embed);
+			message.channel.send(`Need more help? Join the support server: ${client.settings.server}`);
 		}
 		else {
 
