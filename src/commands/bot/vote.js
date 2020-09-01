@@ -8,6 +8,6 @@ module.exports = class Vote extends Command {
 		});
 	}
 	async run(client, message) {
-		return message.channel.send('https://discordbotlist.com/bots/ear-tensifier/upvote');
+		return message.channel.send('https://top.gg/bot/472714545723342848/vote');
 	}
 };
