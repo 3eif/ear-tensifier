@@ -33,7 +33,7 @@ module.exports = class Ready extends Event {
 
 		// require('../../webhooks/blsHook.js').startUp(this.client);
 		// require('../../webhooks/topggHook.js').startUp(this.client);
-		require('../../webhooks/dblHook.js').startUp(this.client);
+
 
 		if (this.client.shard.ids[0] == this.client.shard.count - 1) {
 			const guildNum = await this.client.shard.fetchClientValues('guilds.cache.size');
@@ -58,6 +58,7 @@ module.exports = class Ready extends Event {
 					Statcord.ShardingClient.post(this.client);
 				}, 1800000);
 
+				require('../../webhooks/dblHook.js').startUp(this.client);
 			}
 		}
 	}

@@ -33,7 +33,7 @@ module.exports = class Role extends Command {
                 const voted = await getVoted(client, message.author);
                 if (!voted) {
                     const voteEmbed = new Discord.MessageEmbed()
-                        .setDescription('You must **vote** to get this role. You can vote [here](https://top.gg/bot/472714545723342848/vote)')
+                        .setDescription('You must **vote** to get this role. You can vote [here](https://discordbotlist.com/bots/ear-tensifier/upvote)')
                         .setColor(client.colors.main);
                     return message.channel.send(voteEmbed);
                 }
