@@ -14,7 +14,7 @@ const manager = new ShardingManager('./src/eartensifier.js', {
 });
 
 if (process.env.NODE_ENV == 'production') {
-  const Statcord = require('statcord.js');
+  const Statcord = require('statcord.js-beta');
   // eslint-disable-next-line no-unused-vars
   const statcord = new Statcord.ShardingClient({
     key: process.env.STATCORD_TOKEN,
