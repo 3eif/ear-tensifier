@@ -238,6 +238,7 @@ module.exports = class Message extends Event {
 				}
 
 				try {
+					message.channel.send('Bot is currently under maintenance. Please be patient.');
 					cmd.run(client, message, args);
 				}
 				catch (e) {
