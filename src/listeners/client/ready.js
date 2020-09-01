@@ -3,10 +3,19 @@ const mongoose = require('mongoose');
 const Sentry = require('@sentry/node');
 const chalk = require('chalk');
 const Statcord = require('statcord.js-beta');
+const voteRewards = require('../../utils/voting/voteRewards');
+const express = require('express');
+const http = require('http');
+const app = express();
+const server = http.createServer(app);
 // const axios = require('axios');
 
 const Event = require('../../structures/Event');
 const createManager = require('../../player/createManager.js');
+
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 mongoose.connect(process.env.MONGO_URL, {
 	useNewUrlParser: true,
@@ -53,6 +62,17 @@ module.exports = class Ready extends Event {
 				setInterval(async function() {
 					Statcord.ShardingClient.post(this.client);
 				}, 1800000);
+
+				server.listen(9837, () => {
+					console.log('Listening');
+				});
+
+				app.post('/dbl', async (req, res) => {
+					const user = await this.client.users.fetch(req.body.user.id);
+					if (!user) return res.sendStatus(200);
+					voteRewards(this.client, user);
+					return res.sendStatus(200);
+				});
 			}
 		}
 	}
