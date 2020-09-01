@@ -4,6 +4,7 @@ const Sentry = require('@sentry/node');
 const chalk = require('chalk');
 const Statcord = require('statcord.js-beta');
 // const axios = require('axios');
+const DBotHook = require('dbothook');
 
 const Event = require('../../structures/Event');
 const createManager = require('../../player/createManager.js');
@@ -54,7 +55,17 @@ module.exports = class Ready extends Event {
 					Statcord.ShardingClient.post(this.client);
 				}, 1800000);
 
-				require('../../webhooks/hook.js').startUp();
+				const hook = new DBotHook({
+					authSecrets: {
+						topgg: process.env.TOPGG_PASSWORD,
+						discordbotlist: process.env.DBL_HOOK_PASSWORD,
+					},
+				});
+
+				hook.listen(9836);
+				hook.on('called', event => {
+					console.log(event);
+				});
 			}
 		}
 	}
