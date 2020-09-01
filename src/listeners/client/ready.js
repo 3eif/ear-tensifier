@@ -31,6 +31,10 @@ module.exports = class Ready extends Event {
 		const statusType = 'LISTENING';
 		this.client.user.setActivity(`${status}`, { type: `${statusType}` });
 
+		// require('../../webhooks/blsHook.js').startUp(this.client);
+		// require('../../webhooks/topggHook.js').startUp(this.client);
+		require('../../webhooks/dblHook.js').startUp(this.client);
+
 		if (this.client.shard.ids[0] == this.client.shard.count - 1) {
 			const guildNum = await this.client.shard.fetchClientValues('guilds.cache.size');
 			const memberNum = await this.client.shard.broadcastEval('this.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0)');
@@ -54,8 +58,6 @@ module.exports = class Ready extends Event {
 					Statcord.ShardingClient.post(this.client);
 				}, 1800000);
 
-				require('../../webhooks/blsHook.js').startUp(this.client);
-				require('../../webhooks/dblHook.js').startUp(this.client);
 			}
 		}
 	}
