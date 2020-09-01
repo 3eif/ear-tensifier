@@ -16,7 +16,7 @@ app.use((req, res, next) => {
 
 module.exports.startUp = async (client) => {
 
-    app.listen(34782, function() {
+    app.listen(2763, function() {
         console.log(`[${new Date().toLocaleString()}] > [READY] DBL Hook Ready! Listening on: 34782`);
       });
 
