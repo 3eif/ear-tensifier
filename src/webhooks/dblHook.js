@@ -16,8 +16,8 @@ app.use((req, res, next) => {
 
 module.exports.startUp = async (client) => {
 
-    app.listen(2763, function() {
-        console.log(`[${new Date().toLocaleString()}] > [READY] DBL Hook Ready! Listening on: 34782`);
+    app.listen(4876, function() {
+        console.log(`[${new Date().toLocaleString()}] > [READY] DBL Hook Ready! Listening on: 4876`);
       });
 
     app.use(bodyParser.urlencoded({ extended: false }));
