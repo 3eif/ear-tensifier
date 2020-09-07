@@ -67,7 +67,7 @@ module.exports = class Search extends Command {
 								null,
 								null,
 								tracks.length,
-								tracks[entry - 1].requester,
+								tracks[0].requester,
 							));
 						}
 						else if(entry === 'cancel') {
