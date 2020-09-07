@@ -67,7 +67,7 @@ module.exports = class Search extends Command {
 								null,
 								null,
 								tracks.length,
-								tracks[0].requester,
+								tracks[entry - 1].requester,
 							));
 						}
 						else if(entry === 'cancel') {
@@ -77,11 +77,11 @@ module.exports = class Search extends Command {
 							const track = tracks[entry - 1];
 							player.queue.add(track);
 							msg.edit('', client.queuedEmbed(
-								res.tracks[0].title,
-								res.tracks[0].uri,
+								res.tracks[entry - 1].title,
+								res.tracks[entry - 1].uri,
 								track.duration,
 								null,
-								res.tracks[0].requester,
+								res.tracks[entry - 1].requester,
 							));
 						}
 						if (!player.playing) player.play();

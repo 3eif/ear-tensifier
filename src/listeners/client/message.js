@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 const Discord = require('discord.js');
-const Statcord = require('statcord.js-beta');
+const Statcord = require('statcord.js');
 const chalk = require('chalk');
 const cooldowns = new Discord.Collection();
 

@@ -2,7 +2,7 @@ const figlet = require('figlet');
 const mongoose = require('mongoose');
 const Sentry = require('@sentry/node');
 const chalk = require('chalk');
-const Statcord = require('statcord.js-beta');
+const Statcord = require('statcord.js');
 // const axios = require('axios');
 
 const Event = require('../../structures/Event');
