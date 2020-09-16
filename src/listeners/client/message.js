@@ -143,10 +143,11 @@ module.exports = class Message extends Event {
 				else if (client.aliases.has(command)) cmd = client.aliases.get(command);
 				else return;
 
-				const permissions = message.channel.permissionsFor(client.user);
-				if (!permissions.has('SEND_MESSAGES') || !permissions.has('READ_MESSAGE_HISTORY')) return message.author.send(`I don't have permission to read/send messages in **${message.channel.name}**!\nPlease join the support server if you need help: ${client.settings.server}`);
-				if (!permissions.has('EMBED_LINKS')) return message.channel.send(`I don't have permission to send embeds in **${message.channel.name}**!\nPlease join the support server if you need help: ${client.settings.server}`);
-
+				if(message.guild.id != '264445053596991498') {
+					const permissions = message.channel.permissionsFor(client.user);
+					if (!permissions.has('SEND_MESSAGES') || !permissions.has('READ_MESSAGE_HISTORY')) return message.author.send(`I don't have permission to read/send messages in **${message.channel.name}**!\nPlease join the support server if you need help: ${client.settings.server}`);
+					if (!permissions.has('EMBED_LINKS')) return message.channel.send(`I don't have permission to send embeds in **${message.channel.name}**!\nPlease join the support server if you need help: ${client.settings.server}`);
+				}
 				const commandName = cmd.name.toLowerCase();
 				if (process.env.NODE_ENV == 'production') Statcord.ShardingClient.postCommand(commandName, message.author.id, client);
 				/* Async Non-Blocking */
