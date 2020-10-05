@@ -12,7 +12,6 @@ module.exports = class Bassboost extends Command {
 			inVoiceChannel: true,
 			sameVoiceChannel: true,
 			playing: true,
-			voteLocked: true,
 		});
 	}
 	async run(client, message, args) {

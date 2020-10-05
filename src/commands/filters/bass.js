@@ -9,7 +9,6 @@ module.exports = class Bass extends Command {
 			inVoiceChannel: true,
 			sameVoiceChannel: true,
 			playing: true,
-			voteLocked: true,
 		});
 	}
 	async run(client, message, args) {
