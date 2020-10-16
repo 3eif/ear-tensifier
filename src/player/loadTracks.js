@@ -35,11 +35,12 @@ module.exports = async (client, message, msg, player, searchQuery, playlist) => 
             return;
 		}
         else {
-            const searchResult = await ytsr(searchQuery, { limit: 1 });
+            //const searchResult = await ytsr(searchQuery, { limit: 1 });
+            // eslint-disable-next-line no-lonely-if
             if(tries > 7) return msg.edit('No results found.');
             else {
 				tries++;
-				return load(searchResult.items[0].link);
+				return load(searchQuery);
 			}
         }
 	}
