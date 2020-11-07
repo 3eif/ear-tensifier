@@ -239,6 +239,7 @@ module.exports = class Message extends Event {
 				}
 
 				try {
+					return message.channel.send("Ear Tensifier is currently being ratelimited by Youtube due to an increase in traffic. We are trying to fix this issue ASAP, please check back later. You can receive updates on the issue here: <https://discord.gg/xKgKMAP>");
 					cmd.run(client, message, args);
 				}
 				catch (e) {
