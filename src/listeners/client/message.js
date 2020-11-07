@@ -239,6 +239,7 @@ module.exports = class Message extends Event {
 				}
 
 				try {
+					
 					cmd.run(client, message, args);
 				}
 				catch (e) {
