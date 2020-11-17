@@ -27,11 +27,6 @@ Sentry.init({
   environment: process.env.SENTRY_ENVIRONMENT,
 });
 
-mongoose.connect(process.env.MONGO_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
 mongoose.connect(
   process.env.MONGO_URL,
   {
