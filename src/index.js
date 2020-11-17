@@ -27,10 +27,10 @@ Sentry.init({
   environment: process.env.SENTRY_ENVIRONMENT,
 });
 
-mongoose.connect(MONGO_URL, {
+mongoose.connect(process.env.MONGO_URL, {
   auth: {
-    user: MONGO_USER,
-    password: MONGO_PASS
+    user: process.env.MONGO_USER,
+    password: process.env.MONGO_PASS
   }
 })
 
