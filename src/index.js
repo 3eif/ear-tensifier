@@ -41,7 +41,7 @@ mongoose.connect(
     useCreateIndex: true,
     user: process.env.MONGO_USER,
     pass: process.env.MONGO_PASS,
-    dbName: process.env.MONGO_NAME,
+    dbName: 'ear_tensifier',
   },
   err => { throw err; },
 );
