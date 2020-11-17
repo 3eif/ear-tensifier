@@ -26,20 +26,10 @@ Sentry.init({
   dsn: process.env.SENTRY_URL,
   environment: process.env.SENTRY_ENVIRONMENT,
 });
-
-mongoose.connect(
-  process.env.MONGO_URL,
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-    useCreateIndex: true,
-    user: process.env.MONGO_USER,
-    pass: process.env.MONGO_PASS,
-    dbName: process.env.MONGO_NAME,
-  },
-  err => { throw err; },
-);
+mongoose.connect(process.env.MONGO_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 
 manager.spawn().catch((err) => console.log(err));
