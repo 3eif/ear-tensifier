@@ -33,7 +33,7 @@ mongoose.connect(process.env.MONGO_URL, {
 });
 
 mongoose.connect(
-  process.env.MONGO_URL,
+  process.env.MONGO_URL',
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -41,7 +41,7 @@ mongoose.connect(
     useCreateIndex: true,
     user: process.env.MONGO_USER,
     pass: process.env.MONGO_PASS,
-    dbName: 'ear_tensifier',
+    dbName: process.env.MONGO_NAME,
   },
   err => { throw err; },
 );
