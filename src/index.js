@@ -27,12 +27,9 @@ Sentry.init({
   environment: process.env.SENTRY_ENVIRONMENT,
 });
 
-mongoose.connect(process.env.MONGO_URL, {
-  auth: {
-    user: process.env.MONGO_USER,
-    password: process.env.MONGO_PASS
-  }
-})
-
+mongoose.connect(config.mongo_url, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 manager.spawn().catch((err) => console.log(err));
