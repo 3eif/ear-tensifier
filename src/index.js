@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 process.env.NODE_ENV || (process.env.NODE_ENV = 'production');
 require('dotenv-flow').config();
 
-const manager = new ShardingManager('./eartensifier.js', {
+const manager = new ShardingManager('./src/eartensifier.js', {
   token: process.env.DISCORD_TOKEN,
   totalShards: 'auto',
   shardList: 'auto',
