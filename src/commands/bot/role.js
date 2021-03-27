@@ -27,7 +27,7 @@ module.exports = class Role extends Command {
                     roleSystem: false,
                 });
                 await newServer.save().catch(e => this.client.log(e));
-                return message.chanel.send(`This server does not have a role system set up! Please contact Tetracyl#0096 to get it set up: ${client.settings.server}`);
+                return message.chanel.send(`This server does not have a role system set up! Please contact Tetracyl#0001 to get it set up: ${client.settings.server}`);
             }
             else if (s.roleSystem) {
                 const voted = await getVoted(client, message.author);
