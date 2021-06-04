@@ -25,7 +25,7 @@ module.exports = class Play extends Command {
 		const msg = await message.channel.send(`${client.emojiList.cd}  Searching for \`${args.join(' ')}\`...`);
 
 		const songLimit = await client.songLimit(message.author.id, player.queue.length);
-		if(songLimit) return msg.edit(`You have reached the **maximum** amount of songs (${songLimit} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`);
+		if (songLimit) return msg.edit(`You have reached the **maximum** amount of songs (${songLimit} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`);
 
 		let searchQuery;
 		if (args[0].startsWith(client.settings.spotifyURL)) {
@@ -60,16 +60,12 @@ module.exports = class Play extends Command {
 			}
 		}
 		else {
-			const searchQuery = {
-				source: 'soundcloud',
-				query: args.slice(0).join(' '),
-			};
-			// if (['youtube', 'soundcloud', 'bandcamp', 'mixer', 'twitch'].includes(args[0].toLowerCase())) {
-			// 	searchQuery = {
-			// 		source: args[0],
-			// 		query: args.slice(1).join(' '),
-			// 	};
-			// }
+			if (['youtube', 'soundcloud', 'bandcamp', 'mixer', 'twitch'].includes(args[0].toLowerCase())) {
+				searchQuery = {
+					source: args[0],
+					query: args.slice(1).join(' '),
+				};
+			}
 			play(client, message, msg, player, searchQuery, false);
 		}
 	}
