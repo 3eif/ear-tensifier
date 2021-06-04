@@ -13,14 +13,13 @@ module.exports = class Create extends Command {
 			args: true,
 			aliases: ['add'],
 			cooldown: 5,
-			permission: 'pro',
 		});
 	}
 	async run(client, message, args) {
 		const msg = await message.channel.send(`${client.emojiList.loading} Adding song(s) to your playlist (This might take a few seconds.)...`);
 
-		if(!args[1]) return msg.edit('Please specify a search query or link.\nUsage: `ear create <playlist name> <search query/link>`');
-		if(args[0].length > 32) return msg.edit('Playlist title must be less than 32 characters!');
+		if (!args[1]) return msg.edit('Please specify a search query or link.\nUsage: `ear create <playlist name> <search query/link>`');
+		if (args[0].length > 32) return msg.edit('Playlist title must be less than 32 characters!');
 		const songsToAdd = [];
 		let dataLength = 0;
 		let playlistMessage = '';
@@ -87,7 +86,7 @@ module.exports = class Create extends Command {
 						break;
 					}
 					else if (res.loadType == 'PLAYLIST_LOADED') {
-						for(let n = 0; n < res.playlist.tracks.length; n++) {
+						for (let n = 0; n < res.playlist.tracks.length; n++) {
 							songsToAdd.push(res.playlist.tracks[n]);
 						}
 						// eslint-disable-next-line no-case-declarations
@@ -124,7 +123,7 @@ module.exports = class Create extends Command {
 						creator: message.author.id,
 					});
 
-					if(songsToAdd.length > 1) {
+					if (songsToAdd.length > 1) {
 						songsToAdd.length = await getSongsToAdd(newPlaylist.songs.length);
 					}
 					newPlaylist.songs = songsToAdd;
@@ -140,8 +139,8 @@ module.exports = class Create extends Command {
 					msg.edit('', embed);
 				}
 				else {
-					if(p.songs.length >= client.settings.playlistLimit) return msg.edit('You have reached the **maximum** amount of songs in the playlist');
-					if(songsToAdd.length > 1) songsToAdd.length = await getSongsToAdd(p.songs.length);
+					if (p.songs.length >= client.settings.playlistLimit) return msg.edit('You have reached the **maximum** amount of songs in the playlist');
+					if (songsToAdd.length > 1) songsToAdd.length = await getSongsToAdd(p.songs.length);
 					const currentPlaylist = p.songs;
 					p.songs = currentPlaylist.concat(songsToAdd);
 					p.songs.length = clamp(p.songs.length, 0, client.settings.playlistSongLimit);
@@ -174,5 +173,5 @@ module.exports = class Create extends Command {
 };
 
 function clamp(num, min, max) {
-    return num <= min ? min : num >= max ? max : num;
+	return num <= min ? min : num >= max ? max : num;
 }

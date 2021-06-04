@@ -13,7 +13,6 @@ module.exports = class View extends Command {
 			cooldown: 5,
 			args: true,
 			usage: '<playlist name>',
-			permission: 'pro',
 		});
 	}
 	async run(client, message, args) {
@@ -38,7 +37,7 @@ module.exports = class View extends Command {
 			if (pagesNum === 0) pagesNum = 1;
 
 			let totalQueueDuration = 0;
-			for(let i = 0; i < p.songs.length; i++) {
+			for (let i = 0; i < p.songs.length; i++) {
 				totalQueueDuration += p.songs[i].duration;
 			}
 
@@ -57,7 +56,7 @@ module.exports = class View extends Command {
 					.setFooter(`Page ${i + 1}/${pagesNum} | ${p.songs.length} songs | ${client.formatDuration(totalQueueDuration)} total duration`);
 				pages.push(embed);
 				if (i == pagesNum - 1 && pagesNum > 1) paginate(client, message, pages, ['◀️', '▶️'], 120000, p.songs.length, client.formatDuration(totalQueueDuration));
-				else if(pagesNum == 1) message.channel.send(embed);
+				else if (pagesNum == 1) message.channel.send(embed);
 			}
 		});
 	}

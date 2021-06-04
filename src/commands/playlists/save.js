@@ -4,28 +4,27 @@ const playlists = require('../../models/playlist.js');
 const Discord = require('discord.js');
 
 module.exports = class Save extends Command {
-	constructor(client) {
-		super(client, {
-			name: 'save',
-			description: 'Saves the queue to the user\'s playlist.',
-			usage: '<playlist name>',
-			args: true,
-			aliases: ['savequeue', 'queuesave'],
+    constructor(client) {
+        super(client, {
+            name: 'save',
+            description: 'Saves the queue to the user\'s playlist.',
+            usage: '<playlist name>',
+            args: true,
+            aliases: ['savequeue', 'queuesave'],
             cooldown: 5,
             playing: true,
-            permission: 'pro',
-		});
-	}
-	async run(client, message, args) {
-		const msg = await message.channel.send(`${client.emojiList.loading} Adding song(s) to your playlist (This might take a few seconds.)...`);
-        if(args[0].length > 32) return msg.edit('Playlist title must be less than 32 characters!');
+        });
+    }
+    async run(client, message, args) {
+        const msg = await message.channel.send(`${client.emojiList.loading} Adding song(s) to your playlist (This might take a few seconds.)...`);
+        if (args[0].length > 32) return msg.edit('Playlist title must be less than 32 characters!');
         const playlistName = args.join(' ').replace(/_/g, ' ');
         const player = client.music.players.get(message.guild.id);
-		const songsToAdd = [];
+        const songsToAdd = [];
 
         songsToAdd.push(player.current);
         songsToAdd[0].requester = message.author.id;
-        for(let i = 0; i < player.queue.length; i++) {
+        for (let i = 0; i < player.queue.length; i++) {
             player.queue[i].requester = message.author.id;
             songsToAdd.push(player.queue[i]);
         }
@@ -44,7 +43,7 @@ module.exports = class Save extends Command {
                     creator: message.author.id,
                 });
 
-                if(songsToAdd.length > 1) {
+                if (songsToAdd.length > 1) {
                     songsToAdd.length = await getSongsToAdd(newPlaylist.songs.length);
                 }
                 newPlaylist.songs = songsToAdd;
@@ -60,8 +59,8 @@ module.exports = class Save extends Command {
                 msg.edit('', embed);
             }
             else {
-                if(p.songs.length >= client.settings.playlistLimit) return msg.edit('You have reached the **maximum** amount of songs in the playlist');
-                if(songsToAdd.length > 1) songsToAdd.length = await getSongsToAdd(p.songs.length);
+                if (p.songs.length >= client.settings.playlistLimit) return msg.edit('You have reached the **maximum** amount of songs in the playlist');
+                if (songsToAdd.length > 1) songsToAdd.length = await getSongsToAdd(p.songs.length);
                 const currentPlaylist = p.songs;
                 p.songs = currentPlaylist.concat(songsToAdd);
                 p.songs.length = clamp(p.songs.length, 0, client.settings.playlistSongLimit);
@@ -89,7 +88,7 @@ module.exports = class Save extends Command {
             songsToAdd.length = sTA;
             return sTA;
         }
-	}
+    }
 };
 
 function clamp(num, min, max) {

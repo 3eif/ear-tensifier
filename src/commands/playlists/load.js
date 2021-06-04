@@ -12,7 +12,6 @@ module.exports = class Load extends Command {
 			inVoiceChannel: true,
 			args: true,
 			usage: '<playlist name>',
-			permission: 'pro',
 			botPermissions: ['CONNECT', 'SPEAK'],
 		});
 	}
@@ -24,7 +23,7 @@ module.exports = class Load extends Command {
 		const msg = await message.channel.send(`${client.emojiList.cd} Loading playlist (This might take a few seconds)...`);
 
 		const songLimit = await client.songLimit(message.author.id, player.queue.length);
-		if(songLimit) return msg.edit(`You have reached the **maximum** amount of songs (${songLimit} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`);
+		if (songLimit) return msg.edit(`You have reached the **maximum** amount of songs (${songLimit} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`);
 
 		const playlistName = args.join(' ').replace(/_/g, ' ');
 
@@ -33,12 +32,12 @@ module.exports = class Load extends Command {
 			creator: message.author.id,
 		}, async (err, p) => {
 			if (err) client.log(err);
-			if(!p) {
+			if (!p) {
 				const embed = new Discord.MessageEmbed()
-				.setAuthor(playlistName, message.author.displayAvatarURL())
-				.setDescription(`${client.emojiList.no} Couldn't find a playlist by the name ${playlistName}.`)
-				.setTimestamp()
-				.setColor(client.colors.main);
+					.setAuthor(playlistName, message.author.displayAvatarURL())
+					.setDescription(`${client.emojiList.no} Couldn't find a playlist by the name ${playlistName}.`)
+					.setTimestamp()
+					.setColor(client.colors.main);
 				return msg.edit('', embed);
 			}
 
@@ -52,7 +51,7 @@ module.exports = class Load extends Command {
 			}
 
 			// eslint-disable-next-line no-async-promise-executor
-			const content = new Promise(async function(resolve) {
+			const content = new Promise(async function (resolve) {
 				for (let i = 0; i < songsToAdd; i++) {
 					player.queue.add(p.songs[i]);
 					if (!player.playing && !player.paused && !player.queue.length) player.play();
@@ -60,10 +59,10 @@ module.exports = class Load extends Command {
 				}
 			});
 
-			content.then(async function() {
+			content.then(async function () {
 				const embed = new Discord.MessageEmbed()
-				.setDescription(`Queued **${songsToAdd} songs** from **${playlistName}**.`)
-				.setColor(client.colors.main);
+					.setDescription(`Queued **${songsToAdd} songs** from **${playlistName}**.`)
+					.setColor(client.colors.main);
 				msg.edit('', embed);
 			});
 		});

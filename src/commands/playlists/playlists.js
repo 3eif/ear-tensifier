@@ -10,7 +10,6 @@ module.exports = class Delete extends Command {
             name: 'playlists',
             description: 'View all your playlists.',
             args: false,
-            permission: 'pro',
         });
     }
     async run(client, message, args) {
@@ -37,7 +36,7 @@ module.exports = class Delete extends Command {
                     const emojiList = ['◀️', '▶️'];
                     let page = 0;
                     const curPage = await message.channel.send(pages[page].setFooter(`Page ${page + 1}/${pages.length} | ${p.length} playlist(s)`));
-                    if(pages.length <= 1) return;
+                    if (pages.length <= 1) return;
                     const permissions = message.channel.permissionsFor(client.user);
                     if (!permissions.has('ADD_REACTIONS')) return;
                     for (const emoji of emojiList) await curPage.react(emoji);
@@ -46,7 +45,7 @@ module.exports = class Delete extends Command {
                         { time: 120000 },
                     );
                     reactionCollector.on('collect', (reaction, user) => {
-                        if(!user.bot && permissions.has('MANAGE_MESSAGES ')) reaction.users.remove(user.id);
+                        if (!user.bot && permissions.has('MANAGE_MESSAGES ')) reaction.users.remove(user.id);
                         switch (reaction.emoji.name) {
                             case emojiList[0]:
                                 page = page > 0 ? --page : pages.length - 1;
