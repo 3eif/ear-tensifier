@@ -11,7 +11,6 @@ module.exports = class Equalizer extends Command {
 			inVoiceChannel: true,
 			sameVoiceChannel: true,
 			playing: true,
-			permission: 'pro',
 		});
 	}
 	async run(client, message, args) {

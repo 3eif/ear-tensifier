@@ -11,7 +11,6 @@ module.exports = class Pitch extends Command {
 			sameVoiceChannel: true,
 			usage: '<pitch>',
 			args: true,
-			permission: 'pro',
 		});
 	}
 	async run(client, message, args) {

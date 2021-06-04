@@ -9,9 +9,8 @@ module.exports = class Speed extends Command {
 			cooldown: '4',
 			inVoiceChannel: true,
 			sameVoiceChannel: true,
-            usage: '<speed>',
+			usage: '<speed>',
 			args: true,
-			permission: 'pro',
 		});
 	}
 	async run(client, message, args) {

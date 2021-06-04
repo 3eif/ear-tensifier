@@ -9,9 +9,8 @@ module.exports = class Rate extends Command {
 			cooldown: '4',
 			inVoiceChannel: true,
 			sameVoiceChannel: true,
-            usage: '<rate>',
+			usage: '<rate>',
 			args: true,
-			permission: 'pro',
 		});
 	}
 	async run(client, message, args) {

@@ -9,7 +9,6 @@ module.exports = class Vaporwave extends Command {
 			inVoiceChannel: true,
 			sameVoiceChannel: true,
 			playing: true,
-			permission: 'pro',
 		});
 	}
 	async run(client, message, args) {
