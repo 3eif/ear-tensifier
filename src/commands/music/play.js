@@ -60,6 +60,7 @@ module.exports = class Play extends Command {
 			}
 		}
 		else {
+			searchQuery = args.join(' ');
 			if (['youtube', 'soundcloud', 'bandcamp', 'mixer', 'twitch'].includes(args[0].toLowerCase())) {
 				searchQuery = {
 					source: args[0],
