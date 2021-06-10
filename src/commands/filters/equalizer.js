@@ -37,7 +37,7 @@ module.exports = class Equalizer extends Command {
 		for (let i = 0; i < bands.length; i++) {
 			if (i > 13) break;
 			if (isNaN(bands[i])) return message.channel.send(`Band #${i + 1} is not a valid number. Please type \`ear eq\` for info on the equalizer command.`);
-			if (bands[i] > 10) return message.channel.send(`Band #${i + 1} must be less than 10. Please type \`ear eq\` for info on the equalizer command.`);
+			if (bands[i] > 10) return message.channel.send(`Band #${i + 1} must be less than or equal to 10. Please type \`ear eq\` for info on the equalizer command.`);
 		}
 
 		for (let i = 0; i < bands.length; i++) {
