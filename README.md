@@ -5,12 +5,6 @@
 <div align="center">
 
 ![Discord](https://img.shields.io/discord/473426453204172811?color=7289DA)
-![Discord Bots](https://botlist.space/bot/472714545723342848/badge?property=status&style=flat&color=brightgreen)
-![Discord Bots](https://botlist.space/bot/472714545723342848/badge?property=servers&style=flat&color=9cf)
-![Discord Bots](https://botlist.space/bot/472714545723342848/badge?property=shards&style=flat&color=9cf)
-![Discord Bots](https://botlist.space/bot/472714545723342848/badge?property=library&style=flat&color=informational)
-![Discord Bots](https://botlist.space/bot/472714545723342848/badge?property=owner&style=flat&color=informational)
-![Codacy grade](https://img.shields.io/codacy/grade/dd4942f55f7447b8976e82b653f8518c)
 ![GitHub](https://img.shields.io/github/license/Tetracyl/EarTensifier)
 
 </div>
