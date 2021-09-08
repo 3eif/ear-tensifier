@@ -5,6 +5,8 @@
 <div align="center">
 
 ![Discord](https://img.shields.io/discord/473426453204172811?color=7289DA)
+[![Discord Bots](https://top.gg/api/widget/status/472714545723342848.svg?noavatar=true)](https://top.gg/bot/472714545723342848)
+[![Discord Bots](https://top.gg/api/widget/servers/472714545723342848.svg?noavatar=true)](https://top.gg/bot/472714545723342848)
 ![GitHub](https://img.shields.io/github/license/Tetracyl/EarTensifier)
 
 </div>

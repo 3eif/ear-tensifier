@@ -3,6 +3,7 @@ const Sentry = require('@sentry/node');
 const mongoose = require('mongoose');
 process.env.NODE_ENV || (process.env.NODE_ENV = 'production');
 require('dotenv-flow').config();
+const { AutoPoster } = require('topgg-autoposter')
 
 const manager = new ShardingManager('./src/eartensifier.js', {
   token: process.env.DISCORD_TOKEN,
@@ -12,6 +13,11 @@ const manager = new ShardingManager('./src/eartensifier.js', {
   respawn: 'true',
   timeout: 999999,
 });
+
+const poster = AutoPoster(process.env.TOPGG_TOKEN, manager);
+poster.on('posted', (stats) => {
+  console.log(`Posted stats to Top.gg | ${stats.serverCount} servers`);
+})
 
 if (process.env.NODE_ENV == 'production') {
   const Statcord = require('statcord.js');

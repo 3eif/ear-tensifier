@@ -3,8 +3,6 @@ const mongoose = require('mongoose');
 const Sentry = require('@sentry/node');
 const chalk = require('chalk');
 const Statcord = require('statcord.js');
-// const axios = require('axios');
-
 const Event = require('../../structures/Event');
 const createManager = require('../../player/createManager.js');
 
@@ -37,7 +35,7 @@ module.exports = class Ready extends Event {
 			const totalMembers = memberNum.reduce((prev, memberCount) => prev + memberCount, 0);
 			const totalGuilds = guildNum.reduce((total, shard) => total + shard, 0);
 
-			figlet(this.client.user.username, function(err, data) {
+			figlet(this.client.user.username, function (err, data) {
 				if (err) {
 					console.log('Something went wrong...');
 					console.dir(err);
@@ -50,7 +48,8 @@ module.exports = class Ready extends Event {
 
 			if (this.client.user.id == '472714545723342848') {
 				Statcord.ShardingClient.post(this.client);
-				setInterval(async function() {
+
+				setInterval(async function () {
 					Statcord.ShardingClient.post(this.client);
 				}, 1800000);
 
