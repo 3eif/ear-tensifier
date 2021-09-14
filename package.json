@@ -8,7 +8,7 @@
     "@tetracyl/erela.js": "^1.5.1",
     "ascii": "^1.0.0",
     "bandcamp-scraper": "^1.2.5",
-    "blapi": "^2.0.0",
+    "blapi": "^2.2.1",
     "botlist.space": "^3.3.1",
     "canvas": "^2.6.1",
     "chalk": "^4.1.0",

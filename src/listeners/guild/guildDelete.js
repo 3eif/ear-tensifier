@@ -18,8 +18,6 @@ module.exports = class GuildDelete extends Event {
                     .setTimestamp()
                     .setColor(this.client.colors.removed);
                 this.client.shardMessage(this.client, this.client.channelList.guildChannel, embed);
-
-                return post(this.client, totalGuilds, guilds.length);
             });
         }
         catch (error) {

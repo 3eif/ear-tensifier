@@ -5,6 +5,9 @@ const chalk = require('chalk');
 const Statcord = require('statcord.js');
 const Event = require('../../structures/Event');
 const createManager = require('../../player/createManager.js');
+const post = require('../../handlers/post.js');
+const blapi = require('blapi');
+const botLists = require('../../../config/botlists.json');
 
 mongoose.connect(process.env.MONGO_URL, {
 	useNewUrlParser: true,
@@ -55,6 +58,12 @@ module.exports = class Ready extends Event {
 
 				require('../../webhooks/blsHook.js').startUp(this.client);
 				require('../../webhooks/dblHook.js').startUp(this.client);
+
+				blapi.setLogging({
+					extended: true
+				});
+				blapi.manualPost(totalGuilds, this.client.user.id, botLists, null, this.client.shard.count, null);
+				client.log('Posted bot stats to blapi.');
 			}
 		}
 	}
