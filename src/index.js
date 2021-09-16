@@ -14,12 +14,12 @@ const manager = new ShardingManager('./src/eartensifier.js', {
   timeout: 999999,
 });
 
-const poster = AutoPoster(process.env.TOPGG_TOKEN, manager);
-poster.on('posted', (stats) => {
-  console.log(`Posted stats to Top.gg | ${stats.serverCount} servers`);
-})
-
 if (process.env.NODE_ENV == 'production') {
+  const poster = AutoPoster(process.env.TOPGG_TOKEN, manager);
+  poster.on('posted', (stats) => {
+    console.log(`Posted stats to Top.gg | ${stats.serverCount} servers`);
+  })
+
   const Statcord = require('statcord.js');
   // eslint-disable-next-line no-unused-vars
   const statcord = new Statcord.ShardingClient({
