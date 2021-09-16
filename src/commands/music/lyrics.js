@@ -16,6 +16,7 @@ module.exports = class Lyrics extends Command {
 		});
 	}
 	async run(client, message, args) {
+		return message.channel.send('This command is temporarily unavailable.');
 		const msg = await message.channel.send(`${client.emojiList.loading} Fetching lyrics...`);
 
 		let song = '';
@@ -26,7 +27,7 @@ module.exports = class Lyrics extends Command {
 		}
 		else { song = args.join(' '); }
 
-		if(isAbsoluteUrl(song)) return msg.edit('Please provide a song name. Links are not supported.');
+		if (isAbsoluteUrl(song)) return msg.edit('Please provide a song name. Links are not supported.');
 		const data = await ksoft.lyrics.get(song, false)
 			.catch(err => {
 				return message.channel.send(err.message);
