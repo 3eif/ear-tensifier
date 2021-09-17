@@ -1,5 +1,5 @@
 module.exports = {
-	'prefix': 'ear ',
+	'prefix': process.env.PREFIX,
 	'version': '1.6.2',
 	'server': 'https://discord.gg/xKgKMAP',
 	'voiceLeave': '60000',

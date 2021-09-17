@@ -47,7 +47,9 @@ module.exports = class Ready extends Event {
 				console.log(chalk.magenta.bold(data));
 			});
 
-			this.client.log(chalk.magenta.underline.bold(`Ear Tensifier is online: ${this.client.shard.count} shards, ${totalGuilds} servers and ${totalMembers} members.`));
+			this.client.log(chalk.magenta.underline.bold(`${this.client.user.username} is online: ${this.client.shard.count} shards, ${totalGuilds} servers and ${totalMembers} members.`));
+
+			console.log(this.client.settings.prefix);
 
 			if (this.client.user.id == '472714545723342848') {
 				Statcord.ShardingClient.post(this.client);
@@ -63,7 +65,7 @@ module.exports = class Ready extends Event {
 					extended: true
 				});
 				blapi.manualPost(totalGuilds, this.client.user.id, botLists, null, this.client.shard.count, null);
-				client.log('Posted bot stats to blapi.');
+				this.client.log('Posted bot stats to blapi.');
 			}
 		}
 	}
