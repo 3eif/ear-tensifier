@@ -28,7 +28,7 @@ module.exports = class Ready extends Event {
 		createManager(this.client);
 		this.client.music.init(this.client.user.id);
 
-		const status = 'ear help';
+		const status = `${this.client.settings.prefix}help`;
 		const statusType = 'LISTENING';
 		this.client.user.setActivity(`${status}`, { type: `${statusType}` });
 
