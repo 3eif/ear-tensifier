@@ -5,7 +5,7 @@ module.exports = async (client, message, msg, player, searchQuery, playlist) => 
 	async function load(search) {
 		const res = await client.music.search(search, message.author);
 		console.log(res);
-		if (res.loadType !== 'NO_MATCHES' && res.loadType !== 'LOAD_FAILED') {
+		if (res.loadType !== 'NO_MATCHES' && res.loadType !== 'LOAD_FAILED' && res.tracks.length > 0) {
 			if (res.loadType == 'TRACK_LOADED' || res.loadType == 'SEARCH_RESULT') {
 				player.queue.add(res.tracks[0]);
 				if (!playlist && msg) msg.edit('', client.queuedEmbed(
