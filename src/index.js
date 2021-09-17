@@ -1,8 +1,9 @@
-require('custom-env').env();
 const { ShardingManager } = require('discord.js');
 const Sentry = require('@sentry/node');
 const mongoose = require('mongoose');
 process.env.NODE_ENV || (process.env.NODE_ENV = 'production');
+require('dotenv-flow').config();
+require('custom-env').env();
 const { AutoPoster } = require('topgg-autoposter')
 
 const manager = new ShardingManager('./src/eartensifier.js', {
