@@ -7,7 +7,7 @@ module.exports = class Reload extends Command {
 			description: 'Reloads a command',
 			args: true,
 			usage: '<category> <command>',
-			permissions: 'dev',
+			permission: 'dev',
 		});
 	}
 	async run(client, message, args) {

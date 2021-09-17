@@ -9,7 +9,7 @@ module.exports = class Set extends Command {
             description: 'Adds a user to a specific group.',
             usage: '<user> <group(voter, premium, pro, mod)> <true/false>',
             args: true,
-            permissions: 'dev',
+            permission: 'dev',
         });
     }
     async run(client, message, args) {
