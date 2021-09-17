@@ -55,7 +55,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node .",
     "production": "NODE_ENV=production&&npm start",
-    "development": "set NODE_ENV=development&&npm start"
+    "development": "set NODE_ENV=development&&npm start",
+    "ear2": "set NODE_ENV=ear2&&npm start",
+    "ear3": "set NODE_ENV=ear3&&npm start"
   },
   "repository": {
     "type": "git",

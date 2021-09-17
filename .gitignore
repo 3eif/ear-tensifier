@@ -132,3 +132,5 @@ dist
 .yarn/unplugged
 .yarn/build-state.yml
 .pnp.*
+.env.ear2
+.env.ear3
