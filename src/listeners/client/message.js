@@ -58,7 +58,7 @@ module.exports = class Message extends Event {
 				if (rawMessageContent.indexOf(this.client.settings.prefix) === 0) {
 					prefix = this.client.settings.prefix;
 				}
-				else if (rawMessageContent.indexOf(s.prefix) === 0) {
+				else if (rawMessageContent.indexOf(s.prefix.toLowerCase()) === 0) {
 					prefix = s.prefix;
 				}
 				else if (rawMessageContent.split(' ')[0].match(mentionPrefix)) {
