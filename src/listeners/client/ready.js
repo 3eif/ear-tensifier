@@ -49,8 +49,6 @@ module.exports = class Ready extends Event {
 
 			this.client.log(chalk.magenta.underline.bold(`${this.client.user.username} is online: ${this.client.shard.count} shards, ${totalGuilds} servers and ${totalMembers} members.`));
 
-			console.log(this.client.settings.prefix);
-
 			if (this.client.user.id == '472714545723342848') {
 				Statcord.ShardingClient.post(this.client);
 
