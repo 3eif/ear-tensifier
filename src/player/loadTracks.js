@@ -4,8 +4,9 @@ module.exports = async (client, message, msg, player, searchQuery, playlist) => 
 	let tries = 0;
 	async function load(search) {
 		const res = await client.music.search(search, message.author);
+		console.log(res);
 		if (res.loadType !== 'NO_MATCHES' && res.loadType !== 'LOAD_FAILED') {
-            if(res.loadType == 'TRACK_LOADED' || res.loadType == 'SEARCH_RESULT') {
+			if (res.loadType == 'TRACK_LOADED' || res.loadType == 'SEARCH_RESULT') {
 				player.queue.add(res.tracks[0]);
 				if (!playlist && msg) msg.edit('', client.queuedEmbed(
 					res.tracks[0].title,
@@ -32,16 +33,9 @@ module.exports = async (client, message, msg, player, searchQuery, playlist) => 
 					res.playlist.tracks[0].requester.id,
 				));
 			}
-            return;
+			return;
 		}
-        else {
-            const searchResult = await ytsr(searchQuery, { limit: 1 });
-            if(tries > 7) return msg.edit('No results found.');
-            else {
-				tries++;
-				return load(searchResult.items[0].link);
-			}
-        }
+		else return msg.edit('No results found.');
 	}
 	return load(searchQuery);
 };
