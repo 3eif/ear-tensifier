@@ -24,7 +24,7 @@ By default, Ear Tensifier's prefix is set to `ear `  and can be changed by doing
 This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
 
 ## Self Hosting
-Self hosting Ear Tensifier is not supported and no help will be provided. I am not responsible or liable for any self hosted clones of Ear Tensifier.
+Coming soon!
 
 ## Contributors
 - [2D](https://github.com/MeLike2D): Provided modified lavalink version with filters.
