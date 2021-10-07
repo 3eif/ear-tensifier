@@ -46,7 +46,8 @@ Navigate to the newly created EarTensifier folder and install the npm packages
 
 ### Credentials
 
-Navigate to the .env file and fill in the folling credentials:
+Navigate to the `.env.example` file and rename it to `.env`. 
+Then fill out the following credentials:
 
 1. Set the `DISCORD_ID` key to your bot's ID.
 2. Set the `DISCORD_TOKEN` key to your bot's token.
