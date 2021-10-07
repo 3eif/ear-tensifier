@@ -61,7 +61,15 @@ To deploy the bot simply run:
 
     node app
 
-If you installed and setup eveything correctly then the bot should output the following:
+If you installed and setup eveything correctly then the bot should output something like this:
+
+    [10/7/2021, 8:00:14 PM] > [Shard 1] Ready
+    [10/7/2021, 8:00:14 PM] > Ear Tensifier is online: 1 shards, 1 server and 1 member.
+    _____             _____              _  __ _ 
+    | ____|__ _ _ __  |_   _|__ _ __  ___(_)/ _(_) ___ _ __
+    |  _| / _` | '__|   | |/ _ \ '_ \/ __| | |_| |/ _ \ '__|
+    | |__| (_| | |      | |  __/ | | \__ \ |  _| |  __/ |
+    |_____\__,_|_|      |_|\___|_| |_|___/_|_| |_|\___|_|
             
 
 ## Contributors
