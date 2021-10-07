@@ -24,7 +24,45 @@ By default, Ear Tensifier's prefix is set to `ear `  and can be changed by doing
 This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
 
 ## Self Hosting
-Coming soon!
+Ear Tensifier is open source to allow people to contribute to the bot, gain inspiration/ideas from the bot's code, or host a private version of the bot for your own use. You may NOT however host your own clone of Ear Tensifier publicly or list your clone on another bot list.
+
+These instructions will give you a copy of Ear Tensifier up and running on your local machine. If you have any questions or issues self hosting the bot, feel free to ask on the [Discord server](https://discord.gg/xKgKMAP).
+
+### Prerequisites
+
+Requirements for the API and other tools to build, test and push 
+- [Node.js](https://nodejs.org/en/download/)
+- A mongodb instance 
+
+### Installing
+
+Clone the repo on your machine
+
+    git clone https://github.com/Tetracyl/EarTensifier
+
+Navigate to the newly created EarTensifier folder and install the npm packages
+
+    npm install
+
+### Credentials
+
+Navigate to the .env file and fill in the folling credentials:
+
+1. Set the `DISCORD_ID` key to your bot's ID.
+2. Set the `DISCORD_TOKEN` key to your bot's token.
+3. Set the `MONGO_URL` key to your monogdb's connection URL.
+4. Set the `LAVALINK_HOST` key to the IP address of the machine you're hosting the lavalink instance on.
+5. Set the `LAVALINK_PORT` key to the port the lavalink instance is being hosted on.
+6. Set the `LAVALINK_PASSWORD` key to the password located in the Lavalink application.yml file.
+
+### Deployment
+
+To deploy the bot simply run:
+
+    node app
+
+If you installed and setup eveything correctly then the bot should output the following:
+            
 
 ## Contributors
 - [2D](https://github.com/MeLike2D): Provided modified lavalink version with filters.
