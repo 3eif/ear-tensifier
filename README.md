@@ -31,8 +31,10 @@ These instructions assume that you have some experience with creating and runnin
 ### Prerequisites
 
 Requirements for the API and other tools to build, test and push 
-- [Node.js](https://nodejs.org/en/download/)
-- A mongodb instance 
+- [Node.js](https://nodejs.org/en/download/) 14.0.0 or newer is required
+- A [MongoDB](https://www.mongodb.com/) instance running
+- An instance of a custom version of [lavalink](https://github.com/melike2d/lavalink) running
+- A Discord Bot 
 
 ### Installing
 
@@ -49,18 +51,19 @@ Navigate to the newly created EarTensifier folder and install the npm packages
 Navigate to the `.env.example` file and rename it to `.env`. 
 Then fill out the following credentials:
 
-1. Set the `DISCORD_ID` key to your bot's ID.
-2. Set the `DISCORD_TOKEN` key to your bot's token.
-3. Set the `MONGO_URL` key to your monogdb's connection URL.
-4. Set the `LAVALINK_HOST` key to the IP address of the machine you're hosting the lavalink instance on.
-5. Set the `LAVALINK_PORT` key to the port the lavalink instance is being hosted on.
-6. Set the `LAVALINK_PASSWORD` key to the password located in the Lavalink application.yml file.
+1. Set the `DISCORD_PREFIX` key to the prefix you wish the bot to respond to.
+2. Set the `DISCORD_ID` key to your bot's ID.
+3. Set the `DISCORD_TOKEN` key to your bot's token.
+4. Set the `MONGO_URL` key to your monogdb's connection URL.
+5. Set the `LAVALINK_HOST` key to the IP address of the machine you're hosting the lavalink instance on.
+6. Set the `LAVALINK_PORT` key to the port the lavalink instance is being hosted on.
+7. Set the `LAVALINK_PASSWORD` key to the password located in the Lavalink application.yml file.
 
 ### Deployment
 
 To deploy the bot simply run:
 
-    node app
+    npm start
 
 If you installed and setup eveything correctly then the bot should output something like this:
 
