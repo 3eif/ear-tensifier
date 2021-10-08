@@ -27,7 +27,7 @@ module.exports = async (client, user) => {
             await newUser.save().catch(e => console.log(e));
         }
         else {
-            if(!Number.isInteger(u.votedTimes)) u.votedTimes = 1;
+            if (!Number.isInteger(u.votedTimes)) u.votedTimes = 1;
             else u.votedTimes++;
             lastVotedTime = Date(u.lastVoted).toString().substring(0, 15);
             u.lastVoted = Date.now();
@@ -43,7 +43,7 @@ module.exports = async (client, user) => {
             .setColor(client.colors.main)
             .setTimestamp();
 
-        client.shardMessage(client, client.channelList.voteChannel, embed);
+        if (client.earTensifiers.includes(client.user.id)) client.shardMessage(client, client.channelList.voteChannel, embed);
 
         return user.send('Thank you for voting. You can now use filter commands! (You can vote again in 12 hours)');
     });

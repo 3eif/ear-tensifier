@@ -41,6 +41,8 @@ module.exports = class Client extends Discord.Client {
         this.songLimit = require('./../utils/music/songLimit.js');
         this.getSongLimit = require('./../utils/music/getSongLimit.js');
 
+        this.earTensifiers = ['472714545723342848', '888267634687213669', '888268490199433236', '669256663995514900']
+
         this.environment = process.env.NODE_ENV;
     }
 

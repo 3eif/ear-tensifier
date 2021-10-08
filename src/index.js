@@ -16,17 +16,21 @@ const manager = new ShardingManager('./src/eartensifier.js', {
 });
 
 if (process.env.NODE_ENV == 'production') {
-  const poster = AutoPoster(process.env.TOPGG_TOKEN, manager);
-  poster.on('posted', (stats) => {
-    console.log(`Posted stats to Top.gg | ${stats.serverCount} servers`);
-  })
+  if (process.env.STATCORD_TOKEN) {
+    const poster = AutoPoster(process.env.STATCORD_TOKEN, manager);
+    poster.on('posted', (stats) => {
+      console.log(`Posted stats to Top.gg | ${stats.serverCount} servers`);
+    })
+  }
 
-  const Statcord = require('statcord.js');
-  // eslint-disable-next-line no-unused-vars
-  const statcord = new Statcord.ShardingClient({
-    key: process.env.STATCORD_TOKEN,
-    manager,
-  });
+  if (process.env.STATCORD_TOKEN) {
+    const Statcord = require('statcord.js');
+    // eslint-disable-next-line no-unused-vars
+    const statcord = new Statcord.ShardingClient({
+      key: process.env.STATCORD_TOKEN,
+      manager,
+    });
+  }
 }
 
 Sentry.init({

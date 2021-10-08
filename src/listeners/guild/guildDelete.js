@@ -17,7 +17,8 @@ module.exports = class GuildDelete extends Event {
                     .setFooter(`${totalGuilds} servers`)
                     .setTimestamp()
                     .setColor(this.client.colors.removed);
-                this.client.shardMessage(this.client, this.client.channelList.guildChannel, embed);
+                if (this.client.earTensifiers.includes(this.client.user.id))
+                    this.client.shardMessage(this.client, this.client.channelList.guildChannel, embed);
             });
         }
         catch (error) {
