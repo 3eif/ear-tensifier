@@ -28,6 +28,8 @@ Ear Tensifier is open source to allow people to contribute to the bot, gain insp
 
 These instructions assume that you have some experience with creating and running Discord Bots. If you have any questions or issues self hosting the bot, feel free to ask on the [Discord server](https://discord.gg/xKgKMAP).
 
+> This self hosting guide is a WIP. If you have any suggestions or edits please make an issue or pull request.
+
 ### Prerequisites
 
 Requirements for the API and other tools to build, test and push 
