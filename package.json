@@ -5,7 +5,7 @@
   "main": "./src/index.js",
   "dependencies": {
     "@sentry/node": "^5.17.0",
-    "@tetracyl/erela.js": "^1.5.1",
+    "@tetracyl/erela.js": "^2.3.5",
     "ascii": "^1.0.0",
     "bandcamp-scraper": "^1.2.5",
     "blapi": "^2.2.1",
@@ -26,7 +26,6 @@
     "dotenv": "^8.2.0",
     "dotenv-flow": "^3.1.0",
     "enmap": "^5.3.1",
-    "erela.js": "^2.3.3",
     "erela.js-spotify": "^1.2.0",
     "eslint": "^6.8.0",
     "express": "^4.17.1",
