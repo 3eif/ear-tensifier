@@ -24,7 +24,7 @@ By default, Ear Tensifier's prefix is set to `ear `  and can be changed by doing
 This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
 
 ## Self Hosting
-Ear Tensifier is open source to allow people to contribute to the bot, gain inspiration/ideas from the bot's code, or host a private version of the bot for your own use. You may NOT however host your own clone of Ear Tensifier publicly or list your clone on bot list.
+Ear Tensifier is open source to allow people to contribute to the bot, gain inspiration/ideas from the bot's code, or host a private version of the bot for their own use. You may NOT however host your own clone of Ear Tensifier publicly or list your clone on bot list.
 
 These instructions assume that you have some experience with creating and running Discord Bots. If you have any questions or issues self hosting the bot, feel free to ask on the [Discord server](https://discord.gg/xKgKMAP).
 
