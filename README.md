@@ -36,6 +36,7 @@ Requirements for the API and other tools to build, test and push
 - [Node.js](https://nodejs.org/en/download/) 14.0.0 or newer is required
 - A [MongoDB](https://www.mongodb.com/) instance running
 - An instance of a custom version of [lavalink](https://github.com/melike2d/lavalink) running
+- A [Spotify app](https://developer.spotify.com/dashboard/)
 - A Discord Bot 
 
 ### Installing
@@ -60,6 +61,7 @@ Then fill out the following credentials:
 5. Set the `LAVALINK_HOST` key to the IP address of the machine you're hosting the lavalink instance on.
 6. Set the `LAVALINK_PORT` key to the port the lavalink instance is being hosted on.
 7. Set the `LAVALINK_PASSWORD` key to the password located in the Lavalink application.yml file.
+8. Set the `SPOTIFY_CLIENT_ID` and `SPOTIFY_CLIENT_SECRET` key to the credentials of your [Spotify app](https://developer.spotify.com/dashboard/)
 
 ### Deployment
 
