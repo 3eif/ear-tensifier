@@ -1,6 +1,6 @@
 {
   "name": "eartensifier",
-  "version": "1.6.2",
+  "version": "1.7.0",
   "description": "Discord music bot written in javascript using discord.js https://eartensifier.net",
   "main": "./src/index.js",
   "dependencies": {
