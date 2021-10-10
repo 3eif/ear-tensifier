@@ -7,7 +7,6 @@ module.exports = async (client, message, msg, player, searchQuery, playlist) => 
 		if (res.loadType == 'PLAYLIST_LOADED') {
 			for (const track of res.tracks) {
 				player.queue.add(track);
-				console.log(track);
 				if (!player.playing && !player.paused && !player.queue.length) player.play();
 			}
 			msg.edit('', client.queuedEmbed(

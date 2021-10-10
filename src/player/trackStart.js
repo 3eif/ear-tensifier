@@ -6,7 +6,6 @@ const bot = require('../models/bot.js');
 
 module.exports = async (client, player, track) => {
 	player.futurePrevious = player.queue.current;
-	console.log(track);
 	let requester = `<@${track.requester.id}>`;
 	if (!track.requester.id) requester = `<@${track.requester}>`;
 
