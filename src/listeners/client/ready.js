@@ -7,7 +7,6 @@ const Event = require('../../structures/Event');
 const createManager = require('../../player/createManager.js');
 const post = require('../../handlers/post.js');
 const blapi = require('blapi');
-const botLists = require('../../../config/botlists.json');
 
 mongoose.connect(process.env.MONGO_URL, {
 	useNewUrlParser: true,
@@ -62,7 +61,7 @@ module.exports = class Ready extends Event {
 				blapi.setLogging({
 					extended: true
 				});
-				blapi.manualPost(totalGuilds, this.client.user.id, botLists, null, this.client.shard.count, null);
+				blapi.manualPost(totalGuilds, this.client.user.id, require('../../../config/botlists.json'), null, this.client.shard.count, null);
 				this.client.log('Posted bot stats to blapi.');
 			}
 		}
