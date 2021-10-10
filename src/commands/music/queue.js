@@ -17,7 +17,7 @@ module.exports = class Queue extends Command {
 	async run(client, message, args) {
 		const player = client.music.players.get(message.guild.id);
 
-		const { title, requester, duration, uri } = player.current;
+		const { title, requester, duration, uri } = player.queue.current;
 
 		const parsedDuration = client.formatDuration(duration);
 		const parsedQueueDuration = client.formatDuration(getQueueDuration(player));

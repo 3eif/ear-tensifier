@@ -22,7 +22,7 @@ module.exports = class VoiceStateUpdate extends Event {
 				const embed = new MessageEmbed()
 					.setDescription(`Leaving ${this.client.emojiList.voice}**${vcName}** in ${this.client.settings.voiceLeave / 1000} seconds because I was left alone.`)
 					.setColor(colors.main);
-				const msg = await player.textChannel.send(embed);
+				const msg = await player.get("textChannel").send(embed);
 				const delay = ms => new Promise(res => setTimeout(res, ms));
 				await delay(this.client.settings.voiceLeave);
 

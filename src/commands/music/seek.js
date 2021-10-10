@@ -14,10 +14,10 @@ module.exports = class Seek extends Command {
 		});
 	}
 	async run(client, message, args) {
-		if(isNaN(args[0])) return message.reply(`Invalid number. Please provide a number in seconds.\nCorrect Usage: \`${client.settings.prefix}seek <seconds>\``);
+		if (isNaN(args[0])) return message.reply(`Invalid number. Please provide a number in seconds.\nCorrect Usage: \`${client.settings.prefix}seek <seconds>\``);
 
 		const player = client.music.players.get(message.guild.id);
-		if(args[0] * 1000 >= player.current.length || args[0] < 0) return message.channel.send('Cannot seek beyond length of song.');
+		if (args[0] * 1000 >= player.queue.current.length || args[0] < 0) return message.channel.send('Cannot seek beyond length of song.');
 		player.seek(args[0] * 1000);
 
 		const parsedDuration = client.formatDuration(player.position);

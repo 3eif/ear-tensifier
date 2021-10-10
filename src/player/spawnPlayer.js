@@ -1,15 +1,14 @@
-const { Player } = require('@tetracyl/erela.js');
+const Player = require('../structures/Player.js');
 
 module.exports = async (client, message) => {
     const player = new Player({
-        guild: message.guild,
-        textChannel: message.channel,
-        voiceChannel: message.member.voice.channel,
+        guild: message.guild.id,
+        textChannel: message.channel.id,
+        voiceChannel: message.member.voice.channel.id,
         selfDeafen: true,
     });
 
-    player.twentyFourSeven = false;
-    player.previous = null;
+    player.set("textChannel", message.channel);
     player.connect();
 
     return player;

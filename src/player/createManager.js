@@ -1,4 +1,4 @@
-const { Manager } = require('@tetracyl/erela.js');
+const { Manager } = require('erela.js');
 const Spotify = require("erela.js-spotify");
 
 const trackStart = require('./trackStart.js');
@@ -16,7 +16,7 @@ module.exports = async (client) => {
 		],
 		nodes: [{
 			host: process.env.LAVALINK_HOST,
-			port: process.env.LAVALINK_PORT,
+			port: Number(process.env.LAVALINK_PORT),
 			password: process.env.LAVALINK_PASSWORD,
 		}],
 		autoPlay: true,
@@ -29,8 +29,8 @@ module.exports = async (client) => {
 		.on('queueEnd', player => {
 			queueEnd(client, player);
 		})
-		.on('trackStart', ({ textChannel }, { title, duration, author, uri }) => {
-			trackStart(client, textChannel, title, duration, author, uri);
+		.on('trackStart', ( player, track ) => {
+			trackStart(client, player, track);
 		})
 		.on('trackEnd', player => {
 			trackEnd(player);

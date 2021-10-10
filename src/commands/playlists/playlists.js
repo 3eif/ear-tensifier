@@ -1,8 +1,9 @@
 const Command = require('../../structures/Command');
 
 const playlists = require('../../models/playlist.js');
-const { Utils } = require('@tetracyl/erela.js');
+const { Utils } = require('erela.js');
 const Discord = require('discord.js');
+const humanizeDuration = require("humanize-duration");
 
 module.exports = class Delete extends Command {
     constructor(client) {
@@ -22,7 +23,7 @@ module.exports = class Delete extends Command {
 
             const pages = [];
             for (let i = 0; i < pagesNum; i++) {
-                const str = `${p.slice(i * 10, i * 10 + 10).map(playlist => `**• ${playlist.name}** | ${playlist.songs.length} song(s) | ${Utils.formatTime(Number(Date.now() - playlist.timeCreated))} ago`).join('\n')}`;
+                const str = `${p.slice(i * 10, i * 10 + 10).map(playlist => `**• ${playlist.name}** | ${playlist.songs.length} song(s) | ${humanizeDuration(Number(Date.now() - playlist.timeCreated), { round: true })} ago`).join('\n')}`;
 
                 const embed = new Discord.MessageEmbed()
                     .setAuthor(message.author.username, message.author.displayAvatarURL())
