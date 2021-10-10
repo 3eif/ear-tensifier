@@ -75,7 +75,7 @@
     "url": "https://github.com/EarTensifier/EarTensifier/issues"
   },
   "engines": {
-    "node": ">= 14.x"
+    "node": ">=14.x"
   },
   "homepage": "https://github.com/EarTensifier/EarTensifier#readme"
 }
