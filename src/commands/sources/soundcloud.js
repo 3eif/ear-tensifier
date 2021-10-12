@@ -15,6 +15,7 @@ module.exports = class Soundcloud extends Command {
 		});
 	}
 	async run(client, message, args) {
+		return message.channel.send("Soundcloud has been temporarily disabled.")
 		let player = client.music.players.get(message.guild.id);
 		if (!player) player = await spawnPlayer(client, message);
 

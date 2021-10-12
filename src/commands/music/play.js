@@ -28,7 +28,8 @@ module.exports = class Play extends Command {
 
 		let searchQuery;
 		searchQuery = args.join(' ');
-		if (['youtube', 'soundcloud', 'bandcamp', 'mixer', 'twitch'].includes(args[0].toLowerCase())) {
+		if (['youtube', 'soundcloud', 'bandcamp', 'twitch'].includes(args[0].toLowerCase())) {
+			if (args[0].toLowerCase().includes('soundcloud')) return message.channel.send("Soundcloud has been temporarily disabled.")
 			searchQuery = {
 				source: args[0],
 				query: args.slice(1).join(' '),

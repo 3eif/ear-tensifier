@@ -54,7 +54,8 @@ module.exports = class Create extends Command {
 
 		async function search(sq, isPlaylist) {
 			let searchQuery = sq;
-			if (['youtube', 'soundcloud', 'bandcamp', 'mixer', 'twitch'].includes(args[1].toLowerCase())) {
+			if (['youtube', 'soundcloud', 'bandcamp', 'twitch'].includes(args[1].toLowerCase())) {
+				if (args[0].toLowerCase().includes('soundcloud')) return message.channel.send("Soundcloud has been temporarily disabled.")
 				searchQuery = {
 					source: args[1],
 					query: args.slice(2).join(' '),

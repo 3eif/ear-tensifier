@@ -37,7 +37,8 @@ module.exports = class Playskip extends Command {
 		}
 		else {
 			searchQuery = args.join(' ');
-			if (['youtube', 'soundcloud', 'bandcamp', 'mixer', 'twitch'].includes(args[0].toLowerCase())) {
+			if (['youtube', 'soundcloud', 'bandcamp', 'twitch'].includes(args[0].toLowerCase())) {
+				if (args[0].toLowerCase().includes('soundcloud')) return message.channel.send("Soundcloud has been temporarily disabled.")
 				searchQuery = {
 					source: args[0],
 					query: args.slice(1).join(' '),
@@ -52,8 +53,8 @@ module.exports = class Playskip extends Command {
 			player.queue.splice(0, 0, player.queue[player.queue.length - 1]);
 			await delay(500);
 			player.queue.pop();
-			if(player.trackRepeat) player.setTrackRepeat(false);
-			if(player.queueRepeat) player.setQueueRepeat(false);
+			if (player.trackRepeat) player.setTrackRepeat(false);
+			if (player.queueRepeat) player.setQueueRepeat(false);
 			player.stop();
 		}
 	}
