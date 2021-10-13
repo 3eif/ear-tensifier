@@ -1,6 +1,6 @@
 const Command = require('../../structures/Command');
 
-module.exports = class ClearMessages extends Command {
+module.exports = class Clean extends Command {
 	constructor(client) {
 		super(client, {
 			name: 'clean',
