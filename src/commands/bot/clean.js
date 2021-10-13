@@ -6,12 +6,11 @@ module.exports = class ClearMessages extends Command {
 			name: 'clean',
 			description: 'Clear bot\'s messages',
 			usage: '<no of message>',
-			cooldown: 4,
-			botPermissions: ['MANAGE_MESSAGES']
+			cooldown: 4
 		});
 	}
 	async run(client, message, args) {
-		const botID = process.env.DISCORD_ID;
+		const botID = message.guild.me;
 		let no_of_messages = 0;
 		
 		if (args.length > 1){
@@ -32,8 +31,6 @@ module.exports = class ClearMessages extends Command {
 					botMessages.splice(no_of_messages);
 				}
 				message.channel.bulkDelete(botMessages);
-				//botMessages.map(msg => client.log(msg.createdAt));
-				client.log(`Deleted ${botMessages.length} messages from ${botID}`)
 			}).catch(err => {
 				client.log('Error while doing Bulk Delete');
 				client.log(err);
