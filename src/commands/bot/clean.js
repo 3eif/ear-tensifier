@@ -10,7 +10,7 @@ module.exports = class ClearMessages extends Command {
 		});
 	}
 	async run(client, message, args) {
-		const botID = message.guild.me;
+		const botID = message.guild.me.id;
 		let no_of_messages = 0;
 		
 		if (args.length > 1){
