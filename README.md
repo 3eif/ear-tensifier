@@ -32,7 +32,7 @@ These instructions assume that you have some experience with creating and runnin
 
 ### Prerequisites
 
-Requirements for the API and other tools to build, test and push 
+Requirements for Ear Tensifier to run:
 - [Node.js](https://nodejs.org/en/download/) 14.0.0 or newer is required
 - A [MongoDB](https://www.mongodb.com/) instance running
 - An instance of a custom version of [lavalink](https://github.com/melike2d/lavalink) running
