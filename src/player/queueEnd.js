@@ -11,6 +11,6 @@ module.exports = async (client, player) => {
 	const embed = new Discord.MessageEmbed()
 		.setDescription('Queue ended. Enjoying Ear Tensifier? ' + msg)
 		.setColor(client.colors.main);
-	player.get("textChannel").send(embed);
+	player.get("textChannel").send({ embeds: [embed] });
 	return player.destroy();
 };

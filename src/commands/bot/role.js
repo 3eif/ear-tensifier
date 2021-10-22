@@ -13,7 +13,7 @@ module.exports = class Role extends Command {
     }
     async run(client, message) {
 
-        if(!message.guild.me.hasPermission('MANAGE_ROLES')) return message.channel.send('I don\'t have permission to add roles.');
+        if (!message.guild.me.hasPermission('MANAGE_ROLES')) return message.channel.send('I don\'t have permission to add roles.');
 
         servers.findOne({
             serverID: message.guild.id,
@@ -35,7 +35,7 @@ module.exports = class Role extends Command {
                     const voteEmbed = new Discord.MessageEmbed()
                         .setDescription('You must **vote** to get this role. You can vote [here](https://top.gg/bot/472714545723342848/vote)')
                         .setColor(client.colors.main);
-                    return message.channel.send(voteEmbed);
+                    return message.channel.send({ embeds: [voteEmbed] });
                 }
                 else {
                     const member = message.member;
@@ -43,13 +43,13 @@ module.exports = class Role extends Command {
 
                     if (!role) return message.channel.send('Role not found.');
 
-                    if(member.roles.cache.has(role)) return message.channel.send('You already have the role!');
+                    if (member.roles.cache.has(role)) return message.channel.send('You already have the role!');
                     member.roles.add(role.id);
 
                     const embed = new Discord.MessageEmbed()
                         .setDescription('You now have the **voted** role!')
                         .setColor(client.colors.main);
-                    return message.channel.send(embed);
+                    return message.channel.send({ embeds: [embed] });
                 }
             }
             else {

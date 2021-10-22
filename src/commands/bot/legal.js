@@ -27,6 +27,6 @@ The data is used to make the bot functional and customizable. Without this data 
 If you have concerns regarding the data we collect or you would like to delete your data please join the [support server](https://discord.gg/xKgKMAP) or contact \`Tetracyl#0001\` on Discord.
         `)
             .setTimestamp();
-        return message.channel.send(embed);
+        return message.channel.send({ embeds: [embed] });
     }
 };

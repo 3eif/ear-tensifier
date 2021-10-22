@@ -23,7 +23,7 @@ module.exports = class Rate extends Command {
 				.setDescription('Reset **rate**')
 				.setColor(client.colors.main);
 			await delay(5000);
-			return msg.edit('', embed);
+			return msg.edit({ content: '', embeds: [embed] });
 		}
 
 		if (isNaN(args[0])) return message.channel.send('Amount must be a real number.');
@@ -38,6 +38,6 @@ module.exports = class Rate extends Command {
 			.setDescription(`Rate set to: **${args[0]}x**`)
 			.setColor(client.colors.main);
 		await delay(5000);
-		return msg.edit('', embed);
+		return msg.edit({ content: '', embeds: [embed] });
 	}
 };

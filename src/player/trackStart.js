@@ -90,7 +90,7 @@ module.exports = async (client, player, track) => {
 	// embed.addField(`Duration \`${parsedCurrentDuration}/${parsedDuration}\``, `\`\`\`${uni} ${'─'.repeat(part) + '⚪' + '─'.repeat(client.settings.embedDurationLength - part)}\`\`\``);
 	embed.setTimestamp();
 
-	return player.get("textChannel").send(embed);
+	return player.get("textChannel").send({ embeds: [embed] });
 };
 
 function addDB(id, title, author, duration, thumbnail) {

@@ -4,7 +4,7 @@ const chalk = require('chalk');
 module.exports = class Client extends Discord.Client {
     constructor() {
         super({
-            disableMentions: 'everyone',
+            allowedMentions: { parse: ['roles'], repliedUser: false },
             messageCacheMaxSize: 50,
             messageCacheLifetime: 60,
             messageSweepInterval: 120,
@@ -13,14 +13,13 @@ module.exports = class Client extends Discord.Client {
                 'CHANNEL',
                 'REACTION',
             ],
-            ws: {
-                intents: [
-                    'GUILDS',
-                    'GUILD_MESSAGES',
-                    'GUILD_VOICE_STATES',
-                    'GUILD_MESSAGE_REACTIONS',
-                ],
-            },
+            intents: [
+                'GUILDS',
+                'GUILD_MESSAGES',
+                'GUILD_VOICE_STATES',
+                'GUILD_MESSAGE_REACTIONS',
+            ],
+
         });
 
         this.commands = new Discord.Collection();

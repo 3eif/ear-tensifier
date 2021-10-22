@@ -30,7 +30,7 @@ module.exports = class View extends Command {
 					.setDescription(`${client.emojiList.no} Couldn't find a playlist by the name ${playlistName}.\nFor a list of your playlists type \`ear playlists\``)
 					.setTimestamp()
 					.setColor(client.colors.main);
-				return message.channel.send(embed);
+				return message.channel.send({ embeds: [embed] });
 			}
 
 			let pagesNum = Math.ceil(p.songs.length / 10);
@@ -56,7 +56,7 @@ module.exports = class View extends Command {
 					.setFooter(`Page ${i + 1}/${pagesNum} | ${p.songs.length} songs | ${client.formatDuration(totalQueueDuration)} total duration`);
 				pages.push(embed);
 				if (i == pagesNum - 1 && pagesNum > 1) paginate(client, message, pages, ['◀️', '▶️'], 120000, p.songs.length, client.formatDuration(totalQueueDuration));
-				else if (pagesNum == 1) message.channel.send(embed);
+				else if (pagesNum == 1) message.channel.send({ embeds: [embed] });
 			}
 		});
 	}

@@ -7,12 +7,7 @@ require('custom-env').env();
 const { AutoPoster } = require('topgg-autoposter')
 
 const manager = new ShardingManager('./src/eartensifier.js', {
-  token: process.env.DISCORD_TOKEN,
-  totalShards: 'auto',
-  shardList: 'auto',
-  mode: 'process',
-  respawn: 'true',
-  timeout: 999999,
+  token: process.env.DISCORD_TOKEN
 });
 
 if (process.env.NODE_ENV == 'production') {

@@ -32,13 +32,13 @@ module.exports = class Eval extends Command {
 				const embed = new Discord.MessageEmbed()
 					.addField('Input', `\`\`\`js\n${code}\`\`\``)
 					.addField('Output', `\`\`\`js\n${output}\`\`\``)
-				return msg.edit('', embed);
+				return msg.edit({ content: '', embeds: [embed] });
 			} else {
 				const res = await post('https://hastebin.com/documents', { body: output });
 				const embed = new Discord.MessageEmbed()
 					.setTitle('Output was too long, uploaded to hastebin!')
 					.setURL(`https://www.hastebin.com/${res.data.key}.js`)
-				return msg.edit('', embed);
+				return msg.edit({ content: '', embeds: [embed] });
 			}
 		} catch (e) {
 			return msg.edit(`An error occurred: \n\`\`\`js\n${e.message}\`\`\``).catch(console.error);

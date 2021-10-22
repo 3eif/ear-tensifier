@@ -61,7 +61,7 @@ module.exports = class Prefix extends Command {
 				.setColor(client.colors.main)
 				.setDescription(`Successfully set the prefix to \`${f}\``)
 				.setFooter('Tip: to add a space to your prefix, add: _');
-			msg.edit('', embed);
+			msg.edit({ content: '', embeds: [embed] });
 		});
 	}
 };

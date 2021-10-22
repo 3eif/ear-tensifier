@@ -70,7 +70,7 @@ module.exports = class Delete extends Command {
                 .setDescription(`${client.emojiList.no} You don't have any playlists.\nTo create a playlist type: \`ear create <playlist name> <search query/link>\``)
                 .setTimestamp()
                 .setColor(client.colors.main);
-            return message.channel.send(embed);
+            return message.channel.send({ embeds: [embed] });
         });
     }
 };

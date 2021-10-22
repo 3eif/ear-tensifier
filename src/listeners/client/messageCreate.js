@@ -184,7 +184,7 @@ module.exports = class Message extends Event {
 						const voteEmbed = new Discord.MessageEmbed()
 							.setDescription('You must **vote** to use this command. **You can vote [here](https://top.gg/bot/472714545723342848/vote)**.\nYou can bypass vote locked commands by purchasing premium [here](https://www.patreon.com/eartensifier).')
 							.setFooter('Already voted? It might take a few seconds for your vote to process.');
-						return message.channel.send(voteEmbed);
+						return message.channel.send({ embeds: [voteEmbed] });
 					}
 				}
 
@@ -198,13 +198,13 @@ module.exports = class Message extends Event {
 					if (!args[0] && cmd.args === true) {
 						const embed = new Discord.MessageEmbed()
 							.setDescription(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`ear ${commandName} ${cmd.usage}\``);
-						return message.channel.send(embed);
+						return message.channel.send({ embeds: [embed] });
 					}
 				}
 				else if (!args[0] && cmd.args === true) {
 					const embed = new Discord.MessageEmbed()
 						.setDescription(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`${prefix} ${commandName} ${cmd.usage}\` or \`${prefix}${cmd.name} ${cmd.usage}\``);
-					return message.channel.send(embed);
+					return message.channel.send({ embeds: [embed] });
 				}
 
 				if (cmd.botPermissions.includes('CONNECT') && !message.member.voice.channel.permissionsFor(client.user).has('CONNECT')) return client.responses('noPermissionConnect', message);

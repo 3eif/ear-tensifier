@@ -32,7 +32,7 @@ module.exports = class Charts extends Command {
 				.addField('Top Songs', `${songsArr.join('\n')}`)
 				.setTimestamp()
 				.setColor(client.colors.main);
-			msg.edit('', embed);
+			msg.edit({ content: '', embeds: [embed] });
 		});
 	}
 };

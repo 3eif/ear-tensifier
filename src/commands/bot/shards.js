@@ -21,16 +21,16 @@ module.exports = class Shards extends Command {
 			client.shard.broadcastEval('this.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0)'),
 		];
 
-		const shardInfo = await client.shard.broadcastEval(`[
-        this.shard.ids,
-        this.shard.mode,
-        this.guilds.cache.size,
-        this.channels.cache.size,
-        this.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0),
+		const shardInfo = await client.shard.broadcastEval(c => {
+        c.shard.ids,
+        c.shard.mode,
+        c.guilds.cache.size,
+        c.channels.cache.size,
+        c.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0),
         (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2),
-		this.music.players.size,
-		this.ws.ping
-      ]`);
+		c.music.players.size,
+		c.ws.ping
+		});
 
 		const embed = new Discord.MessageEmbed()
 			.setColor(client.colors.main)
@@ -61,7 +61,7 @@ Memory: ${i[5].toLocaleString()} MB\nAPI: ${i[7].toLocaleString()} ms\nPlayers: 
 				embed.addField(client.emojiList.online + ' Total Stats', `\`\`\`js
 Total Servers: ${totalGuilds.toLocaleString()}\nTotal Channels: ${totalChannels.toLocaleString()}\nTotal Users: ${totalMembers.toLocaleString()}\nTotal Memory: ${totalMemory.toFixed(2)} MB\nAvg. API Latency: ${avgLatency} ms\nTotal Players: ${totalMusicStreams}\`\`\``);
 				embed.setTimestamp();
-				message.channel.send(embed);
+				message.channel.send({ embeds: [embed] });
 			});
 	}
 };

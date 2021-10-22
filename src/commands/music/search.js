@@ -20,18 +20,20 @@ module.exports = class Search extends Command {
 		if (!player) player = await spawnPlayer(client, message);
 
 		const tries = 5;
-		for(let i = 0; i < tries; i++) {
+		for (let i = 0; i < tries; i++) {
 			const res = await client.music.search(args.join(' '), message.author);
-			if(res.loadType != 'NO_MATCHES') {
+			if (res.loadType != 'NO_MATCHES') {
 				if (res.loadType == 'TRACK_LOADED') {
 					player.queue.add(res.tracks[0]);
-					msg.edit('', client.queuedEmbed(
-						res.tracks[0].title,
-						res.tracks[0].uri,
-						res.tracks[0].duration,
-						null,
-						res.tracks[0].requester,
-					));
+					msg.edit({
+						content: '', embeds: [client.queuedEmbed(
+							res.tracks[0].title,
+							res.tracks[0].uri,
+							res.tracks[0].duration,
+							null,
+							res.tracks[0].requester,
+						)]
+					});
 					if (!player.playing) player.play();
 					break;
 				}
@@ -49,7 +51,7 @@ module.exports = class Search extends Command {
 						.setDescription(results)
 						.setFooter('Your response time closes within the next 30 seconds. Type "cancel" to cancel the selection, type "queueall" to queue all songs.')
 						.setColor(client.colors.main);
-					await msg.edit('', embed);
+					await msg.edit({ content: '', embeds: [embed] });
 
 					const filter = m =>
 						(message.author.id === m.author.id) &&
@@ -62,27 +64,27 @@ module.exports = class Search extends Command {
 							for (const track of tracks) {
 								player.queue.add(track);
 							}
-							msg.edit('', client.queuedEmbed(
+							msg.edit({ content: '', embeds: [client.queuedEmbed(
 								null,
 								null,
 								null,
 								tracks.length,
 								tracks[0].requester,
-							));
+							)]});
 						}
-						else if(entry === 'cancel') {
+						else if (entry === 'cancel') {
 							message.channel.send('Cancelled selection');
 						}
 						else {
 							const track = tracks[entry - 1];
 							player.queue.add(track);
-							msg.edit('', client.queuedEmbed(
+							msg.edit({ content: '', embeds: [client.queuedEmbed(
 								res.tracks[entry - 1].title,
 								res.tracks[entry - 1].uri,
 								track.duration,
 								null,
 								res.tracks[entry - 1].requester,
-							));
+							)]});
 						}
 						if (!player.playing) player.play();
 					}
@@ -93,7 +95,7 @@ module.exports = class Search extends Command {
 				}
 				else if (res.loadType == 'PLAYLIST_LOADED') {
 					res.playlist.tracks.forEach(track => player.queue.add(track));
-					msg.edit('', client.queuedEmbed(
+					msg.edit({ content: '', embeds: [client.queuedEmbed(
 						res.playlist.info.name,
 						res.playlist.info.uri,
 						res.playlist.tracks.reduce((acc, cure) => ({
@@ -101,16 +103,16 @@ module.exports = class Search extends Command {
 						})).duration,
 						res.playlist.tracks.length,
 						res.playlist.tracks[0].requester.id,
-					));
+					)]});
 					if (!player.playing) player.play();
 					break;
 				}
-				else if(res.loadType == 'LOAD_FAILED') {
+				else if (res.loadType == 'LOAD_FAILED') {
 					msg.edit('An error occured. Please try again.');
 					break;
 				}
 			}
-			else if(i >= 4 && res.loadType != 'PLAYLIST_LOADED') msg.edit('No tracks found.');
+			else if (i >= 4 && res.loadType != 'PLAYLIST_LOADED') msg.edit('No tracks found.');
 		}
 	}
 };

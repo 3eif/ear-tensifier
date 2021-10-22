@@ -38,6 +38,6 @@ module.exports = class Lyrics extends Command {
 		// 	.setDescription(data.lyrics.slice(0, 2044) + '...')
 		// 	.setColor(client.colors.main)
 		// 	.setFooter('Powered by KSoft.Si');
-		// msg.edit('', embed);
+		// msg.edit({ content: '', embeds: [embed] });
 	}
 };

@@ -38,7 +38,7 @@ module.exports = class Load extends Command {
 					.setDescription(`${client.emojiList.no} Couldn't find a playlist by the name ${playlistName}.`)
 					.setTimestamp()
 					.setColor(client.colors.main);
-				return msg.edit('', embed);
+				return msg.edit({ content: '', embeds: [embed] });
 			}
 
 			let songsToAdd = p.songs.length;
@@ -63,7 +63,7 @@ module.exports = class Load extends Command {
 				const embed = new Discord.MessageEmbed()
 					.setDescription(`Queued **${songsToAdd} songs** from **${playlistName}**.`)
 					.setColor(client.colors.main);
-				msg.edit('', embed);
+				msg.edit({ content: '', embeds: [embed] });
 			});
 		});
 	}

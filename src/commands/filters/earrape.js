@@ -25,6 +25,6 @@ module.exports = class Earrape extends Command {
 		const embed = new Discord.MessageEmbed()
 			.setDescription('Tensity set to **earrape**. To reset the tensity, type `ear reset`.')
 			.setColor(client.colors.main);
-		return message.channel.send(embed);
+		return message.channel.send({ embeds: [embed] });
 	}
 };

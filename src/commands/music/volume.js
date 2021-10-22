@@ -27,12 +27,12 @@ module.exports = class Volume extends Command {
 		if (isNaN(args[0])) return message.channel.send('Invalid number.');
 
 		let volume = Number(args[0]);
-		if(volume > 1000) volume = 1000;
+		if (volume > 1000) volume = 1000;
 		player.setVolume(volume);
 
 		const embed = new Discord.MessageEmbed()
 			.setDescription(`Volume set to **${args[0]}%**`)
 			.setColor(client.colors.main);
-		return message.channel.send(embed);
+		return message.channel.send({ embeds: [embed] });
 	}
 };

@@ -18,8 +18,8 @@ module.exports = class Ignore extends Command {
 		const msg = await message.channel.send(`${client.emojiList.loading} Ignoring commands from channel...`);
 
 		let channel;
-		if(message.mentions.channels.first() === undefined) {
-			if(!isNaN(args[0])) channel = args[0];
+		if (message.mentions.channels.first() === undefined) {
+			if (!isNaN(args[0])) channel = args[0];
 			else return msg.edit('No channel detected.');
 		}
 		else {
@@ -40,7 +40,7 @@ module.exports = class Ignore extends Command {
 				await newSever.save().catch(e => client.log(e));
 			}
 			else {
-				if(s.ignore.includes(channel)) return msg.edit('I am already ignoring this channel!');
+				if (s.ignore.includes(channel)) return msg.edit('I am already ignoring this channel!');
 				s.ignore.push(channel);
 				await s.save().catch(e => console.log(e));
 			}
@@ -49,7 +49,7 @@ module.exports = class Ignore extends Command {
 				.setColor(client.colors.main)
 				.setDescription(`I will now ignore commands from ${args[0]}`)
 				.setFooter(`Tip: You can make me listen to commands again by doing ${client.settings.prefix}listen`);
-			msg.edit('', embed);
+			msg.edit({ content: '', embeds: [embed] });
 		});
 	}
 };

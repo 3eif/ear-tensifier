@@ -12,7 +12,7 @@ module.exports = async (client, message, filter, state) => {
             .setDescription(`Turned off **${filter}**`)
             .setColor(client.colors.main);
         await delay(5000);
-        return msg.edit('', embed);
+        return msg.edit({ content: '', embeds: [embed] });
     }
     else if (state) {
         switch (filter) {
@@ -36,6 +36,6 @@ module.exports = async (client, message, filter, state) => {
             .setDescription(`Turned on **${filter}**`)
             .setColor(client.colors.main);
         await delay(5000);
-        return msg.edit('', embed);
+        return msg.edit({ content: '', embeds: [embed] });
     }
 };

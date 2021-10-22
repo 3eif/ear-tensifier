@@ -30,7 +30,7 @@ module.exports = class Eval extends Command {
                     .addField('Input', `\`\`\`bash\n${command}\`\`\``)
                     .addField('Output', `\`\`\`bash\n${stdout}\`\`\``)
                     .setColor(invisible);
-                msg.edit('', embed);
+                msg.edit({ content: '', embeds: [embed] });
             }
             else {
                 const { body } = await post('https://www.hastebin.com/documents').send(stdout);
@@ -38,7 +38,7 @@ module.exports = class Eval extends Command {
                     .setTitle('Output was too long, uploaded to hastebin!')
                     .setURL(`https://www.hastebin.com/${body.key}.js`)
                     .setColor(invisible);
-                msg.edit('', embed);
+                msg.edit({ content: '', embeds: [embed] });
             }
         } catch (e) {
             message.channel.send(`Error \`\`\`bash\n${e}\`\`\``);

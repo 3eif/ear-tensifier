@@ -23,7 +23,7 @@ module.exports = class Pitch extends Command {
 				.setDescription('Reset **pitch**')
 				.setColor(client.colors.main);
 			await delay(5000);
-			return msg.edit('', embed);
+			return msg.edit({ content: '', embeds: [embed] });
 		}
 
 		if (isNaN(args[0])) return message.channel.send('Amount must be a real number.');
@@ -38,6 +38,6 @@ module.exports = class Pitch extends Command {
 			.setDescription(`Pitch set to: **${args[0]}**`)
 			.setColor(client.colors.main);
 		await delay(5000);
-		return msg.edit('', embed);
+		return msg.edit({ content: '', embeds: [embed] });
 	}
 };

@@ -137,7 +137,7 @@ module.exports = class Create extends Command {
 						.setFooter(`ID: ${newPlaylist._id} • ${newPlaylist.songs.length}/${client.settings.playlistSongLimit}`)
 						.setColor(client.colors.main)
 						.setTimestamp();
-					msg.edit('', embed);
+					msg.edit({ content: '', embeds: [embed] });
 				}
 				else {
 					if (p.songs.length >= client.settings.playlistLimit) return msg.edit('You have reached the **maximum** amount of songs in the playlist');
@@ -152,7 +152,7 @@ module.exports = class Create extends Command {
 						.setFooter(`ID: ${p._id} • ${p.songs.length}/${client.settings.playlistSongLimit}`)
 						.setColor(client.colors.main)
 						.setTimestamp();
-					msg.edit('', embed);
+					msg.edit({ content: '', embeds: [embed] });
 					await p.save().catch(e => client.log(e));
 				}
 			});

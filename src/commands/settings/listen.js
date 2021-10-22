@@ -57,7 +57,7 @@ module.exports = class Listen extends Command {
 				.setAuthor(`${message.guild.name}`, message.guild.iconURL())
 				.setColor(client.colors.main)
 				.setDescription(`I will now listen to commands from ${args[0]}`);
-			msg.edit('', embed);
+			msg.edit({ content: '', embeds: [embed] });
 		});
 	}
 };

@@ -25,6 +25,6 @@ module.exports = class Reset extends Command {
 			.setDescription('Filters reset!')
 			.setColor(client.colors.main);
 		await delay(5000);
-		return msg.edit('', embed);
+		return msg.edit({ content: '', embeds: [embed] });
 	}
 };

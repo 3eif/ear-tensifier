@@ -27,7 +27,7 @@ module.exports = class Delete extends Command {
 						.setDescription(`${client.emojiList.yes} Deleted playlist: \`${playlistName}\``)
 						.setTimestamp()
 						.setColor(client.colors.main);
-					return msg.edit('', embed);
+					return msg.edit({ content: '', embeds: [embed] });
 				}
 				else {
 					const embed = new Discord.MessageEmbed()
@@ -35,7 +35,7 @@ module.exports = class Delete extends Command {
 						.setDescription(`${client.emojiList.no} Couldn't find a playlist by the name ${playlistName}.\nFor a list of your playlists type \`ear playlists\``)
 						.setTimestamp()
 						.setColor(client.colors.main);
-					return msg.edit('', embed);
+					return msg.edit({ content: '', embeds: [embed] });
 				}
 			})
 			.catch(err => msg.edit(`${client.emojiList.no} Failed to find and delete document: ${err}`));

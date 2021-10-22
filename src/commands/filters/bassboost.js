@@ -25,7 +25,7 @@ module.exports = class Bassboost extends Command {
 				.setDescription('Turned on **bassboost**')
 				.setColor(client.colors.main);
 			await delay(5000);
-			return msg.edit('', embed);
+			return msg.edit({ content: '', embeds: [embed] });
 		}
 
 		if (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off') {
@@ -35,7 +35,7 @@ module.exports = class Bassboost extends Command {
 				.setDescription('Turned off **bassboost**')
 				.setColor(client.colors.main);
 			await delay(5000);
-			return msg.edit('', embed);
+			return msg.edit({ content: '', embeds: [embed] });
 		}
 
 		if (isNaN(args[0])) return message.channel.send('Amount must be a real number.');
@@ -50,6 +50,6 @@ module.exports = class Bassboost extends Command {
 			.setDescription(`Bassboost set to: **${args[0]}**`)
 			.setColor(client.colors.main);
 		await delay(5000);
-		return msg.edit('', embed);
+		return msg.edit({ content: '', embeds: [embed] });
 	}
 };

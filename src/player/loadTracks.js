@@ -9,7 +9,7 @@ module.exports = async (client, message, msg, player, searchQuery, playlist) => 
 				player.queue.add(track);
 				if (!player.playing && !player.paused && !player.queue.length) player.play();
 			}
-			msg.edit('', client.queuedEmbed(
+			msg.edit({ content: '', embeds: [client.queuedEmbed(
 				res.playlist.name,
 				searchQuery,
 				res.tracks.reduce((acc, cure) => ({
@@ -17,18 +17,18 @@ module.exports = async (client, message, msg, player, searchQuery, playlist) => 
 				})).duration,
 				res.tracks.length,
 				res.tracks[0].requester.id,
-			));
+			)]});
 		}
 		else if (res.loadType !== 'NO_MATCHES' && res.loadType !== 'LOAD_FAILED' && res.tracks.length > 0) {
 			if (res.loadType == 'TRACK_LOADED' || res.loadType == 'SEARCH_RESULT') {
 				player.queue.add(res.tracks[0]);
-				if (!playlist && msg) msg.edit('', client.queuedEmbed(
+				if (!playlist && msg) msg.edit({ content: '', embeds: [client.queuedEmbed(
 					res.tracks[0].title,
 					res.tracks[0].uri,
 					res.tracks[0].duration,
 					null,
 					res.tracks[0].requester,
-				));
+				)]});
 				if (!player.playing && !player.paused && !player.queue.length) player.play();
 			}
 			return;

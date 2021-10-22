@@ -41,7 +41,7 @@ module.exports = class Profile extends Command {
 					.setColor(client.colors.main)
 					.setFooter('Commands Used: 1 | Songs Played: 0')
 					.setTimestamp();
-				return msg.edit('', embed);
+				return msg.edit({ content: '', embeds: [embed] });
 			}
 			else {
 
@@ -60,7 +60,7 @@ module.exports = class Profile extends Command {
 					.setColor(client.colors.main)
 					.setFooter(`Commands Used: ${u.commandsUsed} | Songs Played: ${u.songsPlayed}`)
 					.setTimestamp();
-				return msg.edit('', embed);
+				return msg.edit({ content: '', embeds: [embed] });
 			}
 		});
 	}

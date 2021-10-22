@@ -26,7 +26,7 @@ module.exports = class Equalizer extends Command {
 				.addField('Reset Equalizer', `You can reset the equalizer by doing:\n${client.settings.prefix}reset`)
 				.addField('Help', `If you need more help, please join the [support server](${client.settings.server})`)
 				.setFooter('Premium Command');
-			return message.channel.send(embed);
+			return message.channel.send({ embeds: [embed] });
 		}
 		else if (args[0] == 'off' || args[0] == 'reset') {
 			player.setFilter('filters', client.filters.reset);
@@ -54,6 +54,6 @@ module.exports = class Equalizer extends Command {
 			.setFooter('To reset the equalizer type: ear reset')
 			.setColor(client.colors.main);
 		await delay(5000);
-		return msg.edit('', embed);
+		return msg.edit({ content: '', embeds: [embed] });
 	}
 };
