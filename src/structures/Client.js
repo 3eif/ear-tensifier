@@ -8,6 +8,9 @@ module.exports = class Client extends Discord.Client {
             messageCacheMaxSize: 50,
             messageCacheLifetime: 60,
             messageSweepInterval: 120,
+            makeCache: Discord.Options.cacheWithLimits({
+                MessageManager: 0
+            }),
             partials: [
                 'MESSAGE',
                 'CHANNEL',
