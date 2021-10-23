@@ -1,4 +1,5 @@
 const Event = require('../../structures/Event');
+const fs = require('fs');
 
 module.exports = class Debug extends Event {
 	constructor(...args) {
@@ -6,6 +7,7 @@ module.exports = class Debug extends Event {
 	}
 
 	async run(log) {
-        require('fs').appendFileSync('./src/logs/debug.log', `${log}`);
+		if (!fs.existsSync('./src/logs/debug.log')) fs.writeFileSync('./src/logs/debug.log', '');
+		fs.appendFileSync('./src/logs/debug.log', `${log}\n`);
 	}
 };
