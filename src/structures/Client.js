@@ -6,10 +6,10 @@ module.exports = class Client extends Discord.Client {
         super({
             allowedMentions: { parse: ['roles'], repliedUser: false },
             makeCache: Discord.Options.cacheWithLimits({
-                ...Options.defaultMakeCacheSettings,
+                ...Discord.Options.defaultMakeCacheSettings,
                 MessageManager: {
                     sweepInterval: 300,
-                    sweepFilter: LimitedCollection.filterByLifetime({
+                    sweepFilter: Discord.LimitedCollection.filterByLifetime({
                         lifetime: 1800,
                         getComparisonTimestamp: e => e.editedTimestamp ?? e.createdTimestamp,
                     })
