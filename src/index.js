@@ -28,10 +28,12 @@ if (process.env.NODE_ENV == 'production') {
   }
 }
 
-Sentry.init({
-  dsn: process.env.SENTRY_URL,
-  environment: process.env.SENTRY_ENVIRONMENT,
-});
+if (process.env.NODE_ENV != 'development') {
+  Sentry.init({
+    dsn: process.env.SENTRY_URL,
+    environment: process.env.SENTRY_ENVIRONMENT,
+  });
+}
 
 mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
