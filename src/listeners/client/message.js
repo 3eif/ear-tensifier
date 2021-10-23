@@ -9,7 +9,6 @@ const users = require('../../models/user.js');
 const servers = require('../../models/server.js');
 const commandsSchema = require('../../models/command.js');
 const premium = require('../../utils/misc/premium.js');
-const getVoted = require('../../utils/voting/getVoted.js');
 const bot = require('../../models/bot.js');
 
 module.exports = class Message extends Event {
