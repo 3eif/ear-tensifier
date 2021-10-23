@@ -2,7 +2,7 @@ const Command = require('../../structures/Command');
 
 const playlists = require('../../models/playlist.js');
 const { Utils } = require('erela.js');
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const humanizeDuration = require("humanize-duration");
 
 module.exports = class Delete extends Command {
@@ -25,7 +25,7 @@ module.exports = class Delete extends Command {
             for (let i = 0; i < pagesNum; i++) {
                 const str = `${p.slice(i * 10, i * 10 + 10).map(playlist => `**• ${playlist.name}** | ${playlist.songs.length} song(s) | ${humanizeDuration(Number(Date.now() - playlist.timeCreated), { round: true })} ago`).join('\n')}`;
 
-                const embed = new Discord.MessageEmbed()
+                const embed = new MessageEmbed()
                     .setAuthor(message.author.username, message.author.displayAvatarURL())
                     .setDescription(`**__Your Playlists__**\n\n${str}`)
                     .setColor(client.colors.main)
@@ -65,7 +65,7 @@ module.exports = class Delete extends Command {
             }
         }).catch(err => {
             client.log(err);
-            const embed = new Discord.MessageEmbed()
+            const embed = new MessageEmbed()
                 .setAuthor(args[0], message.author.displayAvatarURL())
                 .setDescription(`${client.emojiList.no} You don't have any playlists.\nTo create a playlist type: \`ear create <playlist name> <search query/link>\``)
                 .setTimestamp()

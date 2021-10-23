@@ -1,6 +1,6 @@
 const Command = require('../../structures/Command');
 
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const { KSoftClient } = require('ksoft.js');
 const isAbsoluteUrl = require('is-absolute-url');
 
@@ -32,12 +32,12 @@ module.exports = class Lyrics extends Command {
 		// 	.catch(err => {
 		// 		return message.channel.send(err.message);
 		// 	});
-		// const embed = new Discord.MessageEmbed()
+		// const embed = new MessageEmbed()
 		// 	.setTitle(`${data.name}`)
 		// 	.setAuthor(`${data.artist.name}`)
 		// 	.setDescription(data.lyrics.slice(0, 2044) + '...')
 		// 	.setColor(client.colors.main)
 		// 	.setFooter('Powered by KSoft.Si');
-		// msg.edit({ content: '', embeds: [embed] });
+		// msg.edit({ content: ' ', embeds: [embed] });
 	}
 };

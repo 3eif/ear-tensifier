@@ -1,6 +1,6 @@
 const Command = require('../../structures/Command');
 
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 
 module.exports = class Equalizer extends Command {
 	constructor(client) {
@@ -18,7 +18,7 @@ module.exports = class Equalizer extends Command {
 		const player = client.music.players.get(message.guild.id);
 
 		if (!args[0]) {
-			const embed = new Discord.MessageEmbed()
+			const embed = new MessageEmbed()
 				.setAuthor('Custom Equalizer')
 				.setColor(client.colors.main)
 				.setDescription('There are 14 bands that can be set from -10 to 10. Not all bands have to be filled out.')
@@ -48,12 +48,12 @@ module.exports = class Equalizer extends Command {
 
 		const delay = ms => new Promise(res => setTimeout(res, ms));
 		const msg = await message.channel.send(`${client.emojiList.loading} Setting equalizer to \`${bandsStr}\`. This may take a few seconds...`);
-		const embed = new Discord.MessageEmbed()
+		const embed = new MessageEmbed()
 			.setAuthor(message.guild.name, message.guild.iconURL())
 			.setDescription(`Equalizer set to: \`${bandsStr}\``)
 			.setFooter('To reset the equalizer type: ear reset')
 			.setColor(client.colors.main);
 		await delay(5000);
-		return msg.edit({ content: '', embeds: [embed] });
+		return msg.edit({ content: ' ', embeds: [embed] });
 	}
 };

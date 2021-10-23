@@ -51,7 +51,7 @@ class Lavalink extends Command {
             const { sent, deficit, nulled } = frameStats;
             embed.addField('Frame Stats', `\`\`\`Sent: ${sent}\nDeficit: ${deficit}\nNulled: ${nulled}\`\`\``);
         }
-        return msg.edit({ content: '', embeds: [embed]});
+        return msg.edit({ content: ' ', embeds: [embed] });
     }
 
     uptime(time) {

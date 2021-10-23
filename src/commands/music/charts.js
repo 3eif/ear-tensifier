@@ -1,6 +1,6 @@
 const Command = require('../../structures/Command');
 
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const songs = require('../../models/song.js');
 
 module.exports = class Charts extends Command {
@@ -27,12 +27,12 @@ module.exports = class Charts extends Command {
 				}
 			}
 
-			const embed = new Discord.MessageEmbed()
+			const embed = new MessageEmbed()
 				.setAuthor('Top Charts', client.settings.avatar)
 				.addField('Top Songs', `${songsArr.join('\n')}`)
 				.setTimestamp()
 				.setColor(client.colors.main);
-			msg.edit({ content: '', embeds: [embed] });
+			msg.edit({ content: ' ', embeds: [embed] });
 		});
 	}
 };

@@ -1,6 +1,6 @@
 const Command = require('../../structures/Command');
 
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const fs = require('fs');
 const categories = fs.readdirSync('./src/commands/');
 
@@ -21,7 +21,7 @@ module.exports = class Help extends Command {
 		const { commands } = message.client;
 		const data = [];
 
-		const embed = new Discord.MessageEmbed()
+		const embed = new MessageEmbed()
 			.setAuthor('Commands', client.settings.avatar)
 			.setDescription(`A detailed list of commands can be found here: [eartensifier.net/commands](https://eartensifier.net/commands)\nNeed more help? Join the support server [here](${client.settings.server})`)
 			.setFooter(`For more information: ${client.settings.prefix}help <command>`)
@@ -47,7 +47,7 @@ module.exports = class Help extends Command {
 				embed.addField(`${categoryName} (${commandsFile.length})`, categoryCommands);
 			});
 
-			await msg.edit({ content: '', embeds: [embed] });
+			await msg.edit({ content: ' ', embeds: [embed] });
 			message.channel.send(`Need more help? Join the support server: ${client.settings.server}`);
 		}
 		else {

@@ -1,6 +1,6 @@
 const Command = require('../../structures/Command');
 
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const servers = require('../../models/server.js');
 
 module.exports = class Listen extends Command {
@@ -53,11 +53,11 @@ module.exports = class Listen extends Command {
 				return msg.edit('This channel is not being ignored!');
 			}
 
-			const embed = new Discord.MessageEmbed()
+			const embed = new MessageEmbed()
 				.setAuthor(`${message.guild.name}`, message.guild.iconURL())
 				.setColor(client.colors.main)
 				.setDescription(`I will now listen to commands from ${args[0]}`);
-			msg.edit({ content: '', embeds: [embed] });
+			msg.edit({ content: ' ', embeds: [embed] });
 		});
 	}
 };
