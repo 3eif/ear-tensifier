@@ -55,9 +55,6 @@ module.exports = class Ready extends Event {
 					Statcord.ShardingClient.post(this.client);
 				}, 1800000);
 
-				require('../../webhooks/blsHook.js').startUp(this.client);
-				require('../../webhooks/dblHook.js').startUp(this.client);
-
 				blapi.setLogging({
 					extended: true
 				});
