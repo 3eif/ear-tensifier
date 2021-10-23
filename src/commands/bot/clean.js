@@ -17,7 +17,7 @@ module.exports = class Clean extends Command {
 		if (args[0]) {
 			messagesToDelete = parseInt(args[0])
 			if (isNaN(messagesToDelete) || messagesToDelete < 1) {
-				return message.channel.send(`Invalid argument, argument must be a number.\nCorrect Usage: \`${client.settings.prefix}clean <number messages>\``);
+				return message.channel.send({ content: `Invalid argument, argument must be a number.\nCorrect Usage: \`${client.settings.prefix}clean <number messages>\`` });
 			}
 		}
 

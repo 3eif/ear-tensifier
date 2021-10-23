@@ -1,7 +1,7 @@
 const Command = require('../../structures/Command');
 
 const playlists = require('../../models/playlist.js');
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 
 module.exports = class Save extends Command {
     constructor(client) {
@@ -50,13 +50,13 @@ module.exports = class Save extends Command {
                 newPlaylist.songs.length = clamp(newPlaylist.songs.length, 0, client.settings.playlistSongLimit);
                 await newPlaylist.save().catch(e => console.log(e));
 
-                const embed = new Discord.MessageEmbed()
+                const embed = new MessageEmbed()
                     .setAuthor(newPlaylist.name, message.author.displayAvatarURL())
                     .setDescription(`${client.emojiList.yes} Saved the current queue to playlist: **${newPlaylist.name}**.`)
                     .setFooter(`ID: ${newPlaylist._id} • ${newPlaylist.songs.length}/${client.settings.playlistSongLimit}`)
                     .setColor(client.colors.main)
                     .setTimestamp();
-                msg.edit({ content: '', embeds: [embed] });
+                msg.edit({ content: ' ', embeds: [embed] });
             }
             else {
                 if (p.songs.length >= client.settings.playlistLimit) return msg.edit('You have reached the **maximum** amount of songs in the playlist');
@@ -65,13 +65,13 @@ module.exports = class Save extends Command {
                 p.songs = currentPlaylist.concat(songsToAdd);
                 p.songs.length = clamp(p.songs.length, 0, client.settings.playlistSongLimit);
 
-                const embed = new Discord.MessageEmbed()
+                const embed = new MessageEmbed()
                     .setAuthor(p.name, message.author.displayAvatarURL())
                     .setDescription(`${client.emojiList.yes} Saved the queue to an existing playlist with the name: **${p.name}**.`)
                     .setFooter(`ID: ${p._id} • ${p.songs.length}/${client.settings.playlistSongLimit}`)
                     .setColor(client.colors.main)
                     .setTimestamp();
-                msg.edit({ content: '', embeds: [embed] });
+                msg.edit({ content: ' ', embeds: [embed] });
                 await p.save().catch(e => client.log(e));
             }
         });

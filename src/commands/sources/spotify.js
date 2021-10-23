@@ -48,8 +48,8 @@ module.exports = class Spotify extends Command {
 					});
 				}
 				const playlistInfo = await getPreview(args.join(' '));
-				if (data.tracks.items.length != songsToAdd) msg.edit({ content: '', embeds: [client.queuedEmbed(playlistInfo.title, args[0], null, songsToAdd, message.author).setFooter('You have reached the max amount of songs in the queue. Purchase premium or pro to get more.')] });
-				else msg.edit({ content: '', embeds: [client.queuedEmbed(playlistInfo.title, args[0], null, songsToAdd, message.author)] });
+				if (data.tracks.items.length != songsToAdd) msg.edit({ content: ' ', embeds: [client.queuedEmbed(playlistInfo.title, args[0], null, songsToAdd, message.author).setFooter('You have reached the max amount of songs in the queue. Purchase premium or pro to get more.')] });
+				else msg.edit({ content: ' ', embeds: [client.queuedEmbed(playlistInfo.title, args[0], null, songsToAdd, message.author)] });
 			}
 			else if (data.type == 'track') {
 				const track = await getPreview(args.join(' '));

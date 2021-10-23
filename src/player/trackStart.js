@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const users = require('../models/user.js');
 const songs = require('../models/song.js');
 const bot = require('../models/bot.js');
@@ -45,7 +45,7 @@ module.exports = async (client, player, track) => {
 		}
 	});
 
-	const embed = new Discord.MessageEmbed()
+	const embed = new MessageEmbed()
 		.setAuthor('Now Playing', 'https://cdn.discordapp.com/emojis/673357192203599904.gif?v=1');
 	if (id.includes('soundcloud')) {
 		embed.attachFiles(['./assets/soundcloud.png']);

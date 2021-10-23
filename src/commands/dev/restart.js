@@ -1,10 +1,5 @@
 const Command = require('../../structures/Command');
 
-const Discord = require('discord.js');
-const { loading } = require('../../../config/emojis.js');
-const { invisible } = require('../../../config/colors.js');
-const { post } = require('snekfetch');
-
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 

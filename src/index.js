@@ -4,18 +4,18 @@ const mongoose = require('mongoose');
 process.env.NODE_ENV || (process.env.NODE_ENV = 'production');
 require('dotenv-flow').config();
 require('custom-env').env();
-const { AutoPoster } = require('topgg-autoposter')
+const { AutoPoster } = require('topgg-autoposter');
 
 const manager = new ShardingManager('./src/eartensifier.js', {
-  token: process.env.DISCORD_TOKEN
+  token: process.env.DISCORD_TOKEN,
 });
 
-if (process.env.NODE_ENV == 'production') {
+if (process.env.NODE_ENV === 'production') {
   if (process.env.STATCORD_TOKEN) {
     const poster = AutoPoster(process.env.STATCORD_TOKEN, manager);
     poster.on('posted', (stats) => {
       console.log(`Posted stats to Top.gg | ${stats.serverCount} servers`);
-    })
+    });
   }
 
   if (process.env.STATCORD_TOKEN) {

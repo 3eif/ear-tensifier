@@ -1,5 +1,5 @@
 const Command = require('../../structures/Command');
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 
 module.exports = class Legal extends Command {
     constructor(client) {
@@ -12,7 +12,7 @@ module.exports = class Legal extends Command {
         });
     }
     async run(client, message) {
-        const embed = new Discord.MessageEmbed()
+        const embed = new MessageEmbed()
             .setTitle('Privacy Policy')
             .setDescription('This Privacy Policy contains the data Ear Tensifier collects and what its used for.')
             .addField('What We Collect', `

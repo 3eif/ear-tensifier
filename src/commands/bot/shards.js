@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 
 const Command = require('../../structures/Command');
 
@@ -18,7 +18,7 @@ module.exports = class Shards extends Command {
 
 		const promises = [
 			client.shard.fetchClientValues('guilds.cache.size'),
-			client.shard.broadcastEval('this.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0)'),
+			client.shard.broadcastEval(c=> c.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0)),
 		];
 
 		const shardInfo = await client.shard.broadcastEval(c => {
@@ -29,15 +29,16 @@ module.exports = class Shards extends Command {
         c.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0),
         (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2),
 		c.music.players.size,
-		c.ws.ping
+		c.ws.ping;
 		});
 
-		const embed = new Discord.MessageEmbed()
+		const embed = new MessageEmbed()
 			.setColor(client.colors.main)
 			.setAuthor('Ear Tensifier', client.user.displayAvatarURL());
 
 		let totalMusicStreams = client.music.nodes.array()[0].stats.players;
 		shardInfo.forEach(i => {
+			console.log(i)
 			const status = i[1] === 'process' ? client.emojiList.online : client.emojiList.offline;
 			embed.addField(`${status} Shard ${(parseInt(i[0]) + 1).toString()}`, `\`\`\`js
 Servers: ${i[2].toLocaleString()}\nChannels: ${i[3].toLocaleString()}\nUsers: ${i[4].toLocaleString()}

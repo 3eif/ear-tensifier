@@ -1,6 +1,6 @@
 const Command = require('../../structures/Command');
 
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const users = require('../../models/user.js');
 
 module.exports = class Profile extends Command {
@@ -34,14 +34,14 @@ module.exports = class Profile extends Command {
 					developer: false,
 				});
 				newUser.save().catch(e => client.log(e));
-				const embed = new Discord.MessageEmbed()
+				const embed = new MessageEmbed()
 					.setThumbnail(user.user.displayAvatarURL())
 					.addField('User', `${user.user.tag}`, true)
 					.addField('Bio', 'No bio set')
 					.setColor(client.colors.main)
 					.setFooter('Commands Used: 1 | Songs Played: 0')
 					.setTimestamp();
-				return msg.edit({ content: '', embeds: [embed] });
+				return msg.edit({ content: ' ', embeds: [embed] });
 			}
 			else {
 
@@ -53,14 +53,14 @@ module.exports = class Profile extends Command {
 				if (!u.bio) bio = 'No bio set. To set your bio type `ear bio <desired bio>`';
 				else bio = u.bio;
 
-				const embed = new Discord.MessageEmbed()
+				const embed = new MessageEmbed()
 					.setThumbnail(user.user.displayAvatarURL())
 					.addField('User', `${user.user.tag}${ranks}`, true)
 					.addField('Bio', `${bio}`)
 					.setColor(client.colors.main)
 					.setFooter(`Commands Used: ${u.commandsUsed} | Songs Played: ${u.songsPlayed}`)
 					.setTimestamp();
-				return msg.edit({ content: '', embeds: [embed] });
+				return msg.edit({ content: ' ', embeds: [embed] });
 			}
 		});
 	}

@@ -1,6 +1,6 @@
 const Command = require('../../structures/Command');
 
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 
 module.exports = class Volume extends Command {
 	constructor(client) {
@@ -30,7 +30,7 @@ module.exports = class Volume extends Command {
 		if (volume > 1000) volume = 1000;
 		player.setVolume(volume);
 
-		const embed = new Discord.MessageEmbed()
+		const embed = new MessageEmbed()
 			.setDescription(`Volume set to **${args[0]}%**`)
 			.setColor(client.colors.main);
 		return message.channel.send({ embeds: [embed] });

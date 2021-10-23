@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 
 module.exports = async (client, message, filter, state) => {
     const delay = ms => new Promise(res => setTimeout(res, ms));
@@ -8,11 +8,11 @@ module.exports = async (client, message, filter, state) => {
     if (!state) {
         player.setFilter('filters', client.filters.reset);
         const msg = await message.channel.send(`${client.emojiList.loading} Turning off **${filter}**. This may take a few seconds...`);
-        const embed = new Discord.MessageEmbed()
+        const embed = new MessageEmbed()
             .setDescription(`Turned off **${filter}**`)
             .setColor(client.colors.main);
         await delay(5000);
-        return msg.edit({ content: '', embeds: [embed] });
+        return msg.edit({ content: ' ', embeds: [embed] });
     }
     else if (state) {
         switch (filter) {
@@ -32,10 +32,10 @@ module.exports = async (client, message, filter, state) => {
         }
 
         const msg = await message.channel.send(`${client.emojiList.loading} Turning on **${filter}**. This may take a few seconds...`);
-        const embed = new Discord.MessageEmbed()
+        const embed = new MessageEmbed()
             .setDescription(`Turned on **${filter}**`)
             .setColor(client.colors.main);
         await delay(5000);
-        return msg.edit({ content: '', embeds: [embed] });
+        return msg.edit({ content: ' ', embeds: [embed] });
     }
 };

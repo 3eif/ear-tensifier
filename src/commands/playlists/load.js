@@ -2,7 +2,7 @@ const Command = require('../../structures/Command');
 
 const playlists = require('../../models/playlist.js');
 const spawnPlayer = require('../../player/spawnPlayer.js');
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const trackEnd = require('../../player/trackEnd');
 
 module.exports = class Load extends Command {
@@ -33,12 +33,12 @@ module.exports = class Load extends Command {
 		}, async (err, p) => {
 			if (err) client.log(err);
 			if (!p) {
-				const embed = new Discord.MessageEmbed()
+				const embed = new MessageEmbed()
 					.setAuthor(playlistName, message.author.displayAvatarURL())
 					.setDescription(`${client.emojiList.no} Couldn't find a playlist by the name ${playlistName}.`)
 					.setTimestamp()
 					.setColor(client.colors.main);
-				return msg.edit({ content: '', embeds: [embed] });
+				return msg.edit({ content: ' ', embeds: [embed] });
 			}
 
 			let songsToAdd = p.songs.length;
@@ -60,10 +60,10 @@ module.exports = class Load extends Command {
 			});
 
 			content.then(async function () {
-				const embed = new Discord.MessageEmbed()
+				const embed = new MessageEmbed()
 					.setDescription(`Queued **${songsToAdd} songs** from **${playlistName}**.`)
 					.setColor(client.colors.main);
-				msg.edit({ content: '', embeds: [embed] });
+				msg.edit({ content: ' ', embeds: [embed] });
 			});
 		});
 	}

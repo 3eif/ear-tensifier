@@ -1,5 +1,5 @@
 const Command = require('../../structures/Command');
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 
 module.exports = class Reset extends Command {
 	constructor(client) {
@@ -21,10 +21,10 @@ module.exports = class Reset extends Command {
 		player.setVolume(100);
 
 		const msg = await message.channel.send(`${client.emojiList.loading} Reseting filters to default...`);
-		const embed = new Discord.MessageEmbed()
+		const embed = new MessageEmbed()
 			.setDescription('Filters reset!')
 			.setColor(client.colors.main);
 		await delay(5000);
-		return msg.edit({ content: '', embeds: [embed] });
+		return msg.edit({ content: ' ', embeds: [embed] });
 	}
 };

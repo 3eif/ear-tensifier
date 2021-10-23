@@ -1,6 +1,6 @@
 const Command = require('../../structures/Command');
 
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const cpuStat = require('cpu-stat');
 const os = require('os');
 
@@ -28,20 +28,20 @@ class Stats extends Command {
 
 		const promises = [
 			client.shard.fetchClientValues('guilds.cache.size'),
-			client.shard.broadcastEval(client => client.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0)),
+			client.shard.broadcastEval(c => c.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0)),
 		];
 
 		const shardInfo = await client.shard.broadcastEval(c => {
 			c.shard.ids,
-			c.shard.mode,
-			c.guilds.cache.size,
-			c.channels.cache.size,
-			c.users.cache.size,
-			(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2),
-			c.music.nodes.array()[0].stats.players,
-			c.ws.ping,
-			(process.memoryUsage().rss / 1024 / 1024).toFixed(2),
-			c.music.nodes.array()[0].stats.playingPlayers
+				c.shard.mode,
+				c.guilds.cache.size,
+				c.channels.cache.size,
+				c.users.cache.size,
+				(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2),
+				c.music.nodes.array()[0].stats.players,
+				c.ws.ping,
+				(process.memoryUsage().rss / 1024 / 1024).toFixed(2),
+				c.music.nodes.array()[0].stats.playingPlayers;
 		});
 
 		const totalMusicStreams = client.music.nodes.array()[0].stats.players;
@@ -67,7 +67,7 @@ class Stats extends Command {
 					const memoryPercentage = ((totalMemory / (os.totalmem() / 1024 / 1024)).toFixed(3) * 100).toFixed(2);
 
 					cpuStat.usagePercent(function (err, percent) {
-						const statsEmbed = new Discord.MessageEmbed()
+						const statsEmbed = new MessageEmbed()
 							.setAuthor('Ear Tensifier')
 							.setColor(client.colors.main)
 							.setThumbnail(client.settings.avatar)
@@ -85,7 +85,7 @@ class Stats extends Command {
 							.addField('Uptime', `\`\`\`${days} days, ${hours} hours, ${mins} minutes, and ${realTotalSecs} seconds\`\`\``)
 							.setFooter(`Latency ${msg.createdTimestamp - message.createdTimestamp}ms`)
 							.setTimestamp();
-						return msg.edit({ content: '', embeds: [statsEmbed] });
+						return msg.edit({ content: ' ', embeds: [statsEmbed] });
 					});
 				})
 				.catch(console.error);

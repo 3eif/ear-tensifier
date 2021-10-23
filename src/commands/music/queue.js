@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 const Command = require('../../structures/Command');
 
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const paginate = require('../../utils/music/paginate.js');
 const getQueueDuration = require('../../utils/music/getQueueDuration.js');
 
@@ -36,7 +36,7 @@ module.exports = class Queue extends Command {
 		const pages = [];
 		for (let i = 0; i < pagesNum; i++) {
 			const str = songStrings.slice(i * 10, i * 10 + 10).join('');
-			const embed = new Discord.MessageEmbed()
+			const embed = new MessageEmbed()
 				.setAuthor(`Queue - ${message.guild.name}`, message.guild.iconURL())
 				.setColor(client.colors.main)
 				.setDescription(`**Now Playing**: [${title}](${uri}) \`[${parsedDuration}]\` • ${user}.\n\n**Up Next**:${str == '' ? '  Nothing' : '\n' + str}`)

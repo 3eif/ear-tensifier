@@ -1,6 +1,6 @@
 const Command = require('../../structures/Command');
 
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const servers = require('../../models/server.js');
 
 module.exports = class Ignore extends Command {
@@ -44,12 +44,12 @@ module.exports = class Ignore extends Command {
 				s.ignore.push(channel);
 				await s.save().catch(e => console.log(e));
 			}
-			const embed = new Discord.MessageEmbed()
+			const embed = new MessageEmbed()
 				.setAuthor(`${message.guild.name}`, message.guild.iconURL())
 				.setColor(client.colors.main)
 				.setDescription(`I will now ignore commands from ${args[0]}`)
 				.setFooter(`Tip: You can make me listen to commands again by doing ${client.settings.prefix}listen`);
-			msg.edit({ content: '', embeds: [embed] });
+			msg.edit({ content: ' ', embeds: [embed] });
 		});
 	}
 };

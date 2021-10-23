@@ -1,5 +1,5 @@
 const Command = require('../../structures/Command');
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const spawnPlayer = require('../../player/spawnPlayer.js');
 
 module.exports = class Search extends Command {
@@ -26,13 +26,13 @@ module.exports = class Search extends Command {
 				if (res.loadType == 'TRACK_LOADED') {
 					player.queue.add(res.tracks[0]);
 					msg.edit({
-						content: '', embeds: [client.queuedEmbed(
+						content: ' ', embeds: [client.queuedEmbed(
 							res.tracks[0].title,
 							res.tracks[0].uri,
 							res.tracks[0].duration,
 							null,
 							res.tracks[0].requester,
-						)]
+						)],
 					});
 					if (!player.playing) player.play();
 					break;
@@ -46,12 +46,12 @@ module.exports = class Search extends Command {
 						.map(result => `**${++n} -** [${result.title}](${result.uri})`)
 						.join('\n');
 
-					const embed = new Discord.MessageEmbed()
+					const embed = new MessageEmbed()
 						.setAuthor('Song Selection.', message.author.displayAvatarURL())
 						.setDescription(results)
 						.setFooter('Your response time closes within the next 30 seconds. Type "cancel" to cancel the selection, type "queueall" to queue all songs.')
 						.setColor(client.colors.main);
-					await msg.edit({ content: '', embeds: [embed] });
+					await msg.edit({ content: ' ', embeds: [embed] });
 
 					const filter = m =>
 						(message.author.id === m.author.id) &&
@@ -64,13 +64,15 @@ module.exports = class Search extends Command {
 							for (const track of tracks) {
 								player.queue.add(track);
 							}
-							msg.edit({ content: '', embeds: [client.queuedEmbed(
-								null,
-								null,
-								null,
-								tracks.length,
-								tracks[0].requester,
-							)]});
+							msg.edit({
+								content: ' ', embeds: [client.queuedEmbed(
+									null,
+									null,
+									null,
+									tracks.length,
+									tracks[0].requester,
+								)],
+							});
 						}
 						else if (entry === 'cancel') {
 							message.channel.send('Cancelled selection');
@@ -78,13 +80,15 @@ module.exports = class Search extends Command {
 						else {
 							const track = tracks[entry - 1];
 							player.queue.add(track);
-							msg.edit({ content: '', embeds: [client.queuedEmbed(
-								res.tracks[entry - 1].title,
-								res.tracks[entry - 1].uri,
-								track.duration,
-								null,
-								res.tracks[entry - 1].requester,
-							)]});
+							msg.edit({
+								content: ' ', embeds: [client.queuedEmbed(
+									res.tracks[entry - 1].title,
+									res.tracks[entry - 1].uri,
+									track.duration,
+									null,
+									res.tracks[entry - 1].requester,
+								)],
+							});
 						}
 						if (!player.playing) player.play();
 					}
@@ -95,15 +99,17 @@ module.exports = class Search extends Command {
 				}
 				else if (res.loadType == 'PLAYLIST_LOADED') {
 					res.playlist.tracks.forEach(track => player.queue.add(track));
-					msg.edit({ content: '', embeds: [client.queuedEmbed(
-						res.playlist.info.name,
-						res.playlist.info.uri,
-						res.playlist.tracks.reduce((acc, cure) => ({
-							duration: acc.duration + cure.duration,
-						})).duration,
-						res.playlist.tracks.length,
-						res.playlist.tracks[0].requester.id,
-					)]});
+					msg.edit({
+						content: ' ', embeds: [client.queuedEmbed(
+							res.playlist.info.name,
+							res.playlist.info.uri,
+							res.playlist.tracks.reduce((acc, cure) => ({
+								duration: acc.duration + cure.duration,
+							})).duration,
+							res.playlist.tracks.length,
+							res.playlist.tracks[0].requester.id,
+						)],
+					});
 					if (!player.playing) player.play();
 					break;
 				}
