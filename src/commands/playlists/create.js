@@ -2,7 +2,6 @@ const Command = require('../../structures/Command');
 
 const playlists = require('../../models/playlist.js');
 const { MessageEmbed } = require('discord.js');
-const { getData, getPreview } = require('spotify-url-info');
 
 module.exports = class Create extends Command {
 	constructor(client) {
@@ -26,31 +25,7 @@ module.exports = class Create extends Command {
 		let noTracks = 0;
 		const playlistName = args[0].replace(/_/g, ' ');
 
-		if (args[1].startsWith(client.settings.spotifyURL)) {
-			const data = await getData(args.slice(1).join(' '));
-			if (data.type == 'playlist' || data.type == 'album') {
-				if (data.type == 'playlist') {
-					dataLength = data.tracks.items.length;
-					for (let i = 0; i < data.tracks.items.length; i++) {
-						const song = data.tracks.items[i];
-						search(`${song.track.name} ${song.track.artists[0].name}`, 'yes');
-					}
-				}
-				else {
-					dataLength = data.tracks.items.length;
-					await data.tracks.items.forEach(song => {
-						search(`${song.name} ${song.artists[0].name}`, 'yes');
-					});
-				}
-				const playlistInfo = await getPreview(args.join(' '));
-				playlistMessage = `Added ${data.tracks.items.length} songs from **${playlistInfo.title}** to **${playlistName}**!`;
-			}
-			else if (data.type == 'track') {
-				const track = await getPreview(args.join(' '));
-				await search(`${track.title} ${track.artist}`, 'no');
-			}
-		}
-		else await search(args.slice(1).join(' '), 'no');
+		await search(args.slice(1).join(' '), 'no');
 
 		async function search(sq, isPlaylist) {
 			let searchQuery = sq;

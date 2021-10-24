@@ -65,7 +65,7 @@ module.exports = class Delete extends Command {
         }).catch(err => {
             client.log(err);
             const embed = new MessageEmbed()
-                .setAuthor(args[0], message.author.displayAvatarURL())
+                .setAuthor(message.author.username, message.author.displayAvatarURL())
                 .setDescription(`${client.emojiList.no} You don't have any playlists.\nTo create a playlist type: \`ear create <playlist name> <search query/link>\``)
                 .setTimestamp()
                 .setColor(client.colors.main);
