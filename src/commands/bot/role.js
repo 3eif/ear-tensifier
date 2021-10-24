@@ -12,7 +12,7 @@ module.exports = class Role extends Command {
     }
     async run(client, message) {
 
-        if (!message.guild.me.hasPermission('MANAGE_ROLES')) return message.channel.send('I don\'t have permission to add roles.');
+        if (!message.guild.me.permissions.has('MANAGE_ROLES')) return message.channel.send('I don\'t have permission to add roles.');
 
         servers.findOne({
             serverID: message.guild.id,

@@ -10,7 +10,7 @@ module.exports = class Clean extends Command {
 		});
 	}
 	async run(client, message, args) {
-		if (!message.member.hasPermission('MANAGE_MESSAGES')) return message.channel.send('You must have the `Manage Messages` permission to use this command.');
+		if (!message.member.permissions.has('MANAGE_MESSAGES')) return message.channel.send('You must have the `Manage Messages` permission to use this command.');
 
 		let messagesToDelete = 0;
 

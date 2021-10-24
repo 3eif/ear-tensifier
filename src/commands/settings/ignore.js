@@ -13,7 +13,7 @@ module.exports = class Ignore extends Command {
 		});
 	}
 	async run(client, message, args) {
-		if (!message.member.hasPermission('MANAGE_CHANNELS')) return message.channel.send('You must have the `Manage Channels` permission to use this command.');
+		if (!message.member.permissions.has('MANAGE_CHANNELS')) return message.channel.send('You must have the `Manage Channels` permission to use this command.');
 
 		const msg = await message.channel.send(`${client.emojiList.loading} Ignoring commands from channel...`);
 

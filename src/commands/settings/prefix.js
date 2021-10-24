@@ -13,7 +13,7 @@ module.exports = class Prefix extends Command {
 		});
 	}
 	async run(client, message, args) {
-		if (!message.member.hasPermission('MANAGE_GUILD')) return message.channel.send('You must have `Manage Guild` permission to use this command.');
+		if (!message.member.permissions.has('MANAGE_GUILD')) return message.channel.send('You must have `Manage Guild` permission to use this command.');
 
 		if (!args[0]) {
 			servers.findOne({
