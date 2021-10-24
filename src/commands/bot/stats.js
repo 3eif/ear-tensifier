@@ -31,18 +31,18 @@ class Stats extends Command {
 			client.shard.broadcastEval(c => c.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0)),
 		];
 
-		const shardInfo = await client.shard.broadcastEval(c => {
-			c.shard.ids,
-				c.shard.mode,
-				c.guilds.cache.size,
-				c.channels.cache.size,
-				c.users.cache.size,
-				(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2),
-				c.music.nodes.array()[0].stats.players,
-				c.ws.ping,
-				(process.memoryUsage().rss / 1024 / 1024).toFixed(2),
-				c.music.nodes.array()[0].stats.playingPlayers;
-		});
+		const shardInfo = await client.shard.broadcastEval(c => ({
+			id: c.shard.ids,
+			status: c.shard.mode,
+			guilds: c.guilds.cache.size,
+			channels: c.channels.cache.size,
+			users: c.users.cache.size,
+			heapUsed: (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2),
+			players: c.music.nodes.array()[0].stats.players,
+			ping: c.ws.ping,
+			rss: (process.memoryUsage().rss / 1024 / 1024).toFixed(2),
+			playingPlayers: c.music.nodes.array()[0].stats.playingPlayers,
+		}));
 
 		const totalMusicStreams = client.music.nodes.array()[0].stats.players;
 		const playingMusicStreams = client.music.nodes.array()[0].stats.playingPlayers;
@@ -57,11 +57,11 @@ class Stats extends Command {
 					const totalMembers = results[1].reduce((prev, memberCount) => prev + memberCount, 0);
 
 					let totalMemory = 0;
-					shardInfo.forEach(s => totalMemory += parseInt(s[5]));
+					shardInfo.forEach(s => totalMemory += s.heapUsed);
 					let totalRSS = 0;
-					shardInfo.forEach(s => totalRSS += parseInt(s[8]));
+					shardInfo.forEach(s => totalRSS += s.rss);
 					let avgLatency = 0;
-					shardInfo.forEach(s => avgLatency += s[7]);
+					shardInfo.forEach(s => avgLatency += s.ping);
 					avgLatency = avgLatency / shardInfo.length;
 					avgLatency = Math.round(avgLatency);
 					const memoryPercentage = ((totalMemory / (os.totalmem() / 1024 / 1024)).toFixed(3) * 100).toFixed(2);
@@ -71,7 +71,7 @@ class Stats extends Command {
 							.setAuthor('Ear Tensifier')
 							.setColor(client.colors.main)
 							.setThumbnail(client.settings.avatar)
-							.addField('Born On', client.user.createdAt)
+							.addField('Born On', new Date(client.user.createdAt).toLocaleString('en-US', { timezone: 'America/Los_Angeles' }, true) + " Pacific Standard Time")
 							.addField('Current Version', client.settings.version, true)
 							.addField('Servers', `${totalGuilds.toLocaleString()} servers`, true)
 							.addField('Users', `${totalMembers.toLocaleString()} users`, true)
@@ -81,7 +81,7 @@ class Stats extends Command {
 							.addField('Songs Played', `${b.songsPlayed.toLocaleString()}`, true)
 							.addField('Players', `${totalMusicStreams.toLocaleString()}`, true)
 							.addField('Playing Players', `${playingMusicStreams.toLocaleString()}`, true)
-							.addField('Memory Used', `\`\`\`${totalRSS.toLocaleString()} RSS | ${totalMemory.toFixed(2)} / ${(os.totalmem() / 1024 / 1024).toFixed(2)} MB | ${memoryPercentage}% used\`\`\``)
+							.addField('Memory Used', `\`\`\`${totalRSS.toLocaleString().replace(/^0+(?!\.|$)/, '')} RSS | ${totalMemory.toLocaleString().replace(/^0+(?!\.|$)/, '')} / ${(os.totalmem() / 1024 / 1024).toLocaleString().replace(/^0+(?!\.|$)/, '')} MB | ${memoryPercentage}% used\`\`\``)
 							.addField('Uptime', `\`\`\`${days} days, ${hours} hours, ${mins} minutes, and ${realTotalSecs} seconds\`\`\``)
 							.setFooter(`Latency ${msg.createdTimestamp - message.createdTimestamp}ms`)
 							.setTimestamp();

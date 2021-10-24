@@ -18,19 +18,19 @@ module.exports = class Shards extends Command {
 
 		const promises = [
 			client.shard.fetchClientValues('guilds.cache.size'),
-			client.shard.broadcastEval(c=> c.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0)),
+			client.shard.broadcastEval(c => c.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0)),
 		];
 
-		const shardInfo = await client.shard.broadcastEval(c => {
-        c.shard.ids,
-        c.shard.mode,
-        c.guilds.cache.size,
-        c.channels.cache.size,
-        c.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0),
-        (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2),
-		c.music.players.size,
-		c.ws.ping;
-		});
+		const shardInfo = await client.shard.broadcastEval(c => ({
+			id: c.shard.ids,
+			status: c.shard.mode,
+			guilds: c.guilds.cache.size,
+			channels: c.channels.cache.size,
+			members: c.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0),
+			memoryUsage: (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2),
+			players: c.music.players.size,
+			ping: c.ws.ping,
+		}));
 
 		const embed = new MessageEmbed()
 			.setColor(client.colors.main)
@@ -39,21 +39,21 @@ module.exports = class Shards extends Command {
 		let totalMusicStreams = client.music.nodes.array()[0].stats.players;
 		shardInfo.forEach(i => {
 			console.log(i)
-			const status = i[1] === 'process' ? client.emojiList.online : client.emojiList.offline;
-			embed.addField(`${status} Shard ${(parseInt(i[0]) + 1).toString()}`, `\`\`\`js
-Servers: ${i[2].toLocaleString()}\nChannels: ${i[3].toLocaleString()}\nUsers: ${i[4].toLocaleString()}
-Memory: ${i[5].toLocaleString()} MB\nAPI: ${i[7].toLocaleString()} ms\nPlayers: ${i[6].toLocaleString()}\`\`\``, true);
-			totalMusicStreams += i[6];
+			const status = i.status === 'process' ? client.emojiList.online : client.emojiList.offline;
+			embed.addField(`${status} Shard ${(parseInt(i.id) + 1).toString()}`, `\`\`\`js
+Servers: ${i.guilds.toLocaleString()}\nChannels: ${i.channels.toLocaleString()}\nUsers: ${i.members.toLocaleString()}
+Memory: ${Number(i.memoryUsage).toLocaleString()} MB\nAPI: ${i.ping.toLocaleString()} ms\nPlayers: ${i.players.toLocaleString()}\`\`\``, true);
+			totalMusicStreams += i.players;
 		});
 
 		Promise.all(promises)
 			.then(results => {
 				let totalMemory = 0;
-				shardInfo.forEach(s => totalMemory += parseInt(s[5]));
+				shardInfo.forEach(s => totalMemory += parseInt(s.memoryUsage));
 				let totalChannels = 0;
-				shardInfo.forEach(s => totalChannels += parseInt(s[3]));
+				shardInfo.forEach(s => totalChannels += parseInt(s.channels));
 				let avgLatency = 0;
-				shardInfo.forEach(s => avgLatency += s[7]);
+				shardInfo.forEach(s => avgLatency += s.ping);
 				avgLatency = avgLatency / shardInfo.length;
 				avgLatency = Math.round(avgLatency);
 				const totalGuilds = results[0].reduce((prev, guildCount) => prev + guildCount, 0);
