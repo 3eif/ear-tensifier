@@ -2,7 +2,6 @@ const Command = require('../../structures/Command');
 
 const play = require('../../player/loadTracks.js');
 const spawnPlayer = require('../../player/spawnPlayer.js');
-const { getData, getPreview } = require('spotify-url-info');
 
 module.exports = class Spotify extends Command {
 	constructor(client) {
@@ -26,35 +25,16 @@ module.exports = class Spotify extends Command {
 		if (songLimit) return msg.edit(`You have reached the **maximum** amount of songs (${songLimit} songs). Want more songs? Consider donating here: https://www.patreon.com/eartensifier`);
 
 		if (args[0].startsWith(client.settings.spotifyURL)) {
-			const data = await getData(args.join(' '));
-			if (data.type == 'playlist' || data.type == 'album') {
-				const sL = await client.getSongLimit(message.author.id);
-				let songsToAdd = 0;
-				if (player.queue.length == 0) { songsToAdd = Math.min(sL, data.tracks.items.length); }
-				else {
-					const totalSongs = player.queue.length + data.tracks.items.length;
-					if (totalSongs > sL) songsToAdd = Math.min(sL - player.queue.length, data.tracks.items.length);
-					else songsToAdd = data.tracks.items.length;
-				}
-				if (data.type == 'playlist') {
-					for (let i = 0; i < songsToAdd; i++) {
-						const song = data.tracks.items[i];
-						play(client, message, msg, player, `${song.track.name} ${song.track.artists[0].name}`, true);
-					}
-				}
-				else {
-					await data.tracks.items.forEach(song => {
-						play(client, message, msg, player, `${song.name} ${song.artists[0].name}`, true);
-					});
-				}
-				const playlistInfo = await getPreview(args.join(' '));
-				if (data.tracks.items.length != songsToAdd) msg.edit({ content: ' ', embeds: [client.queuedEmbed(playlistInfo.title, args[0], null, songsToAdd, message.author).setFooter('You have reached the max amount of songs in the queue. Purchase premium or pro to get more.')] });
-				else msg.edit({ content: ' ', embeds: [client.queuedEmbed(playlistInfo.title, args[0], null, songsToAdd, message.author)] });
+			let searchQuery;
+			searchQuery = args.join(' ');
+			if (['youtube', 'soundcloud', 'bandcamp', 'twitch'].includes(args[0].toLowerCase())) {
+				if (args[0].toLowerCase().includes('soundcloud')) return message.channel.send("Soundcloud has been temporarily disabled.")
+				searchQuery = {
+					source: args[0],
+					query: args.slice(1).join(' '),
+				};
 			}
-			else if (data.type == 'track') {
-				const track = await getPreview(args.join(' '));
-				play(client, message, msg, player, `${track.title} ${track.artist}`, false);
-			}
+			play(client, message, msg, player, searchQuery, false);
 		}
 		else {
 			return msg.edit({ content: 'Please provide a spotify album or track url.' });
