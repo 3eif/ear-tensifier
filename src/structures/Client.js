@@ -26,7 +26,7 @@ module.exports = class Client extends Discord.Client {
                 'GUILD_VOICE_STATES',
                 'GUILD_MESSAGE_REACTIONS',
             ],
-
+            restTimeOffset: 0
         });
 
         this.commands = new Discord.Collection();

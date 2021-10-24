@@ -5,16 +5,14 @@ module.exports = async (client, msg, pages, emojiList, timeout, queueLength, que
     if (!pages) throw new Error('Pages are not given.');
     if (emojiList.length !== 2) throw new Error('Need two emojis.');
     let page = 0;
-    const curPage = await msg.channel.send(pages[page].setFooter(`Page ${page + 1}/${pages.length} | ${queueLength} songs | ${queueDuration} total duration`));
+    const curPage = await msg.channel.send({ embeds: [pages[page].setFooter(`Page ${page + 1}/${pages.length} | ${queueLength} songs | ${queueDuration} total duration`)] });
     if (pages.length == 0) return;
 
     const permissions = msg.channel.permissionsFor(client.user);
     if (!permissions.has(Permissions.FLAGS.ADD_REACTIONS)) return;
     for (const emoji of emojiList) await curPage.react(emoji);
-    const reactionCollector = curPage.createReactionCollector(
-        (reaction, user) => emojiList.includes(reaction.emoji.name) && !user.bot,
-        { time: timeout },
-    );
+    const filter = (reaction, user) => emojiList.includes(reaction.emoji.name) && !user.bot;
+    const reactionCollector = curPage.createReactionCollector({ filter, time: timeout });
     reactionCollector.on('collect', (reaction, user) => {
         if (!user.bot && permissions.has(Permissions.FLAGS.MANAGE_MESSAGES)) reaction.users.remove(user.id);
         switch (reaction.emoji.name) {
@@ -27,7 +25,7 @@ module.exports = async (client, msg, pages, emojiList, timeout, queueLength, que
             default:
                 break;
         }
-        curPage.edit(pages[page].setFooter(`Page ${page + 1}/${pages.length} | ${queueLength} songs | ${queueDuration} total duration`));
+        curPage.edit({ embeds: [pages[page].setFooter(`Page ${page + 1}/${pages.length} | ${queueLength} songs | ${queueDuration} total duration`)] });
     });
     reactionCollector.on('end', () => curPage.reactions.removeAll());
     return curPage;

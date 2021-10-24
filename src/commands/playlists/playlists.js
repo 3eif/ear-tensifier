@@ -35,7 +35,7 @@ module.exports = class Delete extends Command {
                 if (i == pagesNum - 1) {
                     const emojiList = ['◀️', '▶️'];
                     let page = 0;
-                    const curPage = await message.channel.send(pages[page].setFooter(`Page ${page + 1}/${pages.length} | ${p.length} playlist(s)`));
+                    const curPage = await message.channel.send({ embeds: [pages[page].setFooter(`Page ${page + 1}/${pages.length} | ${p.length} playlist(s)`)] });
                     if (pages.length <= 1) return;
                     const permissions = message.channel.permissionsFor(client.user);
                     if (!permissions.has(Permissions.FLAGS.ADD_REACTIONS)) return;
@@ -56,7 +56,7 @@ module.exports = class Delete extends Command {
                             default:
                                 break;
                         }
-                        curPage.edit(pages[page].setFooter(`Page ${page + 1}/${pages.length} | ${p.length} playlist(s)`));
+                        curPage.edit({ embeds: [pages[page].setFooter(`Page ${page + 1}/${pages.length} | ${p.length} playlist(s)`)] });
                     });
                     reactionCollector.on('end', () => curPage.reactions.removeAll());
                     return curPage;

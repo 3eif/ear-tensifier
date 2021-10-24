@@ -46,7 +46,7 @@ module.exports = class Queue extends Command {
 
 		if (!args[0]) {
 			if (pages.length == pagesNum && player.queue.length > 10) paginate(client, message, pages, ['◀️', '▶️'], 120000, player.queue.length, parsedQueueDuration);
-			else return message.channel.send(pages[0]);
+			else return message.channel.send({ embeds: [pages[0]] });
 		}
 		else {
 			if (isNaN(args[0])) return message.channel.send('Page must be a number.');
