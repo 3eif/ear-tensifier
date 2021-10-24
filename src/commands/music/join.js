@@ -1,6 +1,7 @@
 const Command = require('../../structures/Command');
-
 const spawnPlayer = require('../../player/spawnPlayer.js');
+
+const { Permissions } = require('discord.js');
 
 module.exports = class Join extends Command {
 	constructor(client) {
@@ -15,7 +16,7 @@ module.exports = class Join extends Command {
 		if (!voiceChannel) return client.responses('noVoiceChannel', message);
 
 		const permissions = voiceChannel.channel.permissionsFor(client.user);
-		if (!permissions.has('CONNECT')) return client.responses('noPermissionConnect', message);
+		if (!permissions.has(Permissions.FLAGS.CONNECT)) return client.responses('noPermissionConnect', message);
 
 		await spawnPlayer(client, message);
 

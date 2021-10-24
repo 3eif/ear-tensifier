@@ -1,20 +1,22 @@
+const { Permissions } = require('discord.js');
+
 module.exports = async (client, msg, pages, emojiList, timeout, queueLength, queueDuration) => {
     if (!msg && !msg.channel) throw new Error('Channel is inaccessible.');
     if (!pages) throw new Error('Pages are not given.');
     if (emojiList.length !== 2) throw new Error('Need two emojis.');
     let page = 0;
     const curPage = await msg.channel.send(pages[page].setFooter(`Page ${page + 1}/${pages.length} | ${queueLength} songs | ${queueDuration} total duration`));
-    if(pages.length == 0) return;
+    if (pages.length == 0) return;
 
     const permissions = msg.channel.permissionsFor(client.user);
-    if (!permissions.has('ADD_REACTIONS')) return;
+    if (!permissions.has(Permissions.FLAGS.ADD_REACTIONS)) return;
     for (const emoji of emojiList) await curPage.react(emoji);
     const reactionCollector = curPage.createReactionCollector(
         (reaction, user) => emojiList.includes(reaction.emoji.name) && !user.bot,
         { time: timeout },
     );
     reactionCollector.on('collect', (reaction, user) => {
-        if(!user.bot && permissions.has('MANAGE_MESSAGES')) reaction.users.remove(user.id);
+        if (!user.bot && permissions.has(Permissions.FLAGS.MANAGE_MESSAGES)) reaction.users.remove(user.id);
         switch (reaction.emoji.name) {
             case emojiList[0]:
                 page = page > 0 ? --page : pages.length - 1;

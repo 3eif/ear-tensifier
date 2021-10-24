@@ -1,6 +1,6 @@
 const Command = require('../../structures/Command');
 
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, Permissions } = require('discord.js');
 const servers = require('../../models/server.js');
 
 module.exports = class Listen extends Command {
@@ -13,7 +13,7 @@ module.exports = class Listen extends Command {
 		});
 	}
 	async run(client, message, args) {
-		if (!message.member.permissions.has('MANAGE_CHANNELS')) return message.channel.send('You must have the `Manage Channels` permission to use this command.');
+		if (!message.member.permissions.has(Permissions.FLAGS.MANAGE_CHANNELS)) return message.channel.send('You must have the `Manage Channels` permission to use this command.');
 
 		const msg = await message.channel.send(`${client.emojiList.loading} Listening to commands from channel...`);
 

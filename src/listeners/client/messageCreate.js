@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-const { MessageEmbed, Collection } = require('discord.js');
+const { MessageEmbed, Collection, Permissions } = require('discord.js');
 const Statcord = require('statcord.js');
 const chalk = require('chalk');
 const cooldowns = new Collection();
@@ -144,8 +144,8 @@ module.exports = class Message extends Event {
 
 				if (message.guild.id != '264445053596991498') {
 					const permissions = message.channel.permissionsFor(client.user);
-					if (!permissions.has('SEND_MESSAGES')) return message.author.send(`I don't have permission to read/send messages in **${message.channel.name}**!\nPlease join the support server if you need help: ${client.settings.server}`);
-					if (!permissions.has('EMBED_LINKS')) return message.channel.send(`I don't have permission to send embeds in **${message.channel.name}**!\nPlease join the support server if you need help: ${client.settings.server}`);
+					if (!permissions.has(Permissions.FLAGS.SEND_MESSAGES)) return message.author.send(`I don't have permission to read/send messages in **${message.channel.name}**!\nPlease join the support server if you need help: ${client.settings.server}`);
+					if (!permissions.has(Permissions.FLAGS.EMBED_LINKS)) return message.channel.send(`I don't have permission to send embeds in **${message.channel.name}**!\nPlease join the support server if you need help: ${client.settings.server}`);
 				}
 				const commandName = cmd.name.toLowerCase();
 				if (process.env.NODE_ENV == 'production') Statcord.ShardingClient.postCommand(commandName, message.author.id, client);

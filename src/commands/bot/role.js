@@ -1,6 +1,6 @@
 const Command = require('../../structures/Command');
 
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, Permissions } = require('discord.js');
 const servers = require('../../models/server.js');
 
 module.exports = class Role extends Command {
@@ -12,7 +12,7 @@ module.exports = class Role extends Command {
     }
     async run(client, message) {
 
-        if (!message.guild.me.permissions.has('MANAGE_ROLES')) return message.channel.send('I don\'t have permission to add roles.');
+        if (!message.guild.me.permissions.has(Permissions.FLAGS.MANAGE_ROLES)) return message.channel.send('I don\'t have permission to add roles.');
 
         servers.findOne({
             serverID: message.guild.id,
