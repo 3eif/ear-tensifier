@@ -1,6 +1,6 @@
 const Command = require('../../structures/Command');
 
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, Permissions } = require('discord.js');
 const servers = require('../../models/server.js');
 
 module.exports = class Prefix extends Command {
@@ -13,7 +13,7 @@ module.exports = class Prefix extends Command {
 		});
 	}
 	async run(client, message, args) {
-		if (!message.member.permissions.has('MANAGE_GUILD')) return message.channel.send('You must have `Manage Guild` permission to use this command.');
+		if (!message.member.permissions.has(Permissions.FLAGS.MANAGE_GUILD)) return message.channel.send('You must have `Manage Guild` permission to use this command.');
 
 		if (!args[0]) {
 			servers.findOne({
