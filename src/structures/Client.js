@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const chalk = require('chalk');
+const Statcord = require('statcord.js');
 
 module.exports = class Client extends Discord.Client {
     constructor() {
@@ -50,6 +51,14 @@ module.exports = class Client extends Discord.Client {
         this.earTensifiers = ['472714545723342848', '888267634687213669', '888268490199433236', '669256663995514900']
 
         this.environment = process.env.NODE_ENV;
+
+        Statcord.ShardingClient.registerCustomFieldHandler(1, () => {
+            return this.client.music.nodes.array()[0].stats.players;
+        });
+
+        Statcord.ShardingClient.registerCustomFieldHandler(2, () => {
+            return this.client.music.nodes.array()[0].stats.playingPlayers;
+        });
     }
 
     log(msg) {

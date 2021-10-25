@@ -24,6 +24,10 @@ if (process.env.NODE_ENV === 'production') {
     const statcord = new Statcord.ShardingClient({
       key: process.env.STATCORD_TOKEN,
       manager,
+      postCpuStatistics: true,
+      postMemStatistics: true, 
+      postNetworkStatistics: true, 
+      autopost: true 
     });
   }
 }

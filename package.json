@@ -33,7 +33,7 @@
     "node-fetch": "^2.6.0",
     "snekfetch": "^4.0.4",
     "spotify-url-info": "^1.3.1",
-    "statcord.js": "^3.0.7",
+    "statcord.js": "^3.3.0",
     "statcord.js-beta": "^3.0.3",
     "topgg-autoposter": "^2.0.0",
     "ytsr": "^0.1.15"
