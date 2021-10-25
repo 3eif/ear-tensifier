@@ -1,6 +1,6 @@
 {
   "name": "eartensifier",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "description": "Discord music bot written in javascript using discord.js https://eartensifier.net",
   "main": "./src/index.js",
   "dependencies": {
@@ -63,7 +63,7 @@
     "url": "https://github.com/EarTensifier/EarTensifier/issues"
   },
   "engines": {
-    "node": ">=14.x"
+    "node": ">=16.x"
   },
   "homepage": "https://github.com/EarTensifier/EarTensifier#readme"
 }

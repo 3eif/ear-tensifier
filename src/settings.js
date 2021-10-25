@@ -1,6 +1,6 @@
 module.exports = {
 	'prefix': process.env.PREFIX,
-	'version': '1.8.0',
+	'version': '1.9.0',
 	'server': 'https://discord.gg/xKgKMAP',
 	'voiceLeave': '60000',
 	'voteCooldown': 43200000,
