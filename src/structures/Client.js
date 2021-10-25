@@ -52,13 +52,13 @@ module.exports = class Client extends Discord.Client {
 
         this.environment = process.env.NODE_ENV;
 
-        Statcord.ShardingClient.registerCustomFieldHandler(1, () => {
-            return this.client.music.nodes.array()[0].stats.players;
-        });
+        // Statcord.ShardingClient.registerCustomFieldHandler(1, () => {
+        //     return this.client.music.nodes.array()[0].stats.players;
+        // });
 
-        Statcord.ShardingClient.registerCustomFieldHandler(2, () => {
-            return this.client.music.nodes.array()[0].stats.playingPlayers;
-        });
+        // Statcord.ShardingClient.registerCustomFieldHandler(2, () => {
+        //     return this.client.music.nodes.array()[0].stats.playingPlayers;
+        // });
     }
 
     log(msg) {
