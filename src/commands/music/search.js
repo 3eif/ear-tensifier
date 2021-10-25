@@ -58,7 +58,7 @@ module.exports = class Search extends Command {
 						((parseInt(m.content) >= 1 && parseInt(m.content) <= tracks.length) || m.content.toLowerCase() === 'queueall' || m.content.toLowerCase() === 'cancel');
 
 					try {
-						const response = await message.channel.awaitMessages(filter, { max: 1, time: 30000, errors: ['time'] });
+						const response = await message.channel.awaitMessages({ filter, max: 1, time: 30000, errors: ['time'] });
 						const entry = response.first().content.toLowerCase();
 						if (entry === 'queueall') {
 							for (const track of tracks) {
