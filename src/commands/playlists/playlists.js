@@ -1,8 +1,7 @@
 const Command = require('../../structures/Command');
 
 const playlists = require('../../models/playlist.js');
-const { Utils } = require('erela.js');
-const Discord = require('discord.js');
+const { MessageEmbed, Permissions } = require('discord.js');
 const humanizeDuration = require("humanize-duration");
 
 module.exports = class Delete extends Command {
@@ -25,7 +24,7 @@ module.exports = class Delete extends Command {
             for (let i = 0; i < pagesNum; i++) {
                 const str = `${p.slice(i * 10, i * 10 + 10).map(playlist => `**• ${playlist.name}** | ${playlist.songs.length} song(s) | ${humanizeDuration(Number(Date.now() - playlist.timeCreated), { round: true })} ago`).join('\n')}`;
 
-                const embed = new Discord.MessageEmbed()
+                const embed = new MessageEmbed()
                     .setAuthor(message.author.username, message.author.displayAvatarURL())
                     .setDescription(`**__Your Playlists__**\n\n${str}`)
                     .setColor(client.colors.main)
@@ -36,17 +35,17 @@ module.exports = class Delete extends Command {
                 if (i == pagesNum - 1) {
                     const emojiList = ['◀️', '▶️'];
                     let page = 0;
-                    const curPage = await message.channel.send(pages[page].setFooter(`Page ${page + 1}/${pages.length} | ${p.length} playlist(s)`));
+                    const curPage = await message.channel.send({ embeds: [pages[page].setFooter(`Page ${page + 1}/${pages.length} | ${p.length} playlist(s)`)] });
                     if (pages.length <= 1) return;
                     const permissions = message.channel.permissionsFor(client.user);
-                    if (!permissions.has('ADD_REACTIONS')) return;
+                    if (!permissions.has(Permissions.FLAGS.ADD_REACTIONS)) return;
                     for (const emoji of emojiList) await curPage.react(emoji);
                     const reactionCollector = curPage.createReactionCollector(
                         (reaction, user) => emojiList.includes(reaction.emoji.name) && !user.bot,
                         { time: 120000 },
                     );
                     reactionCollector.on('collect', (reaction, user) => {
-                        if (!user.bot && permissions.has('MANAGE_MESSAGES ')) reaction.users.remove(user.id);
+                        if (!user.bot && permissions.has(Permissions.FLAGS.MANAGE_MESSAGES)) reaction.users.remove(user.id);
                         switch (reaction.emoji.name) {
                             case emojiList[0]:
                                 page = page > 0 ? --page : pages.length - 1;
@@ -57,7 +56,7 @@ module.exports = class Delete extends Command {
                             default:
                                 break;
                         }
-                        curPage.edit(pages[page].setFooter(`Page ${page + 1}/${pages.length} | ${p.length} playlist(s)`));
+                        curPage.edit({ embeds: [pages[page].setFooter(`Page ${page + 1}/${pages.length} | ${p.length} playlist(s)`)] });
                     });
                     reactionCollector.on('end', () => curPage.reactions.removeAll());
                     return curPage;
@@ -65,12 +64,12 @@ module.exports = class Delete extends Command {
             }
         }).catch(err => {
             client.log(err);
-            const embed = new Discord.MessageEmbed()
-                .setAuthor(args[0], message.author.displayAvatarURL())
+            const embed = new MessageEmbed()
+                .setAuthor(message.author.username, message.author.displayAvatarURL())
                 .setDescription(`${client.emojiList.no} You don't have any playlists.\nTo create a playlist type: \`ear create <playlist name> <search query/link>\``)
                 .setTimestamp()
                 .setColor(client.colors.main);
-            return message.channel.send(embed);
+            return message.channel.send({ embeds: [embed] });
         });
     }
 };

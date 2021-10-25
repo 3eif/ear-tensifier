@@ -1,6 +1,6 @@
 const Command = require('../../structures/Command');
 
-const Discord = require('discord.js');
+const { MessageEmbed, Permissions } = require('discord.js');
 const servers = require('../../models/server.js');
 
 module.exports = class Prefix extends Command {
@@ -13,7 +13,7 @@ module.exports = class Prefix extends Command {
 		});
 	}
 	async run(client, message, args) {
-		if (!message.member.hasPermission('MANAGE_GUILD')) return message.channel.send('You must have `Manage Guild` permission to use this command.');
+		if (!message.member.permissions.has(Permissions.FLAGS.MANAGE_GUILD)) return message.channel.send('You must have `Manage Guild` permission to use this command.');
 
 		if (!args[0]) {
 			servers.findOne({
@@ -56,12 +56,12 @@ module.exports = class Prefix extends Command {
 				await s.save().catch(e => client.log(e));
 			}
 
-			const embed = new Discord.MessageEmbed()
+			const embed = new MessageEmbed()
 				.setAuthor(`${message.guild.name}`, message.guild.iconURL())
 				.setColor(client.colors.main)
 				.setDescription(`Successfully set the prefix to \`${f}\``)
 				.setFooter('Tip: to add a space to your prefix, add: _');
-			msg.edit('', embed);
+			msg.edit({ content: ' ', embeds: [embed] });
 		});
 	}
 };

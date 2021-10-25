@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 const Command = require('../../structures/Command');
 
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const playlists = require('../../models/playlist.js');
 const paginate = require('../../utils/music/paginate.js');
 
@@ -25,12 +25,12 @@ module.exports = class View extends Command {
 			if (err) client.log(err);
 
 			if (!p) {
-				const embed = new Discord.MessageEmbed()
+				const embed = new MessageEmbed()
 					.setAuthor(playlistName, message.author.displayAvatarURL())
 					.setDescription(`${client.emojiList.no} Couldn't find a playlist by the name ${playlistName}.\nFor a list of your playlists type \`ear playlists\``)
 					.setTimestamp()
 					.setColor(client.colors.main);
-				return message.channel.send(embed);
+				return message.channel.send({ embeds: [embed] });
 			}
 
 			let pagesNum = Math.ceil(p.songs.length / 10);
@@ -45,7 +45,7 @@ module.exports = class View extends Command {
 			let n = 1;
 			for (let i = 0; i < pagesNum; i++) {
 				const str = `${p.songs.slice(i * 10, i * 10 + 10).map(song => `**${n++}.** [${song.title}](https://www.youtube.com/watch?v=${song.identifier}) \`[${client.formatDuration(song.duration)}]\``).join('\n')}`;
-				const embed = new Discord.MessageEmbed()
+				const embed = new MessageEmbed()
 					.setAuthor(message.author.tag, message.author.displayAvatarURL())
 					.setThumbnail(message.author.displayAvatarURL())
 					.setTitle(p.name)
@@ -56,7 +56,7 @@ module.exports = class View extends Command {
 					.setFooter(`Page ${i + 1}/${pagesNum} | ${p.songs.length} songs | ${client.formatDuration(totalQueueDuration)} total duration`);
 				pages.push(embed);
 				if (i == pagesNum - 1 && pagesNum > 1) paginate(client, message, pages, ['◀️', '▶️'], 120000, p.songs.length, client.formatDuration(totalQueueDuration));
-				else if (pagesNum == 1) message.channel.send(embed);
+				else if (pagesNum == 1) message.channel.send({ embeds: [embed] });
 			}
 		});
 	}

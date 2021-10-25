@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
-const Discord = require('discord.js');
+const { MessageEmbed, Collection, Permissions } = require('discord.js');
 const Statcord = require('statcord.js');
 const chalk = require('chalk');
-const cooldowns = new Discord.Collection();
+const cooldowns = new Collection();
 
 const Event = require('../../structures/Event');
 const users = require('../../models/user.js');
@@ -18,7 +18,7 @@ module.exports = class Message extends Event {
 
 	async run(message) {
 		if (message.author.bot) return;
-		if (message.channel.type === 'text') {
+		if (message.channel.type === 'GUILD_TEXT') {
 			if (!message.guild.members.cache.get(this.client.user.id)) await message.guild.members.fetch(this.client.user.id);
 			if (!message.channel.permissionsFor(message.guild.me).missing('SEND_MESSAGES')) return;
 		}
@@ -144,8 +144,8 @@ module.exports = class Message extends Event {
 
 				if (message.guild.id != '264445053596991498') {
 					const permissions = message.channel.permissionsFor(client.user);
-					if (!permissions.has('SEND_MESSAGES')) return message.author.send(`I don't have permission to read/send messages in **${message.channel.name}**!\nPlease join the support server if you need help: ${client.settings.server}`);
-					if (!permissions.has('EMBED_LINKS')) return message.channel.send(`I don't have permission to send embeds in **${message.channel.name}**!\nPlease join the support server if you need help: ${client.settings.server}`);
+					if (!permissions.has(Permissions.FLAGS.SEND_MESSAGES)) return message.author.send(`I don't have permission to read/send messages in **${message.channel.name}**!\nPlease join the support server if you need help: ${client.settings.server}`);
+					if (!permissions.has(Permissions.FLAGS.EMBED_LINKS)) return message.channel.send(`I don't have permission to send embeds in **${message.channel.name}**!\nPlease join the support server if you need help: ${client.settings.server}`);
 				}
 				const commandName = cmd.name.toLowerCase();
 				if (process.env.NODE_ENV == 'production') Statcord.ShardingClient.postCommand(commandName, message.author.id, client);
@@ -167,7 +167,7 @@ module.exports = class Message extends Event {
 				client.log(chalk.white.dim(`[Shard ${Number(client.shard.ids) + 1}] ${commandName} used by ${message.author.id} from ${message.guild.id}`));
 
 				if (!cooldowns.has(commandName)) {
-					cooldowns.set(commandName, new Discord.Collection());
+					cooldowns.set(commandName, new Collection());
 				}
 
 				if (cmd.permission === 'dev' && !client.settings.devs.includes(message.author.id)) return;
@@ -177,33 +177,23 @@ module.exports = class Message extends Event {
 					if (cmd.permission === 'pro' && await premium(message.author.id, 'Pro') == false) return client.responses('noPro', message);
 				}
 
-				if (cmd.voteLocked == true && await premium(message.author.id, 'Premium') == false && await premium(message.author.id, 'Pro') == false) {
-					const voted = await getVoted(client, message.author);
-					if (!voted) {
-						const voteEmbed = new Discord.MessageEmbed()
-							.setDescription('You must **vote** to use this command. **You can vote [here](https://top.gg/bot/472714545723342848/vote)**.\nYou can bypass vote locked commands by purchasing premium [here](https://www.patreon.com/eartensifier).')
-							.setFooter('Already voted? It might take a few seconds for your vote to process.');
-						return message.channel.send(voteEmbed);
-					}
-				}
-
 				if (!message.guild && cmd.guildOnly) return message.channel.send('I can\'t execute that command inside DMs!. Please run this command in a server.');
 
 				if (cmd.inVoiceChannel && !message.member.voice.channel) return client.responses('noVoiceChannel', message);
-				else if (cmd.sameVoiceChannel && message.member.voice.channel.id !== message.guild.me.voice.channelID) return client.responses('sameVoiceChannel', message);
+				else if (cmd.sameVoiceChannel && !message.guild.me.voice.channel.equals(message.member.voice.channel)) return client.responses('sameVoiceChannel', message);
 				else if (cmd.playing && !client.music.players.get(message.guild.id)) return client.responses('noSongsPlaying', message);
 
 				if (prefix == client.settings.prefix) {
 					if (!args[0] && cmd.args === true) {
-						const embed = new Discord.MessageEmbed()
+						const embed = new MessageEmbed()
 							.setDescription(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`ear ${commandName} ${cmd.usage}\``);
-						return message.channel.send(embed);
+						return message.channel.send({ embeds: [embed] });
 					}
 				}
 				else if (!args[0] && cmd.args === true) {
-					const embed = new Discord.MessageEmbed()
+					const embed = new MessageEmbed()
 						.setDescription(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`${prefix} ${commandName} ${cmd.usage}\` or \`${prefix}${cmd.name} ${cmd.usage}\``);
-					return message.channel.send(embed);
+					return message.channel.send({ embeds: [embed] });
 				}
 
 				if (cmd.botPermissions.includes('CONNECT') && !message.member.voice.channel.permissionsFor(client.user).has('CONNECT')) return client.responses('noPermissionConnect', message);
@@ -211,7 +201,7 @@ module.exports = class Message extends Event {
 
 				if (!client.settings.devs.includes(message.author.id)) {
 					if (!cooldowns.has(commandName)) {
-						cooldowns.set(commandName, new Discord.Collection());
+						cooldowns.set(commandName, new Collection());
 					}
 					const now = Date.now();
 					const timestamps = cooldowns.get(commandName);

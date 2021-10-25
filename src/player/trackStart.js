@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const users = require('../models/user.js');
 const songs = require('../models/song.js');
 const bot = require('../models/bot.js');
@@ -45,7 +45,7 @@ module.exports = async (client, player, track) => {
 		}
 	});
 
-	const embed = new Discord.MessageEmbed()
+	const embed = new MessageEmbed()
 		.setAuthor('Now Playing', 'https://cdn.discordapp.com/emojis/673357192203599904.gif?v=1');
 	if (id.includes('soundcloud')) {
 		embed.attachFiles(['./assets/soundcloud.png']);
@@ -90,7 +90,7 @@ module.exports = async (client, player, track) => {
 	// embed.addField(`Duration \`${parsedCurrentDuration}/${parsedDuration}\``, `\`\`\`${uni} ${'─'.repeat(part) + '⚪' + '─'.repeat(client.settings.embedDurationLength - part)}\`\`\``);
 	embed.setTimestamp();
 
-	return player.get("textChannel").send(embed);
+	return player.get("textChannel").send({ embeds: [embed] });
 };
 
 function addDB(id, title, author, duration, thumbnail) {

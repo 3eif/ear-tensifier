@@ -1,5 +1,5 @@
 const Command = require('../../structures/Command');
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 
 module.exports = class Speed extends Command {
 	constructor(client) {
@@ -19,11 +19,11 @@ module.exports = class Speed extends Command {
 		if (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off') {
 			player.setFilter('filters', client.filters.reset);
 			const msg = await message.channel.send(`${client.emojiList.loading} Reseting **speed**. This may take a few seconds...`);
-			const embed = new Discord.MessageEmbed()
+			const embed = new MessageEmbed()
 				.setDescription('Reset **speed**')
 				.setColor(client.colors.main);
 			await delay(5000);
-			return msg.edit('', embed);
+			return msg.edit({ content: ' ', embeds: [embed] });
 		}
 
 		if (isNaN(args[0])) return message.channel.send('Amount must be a real number.');
@@ -34,10 +34,10 @@ module.exports = class Speed extends Command {
 			timescale: { speed: args[0] },
 		});
 		const msg = await message.channel.send(`${client.emojiList.loading} Setting speed to **${args[0]}x**. This may take a few seconds...`);
-		const embed = new Discord.MessageEmbed()
+		const embed = new MessageEmbed()
 			.setDescription(`Speed set to: **${args[0]}x**`)
 			.setColor(client.colors.main);
 		await delay(5000);
-		return msg.edit('', embed);
+		return msg.edit({ content: ' ', embeds: [embed] });
 	}
 };

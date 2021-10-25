@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const Command = require('../../structures/Command');
 
 module.exports = class Bassboost extends Command {
@@ -21,21 +21,21 @@ module.exports = class Bassboost extends Command {
 		if (!args[0]) {
 			player.setEQ(...Array(6).fill(0).map((n, i) => ({ band: i, gain: 0.65 })));
 			const msg = await message.channel.send(`${client.emojiList.loading} Turning on **bassboost**. This may take a few seconds...`);
-			const embed = new Discord.MessageEmbed()
+			const embed = new MessageEmbed()
 				.setDescription('Turned on **bassboost**')
 				.setColor(client.colors.main);
 			await delay(5000);
-			return msg.edit('', embed);
+			return msg.edit({ content: ' ', embeds: [embed] });
 		}
 
 		if (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off') {
 			player.setFilter('filters', client.filters.reset);
 			const msg = await message.channel.send(`${client.emojiList.loading} Turning off **bassboost**. This may take a few seconds...`);
-			const embed = new Discord.MessageEmbed()
+			const embed = new MessageEmbed()
 				.setDescription('Turned off **bassboost**')
 				.setColor(client.colors.main);
 			await delay(5000);
-			return msg.edit('', embed);
+			return msg.edit({ content: ' ', embeds: [embed] });
 		}
 
 		if (isNaN(args[0])) return message.channel.send('Amount must be a real number.');
@@ -46,10 +46,10 @@ module.exports = class Bassboost extends Command {
 		else player.setEQ(...Array(6).fill(0).map((n, i) => ({ band: i, gain: args[0] / 10 })));
 
 		const msg = await message.channel.send(`${client.emojiList.loading} Setting bassboost to **${args[0]}dB**. This may take a few seconds...`);
-		const embed = new Discord.MessageEmbed()
+		const embed = new MessageEmbed()
 			.setDescription(`Bassboost set to: **${args[0]}**`)
 			.setColor(client.colors.main);
 		await delay(5000);
-		return msg.edit('', embed);
+		return msg.edit({ content: ' ', embeds: [embed] });
 	}
 };

@@ -1,7 +1,7 @@
 const Command = require('../../structures/Command');
 
 const playlists = require('../../models/playlist.js');
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 
 module.exports = class Delete extends Command {
 	constructor(client) {
@@ -22,20 +22,20 @@ module.exports = class Delete extends Command {
 		})
 			.then(deletedDocument => {
 				if (deletedDocument) {
-					const embed = new Discord.MessageEmbed()
+					const embed = new MessageEmbed()
 						.setAuthor(playlistName, message.author.displayAvatarURL())
 						.setDescription(`${client.emojiList.yes} Deleted playlist: \`${playlistName}\``)
 						.setTimestamp()
 						.setColor(client.colors.main);
-					return msg.edit('', embed);
+					return msg.edit({ content: ' ', embeds: [embed] });
 				}
 				else {
-					const embed = new Discord.MessageEmbed()
+					const embed = new MessageEmbed()
 						.setAuthor(playlistName, message.author.displayAvatarURL())
 						.setDescription(`${client.emojiList.no} Couldn't find a playlist by the name ${playlistName}.\nFor a list of your playlists type \`ear playlists\``)
 						.setTimestamp()
 						.setColor(client.colors.main);
-					return msg.edit('', embed);
+					return msg.edit({ content: ' ', embeds: [embed] });
 				}
 			})
 			.catch(err => msg.edit(`${client.emojiList.no} Failed to find and delete document: ${err}`));

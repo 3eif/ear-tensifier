@@ -1,6 +1,6 @@
 const Command = require('../../structures/Command');
 
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const { loading } = require('../../../config/emojis.js');
 const util = require('util');
 const { post } = require('snekfetch');
@@ -29,16 +29,16 @@ module.exports = class Eval extends Command {
 			if (output.includes(process.env.DISCORD_TOKEN)) return msg.edit('Cannot run command since the token will be leaked.');
 
 			if (output.length < 1000) {
-				const embed = new Discord.MessageEmbed()
+				const embed = new MessageEmbed()
 					.addField('Input', `\`\`\`js\n${code}\`\`\``)
-					.addField('Output', `\`\`\`js\n${output}\`\`\``)
-				return msg.edit('', embed);
+					.addField('Output', `\`\`\`js\n${output}\`\`\``);
+				return msg.edit({ content: ' ', embeds: [embed] });
 			} else {
 				const res = await post('https://hastebin.com/documents', { body: output });
-				const embed = new Discord.MessageEmbed()
+				const embed = new MessageEmbed()
 					.setTitle('Output was too long, uploaded to hastebin!')
-					.setURL(`https://www.hastebin.com/${res.data.key}.js`)
-				return msg.edit('', embed);
+					.setURL(`https://www.hastebin.com/${res.data.key}.js`);
+				return msg.edit({ content: ' ', embeds: [embed] });
 			}
 		} catch (e) {
 			return msg.edit(`An error occurred: \n\`\`\`js\n${e.message}\`\`\``).catch(console.error);

@@ -21,16 +21,16 @@ module.exports = async (type, message, args) => {
 		}
 		case 'noPremium': {
 			const embed = new MessageEmbed()
-			.setDescription('This command is only available to **Premium** users due to performance issues.\nClick here to get premium: [patreon.com/eartensifier](https://patreon.com/eartensifier)')
-			.setColor(colors.main);
-			message.channel.send(embed);
+				.setDescription('This command is only available to **Premium** users due to performance issues.\nClick here to get premium: [patreon.com/eartensifier](https://patreon.com/eartensifier)')
+				.setColor(colors.main);
+			message.channel.send({ embeds: [embed] });
 			break;
 		}
 		case 'noPro': {
 			const embed = new MessageEmbed()
-			.setDescription('This command is only available to **Pro** users due to performance issues.\nClick here to get premium: [patreon.com/eartensifier](https://patreon.com/eartensifier)')
-			.setColor(colors.main);
-			message.channel.send(embed);
+				.setDescription('This command is only available to **Pro** users due to performance issues.\nClick here to get premium: [patreon.com/eartensifier](https://patreon.com/eartensifier)')
+				.setColor(colors.main);
+			message.channel.send({ embeds: [embed] });
 			break;
 		}
 		case 'botVoiceChannel': {

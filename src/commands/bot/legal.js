@@ -1,5 +1,5 @@
 const Command = require('../../structures/Command');
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 
 module.exports = class Legal extends Command {
     constructor(client) {
@@ -12,7 +12,7 @@ module.exports = class Legal extends Command {
         });
     }
     async run(client, message) {
-        const embed = new Discord.MessageEmbed()
+        const embed = new MessageEmbed()
             .setTitle('Privacy Policy')
             .setDescription('This Privacy Policy contains the data Ear Tensifier collects and what its used for.')
             .addField('What We Collect', `
@@ -27,6 +27,6 @@ The data is used to make the bot functional and customizable. Without this data 
 If you have concerns regarding the data we collect or you would like to delete your data please join the [support server](https://discord.gg/xKgKMAP) or contact \`Tetracyl#0001\` on Discord.
         `)
             .setTimestamp();
-        return message.channel.send(embed);
+        return message.channel.send({ embeds: [embed] });
     }
 };

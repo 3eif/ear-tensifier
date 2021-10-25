@@ -2,7 +2,6 @@ const Command = require('../../structures/Command');
 
 const play = require('../../player/loadTracks.js');
 const spawnPlayer = require('../../player/spawnPlayer.js');
-const { getData, getPreview } = require('spotify-url-info');
 
 module.exports = class Playskip extends Command {
 	constructor(client) {
@@ -24,28 +23,16 @@ module.exports = class Playskip extends Command {
 		const msg = await message.channel.send(`${client.emojiList.cd}  Searching for \`${args.join(' ')}\`...`);
 
 		let searchQuery;
-		if (args[0].startsWith(client.settings.spotifyURL)) {
-			const data = await getData(args.join(' '));
-			client.log(data);
-			if (data.type == 'playlist' || data.type == 'album') {
-				return msg.edit('Cannot playskip a playlist.');
-			}
-			else if (data.type == 'track') {
-				const track = await getPreview(args.join(' '));
-				play(client, message, msg, player, `${track.title} ${track.artist}`, false).then(await playskip());
-			}
+		searchQuery = args.join(' ');
+		if (['youtube', 'soundcloud', 'bandcamp', 'twitch'].includes(args[0].toLowerCase())) {
+			if (args[0].toLowerCase().includes('soundcloud')) return message.channel.send("Soundcloud has been temporarily disabled.")
+			searchQuery = {
+				source: args[0],
+				query: args.slice(1).join(' '),
+			};
 		}
-		else {
-			searchQuery = args.join(' ');
-			if (['youtube', 'soundcloud', 'bandcamp', 'twitch'].includes(args[0].toLowerCase())) {
-				if (args[0].toLowerCase().includes('soundcloud')) return message.channel.send("Soundcloud has been temporarily disabled.")
-				searchQuery = {
-					source: args[0],
-					query: args.slice(1).join(' '),
-				};
-			}
-			play(client, message, msg, player, searchQuery, false).then(await playskip());
-		}
+		play(client, message, msg, player, searchQuery, false).then(await playskip());
+
 
 		async function playskip() {
 			const delay = ms => new Promise(res => setTimeout(res, ms));
