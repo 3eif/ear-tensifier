@@ -23,8 +23,17 @@ module.exports = class Clean extends Command {
 		}
 
 		if (message.channel.type == 'GUILD_TEXT') {
-			await message.channel.messages.fetch({ limit: 100 }).then(() => {
-				message.channel.bulkDelete(messagesToDelete || 50);
+			await message.channel.messages.fetch({ limit: 100 }).then(messages => {
+				let botMessages = messages.filter(msg => msg.author == client.user.id);
+				if (messagesToDelete > 0) {
+					botMessages = messages.filter(msg => msg.author == client.user.id);
+					botMessages.forEach(msg => {
+						messagesToDelete--;
+						if (messagesToDelete > 0) {
+							msg.delete();
+						}
+					});
+				} else message.channel.bulkDelete(botMessages);
 			}).catch(err => {
 				client.log('Error while doing bulk delete');
 				client.log(err);
