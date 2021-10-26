@@ -57,21 +57,21 @@ class Stats extends Command {
 					const totalMembers = results[1].reduce((prev, memberCount) => prev + memberCount, 0);
 
 					let totalMemory = 0;
-					shardInfo.forEach(s => totalMemory += s.heapUsed);
+					shardInfo.forEach(s => totalMemory += Number(s.heapUsed));
 					let totalRSS = 0;
-					shardInfo.forEach(s => totalRSS += s.rss);
+					shardInfo.forEach(s => totalRSS += Number(s.rss));
 					let avgLatency = 0;
 					shardInfo.forEach(s => avgLatency += s.ping);
 					avgLatency = avgLatency / shardInfo.length;
 					avgLatency = Math.round(avgLatency);
-					const memoryPercentage = ((totalMemory / (os.totalmem() / 1024 / 1024)).toFixed(3) * 100).toFixed(2);
+					const memoryPercentage = ((totalMemory / (os.totalmem() / 1024 / 1024)) * 100).toFixed(2);
 
 					cpuStat.usagePercent(function (err, percent) {
 						const statsEmbed = new MessageEmbed()
 							.setAuthor('Ear Tensifier')
 							.setColor(client.colors.main)
 							.setThumbnail(client.settings.avatar)
-							.addField('Born On', new Date(client.user.createdAt).toLocaleString('en-US', { timezone: 'America/Los_Angeles' }, true) + " Pacific Standard Time")
+							.addField('Born On', new Date(client.user.createdAt).toLocaleString('en-US', { timezone: 'America/Los_Angeles' }, true) + " (Pacific Standard Time)")
 							.addField('Current Version', client.settings.version, true)
 							.addField('Servers', `${totalGuilds.toLocaleString()} servers`, true)
 							.addField('Users', `${totalMembers.toLocaleString()} users`, true)
