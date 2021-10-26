@@ -12,7 +12,7 @@ const manager = new ShardingManager('./src/eartensifier.js', {
 
 if (process.env.NODE_ENV === 'production') {
   if (process.env.STATCORD_TOKEN) {
-    const poster = AutoPoster(process.env.STATCORD_TOKEN, manager);
+    const poster = AutoPoster(process.env.TOPGG_TOKEN, manager);
     poster.on('posted', (stats) => {
       console.log(`Posted stats to Top.gg | ${stats.serverCount} servers`);
     });
@@ -25,9 +25,9 @@ if (process.env.NODE_ENV === 'production') {
       key: process.env.STATCORD_TOKEN,
       manager,
       postCpuStatistics: true,
-      postMemStatistics: true, 
-      postNetworkStatistics: true, 
-      autopost: true 
+      postMemStatistics: true,
+      postNetworkStatistics: true,
+      autopost: true
     });
   }
 }
