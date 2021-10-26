@@ -1,10 +1,9 @@
 /* eslint-disable no-unused-vars */
-const MessageEmbed = require("discord.js");
 
-module.exports = async (client, channelID, message, MessageEmbed) => {
-	client.shard.broadcastEval(send, { context: { channelID: channelID, message: message, messageEmbed: MessageEmbed } });
+module.exports = async (client, channelID, message) => {
+	client.shard.broadcastEval(send, { context: { channelID: channelID, message: message } });
 
-	function send(client, { channelID, message, MessageEmbed }) {
+	function send(client, { channelID, message }) {
 		let channel = client.channels.cache.get(channelID);
 		if (channel) {
 			if (typeof message == "string") {
