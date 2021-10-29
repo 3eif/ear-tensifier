@@ -180,7 +180,7 @@ module.exports = class Message extends Event {
 				if (!message.guild && cmd.guildOnly) return message.channel.send('I can\'t execute that command inside DMs!. Please run this command in a server.');
 
 				if (cmd.inVoiceChannel && !message.member.voice.channel) return client.responses('noVoiceChannel', message);
-				else if (cmd.sameVoiceChannel && !message.guild.me.voice.channel.equals(message.member.voice.channel)) return client.responses('sameVoiceChannel', message);
+				else if (cmd.sameVoiceChannel && message.guild.me.voice.channel && !message.guild.me.voice.channel.equals(message.member.voice.channel)) return client.responses('sameVoiceChannel', message);
 				else if (cmd.playing && !client.music.players.get(message.guild.id)) return client.responses('noSongsPlaying', message);
 
 				if (prefix == client.settings.prefix) {
