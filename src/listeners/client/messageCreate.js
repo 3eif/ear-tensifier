@@ -22,6 +22,7 @@ module.exports = class MessageCreate extends Event {
 
         args = messageContent.split(' ');
         args.shift();
+        console.log(args);
         command = args.shift().toLowerCase();
 
         let cmd;

@@ -1,5 +1,7 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
+const { Source, VoiceConnection, TrackPlayer, Track } = require('node-ffplayer');
+const Player = require('node-ffplayer/ffmpeg/player');
 const Command = require('../../structures/Command');
+const Manager = require('../../structures/Manager');
 
 module.exports = class Ping extends Command {
     constructor(client) {
@@ -15,9 +17,40 @@ module.exports = class Ping extends Command {
         });
     }
 
-    async run(client, message) {
-        const msg = await message.channel.send(`Pinging...`);
-        return msg.edit(`Pong! (Latency: ${msg.createdTimestamp - message.createdTimestamp}ms. API Latency: ${Math.round(client.ws.ping)}ms.)`);
+    async run(client, message, args) {
+        const contents = args.slice(0).join(' ');
+
+        console.log(new TrackPlayer());
+
+        let player = client.music.players.get(message.guild.id);
+        if (!player) player = new Player({
+            client: client,
+            guildId: message.guild.id,
+            voiceChannelId: message.member.voice.channel.id,
+            textChannelId: message.channel.id,
+        });
+
+        console.log(player);
+
+        const connection = await VoiceConnection.connect(message.member.voice.channel);
+        connection.subscribe(player);
+
+        let track = await Source.resolve(contents);
+
+        if (!track) {
+            const results = await Source.Youtube.search(contents);
+            track = await results[0];
+        }
+
+        client.player.play(track);
+        client.player.start();
+
+        client.player.on('error', (e) => {
+            console.log(e);
+            client.player.destroy();
+        });
+
+        message.channel.send(`Now playing **${track.title}**!`);
     }
 
     async execute(client, interaction) {
