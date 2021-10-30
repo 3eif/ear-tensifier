@@ -10,8 +10,6 @@ module.exports = class Client extends Discord.Client {
 
         this.commands = new Discord.Collection();
         this.aliases = new Discord.Collection();
-
-        console.log(this.commands);
     }
 
     loadCommands() {
@@ -22,6 +20,7 @@ module.exports = class Client extends Discord.Client {
                 this.commands.set(cmd.name, cmd);
             });
         });
+
     }
 
     loadListeners() {
