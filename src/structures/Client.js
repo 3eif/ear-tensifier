@@ -1,8 +1,8 @@
 const Discord = require('discord.js');
 const fs = require('fs');
 
-const commands = fs.readdirSync('./src/commands/');
-const listeners = fs.readdirSync('./src/listeners/');
+const commandsFolder = fs.readdirSync('./src/commands/');
+const listernsFolder = fs.readdirSync('./src/listeners/');
 const Logger = require('./Logger.js');
 
 module.exports = class Client extends Discord.Client {
@@ -19,18 +19,18 @@ module.exports = class Client extends Discord.Client {
     }
 
     loadCommands() {
-        commands.forEach(category => {
-            const categories = fs.readdirSync(`./src/commands/${category}/`);
+        commandsFolder.forEach(category => {
+            const categories = fs.readdirSync(`./src/commands/${category}/`).filter(file => file.endsWith('.js'));
             categories.forEach(command => {
                 const cmd = require(`../commands/${category}/${command}`);
-                this.commands.set(cmd.name, cmd);
+                this.commands.set(cmd.data.name, cmd);
             });
         });
-
+        console.log(this.commands);
     }
 
     loadListeners() {
-        listeners.forEach(async (eventFolder) => {
+        listernsFolder.forEach(async (eventFolder) => {
             const events = fs.readdirSync(`./src/listeners/${eventFolder}`).filter(c => c.split('.').pop() === 'js');
             events.forEach(async (eventStr) => {
                 if (!events.length) throw Error('No event files found!');
