@@ -3,6 +3,7 @@ const fs = require('fs');
 
 const commands = fs.readdirSync('./src/commands/');
 const listeners = fs.readdirSync('./src/listeners/');
+const Logger = require('./Logger.js');
 
 module.exports = class Client extends Discord.Client {
     constructor(options) {
@@ -10,6 +11,11 @@ module.exports = class Client extends Discord.Client {
 
         this.commands = new Discord.Collection();
         this.aliases = new Discord.Collection();
+
+        this.logger = new Logger(this, {
+            displayTimestamp: true,
+            displayDate: true,
+        });
     }
 
     loadCommands() {

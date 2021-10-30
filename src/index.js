@@ -1,10 +1,15 @@
 const { ShardingManager } = require('kurasuta');
 const { join } = require('path');
-const Client = require('./structures/Client');
+const { isPrimary } = require('cluster');
+const { AutoPoster } = require('topgg-autoposter');
+const { init } = require('@sentry/node');
+const { connect } = require('mongoose');
 const Discord = require('discord.js');
 require('custom-env').env(true);
 
-const sharder = new ShardingManager(join(__dirname, 'structures', 'Cluster'), {
+const Client = require('./structures/Client');
+
+const manager = new ShardingManager(join(__dirname, 'structures', 'Cluster'), {
     client: Client,
     clientOptions: {
         allowedMentions: { parse: ['roles'], repliedUser: false },
@@ -34,8 +39,30 @@ const sharder = new ShardingManager(join(__dirname, 'structures', 'Cluster'), {
     token: process.env.DISCORD_TOKEN,
 });
 
-sharder.on('debug', message => {
-    console.log(message);
-});
+if (isPrimary) {
+    if (process.env.NODE_ENV === 'production') {
+        if (process.env.TOPGG_TOKEN) {
+            const poster = AutoPoster(process.env.TOPGG_TOKEN, manager);
+            poster.on('posted', (stats) => {
+                console.log(`Posted stats to Top.gg | ${stats.serverCount} servers`);
+            });
+        }
+    }
 
-sharder.spawn().catch((err) => console.log(err));
+    if (process.env.NODE_ENV !== 'development' && process.env.SENTRY_URL) {
+        init({
+            dsn: process.env.SENTRY_DSN,
+            environment: process.env.NODE_ENV,
+            release: require('../package.json').version,
+        });
+    }
+
+
+    connect(process.env.MONGO_URL, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    });
+}
+
+
+manager.spawn().catch((err) => console.log(err));

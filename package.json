@@ -26,11 +26,15 @@
   },
   "homepage": "https://github.com/Tetracyl/EarTensifier#readme",
   "dependencies": {
+    "@sentry/node": "^6.13.3",
     "custom-env": "^2.0.1",
     "discord.js": "^13.3.0",
     "dotenv-flow": "^3.2.0",
     "fs": "^0.0.1-security",
-    "kurasuta": "^3.0.1"
+    "kurasuta": "^3.0.1",
+    "mongoose": "^6.0.12",
+    "signale": "^1.4.0",
+    "topgg-autoposter": "^2.0.0"
   },
   "devDependencies": {
     "eslint": "^8.1.0"
