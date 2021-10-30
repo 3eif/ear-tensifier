@@ -2,6 +2,7 @@ const { ShardingManager } = require('kurasuta');
 const { join } = require('path');
 const Client = require('./structures/Client');
 const Discord = require('discord.js');
+require('custom-env').env(true);
 
 const sharder = new ShardingManager(join(__dirname, 'structures', 'Cluster'), {
     client: Client,
