@@ -30,7 +30,7 @@ const sharder = new ShardingManager(join(__dirname, 'structures', 'Cluster'), {
         ],
         restTimeOffset: 0,
     },
-    token: 'NDcyNzE0NTQ1NzIzMzQyODQ4.XpTCQw.GrXx83mav8ovdCJE1xNseUeP6lQ',
+    token: process.env.DISCORD_TOKEN,
 });
 
 sharder.on('debug', message => {
