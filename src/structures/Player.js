@@ -4,7 +4,7 @@ module.exports = class Player extends TrackPlayer {
     constructor(options) {
         super();
         // if (!this.manager) this.manager
-        this.manager = options.client.manager;
+        this.manager = options.client.music;
 
         if (this.manager.players.has(options.guildId)) {
             return this.manager.players.get(options.guildId);

@@ -1,5 +1,5 @@
 const { Source, VoiceConnection, TrackPlayer, Track } = require('node-ffplayer');
-const Player = require('node-ffplayer/ffmpeg/player');
+const Player = require('../../structures/Player');
 const Command = require('../../structures/Command');
 const Manager = require('../../structures/Manager');
 
@@ -42,12 +42,12 @@ module.exports = class Ping extends Command {
             track = await results[0];
         }
 
-        client.player.play(track);
-        client.player.start();
+        player.play(track);
+        player.start();
 
-        client.player.on('error', (e) => {
+        player.on('error', (e) => {
             console.log(e);
-            client.player.destroy();
+            player.destroy();
         });
 
         message.channel.send(`Now playing **${track.title}**!`);
