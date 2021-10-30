@@ -3,9 +3,9 @@ module.exports = class Command {
         this.client = client;
         this.name = options.name;
         this.description = {
-            content: options.description.content || 'No description provided',
-            usage: options.description.usage || 'No usage provided',
-            examples: options.description.examples || 'No examples provided',
+            content: options.description ? (options.description.content || 'No description provided') : 'No description provided',
+            usage: options.description ? (options.description.usage || 'No usage provided') : 'No usage provided',
+            examples: options.description ? (options.description.examples || 'No examples provided') : 'No examples provided',
         };
         this.args = options.args || false;
         this.aliases = options.aliases || 'N/A';
@@ -13,14 +13,15 @@ module.exports = class Command {
         this.hide = options.hide || false;
         this.cooldown = options.cooldown || 3;
         this.voiceRequirements = {
-            isInVoiceChannel: options.voiceRequirements.isInVoiceChannel || false,
-            isInSameVoiceChannel: options.voiceRequirements.isInSameVoiceChannel || false,
-            isPlaying: options.voiceRequirements.isPlaying || false,
+            isInVoiceChannel: options.voiceRequirements ? (options.voiceRequirements.isInVoiceChannel || false) : false,
+            isInSameVoiceChannel: options.voiceRequirements ? (options.voiceRequirements.isInSameVoiceChannel || false) : false,
+            isPlaying: options.voiceRequirements ? (options.voiceRequirements.isPlaying || false) : false,
         };
         this.permissions = {
-            permission: options.permissions.permission || 'user',
-            botPermissions: options.permissions.botPermissions || [],
-            userPermissions: options.permissions.userPermissions || [],
+            permission: options.permissions ? (options.permissions.permission || 'user') : 'user',
+            botPermissions: options.permissions ? (options.permissions.botPermissions || []) : [],
+            userPermissions: options.permissions ? (options.permissions.userPermissions || []) : [],
         };
+        this.options = options.options || {};
     }
 };

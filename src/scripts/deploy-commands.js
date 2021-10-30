@@ -1,18 +1,24 @@
 const fs = require('fs');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
+const { Client } = require('../structures/Client');
 require('custom-env').env(true);
 
 const commands = [];
 const commandFiles = fs.readdirSync('./src/commands');
-console.log('hi');
+
 commandFiles.forEach(category => {
     const categories = fs.readdirSync(`./src/commands/${category}/`).filter(file => file.endsWith('.js'));
-    console.log(categories);
     categories.forEach(command => {
-        const cmd = require(`../commands/${category}/${command}`);
-        console.log(cmd.data.toJSON());
-        commands.push(cmd.data.toJSON());
+        const f = require(`../commands/${category}/${command}`);
+        const cmd = new f(Client);
+        const data = {
+            name: cmd.name,
+            description: cmd.description.content,
+            options: cmd.options,
+        };
+        console.log(data);
+        commands.push(data);
     });
 });
 
