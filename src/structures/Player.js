@@ -1,4 +1,4 @@
-const { TrackPlayer } = require('node-ffplayer');
+const { TrackPlayer } = require('yasha');
 
 const Queue = require('./Queue');
 
@@ -7,7 +7,7 @@ module.exports = class Player extends TrackPlayer {
     constructor(options) {
         super();
         // if (!this.manager) this.manager
-        this.manager = options.client.music;
+        this.manager = options.manager;
 
         this.trackRepeat = false;
         this.queueRepeat = false;
@@ -18,22 +18,29 @@ module.exports = class Player extends TrackPlayer {
 
         this.queue = new Queue();
 
-        if (this.manager.players.has(options.guildId)) {
-            return this.manager.players.get(options.guildId);
+        if (this.manager.players.has(options.guild.id)) {
+            return this.manager.players.get(options.guild.id);
         }
 
-        this.voiceChannelId = options.voiceChannelId;
-        this.textChannelId = options.textChannelId;
-        this.guildId = options.guildId;
+        this.voiceChannel = options.voiceChannel;
+        this.textChannel = options.textChannel;
+        this.guild = options.guild;
 
-        this.manager.players.set(options.guildId, this);
-
-        this.emit = this.manager.emit.bind(this.manager, this);
+        this.manager.newPlayer(this);
     }
 
     play(track) {
-        super.play(track);
+        if (!track) {
+            super.play(this.queue.current);
+        }
+        else {
+            super.play(track);
+        }
         this.start();
+    }
+
+    skip() {
+        this.emit('finish');
     }
 
     pause(pause) {

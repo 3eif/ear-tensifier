@@ -37,7 +37,7 @@
     "fs": "^0.0.1-security",
     "kurasuta": "^3.0.1",
     "mongoose": "^6.0.12",
-    "node-ffplayer": "github:ilikdoge/node-ffplayer",
+    "yasha": "github:ilikdoge/yasha",
     "signale": "^1.4.0",
     "topgg-autoposter": "^2.0.0"
   },

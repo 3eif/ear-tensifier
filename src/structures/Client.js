@@ -14,7 +14,7 @@ module.exports = class Client extends Discord.Client {
 
         this.logger = new Logger(this, {
             displayTimestamp: true,
-            displayDate: true,
+            displayDate: true
         });
     }
 

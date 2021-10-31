@@ -1,14 +1,14 @@
-const { Source, VoiceConnection, TrackPlayer, Track } = require('node-ffplayer');
+const { Source, VoiceConnection, TrackPlayer, Track } = require('yasha');
 const Player = require('../../structures/Player');
 const Command = require('../../structures/Command');
 const Manager = require('../../structures/Manager');
 
-module.exports = class Ping extends Command {
+module.exports = class Play extends Command {
     constructor(client) {
         super(client, {
-            name: 'ping',
+            name: 'play',
             description: {
-                content: 'Ping command',
+                content: 'play command',
             },
             enabled: true,
             cooldown: 4,
@@ -22,10 +22,10 @@ module.exports = class Ping extends Command {
 
         let player = client.music.players.get(message.guild.id);
         if (!player) player = new Player({
-            client: client,
-            guildId: message.guild.id,
-            voiceChannelId: message.member.voice.channel.id,
-            textChannelId: message.channel.id,
+            manager: client.music,
+            guild: message.guild,
+            voiceChannel: message.member.voice.channel,
+            textChannel: message.channel,
         });
 
         const connection = await VoiceConnection.connect(message.member.voice.channel);
@@ -39,14 +39,9 @@ module.exports = class Ping extends Command {
         }
 
         player.queue.add(track);
-        if(!player.playing) player.play(track);
+        if (!player.playing) player.play(track);
 
-        player.on('error', (e) => {
-            console.log(e);
-            player.destroy();
-        });
-
-        message.channel.send(`Now playing **${track.title}**!`);
+        message.channel.send(`Added **${track.title}** to the queue!`);
     }
 
     async execute(client, interaction) {

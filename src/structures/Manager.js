@@ -1,4 +1,4 @@
-const { Source } = require('node-ffplayer');
+const { Source } = require('yasha');
 const { Collection } = require('discord.js');
 const EventEmitter = require('events');
 
@@ -8,22 +8,46 @@ module.exports = class Manager extends EventEmitter {
         this.players = new Collection();
     }
 
-    get(guildId) {
-        return this.players.get(guildId);
-    }
+    newPlayer(player) {
+        this.players.set(player.guild.id, player);
 
-    destroy(guildId) {
-        this.players.delete(guildId);
-    }
-
-    search(query, requester) {
-        // eslint-disable-next-line no-async-promise-executor
-        return new Promise(async (resolve, reject) => {
-            let track = await Source.resolve(query);
-            if (!track) track = await Source.Youtube.search(query)[0];
-
-            if (!track) return reject(new Error('No track found'));
-            else return resolve(track);
+        player.on('ready', () => {
+            this.trackStart(player);
         });
+
+        player.on('finish', () => {
+            this.trackEnd(player);
+        });
+    }
+
+    trackStart(player) {
+        player.playing = true;
+        player.paused = false;
+        this.emit('trackStart', (player));
+    }
+
+    trackEnd(player) {
+        if (player.queue.length) {
+            player.queue.previous.push(player.queue.current);
+            player.queue.current = player.queue.shift();
+            player.play();
+            this.emit('trackEnd', player);
+        }
+    }
+
+    get(guild) {
+        return this.players.get(guild.id);
+    }
+
+    destroy(guild) {
+        this.players.delete(guild.id);
+    }
+
+    async search(query, requester) {
+        let track = await Source.resolve(query);
+        if (!track) track = await Source.Youtube.search(query)[0];
+
+        if (!track) throw new Error('No track found');
+        else return track;
     }
 }

@@ -1,18 +1,17 @@
-const { Track } = require('node-ffplayer');
+const { Track } = require('yasha');
 
 module.exports = class Queue extends Array {
     constructor() {
         super();
         this.current = null;
-        this.previous = null;
+        this.previous = [];
     }
 
     add(track, index) {
         if (!this.current) {
             this.current = track;
         }
-
-        if (typeof offset === 'undefined' && typeof offset !== 'number') {
+        else if (typeof index === 'undefined' && typeof index !== 'number') {
             this.push(track);
         }
         else {
