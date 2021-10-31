@@ -20,8 +20,6 @@ module.exports = class Ping extends Command {
     async run(client, message, args) {
         const contents = args.slice(0).join(' ');
 
-        console.log(new TrackPlayer());
-
         let player = client.music.players.get(message.guild.id);
         if (!player) player = new Player({
             client: client,
@@ -29,8 +27,6 @@ module.exports = class Ping extends Command {
             voiceChannelId: message.member.voice.channel.id,
             textChannelId: message.channel.id,
         });
-
-        console.log(player);
 
         const connection = await VoiceConnection.connect(message.member.voice.channel);
         connection.subscribe(player);
@@ -42,8 +38,8 @@ module.exports = class Ping extends Command {
             track = await results[0];
         }
 
-        player.play(track);
-        player.start();
+        player.queue.add(track);
+        if(!player.playing) player.play(track);
 
         player.on('error', (e) => {
             console.log(e);

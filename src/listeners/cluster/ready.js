@@ -1,5 +1,3 @@
-const { TrackPlayer } = require('node-ffplayer');
-
 const Manager = require('../../structures/Manager');
 const Event = require('../../structures/Event');
 
@@ -11,7 +9,8 @@ module.exports = class Ready extends Event {
     async run() {
         this.client.logger.ready('Cluster %d ready', this.client.shard.id);
 
-        this.client.music = new Manager();
+        this.client.music = new Manager()
+            .on('ready', (player) => { console.log(player); });
 
         if (this.client.shard.id == this.client.shard.clusterCount - 1) {
             this.client.logger.ready('Ear Tensifier is ready');

@@ -1,13 +1,11 @@
 const { Source } = require('node-ffplayer');
 const { Collection } = require('discord.js');
+const EventEmitter = require('events');
 
-const Player = require('./Player');
-
-module.exports = class Manager {
+module.exports = class Manager extends EventEmitter {
     constructor() {
+        super();
         this.players = new Collection();
-
-
     }
 
     get(guildId) {

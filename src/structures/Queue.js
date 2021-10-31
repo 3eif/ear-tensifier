@@ -1,8 +1,23 @@
 const { Track } = require('node-ffplayer');
 
-class Queue extends Array {
+module.exports = class Queue extends Array {
+    constructor() {
+        super();
+        this.current = null;
+        this.previous = null;
+    }
+
     add(track, index) {
-        this.splice(index, 0, track);
+        if (!this.current) {
+            this.current = track;
+        }
+
+        if (typeof offset === 'undefined' && typeof offset !== 'number') {
+            this.push(track);
+        }
+        else {
+            this.splice(index, 0, track);
+        }
     }
 
     remove(index) {
@@ -19,4 +34,8 @@ class Queue extends Array {
             [this[i], this[n]] = [this[n], this[i]];
         }
     }
-}
+
+    totalSize() {
+        return this.length + (this.current ? 1 : 0);
+    }
+};

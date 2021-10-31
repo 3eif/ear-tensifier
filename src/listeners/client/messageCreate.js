@@ -22,15 +22,12 @@ module.exports = class MessageCreate extends Event {
 
         args = messageContent.split(' ');
         args.shift();
-        console.log(args);
         command = args.shift().toLowerCase();
 
         let cmd;
         if (this.client.commands.has(command)) cmd = this.client.commands.get(command);
         else if (this.client.aliases.has(command)) cmd = this.client.aliases.get(command);
         else return;
-
-        console.log(command);
 
         try {
 
