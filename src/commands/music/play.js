@@ -25,16 +25,16 @@ module.exports = class Play extends Command {
             guild: message.guild,
             voiceChannel: message.member.voice.channel,
             textChannel: message.channel,
-            volume: 100,
         });
 
         const connection = await VoiceConnection.connect(message.member.voice.channel);
         connection.subscribe(player);
 
-        const track = client.music.search(query);
+        const track = await client.music.search(query);
 
         player.queue.add(track);
-        if (!player.playing) player.play(track);
+        if (!player.playing) player.play();
+        player.start();
 
         message.channel.send(`Added **${track.title}** to the queue!`);
     }

@@ -10,6 +10,7 @@ module.exports = class Queue extends Array {
     add(track, index) {
         if (!this.current) {
             this.current = track;
+            console.log(this.current);
         }
         else if (typeof index === 'undefined' && typeof index !== 'number') {
             this.push(track);

@@ -33,19 +33,20 @@ module.exports = class Player extends TrackPlayer {
         this.manager.newPlayer(this);
         this.manager.emit('playerCreate', this);
 
-        console.log(this);
         // this.setVolume(options.volume ? options.volume : 100);
     }
 
-    // play(track) {
-    //     if (!track) {
-    //         super.play(this.queue.current);
-    //     }
-    //     else {
-    //         super.play(track);
-    //     }
-    //     super.start();
-    // }
+    play(track) {
+        if (!track) {
+            super.play(this.queue.current);
+            console.log(this.queue.current);
+        }
+        else {
+            super.play(track);
+        }
+        console.log('hi');
+        this.start();
+    }
 
     skip() {
         this.emit('finish');

@@ -35,12 +35,12 @@ module.exports = class Manager extends EventEmitter {
     trackEnd(player) {
         const track = player.queue.current;
 
-        if(track && player.trackRepeat) {
+        if (track && player.trackRepeat) {
             this.emit('trackEnd', player, track);
             player.play();
         }
 
-        if(track && player.queueRepeat) {
+        if (track && player.queueRepeat) {
             player.queue.add(player.queue.current);
             player.queue.current = player.queue.shift();
 
@@ -68,9 +68,10 @@ module.exports = class Manager extends EventEmitter {
 
     async search(query, requester) {
         let track = await Source.resolve(query);
-        if (!track) track = await Source.Youtube.search(query)[0];
+
+        if (!track) track = (await Source.Youtube.search(query))[0];
 
         if (!track) throw new Error('No track found');
         else return track;
     }
-}
+};
