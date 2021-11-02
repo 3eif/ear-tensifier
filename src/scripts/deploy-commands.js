@@ -17,10 +17,11 @@ commandFiles.forEach(category => {
             description: cmd.description.content,
             options: cmd.options,
         };
-        console.log(data);
         commands.push(data);
     });
 });
+
+console.log(commands);
 
 const rest = new REST({ version: '9' }).setToken(process.env.DISCORD_TOKEN);
 

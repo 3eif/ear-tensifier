@@ -9,13 +9,10 @@ module.exports = class InteractionCreate extends Event {
         if (!interaction.isCommand()) return;
 
         const command = this.client.commands.get(interaction.commandName);
-        this.client.logger.debug(interaction.commandName);
-        this.client.logger.debug(this.client.commands);
-        this.client.logger.debug(command);
         if (!command) return;
 
         try {
-            await command.execute(this.client, interaction);
+            await command.execute(this.client, interaction, interaction.options.data);
         }
         catch (error) {
             this.client.logger.error(error);

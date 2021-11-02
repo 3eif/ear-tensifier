@@ -17,7 +17,7 @@ module.exports = class MessageCreate extends Event {
         let args;
         let command;
 
-
+        if (!message.content.startsWith('ear')) return;
         const messageContent = message.content.replace('`', '');
 
         args = messageContent.split(' ');
