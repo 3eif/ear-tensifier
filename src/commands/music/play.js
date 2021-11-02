@@ -1,7 +1,6 @@
-const { Source, VoiceConnection, TrackPlayer, Track } = require('yasha');
+const { VoiceConnection } = require('yasha');
 const Player = require('../../structures/Player');
 const Command = require('../../structures/Command');
-const Manager = require('../../structures/Manager');
 
 module.exports = class Play extends Command {
     constructor(client) {
@@ -18,7 +17,7 @@ module.exports = class Play extends Command {
     }
 
     async run(client, message, args) {
-        const contents = args.slice(0).join(' ');
+        const query = args.slice(0).join(' ');
 
         let player = client.music.players.get(message.guild.id);
         if (!player) player = new Player({
@@ -26,17 +25,13 @@ module.exports = class Play extends Command {
             guild: message.guild,
             voiceChannel: message.member.voice.channel,
             textChannel: message.channel,
+            volume: 100,
         });
 
         const connection = await VoiceConnection.connect(message.member.voice.channel);
         connection.subscribe(player);
 
-        let track = await Source.resolve(contents);
-
-        if (!track) {
-            const results = await Source.Youtube.search(contents);
-            track = await results[0];
-        }
+        const track = client.music.search(query);
 
         player.queue.add(track);
         if (!player.playing) player.play(track);

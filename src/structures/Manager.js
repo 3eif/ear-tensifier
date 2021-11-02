@@ -18,21 +18,44 @@ module.exports = class Manager extends EventEmitter {
         player.on('finish', () => {
             this.trackEnd(player);
         });
+
+        player.on('error', (err) => {
+            this.emit('error', err);
+        });
     }
 
     trackStart(player) {
         player.playing = true;
         player.paused = false;
-        this.emit('trackStart', (player));
+
+        const track = player.queue.current;
+        this.emit('trackStart', (player, track));
     }
 
     trackEnd(player) {
-        if (player.queue.length) {
-            player.queue.previous.push(player.queue.current);
+        const track = player.queue.current;
+
+        if(track && player.trackRepeat) {
+            this.emit('trackEnd', player, track);
+            player.play();
+        }
+
+        if(track && player.queueRepeat) {
+            player.queue.add(player.queue.current);
+            player.queue.current = player.queue.shift();
+
+            this.manager.emit('trackEnd', player, track);
+            player.play();
+        }
+
+        if (player.queue.length > 0) {
+            player.queue.previous.push(track);
             player.queue.current = player.queue.shift();
             player.play();
-            this.emit('trackEnd', player);
+            this.emit('trackEnd', player, track);
         }
+
+        if (!player.queue.length) return this.queueEnd(player, track);
     }
 
     get(guild) {
