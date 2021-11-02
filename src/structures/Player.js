@@ -39,12 +39,10 @@ module.exports = class Player extends TrackPlayer {
     play(track) {
         if (!track) {
             super.play(this.queue.current);
-            console.log(this.queue.current);
         }
         else {
             super.play(track);
         }
-        console.log('hi');
         this.start();
     }
 

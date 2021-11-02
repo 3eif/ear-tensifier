@@ -34,7 +34,6 @@ module.exports = class Play extends Command {
 
         player.queue.add(track);
         if (!player.playing) player.play();
-        player.start();
 
         message.channel.send(`Added **${track.title}** to the queue!`);
     }

@@ -10,8 +10,8 @@ module.exports = class Ready extends Event {
         this.client.logger.ready('Cluster %d ready', this.client.shard.id);
 
         this.client.music = new Manager()
-            .on('trackStart', (player) => {
-                player.textChannel.send(`Now playing: **${player.queue.current.title}**`);
+            .on('trackStart', (player, track) => {
+                player.textChannel.send(`Now playing: **${track.title}**`);
             })
             .on('trackEnd', (player, track) => {
                 console.log('finished song');

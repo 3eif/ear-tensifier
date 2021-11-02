@@ -29,7 +29,7 @@ module.exports = class Manager extends EventEmitter {
         player.paused = false;
 
         const track = player.queue.current;
-        this.emit('trackStart', (player, track));
+        this.emit('trackStart', player, track);
     }
 
     trackEnd(player) {
