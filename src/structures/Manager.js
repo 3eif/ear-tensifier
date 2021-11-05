@@ -44,18 +44,25 @@ module.exports = class Manager extends EventEmitter {
             player.queue.add(player.queue.current);
             player.queue.current = player.queue.shift();
 
-            this.manager.emit('trackEnd', player, track);
+            this.emit('trackEnd', player, track);
             player.play();
         }
 
         if (player.queue.length > 0) {
             player.queue.previous.push(track);
             player.queue.current = player.queue.shift();
-            player.play();
+
             this.emit('trackEnd', player, track);
+            player.play();
         }
 
         if (!player.queue.length) return this.queueEnd(player, track);
+    }
+
+    queueEnd(player, track) {
+        this.emit('queueEnd', player, track);
+        if (player.connection) player.connection.destroy();
+        player.destroy();
     }
 
     get(guild) {

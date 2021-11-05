@@ -1,4 +1,4 @@
-const { TrackPlayer } = require('yasha');
+const { VoiceConnection, TrackPlayer } = require('yasha');
 
 const Queue = require('./Queue');
 
@@ -29,6 +29,8 @@ module.exports = class Player extends TrackPlayer {
         this.voiceChannel = options.voiceChannel;
         this.textChannel = options.textChannel;
         this.guild = options.guild;
+        this.connection = options.connection;
+        this.subscription = this.connection.subscribe(this);
 
         this.manager.newPlayer(this);
         this.manager.emit('playerCreate', this);

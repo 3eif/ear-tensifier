@@ -33,10 +33,8 @@ module.exports = class Play extends Command {
             guild: message.guild,
             voiceChannel: message.member.voice.channel,
             textChannel: message.channel,
+            connection: await VoiceConnection.connect(message.member.voice.channel),
         });
-
-        const connection = await VoiceConnection.connect(message.member.voice.channel);
-        connection.subscribe(player);
 
         const track = await client.music.search(query);
 
