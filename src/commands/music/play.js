@@ -1,4 +1,3 @@
-const { VoiceConnection } = require('yasha');
 const Player = require('../../structures/Player');
 const Command = require('../../structures/Command');
 
@@ -11,7 +10,7 @@ module.exports = class Play extends Command {
             },
             enabled: true,
             cooldown: 4,
-            args: false,
+            args: true,
             options: [
                 {
                     name: 'query',
@@ -28,13 +27,10 @@ module.exports = class Play extends Command {
         const query = args.slice(0).join(' ');
 
         let player = client.music.players.get(message.guild.id);
-        if (!player) player = new Player({
-            manager: client.music,
-            guild: message.guild,
-            voiceChannel: message.member.voice.channel,
-            textChannel: message.channel,
-            connection: await VoiceConnection.connect(message.member.voice.channel),
-        });
+        if (!player) {
+            player = client.music.newPlayer(message.guild, message.member.voice.channel, message.channel);
+            player.connect();
+        }
 
         const track = await client.music.search(query);
 
@@ -48,17 +44,7 @@ module.exports = class Play extends Command {
         const query = args[0].value;
 
         let player = client.music.players.get(interaction.guild.id);
-        if (!player) {
-            player = new Player({
-                manager: client.music,
-                guild: interaction.guild,
-                voiceChannel: interaction.member.voice.channel,
-                textChannel: interaction.channel,
-            });
-        }
-
-        const connection = await VoiceConnection.connect(interaction.member.voice.channel);
-        connection.subscribe(player);
+        if (!player) player = new Player(client.music, interaction.guild, interaction.member.voice.channel, interaction.channel);
 
         const track = await client.music.search(query);
 

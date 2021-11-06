@@ -29,13 +29,19 @@ module.exports = class Player extends TrackPlayer {
         this.voiceChannel = options.voiceChannel;
         this.textChannel = options.textChannel;
         this.guild = options.guild;
-        this.connection = options.connection;
-        this.subscription = this.connection.subscribe(this);
 
-        this.manager.newPlayer(this);
         this.manager.emit('playerCreate', this);
 
         // this.setVolume(options.volume ? options.volume : 100);
+    }
+
+    async connect() {
+        this.connection = await VoiceConnection.connect(this.voiceChannel);
+        this.subscription = this.connection.subscribe(this);
+    }
+
+    disconnect() {
+        if (this.connection) this.connection.disconnect();
     }
 
     play(track) {
@@ -49,12 +55,7 @@ module.exports = class Player extends TrackPlayer {
     }
 
     skip() {
-        this.emit('finish');
-    }
-
-    pause(pause) {
-        this.paused = pause;
-        super.setPaused(pause);
+        this.manager.trackEnd(this);
     }
 
     get(key) {
@@ -89,10 +90,6 @@ module.exports = class Player extends TrackPlayer {
         super.setEqualizer(equalizer);
     }
 
-    seek(time) {
-        super.seek(time);
-    }
-
     getTime() {
         return super.getTime();
     }
@@ -102,6 +99,7 @@ module.exports = class Player extends TrackPlayer {
     }
 
     destroy() {
+        if (this.connection) this.disconnect();
         super.destroy();
 
         this.manager.emit('playerDestroy', this);
@@ -132,5 +130,26 @@ module.exports = class Player extends TrackPlayer {
         }
 
         return this;
+    }
+
+    pause(pause) {
+        if (this.paused === pause || !this.queue.totalSize) return this;
+
+        this.playing = !pause;
+        this.paused = pause;
+
+        this.setPaused(pause);
+
+        return this;
+    }
+
+    seek(time) {
+        if (!this.queue.current) return undefined;
+        time = Number(time);
+
+        if (time < 0 || time > this.queue.current.duration)
+            time = Math.max(Math.min(time, this.queue.current.duration), 0);
+
+        super.seek(time);
     }
 };

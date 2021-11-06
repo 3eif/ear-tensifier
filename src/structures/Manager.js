@@ -2,13 +2,22 @@ const { Source } = require('yasha');
 const { Collection } = require('discord.js');
 const EventEmitter = require('events');
 
+const Player = require('../structures/Player');
+
 module.exports = class Manager extends EventEmitter {
     constructor() {
         super();
         this.players = new Collection();
     }
 
-    newPlayer(player) {
+    newPlayer(guild, voiceChannel, textChannel) {
+        const player = new Player({
+            manager: this,
+            guild: guild,
+            voiceChannel: voiceChannel,
+            textChannel: textChannel,
+        });
+
         this.players.set(player.guild.id, player);
 
         player.on('ready', () => {
@@ -22,6 +31,8 @@ module.exports = class Manager extends EventEmitter {
         player.on('error', (err) => {
             this.emit('error', err);
         });
+
+        return player;
     }
 
     trackStart(player) {
@@ -38,6 +49,7 @@ module.exports = class Manager extends EventEmitter {
         if (track && player.trackRepeat) {
             this.emit('trackEnd', player, track);
             player.play();
+            return;
         }
 
         if (track && player.queueRepeat) {
@@ -46,6 +58,7 @@ module.exports = class Manager extends EventEmitter {
 
             this.emit('trackEnd', player, track);
             player.play();
+            return;
         }
 
         if (player.queue.length > 0) {
@@ -54,6 +67,7 @@ module.exports = class Manager extends EventEmitter {
 
             this.emit('trackEnd', player, track);
             player.play();
+            return;
         }
 
         if (!player.queue.length) return this.queueEnd(player, track);
@@ -61,7 +75,6 @@ module.exports = class Manager extends EventEmitter {
 
     queueEnd(player, track) {
         this.emit('queueEnd', player, track);
-        if (player.connection) player.connection.destroy();
         player.destroy();
     }
 
