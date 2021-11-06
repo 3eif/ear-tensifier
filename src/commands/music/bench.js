@@ -36,6 +36,15 @@ module.exports = class Bench extends Command {
             p.once('error', (e) => {
                 console.log(e, --players);
             });
+
+            let packets = 0, last_packets = 0;
+
+            setInterval(() => {
+                console.log(packets - last_packets, 'packets/sec');
+                last_packets = packets;
+            }, 1000);
+
+            p.on('packet', () => { packets++; });
         }
 
         return message.channel.send('Benching...');
