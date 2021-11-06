@@ -5,10 +5,9 @@ module.exports = class Skip extends Command {
         super(client, {
             name: 'skip',
             description: {
-                content: 'skip command',
+                content: 'Skips the current song.',
             },
-            enabled: true,
-            cooldown: 4,
+            aliases: ['s', 'next'],
             args: false,
         });
     }

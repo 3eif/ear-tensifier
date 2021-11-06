@@ -4,6 +4,7 @@ const fs = require('fs');
 const commandsFodler = fs.readdirSync('./src/commands/');
 const listenersFolder = fs.readdirSync('./src/listeners/');
 const Logger = require('./Logger.js');
+const Bot = require('../models/bot');
 
 module.exports = class Client extends Discord.Client {
     constructor(options) {
@@ -40,6 +41,24 @@ module.exports = class Client extends Discord.Client {
                 const event = new file(this, file);
                 this.on(eventStr.split('.')[0], (...args) => event.run(...args));
             });
+        });
+    }
+
+    incrementCommandsUsed() {
+        Bot.findOne({ clientID: this.user.id }).then(async b => {
+            if (!b) {
+                const newClient = new Bot({
+                    clientID: this.user.id,
+                    clientName: this.user.name,
+                    commandsUsed: 0,
+                    songsPlayed: 0,
+                });
+                await newClient.save().catch(e => this.logger.error(e));
+                b = await Bot.findOne({ clientID: this.user.id });
+            }
+
+            b.commandsUsed += 1;
+            b.save().catch(e => this.client.logger.error(e));
         });
     }
 

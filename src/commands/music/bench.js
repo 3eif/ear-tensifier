@@ -6,10 +6,8 @@ module.exports = class Bench extends Command {
         super(client, {
             name: 'bench',
             description: {
-                content: 'bench command',
+                content: 'Benchmarks the bot.',
             },
-            enabled: true,
-            cooldown: 4,
             args: false,
         });
     }

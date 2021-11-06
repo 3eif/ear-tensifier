@@ -3,7 +3,7 @@ const { join } = require('path');
 const { isPrimary } = require('cluster');
 const { AutoPoster } = require('topgg-autoposter');
 const { init } = require('@sentry/node');
-const { connect } = require('mongoose');
+const mongoose = require('mongoose');
 const Discord = require('discord.js');
 require('custom-env').env(true);
 
@@ -39,7 +39,13 @@ const manager = new ShardingManager(join(__dirname, 'structures', 'Cluster'), {
     token: process.env.DISCORD_TOKEN,
 });
 
+mongoose.connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+});
+
 if (isPrimary) {
+
     if (process.env.NODE_ENV === 'production') {
         if (process.env.TOPGG_TOKEN) {
             const poster = AutoPoster(process.env.TOPGG_TOKEN, manager);
@@ -56,12 +62,6 @@ if (isPrimary) {
             release: require('../package.json').version,
         });
     }
-
-
-    connect(process.env.MONGO_URL, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    });
 }
 
 

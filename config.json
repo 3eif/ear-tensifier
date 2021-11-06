@@ -1,4 +1,8 @@
 {
+    "prefix": "ear ",
+    "devs": [
+        "275831434772742144"
+    ],
     "colors": {
         "default": "#2F3136",
         "online": "#7BCBA7",
