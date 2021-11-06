@@ -18,6 +18,8 @@ module.exports = class Bench extends Command {
         const results = await Source.Youtube.search('resonance');
         const track = await results[0];
 
+        let packets = 0, last_packets = 0;
+
         let players = 0;
         for (let i = 0; i < args[0]; i++) {
             const p = new TrackPlayer();
@@ -36,16 +38,14 @@ module.exports = class Bench extends Command {
             p.once('error', (e) => {
                 console.log(e, --players);
             });
-        }
 
-        let packets = 0, last_packets = 0;
+            p.on('packet', () => { packets++; });
+        }
 
         setInterval(() => {
             console.log(packets - last_packets, 'packets/sec');
             last_packets = packets;
         }, 1000);
-
-        p.on('packet', () => { packets++; });
 
         return message.channel.send('Benching...');
     }
