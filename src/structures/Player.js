@@ -29,10 +29,6 @@ module.exports = class Player extends TrackPlayer {
         this.voiceChannel = options.voiceChannel;
         this.textChannel = options.textChannel;
         this.guild = options.guild;
-
-        this.manager.emit('playerCreate', this);
-
-        // this.setVolume(options.volume ? options.volume : 100);
     }
 
     async connect() {
@@ -102,7 +98,6 @@ module.exports = class Player extends TrackPlayer {
         if (this.connection) this.disconnect();
         super.destroy();
 
-        this.manager.emit('playerDestroy', this);
         this.manager.players.delete(this.guild.id);
     }
 
