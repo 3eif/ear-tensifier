@@ -9,7 +9,7 @@ module.exports = class InteractionCreate extends Event {
         if (!interaction.isCommand()) return;
 
         const command = this.client.commands.get(interaction.commandName);
-        if (!command) return;
+        if (!command || !command.slashCommand) return;
 
         try {
             await command.execute(this.client, interaction, interaction.options.data);

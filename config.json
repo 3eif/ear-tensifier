@@ -13,5 +13,8 @@
         "bandcamp": "#619AA9",
         "added": "#2ECC71",
         "removed": "#E74C3C"
+    },
+    "emojis": {
+        "loading": "<a:t_:902421280148586507>"
     }
 }

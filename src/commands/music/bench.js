@@ -47,10 +47,4 @@ module.exports = class Bench extends Command {
 
         return message.channel.send('Benching...');
     }
-
-    async execute(client, interaction) {
-        const player = client.music.players.get(interaction.guild.id);
-        this.skip(player);
-        await interaction.reply('Skipped...');
-    }
 };

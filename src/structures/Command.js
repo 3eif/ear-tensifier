@@ -18,10 +18,11 @@ module.exports = class Command {
             isPlaying: options.voiceRequirements ? (options.voiceRequirements.isPlaying || false) : false,
         };
         this.permissions = {
-            permission: options.permissions ? (options.permissions.permission || 'user') : 'user',
-            botPermissions: options.permissions ? (options.permissions.botPermissions || []) : [],
             userPermissions: options.permissions ? (options.permissions.userPermissions || []) : [],
+            botPermissions: options.permissions ? (options.permissions.botPermissions || []) : [],
+            guildMemberPermissions: options.permissions ? (options.permissions.guildMemberPermissions || []) : [],
         };
         this.options = options.options || {};
+        this.slashCommand = options.slashCommand || true;
     }
 };

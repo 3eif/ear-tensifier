@@ -20,6 +20,7 @@ module.exports = class Play extends Command {
 					description: 'play command',
 				},
 			],
+			slashCommand: true,
 		});
 	}
 

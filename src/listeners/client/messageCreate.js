@@ -92,9 +92,9 @@ module.exports = class MessageCreate extends Event {
 
         if (!message.guild && cmd.guildOnly) return message.channel.send('I can\'t execute that command inside DMs!. Please run this command in a server.');
 
-        if (cmd.inVoiceChannel && !message.member.voice.channel) return this.client.responses('noVoiceChannel', message);
-        else if (cmd.sameVoiceChannel && message.guild.me.voice.channel && !message.guild.me.voice.channel.equals(message.member.voice.channel)) return this.client.responses('sameVoiceChannel', message);
-        else if (cmd.playing && !this.client.music.players.get(message.guild.id)) return this.client.responses('noSongsPlaying', message);
+        if (cmd.inVoiceChannel && !message.member.voice.channel) return messageHelper.getResponse('noVoiceChannel');
+        else if (cmd.sameVoiceChannel && message.guild.me.voice.channel && !message.guild.me.voice.channel.equals(message.member.voice.channel)) return messageHelper.getResponse('sameVoiceChannel');
+        else if (cmd.playing && !this.client.music.players.get(message.guild.id)) return messageHelper.getResponse('noSongsPlaying');
 
         if (prefix == this.client.config.prefix) {
             if (!args[0] && cmd.args === true) {
@@ -109,8 +109,8 @@ module.exports = class MessageCreate extends Event {
             return message.channel.send({ embeds: [embed] });
         }
 
-        if (cmd.permission.botPermissions.includes(Discord.Permissions.CONNECT) && !message.member.voice.channel.permissionsFor(this.client.user).has(Discord.Permissions.CONNECT)) return this.client.responses('noPermissionConnect', message);
-        if (cmd.permission.botPermissions.includes(Discord.Permissions.SPEAK) && !message.member.voice.channel.permissionsFor(this.client.user).has(Discord.Permissions.SPEAK)) return this.client.responses('noPermissionSpeak', message);
+        if (cmd.permissions.botPermissions.includes(Discord.Permissions.CONNECT) && !message.member.voice.channel.permissionsFor(this.client.user).has(Discord.Permissions.CONNECT)) return messageHelper.getResponse('noPermissionConnect');
+        if (cmd.permissions.botPermissions.includes(Discord.Permissions.SPEAK) && !message.member.voice.channel.permissionsFor(this.client.user).has(Discord.Permissions.SPEAK)) return messageHelper.getResponse('noPermissionSpeak');
 
         if (!this.client.config.devs.includes(message.author.id)) {
             if (!cooldowns.has(commandName)) {
@@ -141,7 +141,6 @@ module.exports = class MessageCreate extends Event {
         }
 
         try {
-
             cmd.run(this.client, message, args);
         }
         catch (e) {

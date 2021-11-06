@@ -9,6 +9,7 @@ module.exports = class Skip extends Command {
             },
             aliases: ['s', 'next'],
             args: false,
+            slashCommand: true,
         });
     }
 

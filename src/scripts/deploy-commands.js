@@ -12,12 +12,14 @@ commandFiles.forEach(category => {
     categories.forEach(command => {
         const f = require(`../commands/${category}/${command}`);
         const cmd = new f(Client);
-        const data = {
-            name: cmd.name,
-            description: cmd.description.content,
-            options: cmd.options,
-        };
-        commands.push(data);
+        if (cmd.execute) {
+            const data = {
+                name: cmd.name,
+                description: cmd.description.content,
+                options: cmd.options,
+            };
+            commands.push(data);
+        }
     });
 });
 
