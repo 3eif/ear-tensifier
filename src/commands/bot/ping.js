@@ -18,7 +18,7 @@ module.exports = class Ping extends Command {
     }
 
     async execute(client, interaction) {
-        await interaction.reply(`${client.config.emojis.loading} Pinging...`);
-        await interaction.editReply(`Pong! (Latency: ${interaction.createdAt - interaction.createdTimestamp}ms. API Latency: ${Math.round(client.ws.ping)}ms.)`);
+        const msg = await interaction.deferReply({ fetchReply: true });
+        await interaction.editReply(`Pong! (Latency: ${msg.createdTimestamp - interaction.createdTimestamp}ms. API Latency: ${Math.round(client.ws.ping)}ms.)`);
     }
 };
