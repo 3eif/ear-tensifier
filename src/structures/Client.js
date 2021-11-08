@@ -5,6 +5,8 @@ const commandsFodler = fs.readdirSync('./src/commands/');
 const listenersFolder = fs.readdirSync('./src/listeners/');
 const Logger = require('./Logger.js');
 const Bot = require('../models/bot');
+const Manager = require('./Manager.js');
+const formatDuration = require('../../utils/music/formatDuration.js');
 
 module.exports = class Client extends Discord.Client {
     constructor(options) {
@@ -60,6 +62,31 @@ module.exports = class Client extends Discord.Client {
             b.commandsUsed += 1;
             b.save().catch(e => this.client.logger.error(e));
         });
+    }
+
+    createManager() {
+        return new Manager()
+            .on('trackStart', (player, track) => {
+                const embed = new Discord.MessageEmbed()
+                    .setColor(this.client.config.colors.default)
+                    .setAuthor('Now Playing', 'https://cdn.discordapp.com/emojis/673357192203599904.gif?v=1')
+                    .setThumbnail(track.thumbnails[0].url)
+                    .setDescription(`**[${track.title}](${this.client.config.urls.youtube + track.id})** [${formatDuration(track.duration)}]`)
+                    .addField('Author', track.owner_name, true)
+                    .addField('Requested by', `<@${track.requester.id}>`, true)
+                    .setFooter(track.platform)
+                    .setTimestamp();
+                player.textChannel.send({ embeds: [embed] });
+            })
+            .on('trackEnd', (player, track) => {
+                console.log('finished song');
+            })
+            .on('queueEnd', (player, track) => {
+                console.log('queue ended');
+            })
+            .on('error', (e) => {
+                console.log(e);
+            });
     }
 
     async login(token = this.token) {
