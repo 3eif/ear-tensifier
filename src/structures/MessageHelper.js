@@ -66,7 +66,7 @@ module.exports = class MessageHelper {
         return this.server.ignore.includes(this.message.channel.id);
     }
 
-    getResponse(type) {
+    sendResponse(type) {
         switch (type) {
             case 'sameVoiceChannel': {
                 this.message.channel.send('You are not in the same voice channel as the bot.');

@@ -1,5 +1,3 @@
-const { Track } = require('yasha');
-
 module.exports = class Queue extends Array {
     constructor() {
         super();
@@ -8,7 +6,7 @@ module.exports = class Queue extends Array {
     }
 
     add(track, index) {
-        if (!this.current) {
+    if (!this.current) {
             this.current = track;
         }
         else if (typeof index === 'undefined' && typeof index !== 'number') {

@@ -16,5 +16,13 @@
     },
     "emojis": {
         "loading": "<a:t_:902421280148586507>"
+    },
+    "max": {
+        "songsInQueue": "5000",
+        "songsInPlaylist": "5000",
+        "playlists": "500"
+    },
+    "urls": {
+        "youtube": "https://www.youtube.com/watch?v="
     }
 }

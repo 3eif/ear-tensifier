@@ -1,13 +1,12 @@
 const Command = require('../../structures/Command');
 
-module.exports = class Skip extends Command {
+module.exports = class Clear extends Command {
     constructor(client) {
         super(client, {
-            name: 'skip',
+            name: 'clear',
             description: {
-                content: 'Skips the current song.',
+                content: 'Clears all the songs in the queue.',
             },
-            aliases: ['s', 'next'],
             args: false,
             voiceRequirements: {
                 isInVoiceChannel: true,
@@ -20,19 +19,15 @@ module.exports = class Skip extends Command {
 
     async run(client, message) {
         const player = client.music.players.get(message.guild.id);
-        this.skip(player);
-        return message.channel.send('Skipped...');
+        player.queue.clear();
+
+        return message.channel.send('Cleared the queue.');
     }
 
     async execute(client, interaction) {
         const player = client.music.players.get(interaction.guild.id);
-        this.skip(player);
-        await interaction.reply('Skipped...');
-    }
+        player.queue.clear();
 
-    skip(player) {
-        if (player.trackRepeat) player.setTrackRepeat(false);
-        if (player.queueRepeat) player.setQueueRepeat(false);
-        if (player) player.skip();
+        await interaction.reply('Cleared the queue.');
     }
 };

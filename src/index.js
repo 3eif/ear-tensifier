@@ -11,6 +11,7 @@ const Client = require('./structures/Client');
 
 const manager = new ShardingManager(join(__dirname, 'structures', 'Cluster'), {
     client: Client,
+    respawn: false,
     clientOptions: {
         allowedMentions: { parse: ['roles'], repliedUser: false },
         makeCache: Discord.Options.cacheWithLimits({

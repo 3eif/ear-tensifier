@@ -90,8 +90,11 @@ module.exports = class Manager extends EventEmitter {
         let track = await Source.resolve(query);
 
         if (!track) track = (await Source.Youtube.search(query))[0];
-
+        console.log(requester);
         if (!track) throw new Error('No track found');
-        else return track;
+        else {
+            track.requester = requester;
+            return track;
+        }
     }
 };
