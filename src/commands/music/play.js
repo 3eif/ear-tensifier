@@ -42,19 +42,48 @@ module.exports = class Play extends Command {
 
 		if (player.queue.length > client.config.max.songsInQueue) return msg.edit(`You have reached the **maximum** amount of songs (${client.config.max.songsInQueue})`);
 
-		const track = await client.music.search(query, message.author);
+		let result = await client.music.search(query, message.author);
 
-		if (track instanceof TrackPlaylist) {
-			for (let i = 0; i < track.length; i++) {
-				player.queue.add(track[i]);
+		if (result instanceof TrackPlaylist) {
+			let res = result;
+			const firstTrack = res.first_track;
+			let list = [];
+
+			if (firstTrack) list.push(firstTrack);
+
+			while (res && res.length) {
+				if (firstTrack) {
+					for (let i = 0; i < res.length; i++) {
+						if (res[i].equals(firstTrack)) {
+							res.splice(i, 1);
+							break;
+						}
+					}
+				}
+				list = list.concat(res);
+				try {
+					res = await res.next();
+				}
+				catch (e) {
+					console.error(e);
+					throw e;
+				}
 			}
+
+			if (list.length) {
+				for (const track of list) {
+					player.queue.add(track);
+				}
+			}
+
 			if (!player.playing) player.play();
-			return msg.edit({ content: null, embeds: [QueueHelper.queuedEmbed(track.title, client.config.urls.youtube + track.id, track.duration, track.length, message.author, client.config.colors.default)] });
+			return msg.edit({ content: null, embeds: [QueueHelper.queuedEmbed(result.title, client.config.urls.youtube + result.id, result.duration, result.length, message.author, client.config.colors.default)] });
 		}
-		player.queue.add(track);
+
+		player.queue.add(result);
 		if (!player.playing) player.play();
 
-		msg.edit({ content: null, embeds: [QueueHelper.queuedEmbed(track.title, client.config.urls.youtube + track.id, track.duration, null, message.author, client.config.colors.default)] });
+		msg.edit({ content: null, embeds: [QueueHelper.queuedEmbed(result.title, client.config.urls.youtube + result.id, result.duration, null, message.author, client.config.colors.default)] });
 	}
 
 	async execute(client, interaction, args) {
