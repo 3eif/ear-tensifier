@@ -1,3 +1,5 @@
+const { Track: { TrackPlaylist } } = require('yasha');
+
 const Command = require('../../structures/Command');
 const QueueHelper = require('../../structures/QueueHelper');
 
@@ -42,6 +44,13 @@ module.exports = class Play extends Command {
 
 		const track = await client.music.search(query, message.author);
 
+		if (track instanceof TrackPlaylist) {
+			for (let i = 0; i < track.length; i++) {
+				player.queue.add(track[i]);
+			}
+			if (!player.playing) player.play();
+			return msg.edit({ content: null, embeds: [QueueHelper.queuedEmbed(track.title, client.config.urls.youtube + track.id, track.duration, track.length, message.author, client.config.colors.default)] });
+		}
 		player.queue.add(track);
 		if (!player.playing) player.play();
 

@@ -3,6 +3,7 @@ const { Collection } = require('discord.js');
 const EventEmitter = require('events');
 
 const Player = require('../structures/Player');
+const { TrackPlaylist } = require('yasha/src/Track');
 
 module.exports = class Manager extends EventEmitter {
     constructor() {
@@ -16,6 +17,7 @@ module.exports = class Manager extends EventEmitter {
             guild: guild,
             voiceChannel: voiceChannel,
             textChannel: textChannel,
+            external_encrypt: true,
         });
 
         this.players.set(player.guild.id, player);
@@ -93,7 +95,12 @@ module.exports = class Manager extends EventEmitter {
 
         if (!track) throw new Error('No track found');
         else {
-            track.requester = requester;
+            if (track instanceof TrackPlaylist) {
+                track.forEach(t => {
+                    t.requester = requester;
+                });
+            }
+            else track.requester = requester;
             return track;
         }
     }
