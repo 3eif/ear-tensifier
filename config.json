@@ -18,7 +18,7 @@
         "loading": "<a:t_:902421280148586507>"
     },
     "max": {
-        "songsInQueue": "5000",
+        "songsInQueue": "10000",
         "songsInPlaylist": "5000",
         "playlists": "500"
     },

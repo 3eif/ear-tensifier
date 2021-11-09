@@ -42,7 +42,7 @@ module.exports = class Play extends Command {
 
 		if (player.queue.length > client.config.max.songsInQueue) return msg.edit(`You have reached the **maximum** amount of songs (${client.config.max.songsInQueue})`);
 
-		let result = await client.music.search(query, message.author);
+		const result = await client.music.search(query, message.author);
 
 		if (result instanceof TrackPlaylist) {
 			let res = result;
@@ -70,14 +70,19 @@ module.exports = class Play extends Command {
 				}
 			}
 
+			console.log(list.length);
+
 			if (list.length) {
 				for (const track of list) {
+					if (!track.requester) track.requester = message.author;
 					player.queue.add(track);
 				}
 			}
 
+			const totalDuration = list.reduce((acc, cur) => acc + cur.duration, 0);
+
 			if (!player.playing) player.play();
-			return msg.edit({ content: null, embeds: [QueueHelper.queuedEmbed(result.title, client.config.urls.youtube + result.id, result.duration, result.length, message.author, client.config.colors.default)] });
+			return msg.edit({ content: null, embeds: [QueueHelper.queuedEmbed(result.title, client.config.urls.youtube + result.id, totalDuration, list.length, message.author, client.config.colors.default)] });
 		}
 
 		player.queue.add(result);
