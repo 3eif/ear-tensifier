@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 
 const Event = require('../../structures/Event');
 const MessageHelper = require('../../structures/MessageHelper');
-const Command = require('../../models/command');
+const Context = require('../../structures/Context');
 
 const cooldowns = new Discord.Collection();
 
@@ -20,7 +20,9 @@ module.exports = class MessageCreate extends Event {
 
         if (!message.channel.guild) return message.channel.send('I can\'t execute commands inside DMs! Please run this command in a server.');
 
-        const messageHelper = new MessageHelper(this.client, message);
+        const ctx = new Context(message);
+
+        const messageHelper = new MessageHelper(this.client, ctx);
         await messageHelper.getServer();
         await messageHelper.getUser();
 
@@ -58,6 +60,8 @@ module.exports = class MessageCreate extends Event {
             command = args.shift().toLowerCase();
         }
 
+        ctx.setArgs(args);
+
         let cmd;
         if (this.client.commands.has(command)) cmd = this.client.commands.get(command);
         else if (this.client.aliases.has(command)) cmd = this.client.aliases.get(command);
@@ -71,18 +75,7 @@ module.exports = class MessageCreate extends Event {
         // if (process.env.NODE_ENV == 'production') Statcord.ShardingClient.postCommand(commandName, message.author.id, client);
         // TODO: Add statcord
 
-        Command.findOne({ commandName: commandName }).then(async c => {
-            if (!c) {
-                const newCommand = new Command({
-                    commandName: commandName,
-                    timesUsed: 0,
-                });
-                await newCommand.save().catch(e => this.client.logger.error(e));
-                c = await Command.findOne({ commandName: commandName });
-            }
-            c.timesUsed += 1;
-            await c.save().catch(e => this.client.logger.error(e));
-        });
+        await messageHelper.incrementCommandCount(commandName);
 
         if (!cooldowns.has(commandName)) {
             cooldowns.set(commandName, new Discord.Collection());
@@ -134,14 +127,12 @@ module.exports = class MessageCreate extends Event {
             }
         }
 
-        const everyoneMention = '@everyone';
-        const hereMention = '@here';
-        if (messageContent.includes(hereMention) || messageContent.includes(everyoneMention)) {
+        if (messageContent.includes('@here') || messageContent.includes('@everyone')) {
             return message.channel.send('Your argument included an `@here` or `@everyone` which is an invalid argument type.');
         }
 
         try {
-            cmd.run(this.client, message, args);
+            cmd.run(this.client, ctx, ctx.args);
         }
         catch (e) {
             console.error(e);

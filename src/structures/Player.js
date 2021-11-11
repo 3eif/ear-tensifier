@@ -13,11 +13,8 @@ module.exports = class Player extends TrackPlayer {
         this.queueRepeat = false;
 
         this.position = 0;
-
         this.playing = false;
-
         this.paused = false;
-
         this.volume = 1;
 
         this.queue = new Queue();

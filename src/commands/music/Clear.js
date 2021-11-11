@@ -17,18 +17,10 @@ module.exports = class Clear extends Command {
         });
     }
 
-    async run(client, message) {
-        const player = client.music.players.get(message.guild.id);
-        console.log(player.queue.length);
+    async run(client, ctx) {
+        const player = client.music.players.get(ctx.guild.id);
         player.queue.clear();
 
-        return message.channel.send('Cleared the queue.');
-    }
-
-    async execute(client, interaction) {
-        const player = client.music.players.get(interaction.guild.id);
-        player.queue.clear();
-
-        await interaction.reply('Cleared the queue.');
+        return ctx.sendMessage('Cleared the queue.');
     }
 };

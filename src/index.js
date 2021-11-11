@@ -6,6 +6,7 @@ const { init } = require('@sentry/node');
 const mongoose = require('mongoose');
 const Discord = require('discord.js');
 require('custom-env').env(true);
+require('events').defaultMaxListeners = 15;
 
 const Client = require('./structures/Client');
 
@@ -46,7 +47,6 @@ mongoose.connect(process.env.MONGO_URL, {
 });
 
 if (isPrimary) {
-
     if (process.env.NODE_ENV === 'production') {
         if (process.env.TOPGG_TOKEN) {
             const poster = AutoPoster(process.env.TOPGG_TOKEN, manager);

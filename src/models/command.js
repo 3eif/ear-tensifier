@@ -5,4 +5,4 @@ const commandSchema = mongoose.Schema({
     timesUsed: Number,
 });
 
-module.exports = mongoose.model('Command', commandSchema);
+module.exports = mongoose.model('NewCommand', commandSchema);

@@ -18,4 +18,12 @@ module.exports = class QueueHelper {
             .setColor(color);
         return embed;
     }
+
+    static reduceThumbnails(thumbnails) {
+        if (!thumbnails || !thumbnails.length)
+            return undefined;
+        return thumbnails.reduce((best, cur) => {
+            return cur.width > best.width ? cur : best;
+        }).url;
+    }
 };

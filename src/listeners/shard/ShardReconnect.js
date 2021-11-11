@@ -6,6 +6,6 @@ module.exports = class ShardReconnect extends Event {
     }
 
     async run(replayed, shardID) {
-        this.client.logger.awaiting('Shard %d reconnecting', shardID);
+        this.client.logger.await('Shard %d reconnecting', shardID);
     }
 };

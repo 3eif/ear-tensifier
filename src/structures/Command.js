@@ -22,7 +22,7 @@ module.exports = class Command {
             botPermissions: options.permissions ? (options.permissions.botPermissions || []) : [],
             guildMemberPermissions: options.permissions ? (options.permissions.guildMemberPermissions || []) : [],
         };
-        this.options = options.options || {};
+        this.options = options.options || [];
         this.slashCommand = options.slashCommand || true;
     }
 };

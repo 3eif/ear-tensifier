@@ -1,15 +1,15 @@
 const { Permissions } = require('discord.js');
 
-module.exports = async (client, msg, pages, emojiList, timeout, queueLength, queueDuration) => {
-    if (!msg && !msg.channel) throw new Error('Channel is inaccessible.');
+module.exports = async (client, ctx, pages, emojiList, timeout, queueLength, queueDuration) => {
+    if (!ctx && !ctx.channel) throw new Error('Channel is inaccessible.');
     if (!pages) throw new Error('Pages are not given.');
     if (emojiList.length !== 2) throw new Error('Need two emojis.');
 
     let page = 0;
-    const curPage = await msg.channel.send({ embeds: [pages[page].setFooter(`Page ${page + 1}/${pages.length} | ${queueLength} songs | ${queueDuration} total duration`)] });
+    const curPage = await ctx.sendMessage({ embeds: [pages[page].setFooter(`Page ${page + 1}/${pages.length} | ${queueLength} songs | ${queueDuration} total duration`)] });
     if (pages.length == 0) return;
 
-    const permissions = msg.channel.permissionsFor(client.user);
+    const permissions = ctx.channel.permissionsFor(client.user);
     if (!permissions.has(Permissions.FLAGS.ADD_REACTIONS)) return;
 
     for (const emoji of emojiList) await curPage.react(emoji);

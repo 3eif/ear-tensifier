@@ -1,17 +1,18 @@
 const Server = require('../models/server.js');
 const User = require('../models/user.js');
+const Command = require('../models/command');
 
 module.exports = class MessageHelper {
-    constructor(client, message) {
+    constructor(client, ctx) {
         this.client = client;
-        this.message = message;
+        this.ctx = ctx;
     }
 
     async getServer() {
-        this.server = await Server.findOne({ serverID: this.message.guild.id });
+        this.server = await Server.findOne({ serverID: this.ctx.guild.id });
         if (!this.server) {
             const newServer = new Server({
-                serverID: this.message.guild.id,
+                serverID: this.ctx.guild.id,
                 prefix: this.client.config.prefix,
                 ignore: [],
             });
@@ -21,10 +22,10 @@ module.exports = class MessageHelper {
     }
 
     async getUser() {
-        this.user = await User.findOne({ authorID: this.message.author.id });
+        this.user = await User.findOne({ authorID: this.ctx.author.id });
         if (!this.user) {
             const newUser = new User({
-                authorID: this.message.author.id,
+                authorID: this.ctx.author.id,
                 bio: '',
                 songsPlayed: 0,
                 commandsUsed: 1,
@@ -34,7 +35,7 @@ module.exports = class MessageHelper {
                 developer: false,
             });
             await newUser.save().catch(e => this.client.log(e));
-            this.user = await User.findOne({ authorID: this.message.author.id });
+            this.user = await User.findOne({ authorID: this.ctx.author.id });
         }
     }
 
@@ -62,42 +63,59 @@ module.exports = class MessageHelper {
         return this.user.blocked;
     }
 
+    async incrementCommandCount(command) {
+        const commandName = command.toLowerCase();
+        Command.findOne({ commandName: commandName }).then(async c => {
+            if (!c) {
+                const newCommand = new Command({
+                    commandName: commandName,
+                    timesUsed: 1,
+                });
+                await newCommand.save().catch(e => this.client.logger.error(e));
+            }
+            else {
+                c.timesUsed += 1;
+                await c.save().catch(e => this.client.logger.error(e));
+            }
+        });
+    }
+
     isIgnored() {
-        return this.server.ignore.includes(this.message.channel.id);
+        return this.server.ignore.includes(this.ctx.channel.id);
     }
 
     sendResponse(type) {
         switch (type) {
             case 'sameVoiceChannel': {
-                this.message.channel.send('You are not in the same voice channel as the bot.');
+                this.ctx.sendMessage('You are not in the same voice channel as the bot.');
                 break;
             }
             case 'noVoiceChannel': {
-                this.message.channel.send('You need to be in a voice channel to use this command.');
+                this.ctx.sendMessage('You need to be in a voice channel to use this command.');
                 break;
             }
             case 'noSongsPlaying': {
-                this.message.channel.send('There are no songs currently playing, please play a song to use the command.');
+                this.ctx.sendMessage('There are no songs currently playing, please play a song to use the command.');
                 break;
             }
             case 'botVoiceChannel': {
-                this.message.channel.send('The bot is not currently in a vc.');
+                this.ctx.sendMessage('The bot is not currently in a vc.');
                 break;
             }
             case 'noPermissionConnect': {
-                this.message.channel.send('I do not have permission to join your voice channel.');
+                this.ctx.sendMessage('I do not have permission to join your voice channel.');
                 break;
             }
             case 'noPermissionSpeak': {
-                this.message.channel.send('I do not have permission to speak in your voice channel.');
+                this.ctx.sendMessage('I do not have permission to speak in your voice channel.');
                 break;
             }
             case 'noUser': {
-                this.message.channel.send('Please provide a valid user.');
+                this.ctx.sendMessage('Please provide a valid user.');
                 break;
             }
             default: {
-                this.message.channel.send(this.client.error());
+                this.ctx.sendMessage(this.client.error());
             }
         }
     }

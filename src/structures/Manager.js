@@ -1,9 +1,10 @@
 const { Source } = require('yasha');
 const { Collection } = require('discord.js');
 const EventEmitter = require('events');
+const { TrackPlaylist } = require('yasha/src/Track');
 
 const Player = require('../structures/Player');
-const { TrackPlaylist } = require('yasha/src/Track');
+const QueueHelper = require('./QueueHelper');
 
 module.exports = class Manager extends EventEmitter {
     constructor() {
@@ -31,7 +32,7 @@ module.exports = class Manager extends EventEmitter {
         });
 
         player.on('error', (err) => {
-            this.emit('error', err);
+            this.emit('playerError', err);
         });
 
         return player;
@@ -98,9 +99,13 @@ module.exports = class Manager extends EventEmitter {
             if (track instanceof TrackPlaylist) {
                 track.forEach(t => {
                     t.requester = requester;
+                    t.icons = QueueHelper.reduceThumbnails(t.icons);
+                    t.thumbnails = QueueHelper.reduceThumbnails(t.thumbnails);
                 });
             }
-            else track.requester = requester;
+            else {
+                track.requester = requester;
+            }
             return track;
         }
     }

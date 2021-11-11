@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const serverSchema = mongoose.Schema({
-    serverID: String,
     prefix: String,
-    ignore: Array,
-    roleSystem: Boolean,
+    ignoredChannels: Array,
+    defaultVolume: Number,
+    nowPlayingMessages: Boolean,
 });
 
-module.exports = mongoose.model('Server', serverSchema);
+module.exports = mongoose.model('NewServer', serverSchema);

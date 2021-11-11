@@ -9,10 +9,11 @@ module.exports = class Bench extends Command {
                 content: 'Benchmarks the bot.',
             },
             args: false,
+            slashCommand: false,
         });
     }
 
-    async run(client, message, args) {
+    async run(client, ctx, args) {
         const results = await Source.Youtube.search('resonance');
         const track = await results[0];
 
@@ -45,6 +46,6 @@ module.exports = class Bench extends Command {
             last_packets = packets;
         }, 1000);
 
-        return message.channel.send('Benching...');
+        return ctx.sendMessage('Benching...');
     }
 };

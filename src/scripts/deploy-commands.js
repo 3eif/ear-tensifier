@@ -12,7 +12,7 @@ commandFiles.forEach(category => {
     categories.forEach(command => {
         const f = require(`../commands/${category}/${command}`);
         const cmd = new f(Client);
-        if (cmd.execute) {
+        if (cmd.slashCommand) {
             const data = {
                 name: cmd.name,
                 description: cmd.description.content,

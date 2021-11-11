@@ -18,15 +18,10 @@ module.exports = class Pause extends Command {
         });
     }
 
-    async run(client, message) {
-        const player = client.music.players.get(message.guild.id);
+    async run(client, ctx) {
+        const player = client.music.players.get(ctx.guild.id);
 
         player.pause(player.playing);
-        return message.channel.send(`Song is now **${player.playing ? 'resumed' : 'paused'}.**`);
-    }
-
-    async execute(client, interaction) {
-        const msg = await interaction.deferReply({ fetchReply: true });
-        await interaction.editReply(`Pong! (Latency: ${msg.createdTimestamp - interaction.createdTimestamp}ms. API Latency: ${Math.round(client.ws.ping)}ms.)`);
+        return ctx.sendMessage(`Song is now **${player.playing ? 'resumed' : 'paused'}.**`);
     }
 };

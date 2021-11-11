@@ -5,8 +5,6 @@ const commandsFodler = fs.readdirSync('./src/commands/');
 const listenersFolder = fs.readdirSync('./src/listeners/');
 const Logger = require('./Logger.js');
 const Bot = require('../models/bot');
-const Manager = require('./Manager.js');
-const formatDuration = require('../utils/music/formatDuration.js');
 
 module.exports = class Client extends Discord.Client {
     constructor(options) {
@@ -37,12 +35,26 @@ module.exports = class Client extends Discord.Client {
     loadListeners() {
         listenersFolder.forEach(async (eventFolder) => {
             const events = fs.readdirSync(`./src/listeners/${eventFolder}`).filter(c => c.split('.').pop() === 'js');
-            events.forEach(async (eventStr) => {
-                if (!events.length) throw Error('No event files found!');
-                const file = require(`../listeners/${eventFolder}/${eventStr}`);
-                const event = new file(this, file);
-                this.on(eventStr.split('.')[0], (...args) => event.run(...args));
-            });
+            if (eventFolder != 'player') {
+                events.forEach(async (eventStr) => {
+                    if (!events.length) throw Error('No event files found!');
+                    const file = require(`../listeners/${eventFolder}/${eventStr}`);
+                    const event = new file(this, file);
+                    const eventName = eventStr.split('.')[0].charAt(0).toLowerCase() + eventStr.split('.')[0].slice(1);
+                    this.on(eventName, (...args) => event.run(...args));
+                });
+            }
+        });
+    }
+
+    loadPlayerListeners() {
+        const events = fs.readdirSync('./src/listeners/player').filter(c => c.split('.').pop() === 'js');
+        events.forEach(async (eventStr) => {
+            if (!events.length) throw Error('No event files found!');
+            const file = require(`../listeners/player/${eventStr}`);
+            const event = new file(this, file);
+            const eventName = eventStr.split('.')[0].charAt(0).toLowerCase() + eventStr.split('.')[0].slice(1);
+            this.music.on(eventName, (...args) => event.run(...args));
         });
     }
 
@@ -62,31 +74,6 @@ module.exports = class Client extends Discord.Client {
             b.commandsUsed += 1;
             b.save().catch(e => this.logger.error(e));
         });
-    }
-
-    createManager() {
-        return new Manager()
-            .on('trackStart', (player, track) => {
-                const embed = new Discord.MessageEmbed()
-                    .setColor(this.config.colors.default)
-                    .setAuthor('Now Playing', 'https://cdn.discordapp.com/emojis/673357192203599904.gif?v=1')
-                    .setThumbnail(track.thumbnails[0].url)
-                    .setDescription(`**[${track.title}](${this.config.urls.youtube + track.id})** [${formatDuration(track.duration)}]`)
-                    .addField('Author', track.owner_name, true)
-                    .addField('Requested by', `<@${track.requester.id}>`, true)
-                    .setFooter(track.platform)
-                    .setTimestamp();
-                player.textChannel.send({ embeds: [embed] });
-            })
-            .on('trackEnd', (player, track) => {
-                console.log('finished song');
-            })
-            .on('queueEnd', (player, track) => {
-                console.log('queue ended');
-            })
-            .on('error', (e) => {
-                console.log(e);
-            });
     }
 
     async login(token = this.token) {

@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
 const botSchema = mongoose.Schema({
-	clientID: Number,
-	clientName: String,
+	_id: String,
+	username: String,
 	commandsUsed: Number,
 	songsPlayed: Number,
 	lastPosted: Number,
 });
 
-module.exports = mongoose.model('Bot', botSchema);
+module.exports = mongoose.model('NewBot', botSchema);

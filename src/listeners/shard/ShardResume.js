@@ -6,6 +6,6 @@ module.exports = class ShardResume extends Event {
     }
 
     async run(shardID) {
-        this.client.logger.awaiting('Shard %d resuming', shardID);
+        this.client.logger.await('Shard %d resuming', shardID);
     }
 };

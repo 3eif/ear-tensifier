@@ -3,9 +3,9 @@ const mongoose = require('mongoose');
 const playlistSchema = mongoose.Schema({
     name: String,
     songs: Array,
-    timeCreated: Number,
     thumbnail: String,
     creator: String,
+    createdTimestamp: Number,
 });
 
-module.exports = mongoose.model('Playlist', playlistSchema);
+module.exports = mongoose.model('NewPlaylist', playlistSchema);

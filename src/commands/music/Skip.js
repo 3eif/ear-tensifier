@@ -18,21 +18,13 @@ module.exports = class Skip extends Command {
         });
     }
 
-    async run(client, message) {
-        const player = client.music.players.get(message.guild.id);
-        this.skip(player);
-        return message.channel.send('Skipped...');
-    }
+    async run(client, ctx) {
+        const player = client.music.players.get(ctx.guild.id);
 
-    async execute(client, interaction) {
-        const player = client.music.players.get(interaction.guild.id);
-        this.skip(player);
-        await interaction.reply('Skipped...');
-    }
-
-    skip(player) {
         if (player.trackRepeat) player.setTrackRepeat(false);
         if (player.queueRepeat) player.setQueueRepeat(false);
         if (player) player.skip();
+
+        return ctx.sendMessage('Skipped...');
     }
 };
