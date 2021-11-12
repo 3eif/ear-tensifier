@@ -67,13 +67,12 @@ module.exports = class MessageCreate extends Event {
 
         if (await messageHelper.isIgnored() || await messageHelper.isBlacklisted()) return;
 
-        this.client.incrementCommandsUsed();
-
         const commandName = cmd.name.toLowerCase();
         // if (process.env.NODE_ENV == 'production') Statcord.ShardingClient.postCommand(commandName, message.author.id, client);
         // TODO: Add statcord
 
-        await messageHelper.incrementCommandCount(commandName);
+        this.client.databaseHelper.incrementTotalCommandsUsed(this.client);
+        this.client.databaseHelper.incrementTimesCommandUsed(this.client, commandName);
 
         if (!cooldowns.has(commandName)) {
             cooldowns.set(commandName, new Discord.Collection());

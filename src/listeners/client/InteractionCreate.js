@@ -24,7 +24,8 @@ module.exports = class InteractionCreate extends Event {
         await messageHelper.getServer();
         await messageHelper.getUser();
 
-        await messageHelper.incrementCommandCount(commandName);
+        this.client.databaseHelper.incrementTotalCommandsUsed(this.client);
+        this.client.databaseHelper.incrementTimesCommandUsed(this.client, commandName);
 
         if (!cooldowns.has(commandName)) {
             cooldowns.set(commandName, new Discord.Collection());

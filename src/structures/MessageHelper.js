@@ -1,6 +1,5 @@
 const Server = require('../models/Server.js');
 const User = require('../models/User.js');
-const Command = require('../models/command');
 
 module.exports = class MessageHelper {
     constructor(client, ctx) {
@@ -9,12 +8,12 @@ module.exports = class MessageHelper {
     }
 
     async getServer() {
-        this.server = await Server.findOne(this.ctx.guild.id);
+        this.server = await Server.findById(this.ctx.guild.id);
         if (!this.server) {
             const newServer = new Server({
                 _id: this.ctx.guild.id,
                 prefix: this.client.config.prefix,
-                ignore: [],
+                ignoredChannels: [],
             });
             await newServer.save();
             this.server = newServer;
@@ -29,9 +28,7 @@ module.exports = class MessageHelper {
                 bio: '',
                 songsPlayed: 0,
                 commandsUsed: 1,
-                blocked: false,
-                premium: false,
-                pro: false,
+                blacklisted: false,
                 developer: false,
             });
             await newUser.save().catch(e => this.client.log(e));
@@ -59,29 +56,12 @@ module.exports = class MessageHelper {
         if (!this.user.blocked) {
             this.user.commandsUsed += 1;
         }
-        await this.user.save().catch(e => console.error(e));
+        await this.user.updateOne({ commandsUsed: this.user.commandsUsed, blocked: this.user.blocked });
         return this.user.blocked;
     }
 
-    async incrementCommandCount(command) {
-        const commandName = command.toLowerCase();
-        Command.findOne({ commandName: commandName }).then(async c => {
-            if (!c) {
-                const newCommand = new Command({
-                    commandName: commandName,
-                    timesUsed: 1,
-                });
-                await newCommand.save().catch(e => this.client.logger.error(e));
-            }
-            else {
-                c.timesUsed += 1;
-                await c.save().catch(e => this.client.logger.error(e));
-            }
-        });
-    }
-
     isIgnored() {
-        return this.server.ignore.includes(this.ctx.channel.id);
+        return this.server.ignoredChannels.includes(this.ctx.channel.id);
     }
 
     sendResponse(type) {

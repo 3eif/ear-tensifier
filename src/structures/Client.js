@@ -4,7 +4,7 @@ const fs = require('fs');
 const commandsFodler = fs.readdirSync('./src/commands/');
 const listenersFolder = fs.readdirSync('./src/listeners/');
 const Logger = require('./Logger.js');
-const Bot = require('../models/Bot');
+const DatabaseHelper = require('./DatabaseHelper.js');
 
 module.exports = class Client extends Discord.Client {
     constructor(options) {
@@ -17,6 +17,8 @@ module.exports = class Client extends Discord.Client {
             displayTimestamp: true,
             displayDate: true,
         });
+
+        this.databaseHelper = new DatabaseHelper(this);
 
         this.config = require('../../config.json');
     }
@@ -55,24 +57,6 @@ module.exports = class Client extends Discord.Client {
             const event = new file(this, file);
             const eventName = eventStr.split('.')[0].charAt(0).toLowerCase() + eventStr.split('.')[0].slice(1);
             this.music.on(eventName, (...args) => event.run(...args));
-        });
-    }
-
-    incrementCommandsUsed() {
-        Bot.findOne({ clientID: this.user.id }).then(async b => {
-            if (!b) {
-                const newClient = new Bot({
-                    clientID: this.user.id,
-                    clientName: this.user.name,
-                    commandsUsed: 0,
-                    songsPlayed: 0,
-                });
-                await newClient.save().catch(e => this.logger.error(e));
-                b = await Bot.findOne({ clientID: this.user.id });
-            }
-
-            b.commandsUsed += 1;
-            b.save().catch(e => this.logger.error(e));
         });
     }
 
