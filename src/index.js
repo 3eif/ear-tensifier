@@ -9,6 +9,13 @@ require('custom-env').env(true);
 require('events').defaultMaxListeners = 15;
 
 const Client = require('./structures/Client');
+const signale = require('signale');
+
+signale.config({
+    displayFilename: true,
+    displayTimestamp: true,
+    displayDate: false,
+});
 
 const manager = new ShardingManager(join(__dirname, 'structures', 'Cluster'), {
     client: Client,
@@ -51,7 +58,7 @@ if (isPrimary) {
         if (process.env.TOPGG_TOKEN) {
             const poster = AutoPoster(process.env.TOPGG_TOKEN, manager);
             poster.on('posted', (stats) => {
-                console.log(`Posted stats to Top.gg | ${stats.serverCount} servers`);
+                signale.success(`Posted stats to Top.gg | ${stats.serverCount} servers`);
             });
         }
     }
@@ -66,4 +73,4 @@ if (isPrimary) {
 }
 
 
-manager.spawn().catch((err) => console.log(err));
+manager.spawn().catch((err) => signale.error(err));

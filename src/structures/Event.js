@@ -10,7 +10,7 @@ module.exports = class Event {
             await this.run(...args);
         }
         catch (err) {
-            console.error(err);
+            this.client.logger.error(err);
         }
     }
 

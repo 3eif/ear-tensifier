@@ -131,7 +131,7 @@ module.exports = class MessageCreate extends Event {
             cmd.run(this.client, ctx, ctx.args);
         }
         catch (e) {
-            console.error(e);
+            this.client.logger.error(e);
             message.reply('There was an error trying to execute that command!');
         }
     }

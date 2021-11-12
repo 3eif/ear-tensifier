@@ -27,22 +27,22 @@ module.exports = class Bench extends Command {
             p.start();
 
             p.once('packet', () => {
-                console.log('Player benching', ++players);
+                client.logger.debug('Player benching', ++players);
             });
 
             p.once('finish', () => {
-                console.log(--players);
+                client.logger.debug(--players);
             });
 
             p.once('error', (e) => {
-                console.log(e, --players);
+                client.logger.debug(e, --players);
             });
 
             p.on('packet', () => { packets++; });
         }
 
         setInterval(() => {
-            console.log(packets - last_packets, 'packets/sec');
+            client.logger.debug(packets - last_packets, 'packets/sec');
             last_packets = packets;
         }, 1000);
 

@@ -33,7 +33,7 @@ module.exports = class Play extends Command {
 	}
 
 	async run(client, ctx, args) {
-		const msg = await ctx.sendDeferMessage(`${client.config.emojis.typing}  Searching for \`${args.join(' ')}\`...`);
+		await ctx.sendDeferMessage(`${client.config.emojis.typing}  Searching for \`${args.join(' ')}\`...`);
 
 		const query = args.slice(0).join(' ');
 
@@ -43,7 +43,7 @@ module.exports = class Play extends Command {
 			player.connect();
 		}
 
-		if (player.queue.length > client.config.max.songsInQueue) return msg.edit(`You have reached the **maximum** amount of songs (${client.config.max.songsInQueue})`);
+		if (player.queue.length > client.config.max.songsInQueue) return ctx.editMessage(`You have reached the **maximum** amount of songs (${client.config.max.songsInQueue})`);
 
 		let result;
 		try {
@@ -74,7 +74,7 @@ module.exports = class Play extends Command {
 					res = await res.next();
 				}
 				catch (e) {
-					console.error(e);
+					client.logger.error(e);
 					throw e;
 				}
 			}
