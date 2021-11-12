@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const mongoose = require('mongoose');
 require('custom-env').env(true);
 
@@ -68,12 +69,12 @@ const OldServer = mongoose.model('server', serverSchema);
 const OldSong = mongoose.model('song', songSchema);
 const OldUser = mongoose.model('user', userSchema);
 
-const Bot = require('../models/bot');
-const Command = require('../models/command');
-const Playlist = require('../models/playlist');
-const Server = require('../models/server');
-const Song = require('../models/song');
-const User = require('../models/user');
+const Bot = require('../models/Bot');
+const Playlist = require('../models/Playlist');
+const Server = require('../models/Server');
+const Song = require('../models/Song');
+const User = require('../models/User');
+const Track = require('../models/Track');
 
 async function migrateBotsCollection() {
     OldBot.find(async (err, bots) => {
@@ -81,84 +82,163 @@ async function migrateBotsCollection() {
             console.log(err);
         }
         else {
-            for (let i = 0; i < bots.length; i++) {
-                Bot.findById(bots[i].clientID, async (err, bot) => {
-                    if (!bot) {
-                        console.log('Creating new bot');
-                        const newBot = new Bot({
-                            _id: bots[i].clientID,
-                            username: bots[i].clientName,
-                            commandsUsed: bots[i].commandsUsed,
-                            songsPlayed: bots[i].songsPlayed,
-                            lastPosted: bots[i].lastPosted,
-                        });
-                        await newBot.save().catch(e => console.log(e));
+            Bot.findById('472714545723342848', async (err, bot) => {
+                if (!bot) {
+                    return console.log('Bot does not exist.');
+                    // console.log('Creating new bot');
+                    // const newBot = new Bot({
+                    //     _id: bot.clientID,
+                    //     username: bot.clientName,
+                    //     commandsUsed: bot.commandsUsed,
+                    //     songsPlayed: bot.songsPlayed,
+                    //     lastPosted: bot.lastPosted,
+                    // });
+                    // await newBot.save().catch(e => console.log(e));
+                }
+
+                const commands = [];
+                OldCommand.find(async (err, oldCommands) => {
+                    if (err) {
+                        console.log(err);
                     }
                     else {
-                        console.log('Updating bot');
-                        bot.username = bots[i].clientName;
-                        bot.commandsUsed = bots[i].commandsUsed;
-                        bot.songsPlayed = bots[i].songsPlayed;
-                        bot.lastPosted = bots[i].lastPosted;
-                        await bot.save().catch(e => console.log(e));
+                        for (let i = 0; i < oldCommands.length; i++) {
+                            const command = oldCommands[i];
+                            const newCommand = {
+                                _id: command.commandName,
+                                timesUsed: command.timesUsed,
+                            };
+                            commands.push(newCommand);
+                        }
+
+                        console.log('Updating existing bot');
+                        await bot.updateOne({
+                            username: bot.clientName,
+                            commands: commands,
+                            commandsUsed: bot.commandsUsed,
+                            songsPlayed: bot.songsPlayed,
+                            lastPosted: bot.lastPosted,
+                        }).catch(e => console.log(e));
                     }
                 });
-            }
+            });
         }
     });
 }
 
 async function migratePlaylistsCollection() {
-    OldPlaylist.find(async (err, playlists) => {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            for (let i = 0; i < playlists.length; i++) {
-                Playlist.findById(playlists[i]._id, async (err, playlist) => {
-                    const songs = await migrateSongs(playlists[i].songs);
-                    if (!playlist) {
-                        console.log(`${i} Creating new playlist`);
-                        const newPlaylist = new Playlist({
-                            name: playlists[i].name,
-                            songs: songs,
-                            thumbnail: playlists[i].thumbnail,
-                            creator: playlists[i].creator,
-                            createdTimestamp: playlists[i].timeCreated,
-                        });
-                        await newPlaylist.save().catch(e => console.log(e));
-                    }
-                    else {
-                        console.log(`${i} Updating playlist`);
-                        playlist.name = playlists[i].name;
-                        playlist.songs = songs;
-                        playlist.thumbnail = playlists[i].thumbnail;
-                        playlist.creator = playlists[i].creator;
-                        playlist.createdTimestamp = playlists[i].timeCreated;
-                        await playlist.save().catch(e => console.log(e));
-                    }
+    const cursor = OldPlaylist.find().cursor();
+    for (let oldPlaylist = await cursor.next(); oldPlaylist != null; oldPlaylist = await cursor.next()) {
+        Playlist.findById(oldPlaylist._id, async (err, playlist) => {
+            const songs = await migrateTracks(oldPlaylist.songs);
+            if (!playlist) {
+                console.log(`${oldPlaylist._id} Creating new playlist`);
+                const newPlaylist = new Playlist({
+                    name: oldPlaylist.name,
+                    songs: songs,
+                    thumbnail: oldPlaylist.thumbnail,
+                    creator: oldPlaylist.creator,
+                    createdTimestamp: oldPlaylist.timeCreated,
                 });
+                await newPlaylist.save().catch(e => console.log(e));
             }
-        }
-    });
-}
+            else {
+                console.log(`${oldPlaylist._id} Updating existing playlist`);
+                await playlist.updateOne({
+                    name: oldPlaylist.name,
+                    songs: songs,
+                    thumbnail: oldPlaylist.thumbnail,
+                    creator: oldPlaylist.creator,
+                    createdTimestamp: oldPlaylist.timeCreated,
+                }).catch(e => console.log(e));
+            }
+        });
 
-async function migrateSongs(songs) {
-    const newSongs = [];
-    for (let i = 0; i < songs.length; i++) {
-        const song = songs[i];
-        const newSong = {
-            id: song.identifier,
-            title: song.title,
-            url: song.uri,
-            author: song.author,
-            duration: song.duration,
-            thumbnail: song.thumbnail,
-        };
-        newSongs.push(newSong);
     }
-    return newSongs;
 }
 
-// migrateBotsCollection();
+async function migrateTracks(tracks) {
+    const newTracks = [];
+    for (let i = 0; i < tracks.length; i++) {
+        const track = tracks[i];
+        const newTrack = {
+            _id: track.identifier,
+            title: track.title,
+            url: track.uri,
+            author: track.author,
+            duration: track.duration,
+            thumbnail: track.thumbnail,
+            platform: track.type,
+        };
+        newTracks.push(newTrack);
+    }
+    return newTracks;
+}
+
+async function migrateUsersCollection() {
+    const cursor = OldUser.find().cursor();
+    const addedUsers = [];
+    for (let oldUser = await cursor.next(); oldUser != null; oldUser = await cursor.next()) {
+        User.findById(oldUser.authorID, async (err, user) => {
+            if (!user && !addedUsers.includes(oldUser.authorID)) {
+                console.log(`${oldUser._id} Creating new user`);
+                const newUser = new User({
+                    _id: oldUser.authorID,
+                    bio: oldUser.bio,
+                    songsPlayed: oldUser.songsPlayed,
+                    commandsUsed: oldUser.commandsUsed,
+                    blacklisted: oldUser.blocked,
+                    developer: oldUser.developer,
+                });
+                await newUser.save().catch(e => console.log(e));
+            }
+            else {
+                console.log(`${oldUser._id} Updating existing user`);
+                await user.updateOne({
+                    bio: oldUser.bio,
+                    songsPlayed: oldUser.songsPlayed,
+                    commandsUsed: oldUser.commandsUsed,
+                    blacklisted: oldUser.blocked,
+                    developer: oldUser.developer,
+                }).catch(e => console.log(e));
+            }
+            addedUsers.push(oldUser.authorID);
+        });
+    }
+}
+
+async function migrateServersCollection() {
+    const cursor = OldServer.find().cursor();
+    const addedServers = [];
+    for (let oldServer = await cursor.next(); oldServer != null; oldServer = await cursor.next()) {
+        Server.findById(oldServer.serverID, async (err, server) => {
+            if (!server && !addedServers.includes(oldServer.serverID)) {
+                console.log(`${oldServer.serverID} Creating new server`);
+                const newServer = new Server({
+                    _id: oldServer.serverID,
+                    prefix: oldServer.bio,
+                    ignoredChannels: oldServer.songsPlayed,
+                    nowPlayingMessages: true,
+                    defaultVolume: 100,
+                });
+                await newServer.save().catch(e => console.log(e));
+            }
+            else {
+                console.log(`${oldServer.serverID} Updating existing server`);
+                await server.updateOne({
+                    prefix: oldServer.prefix,
+                    ignoredChannels: oldServer.ignoredChannels,
+                    nowPlayingMessages: true,
+                    defaultVolume: 100,
+                }).catch(e => console.log(e));
+            }
+            addedServers.push(oldServer.serverID);
+        });
+    }
+
+}
+
+migrateBotsCollection();
 migratePlaylistsCollection();
+migrateUsersCollection();
+migrateServersCollection();

@@ -4,7 +4,7 @@ const fs = require('fs');
 const commandsFodler = fs.readdirSync('./src/commands/');
 const listenersFolder = fs.readdirSync('./src/listeners/');
 const Logger = require('./Logger.js');
-const Bot = require('../models/bot');
+const Bot = require('../models/Bot');
 
 module.exports = class Client extends Discord.Client {
     constructor(options) {

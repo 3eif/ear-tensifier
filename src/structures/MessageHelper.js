@@ -1,5 +1,5 @@
-const Server = require('../models/server.js');
-const User = require('../models/user.js');
+const Server = require('../models/Server.js');
+const User = require('../models/User.js');
 const Command = require('../models/command');
 
 module.exports = class MessageHelper {
@@ -9,10 +9,10 @@ module.exports = class MessageHelper {
     }
 
     async getServer() {
-        this.server = await Server.findOne({ serverID: this.ctx.guild.id });
+        this.server = await Server.findOne(this.ctx.guild.id);
         if (!this.server) {
             const newServer = new Server({
-                serverID: this.ctx.guild.id,
+                _id: this.ctx.guild.id,
                 prefix: this.client.config.prefix,
                 ignore: [],
             });
@@ -22,10 +22,10 @@ module.exports = class MessageHelper {
     }
 
     async getUser() {
-        this.user = await User.findOne({ authorID: this.ctx.author.id });
+        this.user = await User.findById(this.ctx.author.id);
         if (!this.user) {
             const newUser = new User({
-                authorID: this.ctx.author.id,
+                _id: this.ctx.author.id,
                 bio: '',
                 songsPlayed: 0,
                 commandsUsed: 1,

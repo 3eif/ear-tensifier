@@ -39,7 +39,6 @@ module.exports = class MessageCreate extends Event {
 
         if (prefix === this.client.config.prefix && !this.client.config.prefix.endsWith(' ')) {
             args = messageContent.split(' ');
-            console.log(args.shift().toLowerCase());
             command = args.shift().toLowerCase();
             command = command.slice(this.client.config.prefix.length);
         }
@@ -54,7 +53,6 @@ module.exports = class MessageCreate extends Event {
             command = command.slice(messageHelper.server.prefix.length);
         }
         else {
-            console.log('4');
             args = messageContent.split(' ');
             args.shift();
             command = args.shift().toLowerCase();

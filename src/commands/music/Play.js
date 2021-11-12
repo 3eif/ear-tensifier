@@ -79,8 +79,6 @@ module.exports = class Play extends Command {
 				}
 			}
 
-			console.log(list.length);
-
 			if (list.length) {
 				for (const track of list) {
 					if (!track.requester) track.requester = ctx.author;
