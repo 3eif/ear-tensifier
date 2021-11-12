@@ -18,7 +18,7 @@ module.exports = class QueueEnd extends Event {
                 msg = 'Consider voting for it **[here](https://top.gg/bot/472714545723342848/vote)**.';
                 break;
             case 2:
-                msg = 'Consider becoming a Patreon supporter **[here](https://www.patreon.com/eartensifier)**';
+                msg = 'Consider becoming a Patreon supporter **[here](https://www.patreon.com/eartensifier)**.';
                 break;
 
             default:

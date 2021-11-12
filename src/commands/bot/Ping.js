@@ -14,7 +14,7 @@ module.exports = class Ping extends Command {
     }
 
     async run(client, ctx) {
-        const msg = await ctx.sendDeferMessage(`${client.config.emojis.loading} Pinging...`);
+        const msg = await ctx.sendDeferMessage(`${client.config.emojis.typing} Pinging...`);
         return ctx.editMessage(`Pong! (Latency: ${msg.createdTimestamp - ctx.createdTimestamp}ms. API Latency: ${Math.round(client.ws.ping)}ms.)`);
     }
 };

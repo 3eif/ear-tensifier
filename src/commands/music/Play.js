@@ -33,7 +33,7 @@ module.exports = class Play extends Command {
 	}
 
 	async run(client, ctx, args) {
-		const msg = await ctx.sendDeferMessage(`${client.config.emojis.loading}  Searching for \`${args.join(' ')}\`...`);
+		const msg = await ctx.sendDeferMessage(`${client.config.emojis.typing}  Searching for \`${args.join(' ')}\`...`);
 
 		const query = args.slice(0).join(' ');
 

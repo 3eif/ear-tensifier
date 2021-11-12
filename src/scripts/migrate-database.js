@@ -125,13 +125,16 @@ async function migrateBotsCollection() {
 async function migratePlaylistsCollection() {
     const cursor = OldPlaylist.find().cursor();
     for (let oldPlaylist = await cursor.next(); oldPlaylist != null; oldPlaylist = await cursor.next()) {
-        Playlist.findById(oldPlaylist._id, async (err, playlist) => {
-            const songs = await migrateTracks(oldPlaylist.songs);
+        Playlist.findOne({
+            name: oldPlaylist.name,
+            creator: oldPlaylist.owner,
+        }, async (err, playlist) => {
+            const tracks = await migrateTracks(oldPlaylist.songs);
             if (!playlist) {
                 signale.pending('%s Creating new playlist', oldPlaylist._id);
                 const newPlaylist = new Playlist({
                     name: oldPlaylist.name,
-                    songs: songs,
+                    tracks: tracks,
                     thumbnail: oldPlaylist.thumbnail,
                     creator: oldPlaylist.creator,
                     createdTimestamp: oldPlaylist.timeCreated,
@@ -142,7 +145,7 @@ async function migratePlaylistsCollection() {
                 signale.pending('%s Updating existing playlist', oldPlaylist._id);
                 await playlist.updateOne({
                     name: oldPlaylist.name,
-                    songs: songs,
+                    tracks: tracks,
                     thumbnail: oldPlaylist.thumbnail,
                     creator: oldPlaylist.creator,
                     createdTimestamp: oldPlaylist.timeCreated,

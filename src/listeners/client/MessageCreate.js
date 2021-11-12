@@ -26,8 +26,6 @@ module.exports = class MessageCreate extends Event {
         await messageHelper.createServer();
         await messageHelper.createUser();
 
-        console.log(ctx);
-
         const mentionPrefix = new RegExp(`^<@!?${this.client.user.id}>( |)$`);
         const rawMessageContent = message.content.toLowerCase();
 

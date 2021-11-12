@@ -15,7 +15,16 @@
         "removed": "#E74C3C"
     },
     "emojis": {
-        "loading": "<a:t_:902421280148586507>"
+        "channel": "<:earchannel:908723485789020160>",
+        "chat": "<:earchat:908722429852024842>",
+        "loading": "<a:earloading:908723485705121793>",
+        "locked": "<:earlocked:908724089269649478>",
+        "nochannelperms": "<:earnochannelperms:908723485818368050>",
+        "novoiceperms": "<:earnovoiceperms:908723485860319302>",
+        "search": "<:earsearch:908722429667446866>",
+        "success": "<:earsuccess:908728690664439808>",
+        "typing": "<a:eartyping:908723802563837993>",
+        "voice": "<a:earvoice:908723485768048710>"
     },
     "max": {
         "songsInQueue": "10000",

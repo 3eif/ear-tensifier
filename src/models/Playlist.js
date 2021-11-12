@@ -3,7 +3,7 @@ const Track = require('./Track');
 
 const PlaylistSchema = new Schema({
     name: String,
-    songs: [Track],
+    tracks: [Track],
     thumbnail: { type: String, default: null },
     creator: String,
     createdTimestamp: Number,
