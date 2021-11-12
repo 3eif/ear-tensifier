@@ -103,7 +103,7 @@ module.exports = class Create extends Command {
                 url: tracksToAdd[i].url,
                 author: tracksToAdd[i].owner_name,
                 duration: tracksToAdd[i].duration,
-                thumbnail: tracksToAdd[i].thumbnails[0].url,
+                thumbnail: tracksToAdd[i].thumbnail,
                 platform: tracksToAdd[i].platform,
                 playable: tracksToAdd[i].playable,
             };

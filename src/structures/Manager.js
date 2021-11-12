@@ -99,12 +99,14 @@ module.exports = class Manager extends EventEmitter {
             if (track instanceof TrackPlaylist) {
                 track.forEach(t => {
                     t.requester = requester;
-                    t.icons = QueueHelper.reduceThumbnails(t.icons);
-                    t.thumbnails = QueueHelper.reduceThumbnails(t.thumbnails);
+                    t.icon = QueueHelper.reduceThumbnails(t.icons);
+                    t.thumbnail = QueueHelper.reduceThumbnails(t.thumbnails);
                 });
             }
             else {
                 track.requester = requester;
+                track.icon = QueueHelper.reduceThumbnails(track.icons);
+                track.thumbnail = QueueHelper.reduceThumbnails(track.thumbnails);
             }
             return track;
         }

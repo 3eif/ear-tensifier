@@ -3,7 +3,7 @@ const { MessageEmbed } = require('discord.js');
 const Command = require('../../structures/Command');
 const Playlist = require('../../models/Playlist');
 const formatDuration = require('../../utils/music/formatDuration');
-// const PlaylistTrack = require('../../structures/PlaylistTrack');
+const PlaylistTrack = require('../../structures/PlaylistTrack');
 
 module.exports = class Load extends Command {
     constructor(client) {
@@ -21,7 +21,7 @@ module.exports = class Load extends Command {
             options: [
                 {
                     name: 'playlist',
-                    type : 3,
+                    type: 3,
                     required: true,
                     description: 'The playlist\'s name.',
                 },
@@ -64,19 +64,20 @@ module.exports = class Load extends Command {
                     url: track.url,
                     duration: track.duration,
                     thumbnail: track.thumbnail,
-                    author: track.author,
+                    owner_name: track.author,
                     platform: track.platform,
+                    requester: ctx.author,
                 }));
 
+                console.log(tracksToAdd[0]);
 
-                client.logger.debug(tracksToAdd);
+
                 let tracksQueued = 0;
                 const queueAllSongs = new Promise((resolve) => {
-                    for (let i = 0; i < tracksToAdd; i++) {
+                    for (let i = 0; i < tracksToAdd.length; i++) {
                         player.queue.add(tracksToAdd[i]);
                         tracksQueued++;
                         if (!player.playing && !player.paused && !player.queue.length) player.play();
-                        client.logger.debug(i + ' - ' + tracksToAdd.length - 1);
                         if (i == tracksToAdd.length - 1 || player.queue.length >= client.config.max.songsInQueue) resolve();
                     }
                 });
