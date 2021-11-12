@@ -7,29 +7,23 @@ module.exports = class MessageHelper {
         this.ctx = ctx;
     }
 
-    async getServer() {
+    async createServer() {
         this.server = await Server.findById(this.ctx.guild.id);
         if (!this.server) {
             const newServer = new Server({
                 _id: this.ctx.guild.id,
-                prefix: this.client.config.prefix,
-                ignoredChannels: [],
             });
             await newServer.save();
             this.server = newServer;
         }
     }
 
-    async getUser() {
+    async createUser() {
         this.user = await User.findById(this.ctx.author.id);
         if (!this.user) {
             const newUser = new User({
                 _id: this.ctx.author.id,
-                bio: '',
-                songsPlayed: 0,
                 commandsUsed: 1,
-                blacklisted: false,
-                developer: false,
             });
             await newUser.save().catch(e => this.client.log(e));
             this.user = await User.findOne({ authorID: this.ctx.author.id });

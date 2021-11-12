@@ -90,18 +90,7 @@ async function migrateBotsCollection() {
         }
         else {
             Bot.findById('472714545723342848', async (err, bot) => {
-                if (!bot) {
-                    return signale.error('Bot does not exist.');
-                    // signale.pending('Creating new bot');
-                    // const newBot = new Bot({
-                    //     _id: bot.clientID,
-                    //     username: bot.clientName,
-                    //     commandsUsed: bot.commandsUsed,
-                    //     songsPlayed: bot.songsPlayed,
-                    //     lastPosted: bot.lastPosted,
-                    // });
-                    // await newBot.save().catch(e => signale.error(e));
-                }
+                if (!bot) return signale.error('Bot does not exist.');
 
                 const commands = [];
                 OldCommand.find(async (err, oldCommands) => {
@@ -225,8 +214,6 @@ async function migrateServersCollection() {
                     _id: oldServer.serverID,
                     prefix: oldServer.bio,
                     ignoredChannels: oldServer.songsPlayed,
-                    nowPlayingMessages: true,
-                    defaultVolume: 100,
                 });
                 await newServer.save().catch(e => signale.error(e));
             }
@@ -235,8 +222,6 @@ async function migrateServersCollection() {
                 await server.updateOne({
                     prefix: oldServer.prefix,
                     ignoredChannels: oldServer.ignoredChannels,
-                    nowPlayingMessages: true,
-                    defaultVolume: 100,
                 }).catch(e => signale.error(e));
             }
             addedServers.push(oldServer.serverID);

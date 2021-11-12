@@ -23,8 +23,10 @@ module.exports = class MessageCreate extends Event {
         const ctx = new Context(message);
 
         const messageHelper = new MessageHelper(this.client, ctx);
-        await messageHelper.getServer();
-        await messageHelper.getUser();
+        await messageHelper.createServer();
+        await messageHelper.createUser();
+
+        console.log(ctx);
 
         const mentionPrefix = new RegExp(`^<@!?${this.client.user.id}>( |)$`);
         const rawMessageContent = message.content.toLowerCase();
@@ -71,7 +73,6 @@ module.exports = class MessageCreate extends Event {
         // if (process.env.NODE_ENV == 'production') Statcord.ShardingClient.postCommand(commandName, message.author.id, client);
         // TODO: Add statcord
 
-        this.client.databaseHelper.incrementTotalCommandsUsed(this.client);
         this.client.databaseHelper.incrementTimesCommandUsed(this.client, commandName);
 
         if (!cooldowns.has(commandName)) {
