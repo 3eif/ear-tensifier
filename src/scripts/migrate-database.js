@@ -1,6 +1,13 @@
 /* eslint-disable no-unused-vars */
 const mongoose = require('mongoose');
+const signale = require('signale');
 require('custom-env').env(true);
+
+signale.config({
+    displayFilename: true,
+    displayTimestamp: true,
+    displayDate: false,
+});
 
 mongoose.connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
@@ -79,13 +86,13 @@ const Track = require('../models/Track');
 async function migrateBotsCollection() {
     OldBot.find(async (err, bots) => {
         if (err) {
-            console.log(err);
+            signale.error(err);
         }
         else {
             Bot.findById('472714545723342848', async (err, bot) => {
                 if (!bot) {
-                    return console.log('Bot does not exist.');
-                    // console.log('Creating new bot');
+                    return signale.error('Bot does not exist.');
+                    // signale.pending('Creating new bot');
                     // const newBot = new Bot({
                     //     _id: bot.clientID,
                     //     username: bot.clientName,
@@ -93,13 +100,13 @@ async function migrateBotsCollection() {
                     //     songsPlayed: bot.songsPlayed,
                     //     lastPosted: bot.lastPosted,
                     // });
-                    // await newBot.save().catch(e => console.log(e));
+                    // await newBot.save().catch(e => signale.error(e));
                 }
 
                 const commands = [];
                 OldCommand.find(async (err, oldCommands) => {
                     if (err) {
-                        console.log(err);
+                        signale.error(err);
                     }
                     else {
                         for (let i = 0; i < oldCommands.length; i++) {
@@ -111,14 +118,14 @@ async function migrateBotsCollection() {
                             commands.push(newCommand);
                         }
 
-                        console.log('Updating existing bot');
+                        signale.pending('Updating existing bot');
                         await bot.updateOne({
                             username: bot.clientName,
                             commands: commands,
                             commandsUsed: bot.commandsUsed,
                             songsPlayed: bot.songsPlayed,
                             lastPosted: bot.lastPosted,
-                        }).catch(e => console.log(e));
+                        }).catch(e => signale.error(e));
                     }
                 });
             });
@@ -132,7 +139,7 @@ async function migratePlaylistsCollection() {
         Playlist.findById(oldPlaylist._id, async (err, playlist) => {
             const songs = await migrateTracks(oldPlaylist.songs);
             if (!playlist) {
-                console.log(`${oldPlaylist._id} Creating new playlist`);
+                signale.pending('%s Creating new playlist', oldPlaylist._id);
                 const newPlaylist = new Playlist({
                     name: oldPlaylist.name,
                     songs: songs,
@@ -140,17 +147,17 @@ async function migratePlaylistsCollection() {
                     creator: oldPlaylist.creator,
                     createdTimestamp: oldPlaylist.timeCreated,
                 });
-                await newPlaylist.save().catch(e => console.log(e));
+                await newPlaylist.save().catch(e => signale.error(e));
             }
             else {
-                console.log(`${oldPlaylist._id} Updating existing playlist`);
+                signale.pending('%s Updating existing playlist', oldPlaylist._id);
                 await playlist.updateOne({
                     name: oldPlaylist.name,
                     songs: songs,
                     thumbnail: oldPlaylist.thumbnail,
                     creator: oldPlaylist.creator,
                     createdTimestamp: oldPlaylist.timeCreated,
-                }).catch(e => console.log(e));
+                }).catch(e => signale.error(e));
             }
         });
 
@@ -181,7 +188,7 @@ async function migrateUsersCollection() {
     for (let oldUser = await cursor.next(); oldUser != null; oldUser = await cursor.next()) {
         User.findById(oldUser.authorID, async (err, user) => {
             if (!user && !addedUsers.includes(oldUser.authorID)) {
-                console.log(`${oldUser._id} Creating new user`);
+                signale.pending('%s Creating new user', oldUser.authorID);
                 const newUser = new User({
                     _id: oldUser.authorID,
                     bio: oldUser.bio,
@@ -190,17 +197,17 @@ async function migrateUsersCollection() {
                     blacklisted: oldUser.blocked,
                     developer: oldUser.developer,
                 });
-                await newUser.save().catch(e => console.log(e));
+                await newUser.save().catch(e => signale.error(e));
             }
             else {
-                console.log(`${oldUser._id} Updating existing user`);
+                signale.pending('%s Updating existing user', oldUser.authorID);
                 await user.updateOne({
                     bio: oldUser.bio,
                     songsPlayed: oldUser.songsPlayed,
                     commandsUsed: oldUser.commandsUsed,
                     blacklisted: oldUser.blocked,
                     developer: oldUser.developer,
-                }).catch(e => console.log(e));
+                }).catch(e => signale.error(e));
             }
             addedUsers.push(oldUser.authorID);
         });
@@ -213,7 +220,7 @@ async function migrateServersCollection() {
     for (let oldServer = await cursor.next(); oldServer != null; oldServer = await cursor.next()) {
         Server.findById(oldServer.serverID, async (err, server) => {
             if (!server && !addedServers.includes(oldServer.serverID)) {
-                console.log(`${oldServer.serverID} Creating new server`);
+                signale.pending('%s Creating new server', oldServer.serverID);
                 const newServer = new Server({
                     _id: oldServer.serverID,
                     prefix: oldServer.bio,
@@ -221,16 +228,16 @@ async function migrateServersCollection() {
                     nowPlayingMessages: true,
                     defaultVolume: 100,
                 });
-                await newServer.save().catch(e => console.log(e));
+                await newServer.save().catch(e => signale.error(e));
             }
             else {
-                console.log(`${oldServer.serverID} Updating existing server`);
+                signale.pending('%s Updating existing server', oldServer.serverID);
                 await server.updateOne({
                     prefix: oldServer.prefix,
                     ignoredChannels: oldServer.ignoredChannels,
                     nowPlayingMessages: true,
                     defaultVolume: 100,
-                }).catch(e => console.log(e));
+                }).catch(e => signale.error(e));
             }
             addedServers.push(oldServer.serverID);
         });
