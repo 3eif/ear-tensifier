@@ -23,6 +23,7 @@ module.exports = class Command {
             guildMemberPermissions: options.permissions ? (options.permissions.guildMemberPermissions || []) : [],
         };
         this.options = options.options || [];
-        this.slashCommand = options.slashCommand || true;
+        this.slashCommand = options.slashCommand || false;
+        this.guildOnly = options.guildOnly || false;
     }
 };

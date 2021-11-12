@@ -4,7 +4,9 @@ module.exports = class Loop extends Command {
     constructor(client) {
         super(client, {
             name: 'loop',
-            description: 'Repeats the current queue/song.',
+            description: {
+                content: 'Loops the current queue/song (song is looped by default if no argument is provided).',
+            },
             aliases: ['repeat', 'unloop'],
             usage: '<queue/song>',
             cooldown: '4',
@@ -15,10 +17,14 @@ module.exports = class Loop extends Command {
             },
             options: [
                 {
-                    name: 'songORqueue',
-                    type: 3,
-                    required: false,
-                    description: 'Whether to loop the queue or current song.',
+                    name: 'queue',
+                    description: 'Loops the queue.',
+                    type: 1,
+                },
+                {
+                    name: 'song',
+                    description: 'Loops the current song.',
+                    type: 1,
                 },
             ],
             slashCommand: true,

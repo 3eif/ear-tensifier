@@ -13,9 +13,8 @@ module.exports = class MessageCreate extends Event {
 
     async run(message) {
         if (message.author.bot) return;
-        if (message.channel.type === 'GUILD_TEXT') {
-            if (!message.guild.members.cache.get(this.client.user.id)) await message.guild.members.fetch(this.client.user.id);
-            if (!message.channel.permissionsFor(message.guild.me).missing(Discord.Permissions.FLAGS.SEND_MESSAGES)) return;
+        if (message.channel.type === 'GUILD_TEXT' && !message.guild.members.cache.get(this.client.user.id)) {
+            await message.guild.members.fetch(this.client.user.id);
         }
 
         if (!message.channel.guild) return message.channel.send('I can\'t execute commands inside DMs! Please run this command in a server.');
@@ -78,6 +77,26 @@ module.exports = class MessageCreate extends Event {
         }
 
         if (cmd.permissions.permission === 'dev' && !this.client.config.devs.includes(message.author.id)) return;
+
+        if (cmd.permissions.botPermissions.length > 0) {
+            const missingPermissions = cmd.permissions.botPermissions.filter(perm => !message.guild.me.permissions.has(perm));
+            if (missingPermissions.length > 0) {
+                if (missingPermissions.includes(Discord.Permissions.FLAGS.SEND_MESSAGES)) {
+                    const user = this.client.users.cache.get('id');
+                    if (!user) return;
+                    else if (!user.dmChannel) await user.createDM();
+                    await user.dmChannel.send(`I don't have the required permissions to execute this command. Missing permissions: ${missingPermissions.join(', ')}`);
+                }
+                return message.channel.send(`I don't have the required permissions to execute this command. Missing permissions: ${missingPermissions.join(', ')}`);
+            }
+        }
+
+        if (cmd.permissions.userPermissions.length > 0) {
+            const missingPermissions = cmd.permissions.userPermissions.filter(perm => !message.member.permissions.has(perm));
+            if (missingPermissions.length > 0) {
+                return message.channel.send(`You don't have the required permissions to execute this command. Missing permissions: ${missingPermissions.join(', ')}`);
+            }
+        }
 
         if (!message.guild && cmd.guildOnly) return message.channel.send('I can\'t execute that command inside DMs!. Please run this command in a server.');
 

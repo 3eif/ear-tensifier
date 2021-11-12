@@ -2,6 +2,7 @@ const { Track: { TrackPlaylist } } = require('yasha');
 
 const Command = require('../../structures/Command');
 const QueueHelper = require('../../structures/QueueHelper');
+const { Permissions } = require('discord.js');
 
 module.exports = class Play extends Command {
 	constructor(client) {
@@ -11,9 +12,9 @@ module.exports = class Play extends Command {
 				content: 'Plays a song or playlist.',
 				usage: '<search query>',
 				examples: [
-					'ear play resonance',
-					'ear play https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-					'ear play https://open.spotify.com/track/5hVghJ4KaYES3BFUATCYn0?si=44452e03da534c75',
+					'resonance',
+					'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+					'https://open.spotify.com/track/5hVghJ4KaYES3BFUATCYn0?si=44452e03da534c75',
 				],
 			},
 			args: true,
@@ -28,6 +29,9 @@ module.exports = class Play extends Command {
 					description: 'The query to search for.',
 				},
 			],
+			permissions: {
+				botPermissions: [Permissions.FLAGS.CONNECT, Permissions.FLAGS.SPEAK],
+			},
 			slashCommand: true,
 		});
 	}

@@ -1,5 +1,8 @@
+const { MessageButton, MessageActionRow } = require('discord.js');
+
 const Server = require('../models/Server.js');
 const User = require('../models/User.js');
+const { emojis } = require('../../config.json');
 
 module.exports = class MessageHelper {
     constructor(client, ctx) {
@@ -92,5 +95,59 @@ module.exports = class MessageHelper {
                 this.ctx.sendMessage(this.client.error());
             }
         }
+    }
+
+
+    static async paginate(ctx, pages, timeout, buttonRow) {
+        if (pages.length < 2) return;
+
+        let page = 0;
+
+        const buttons = buttonRow ? buttonRow : new MessageActionRow()
+            .addComponents(
+                new MessageButton()
+                    .setCustomId('back')
+                    .setLabel('Back')
+                    .setStyle('PRIMARY')
+                    .setEmoji(emojis.left),
+                new MessageButton()
+                    .setCustomId('next')
+                    .setLabel('Next')
+                    .setStyle('PRIMARY')
+                    .setEmoji(emojis.right),
+            );
+
+        const message = await ctx.sendMessage({
+            embeds: [pages[page]],
+            components: [buttons],
+            fetchReply: true,
+        });
+
+        const interactionCollector = message.createMessageComponentCollector({ max: pages.length * 2 });
+
+        interactionCollector.on('collect', async (interaction) => {
+            if (interaction.component.customId === 'prev') {
+                if (page === 0) return;
+                page--;
+            }
+            else if (interaction.component.customId === 'next') {
+                if (page === pages.length - 1) return;
+                page++;
+            }
+
+
+            await interaction.update({
+                embeds: [pages[page]],
+            });
+        });
+
+        interactionCollector.on('end', async () => {
+            await message.edit({ components: [] });
+        });
+
+        setTimeout(async () => {
+            interactionCollector.stop('Timeout');
+            await message.edit({ components: [] });
+        }, timeout ? timeout : 300000);
     }
 };

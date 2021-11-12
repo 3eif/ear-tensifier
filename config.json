@@ -24,7 +24,9 @@
         "search": "<:earsearch:908722429667446866>",
         "success": "<:earsuccess:908728690664439808>",
         "typing": "<a:eartyping:908723802563837993>",
-        "voice": "<a:earvoice:908723485768048710>"
+        "voice": "<a:earvoice:908723485768048710>",
+        "left": "<:earleft:908791059360927784>",
+        "right": "<:earright:908791059390271558>"
     },
     "max": {
         "songsInQueue": "10000",
