@@ -21,6 +21,7 @@ module.exports = class InteractionCreate extends Event {
         const ctx = new Context(interaction, interaction.options.data);
 
         const messageHelper = new MessageHelper(this.client, ctx);
+        ctx.messageHelper = messageHelper;
         await messageHelper.createServer();
         await messageHelper.createUser();
 
@@ -33,6 +34,28 @@ module.exports = class InteractionCreate extends Event {
         }
 
         if (cmd.permissions.permission === 'dev' && !this.client.config.devs.includes(interaction.user.id)) return;
+
+        const permissionHelpMessage = `If you need help configuring the correct permissions for the bot join the support server: ${this.client.config.support}`;
+        cmd.permissions.botPermissions.concat(['SEND_MESSAGES', 'EMBED_LINKS']);
+        if (cmd.permissions.botPermissions.length > 0) {
+            const missingPermissions = cmd.permissions.botPermissions.filter(perm => !interaction.guild.me.permissions.has(perm));
+            if (missingPermissions.length > 0) {
+                if (missingPermissions.includes('SEND_MESSAGES')) {
+                    const user = this.client.users.cache.get('id');
+                    if (!user) return;
+                    else if (!user.dmChannel) await user.createDM();
+                    await user.dmChannel.send(`I don't have the required permissions to execute this command. Missing permission(s): **${missingPermissions.join(', ')}**\n${permissionHelpMessage}`);
+                }
+                return interaction.reply(`I don't have the required permissions to execute this command. Missing permission(s): **${missingPermissions.join(', ')}**\n${permissionHelpMessage}`);
+            }
+        }
+
+        if (cmd.permissions.userPermissions.length > 0) {
+            const missingPermissions = cmd.permissions.userPermissions.filter(perm => !interaction.member.permissions.has(perm));
+            if (missingPermissions.length > 0) {
+                return interaction.reply(`You don't have the required permissions to execute this command. Missing permission(s): **${missingPermissions.join(', ')}**`);
+            }
+        }
 
         if (cmd.voiceRequirements.isInVoiceChannel && !interaction.member.voice.channel) return messageHelper.sendResponse('noVoiceChannel');
         else if (cmd.voiceRequirements.isInSameVoiceChannel && interaction.guild.me.voice.channel && !interaction.guild.me.voice.channel.equals(interaction.member.voice.channel)) return messageHelper.sendResponse('sameVoiceChannel');

@@ -22,13 +22,14 @@ module.exports = class MessageCreate extends Event {
         const ctx = new Context(message);
 
         const messageHelper = new MessageHelper(this.client, ctx);
+        ctx.messageHelper = messageHelper;
         await messageHelper.createServer();
         await messageHelper.createUser();
 
         const mentionPrefix = new RegExp(`^<@!?${this.client.user.id}>( |)$`);
         const rawMessageContent = message.content.toLowerCase();
 
-        const prefix = await messageHelper.getPrefix(rawMessageContent, mentionPrefix);
+        const prefix = await messageHelper.getPrefixFromMessage(rawMessageContent, mentionPrefix);
         if (!prefix) return;
 
         let args;

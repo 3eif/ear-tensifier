@@ -39,8 +39,7 @@
     "kurasuta": "^3.0.1",
     "mongoose": "^6.0.12",
     "signale": "^1.4.0",
-    "topgg-autoposter": "^2.0.0",
-    "yasha": "github:ilikdoge/yasha"
+    "topgg-autoposter": "^2.0.0"
   },
   "devDependencies": {
     "eslint": "^8.1.0"

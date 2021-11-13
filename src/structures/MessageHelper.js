@@ -33,7 +33,13 @@ module.exports = class MessageHelper {
         }
     }
 
-    async getPrefix(rawMessageContent, mentionPrefix) {
+    async getPrefix() {
+        this.server = await Server.findById(this.ctx.guild.id);
+        if (!this.server) await this.createServer();
+        return this.server.prefix;
+    }
+
+    async getPrefixFromMessage(rawMessageContent, mentionPrefix) {
         if (rawMessageContent.indexOf(this.client.config.prefix) === 0) {
             return this.client.config.prefix;
         }
