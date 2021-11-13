@@ -20,8 +20,8 @@ signale.config({
 const manager = new ShardingManager(join(__dirname, 'structures', 'Cluster'), {
     client: Client,
     respawn: false,
-    clusterCount: 2,
-    shardCount: 2,
+    // clusterCount: 2,
+    // shardCount: 4,
     clientOptions: {
         allowedMentions: { parse: ['roles'], repliedUser: false },
         makeCache: Discord.Options.cacheWithLimits({

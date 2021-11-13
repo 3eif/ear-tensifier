@@ -111,4 +111,8 @@ module.exports = class Manager extends EventEmitter {
             return track;
         }
     }
+
+    getPlayingPlayers() {
+        return this.players.filter(p => p.playing);
+    }
 };

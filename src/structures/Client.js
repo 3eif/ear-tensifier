@@ -23,16 +23,6 @@ module.exports = class Client extends Discord.Client {
         this.config = require('../../config.json');
     }
 
-    async guildCount() {
-        const count = await this.shard.fetchClientValues('guilds.cache.size');
-        return count.reduce((a, b) => a + b, 0);
-    }
-
-    async channelCount() {
-        const count = await this.shard.fetchClientValues('channels.cache.size');
-        return count.reduce((a, b) => a + b, 0);
-    }
-
     loadCommands() {
         commandsFodler.forEach(category => {
             const categories = fs.readdirSync(`./src/commands/${category}/`);
