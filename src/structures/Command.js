@@ -18,9 +18,9 @@ module.exports = class Command {
             isPlaying: options.voiceRequirements ? (options.voiceRequirements.isPlaying || false) : false,
         };
         this.permissions = {
-            userPermissions: options.permissions ? (options.permissions.userPermissions || []) : [],
+            dev: options.permissions ? (options.permissions.dev || false) : false,
             botPermissions: options.permissions ? (options.permissions.botPermissions || []) : [],
-            guildMemberPermissions: options.permissions ? (options.permissions.guildMemberPermissions || []) : [],
+            userPermissions: options.permissions ? (options.permissions.userPermissions || []) : [],
         };
         this.options = options.options || [];
         this.slashCommand = options.slashCommand || false;

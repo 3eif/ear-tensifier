@@ -79,7 +79,7 @@ module.exports = class MessageCreate extends Event {
             cooldowns.set(commandName, new Discord.Collection());
         }
 
-        if (cmd.permissions.permission === 'dev' && !this.client.config.devs.includes(message.author.id)) return;
+        if (cmd.permissions.dev && !this.client.config.devs.includes(message.author.id)) return;
 
         const permissionHelpMessage = `If you need help configuring the correct permissions for the bot join the support server: ${this.client.config.server}`;
         cmd.permissions.botPermissions.concat(['SEND_MESSAGES', 'EMBED_LINKS']);
