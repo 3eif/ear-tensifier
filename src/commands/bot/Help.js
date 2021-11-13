@@ -10,7 +10,7 @@ module.exports = class Help extends Command {
         super(client, {
             name: 'help',
             description: {
-                content: 'Sends you a detailed list of Ear Tensifier\'s commands.',
+                content: 'Sends you a detailed list of the bot\'s commands.',
                 usage: '[comamnd]',
                 examples: ['', 'play', 'seek'],
             },
