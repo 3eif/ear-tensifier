@@ -33,8 +33,8 @@ module.exports = class Help extends Command {
 
         const embed = new MessageEmbed()
             .setAuthor('Commands', client.user.displayAvatarURL())
-            .setDescription(`A detailed list of commands can be found here: [eartensifier.net/commands](https://eartensifier.net/commands)\nNeed more help? Join the support server [here](${client.config.support})`)
-            .setFooter(`For more information: ${prefix}help <command>`)
+            .setDescription(`A detailed list of commands can be found here: **[eartensifier.net/commands](https://eartensifier.net/commands)**.\nNeed more help? Join the support server here: **[${client.config.server.replace('https://', '')}](${client.config.server})**.`)
+            .setFooter(`For more information on a command: ${prefix}help <command>`)
             .setColor(client.config.colors.default);
 
         if (!args.length) {
@@ -60,7 +60,6 @@ module.exports = class Help extends Command {
             });
 
             await ctx.sendMessage({ embeds: [embed] });
-            await ctx.followUp(`Need more help? Join the support server: ${client.config.support}`);
         }
         else {
             if (!commands.has(args[0])) return ctx.sendMessage('That\'s not a valid command!');

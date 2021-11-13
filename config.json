@@ -1,7 +1,11 @@
 {
     "prefix": "ear ",
-    "support": "https://discord.gg/xKgKMAP",
+    "website": "https://eartensifier.net/",
+    "server": "https://discord.gg/xKgKMAP",
     "patreon": "https://www.patreon.com/eartensifier",
+    "invite": "https://discord.com/oauth2/authorize?client_id=472714545723342848&scope=bot%20applications.commands&permissions=3460160",
+    "review": "https://bots.ondiscord.xyz/bots/472714545723342848/review",
+    "vote": "https://top.gg/bot/472714545723342848/vote",
     "devs": [
         "275831434772742144"
     ],

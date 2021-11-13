@@ -35,7 +35,7 @@ module.exports = class InteractionCreate extends Event {
 
         if (cmd.permissions.permission === 'dev' && !this.client.config.devs.includes(interaction.user.id)) return;
 
-        const permissionHelpMessage = `If you need help configuring the correct permissions for the bot join the support server: ${this.client.config.support}`;
+        const permissionHelpMessage = `If you need help configuring the correct permissions for the bot join the support server: ${this.client.config.server}`;
         cmd.permissions.botPermissions.concat(['SEND_MESSAGES', 'EMBED_LINKS']);
         if (cmd.permissions.botPermissions.length > 0) {
             const missingPermissions = cmd.permissions.botPermissions.filter(perm => !interaction.guild.me.permissions.has(perm));
