@@ -78,29 +78,27 @@ module.exports = class MessageCreate extends Event {
 
         if (cmd.permissions.permission === 'dev' && !this.client.config.devs.includes(message.author.id)) return;
 
-        // cmd.permissions.botPermissions.concat([Discord.Permissions.FLAGS.SEND_MESSAGES, Discord.Permissions.FLAGS.EMBED_LINKS]);
-        // if (cmd.permissions.botPermissions.length > 0) {
-        //     const missingPermissions = [];
-        //     cmd.permissions.botPermissions.forEach(permission => {
-        //         if
-        //     if (missingPermissions.length > 0) {
-        //         console.log(missingPermissions);
-        //         if (missingPermissions.includes(Discord.Permissions.FLAGS.SEND_MESSAGES)) {
-        //             const user = this.client.users.cache.get('id');
-        //             if (!user) return;
-        //             else if (!user.dmChannel) await user.createDM();
-        //             await user.dmChannel.send(`I don't have the required permissions to execute this command. Missing permissions: ${missingPermissions.join(', ')}`);
-        //         }
-        //         return message.channel.send(`I don't have the required permissions to execute this command. Missing permissions: ${missingPermissions.join(', ')}`);
-        //     }
-        // }
+        const permissionHelpMessage = `If you need help configuring the correct permissions for the bot join the support server: ${this.client.config.support}`;
+        cmd.permissions.botPermissions.concat(['SEND_MESSAGES', 'EMBED_LINKS']);
+        if (cmd.permissions.botPermissions.length > 0) {
+            const missingPermissions = cmd.permissions.botPermissions.filter(perm => !message.guild.me.permissions.has(perm));
+            if (missingPermissions.length > 0) {
+                if (missingPermissions.includes('SEND_MESSAGES')) {
+                    const user = this.client.users.cache.get('id');
+                    if (!user) return;
+                    else if (!user.dmChannel) await user.createDM();
+                    await user.dmChannel.send(`I don't have the required permissions to execute this command. Missing permission(s): **${missingPermissions.join(', ')}**\n${permissionHelpMessage}`);
+                }
+                return message.channel.send(`I don't have the required permissions to execute this command. Missing permission(s): **${missingPermissions.join(', ')}**\n${permissionHelpMessage}`);
+            }
+        }
 
-        // if (cmd.permissions.userPermissions.length > 0) {
-        //     const missingPermissions = cmd.permissions.userPermissions.filter(perm => !message.member.permissions.has(perm));
-        //     if (missingPermissions.length > 0) {
-        //         return message.channel.send(`You don't have the required permissions to execute this command. Missing permissions: ${missingPermissions.join(', ')}`);
-        //     }
-        // }
+        if (cmd.permissions.userPermissions.length > 0) {
+            const missingPermissions = cmd.permissions.userPermissions.filter(perm => !message.member.permissions.has(perm));
+            if (missingPermissions.length > 0) {
+                return message.channel.send(`You don't have the required permissions to execute this command. Missing permission(s): **${missingPermissions.join(', ')}**`);
+            }
+        }
 
         if (!message.guild && cmd.guildOnly) return message.channel.send('I can\'t execute that command inside DMs!. Please run this command in a server.');
 

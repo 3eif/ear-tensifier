@@ -1,4 +1,4 @@
-const { Track, Source } = require('yasha');
+const { Source } = require('yasha');
 
 module.exports = class PlaylistTrack {
     constructor(track) {
@@ -6,7 +6,7 @@ module.exports = class PlaylistTrack {
         this.title = track.title;
         this.duration = track.duration;
         this.thumbnail = track.thumbnail;
-        this.owner_name = track.owner_name;
+        this.author = track.author;
         this.platform = track.platform;
         this.requester = track.requester;
         this.url = track.url;

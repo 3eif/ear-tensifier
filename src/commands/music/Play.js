@@ -2,7 +2,6 @@ const { Track: { TrackPlaylist } } = require('yasha');
 
 const Command = require('../../structures/Command');
 const QueueHelper = require('../../structures/QueueHelper');
-const { Permissions } = require('discord.js');
 
 module.exports = class Play extends Command {
 	constructor(client) {
@@ -30,7 +29,7 @@ module.exports = class Play extends Command {
 				},
 			],
 			permissions: {
-				botPermissions: [Permissions.FLAGS.CONNECT, Permissions.FLAGS.SPEAK],
+				botPermissions: ['CONNECT', 'SPEAK'],
 			},
 			slashCommand: true,
 		});

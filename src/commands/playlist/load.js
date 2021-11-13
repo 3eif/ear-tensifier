@@ -64,7 +64,7 @@ module.exports = class Load extends Command {
                     url: track.url,
                     duration: track.duration,
                     thumbnail: track.thumbnail,
-                    owner_name: track.author,
+                    author: track.author,
                     platform: track.platform,
                     requester: ctx.author,
                 }));

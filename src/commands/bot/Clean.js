@@ -1,5 +1,3 @@
-const { Permissions } = require('discord.js');
-
 const Command = require('../../structures/Command');
 
 module.exports = class Clean extends Command {
@@ -15,8 +13,8 @@ module.exports = class Clean extends Command {
             args: false,
             slashCommand: false,
             permissions: {
-                userPermissions: [Permissions.FLAGS.MANAGE_MESSAGES],
-                botPermissions: [Permissions.FLAGS.MANAGE_MESSAGES],
+                userPermissions: ['MANAGE_MESSAGES'],
+                botPermissions: ['MANAGE_MESSAGES'],
             },
         });
     }
