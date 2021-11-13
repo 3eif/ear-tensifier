@@ -15,6 +15,10 @@ module.exports = class Shards extends Command {
     }
     async run(client, ctx) {
 
+        client.logger.debug(ctx.guild);
+        client.logger.debug(client.shard.shardCount);
+        client.logger.debug(client.shard.clusterCount);
+
         const promises = [
             client.shard.fetchClientValues('guilds.cache.size'),
             client.shard.broadcastEval(c => c.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0)),
@@ -39,14 +43,11 @@ module.exports = class Shards extends Command {
 
         let totalPlayers = 0;
         let totalPlayingPlayers = 0;
-        let totalShards = 0;
         shardInfo.forEach(i => {
             const status = i.status === 'online' ? client.config.emojis.online : client.config.emojis.offline;
             embed.addField(`${status} Cluster ${(parseInt(i.id)).toString()}`, `\`\`\`js
 Shards: ${i.shards.length}\nServers: ${i.guilds.toLocaleString()}\nChannels: ${i.channels.toLocaleString()}\nUsers: ${i.members.toLocaleString()}
-Memory: ${Number(i.memoryUsage).toLocaleString()} MB\nAPI: ${i.ping.toLocaleString()} ms\nPlayers: ${i.playingPlayers.toLocaleString()} / ${i.players.toLocaleString()}\`\`\``, true);
-
-            totalShards += i.shards.length;
+Memory: ${Number(i.memoryUsage).toLocaleString()} MB\nAPI: ${i.ping.toLocaleString()} ms\nPlaying Players: ${i.playingPlayers.toLocaleString()}\nPlayers: ${i.players.toLocaleString()}\`\`\``, true);
             totalPlayers += i.players;
             totalPlayingPlayers += i.playingPlayers;
         });
@@ -66,7 +67,7 @@ Memory: ${Number(i.memoryUsage).toLocaleString()} MB\nAPI: ${i.ping.toLocaleStri
 
                 embed.setDescription(`This guild is currently on **Shard ${ctx.guild.shardId}** and **Cluster ${client.shard.id}**.`);
                 embed.addField(client.config.emojis.online + ' Total Stats', `\`\`\`js
-Total Shards: ${totalShards}\nTotal Servers: ${totalGuilds.toLocaleString()}\nTotal Channels: ${totalChannels.toLocaleString()}\nTotal Users: ${totalMembers.toLocaleString()}\nTotal Memory: ${totalMemory.toFixed(2)} MB\nAvg API Latency: ${avgLatency} ms\nTotal Players: ${totalPlayingPlayers} / ${totalPlayers}\`\`\``);
+Total Servers: ${totalGuilds.toLocaleString()}\nTotal Channels: ${totalChannels.toLocaleString()}\nTotal Users: ${totalMembers.toLocaleString()}\nTotal Memory: ${totalMemory.toFixed(2)} MB\nAvg API Latency: ${avgLatency} ms\nTotal Players: ${totalPlayers}\nTotal Playing Players: ${tpt}\`\`\``);
                 embed.setTimestamp();
                 ctx.sendMessage({ embeds: [embed] });
             });
