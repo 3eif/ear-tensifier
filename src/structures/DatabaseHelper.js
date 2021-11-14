@@ -38,11 +38,11 @@ module.exports = class DatabaseHelper {
         if (!command) return;
         Bot.findById(this.client.user.id).then(async bot => {
             if (!bot) {
-                const newBot = new Bot({ _id: this.client.user.id, username: this.client.name, commands: [{ name: command.name, timesUsed: 1 }], commandsUsed: 1, songsPlayed: 0 });
+                const newBot = new Bot({ _id: this.client.user.id, username: this.client.name, commands: [{ _id: command.name, timesUsed: 1 }], commandsUsed: 1, songsPlayed: 0 });
                 await newBot.save().catch(e => this.logger.error(e));
             }
             else {
-                const commandIndex = bot.commands.findIndex(c => c.name === command.name);
+                const commandIndex = bot.commands.findIndex(c => c._id === command.name);
                 if (commandIndex === -1) {
                     bot.updateOne({ commands: [...bot.commands, { _id: command.name, timesUsed: 1 }] }).catch(e => this.logger.error(e));
                 }

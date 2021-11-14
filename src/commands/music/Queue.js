@@ -2,7 +2,6 @@ const { MessageEmbed } = require('discord.js');
 
 const Command = require('../../structures/Command');
 const formatDuration = require('../../utils/music/formatDuration');
-const MessageHelper = require('../../structures/MessageHelper');
 
 module.exports = class Queue extends Command {
     constructor(client) {
@@ -59,7 +58,7 @@ module.exports = class Queue extends Command {
         }
 
         if (!args[0]) {
-            if (pages.length == pagesNum && player.queue.length > 10) await MessageHelper.paginate(ctx, pages);
+            if (pages.length == pagesNum && player.queue.length > 10) await ctx.messageHelper.paginate(pages);
             else return ctx.sendMessage({ embeds: [pages[0]] });
         }
         else {

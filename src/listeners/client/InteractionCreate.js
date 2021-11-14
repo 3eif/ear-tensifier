@@ -27,7 +27,7 @@ module.exports = class InteractionCreate extends Event {
 
         if (await messageHelper.isIgnored() || await messageHelper.isBlacklisted()) return;
 
-        this.client.databaseHelper.incrementTimesCommandUsed(this.client, commandName);
+        this.client.databaseHelper.incrementTimesCommandUsed(commandName);
 
         if (!cooldowns.has(commandName)) {
             cooldowns.set(commandName, new Discord.Collection());

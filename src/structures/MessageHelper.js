@@ -104,7 +104,7 @@ module.exports = class MessageHelper {
     }
 
 
-    static async paginate(ctx, pages, timeout, buttonRow) {
+    async paginate(pages, timeout, buttonRow) {
         if (pages.length < 2) return;
 
         let page = 0;
@@ -123,7 +123,7 @@ module.exports = class MessageHelper {
                     .setEmoji(emojis.right),
             );
 
-        const message = await ctx.sendMessage({
+        const message = await this.ctx.sendMessage({
             embeds: [pages[page]],
             components: [buttons],
             fetchReply: true,
