@@ -89,8 +89,22 @@ module.exports = class Manager extends EventEmitter {
         this.players.delete(guild.id);
     }
 
-    async search(query, requester) {
-        let track = await Source.resolve(query);
+    async search(query, requester, source) {
+        let track;
+        switch (source) {
+            case 'soundcloud':
+                track = await Source.Soundcloud.search(query);
+                break;
+            case 'spotify':
+                track = await Source.Spotify.search(query);
+                break;
+            case 'youtube':
+                track = await Source.Youtube.search(query);
+                break;
+            default:
+                track = await Source.resolve(query);
+                break;
+        }
 
         if (!track) track = (await Source.Youtube.search(query))[0];
 

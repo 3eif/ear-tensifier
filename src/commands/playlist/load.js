@@ -31,7 +31,7 @@ module.exports = class Load extends Command {
     }
 
     async run(client, ctx, args) {
-        await ctx.sendDeferMessage(`${client.config.emojis.typing}  Queueing playlist (This might take a few seconds.)...`);
+        await ctx.sendDeferMessage(`${client.config.emojis.typing} Queueing playlist (This might take a few seconds.)...`);
 
         let player = client.music.players.get(ctx.guild.id);
         if (!player) {
