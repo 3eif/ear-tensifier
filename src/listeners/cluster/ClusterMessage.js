@@ -27,19 +27,20 @@ module.exports = class ClusterMessage extends Event {
                 }
                 break;
             case 'reboot':
-                switch (message.shard) {
+                switch (message.cluster) {
                     case 'all':
-                        this.logger.warn('Rebooting all shards');
-                        this.client.shard.restartAll();
+                        this.logger.warn('Rebooting all clusters');
+                        sharder.clusters.forEach(c => c.kill());
+                        sharder.spawn();
                         break;
                     default:
-                        this.logger.warn('Rebooting shard %d', message.shard);
-                        this.client.shard.restart(message.shard);
+                        this.logger.warn('Rebooting cluster %d', message.cluster);
+                        sharder.clusters.get(Number(message.cluster)).respawn();
                         break;
                 }
                 break;
             default:
-                this.logger.warn('Unknown message type: %s', message.type);
+                this.logger.error('Unknown message type: %s', message.type);
                 break;
         }
     }
