@@ -48,7 +48,7 @@ module.exports = class Help extends Command {
 
                 for (let i = 0; i < commandsFile.length; i++) {
                     const command = commands.get(commandsFile[i].split('.')[0].toLowerCase());
-                    if (!command.hide) {
+                    if (command && !command.hide) {
                         if (i < commandsFile.length - 1) helpCommands.push(`\`${command.name}\`,  `);
                         else helpCommands.push(`\`${command.name}\``);
                     }

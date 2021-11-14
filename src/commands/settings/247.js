@@ -11,6 +11,7 @@ module.exports = class TwentyFourSeven extends Command {
             voiceRequirements: {
                 inVoiceChannel: true,
             },
+            slashCommand: true,
         });
     }
     async run(client, ctx) {
