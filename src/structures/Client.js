@@ -65,6 +65,29 @@ module.exports = class Client extends Discord.Client {
         });
     }
 
+    reloadCommand(categoryName, commandName) {
+        try {
+            const command = this.commands.get(commandName) || this.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+            if (!command) return;
+
+            const commandFileName = command.name.charAt(0).toUpperCase() + command.name.slice(1);
+            delete require.cache[require.resolve(`../commands/${categoryName}/${commandFileName}.js`)];
+            this.commands.delete(command.name);
+
+            const newFile = require(`../commands/${categoryName}/${commandFileName}.js`);
+            const newCommand = new newFile(this, newFile);
+            this.commands.set(newCommand.name, newCommand);
+            if (newCommand.aliases && Array.isArray(newCommand.aliases)) {
+                for (const alias of newCommand.aliases) {
+                    this.aliases.set(alias, newCommand);
+                }
+            }
+        }
+        catch (error) {
+            this.logger.error(error);
+        }
+    }
+
     async login(token = this.token) {
         super.login(token);
 

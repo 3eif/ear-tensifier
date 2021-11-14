@@ -11,6 +11,7 @@ module.exports = class ClusterMessage extends Event {
     }
 
     async run(sharder, message) {
+        if (!sharder || !message) return;
         switch (message.type) {
             case 'shutdown':
                 switch (message.cluster) {
