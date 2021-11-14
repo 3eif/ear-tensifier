@@ -24,7 +24,7 @@ module.exports = class Bio extends Command {
             if (!u) return;
 
             u.bio = args.join(' ');
-            u.save().catch(e => client.logger.error(e));
+            u.updateOne({ bio: args.join(' ') }).catch(err => client.log(err));
 
             return ctx.editMessage(`Succesfully set your bio to \`${args.join(' ')}\``);
         });
