@@ -55,12 +55,12 @@ module.exports = class MessageHelper {
     }
 
     async isBlacklisted() {
-        if (this.user.blocked == null) this.user.blocked = false;
-        if (!this.user.blocked) {
+        if (this.user.blacklisted == null) this.user.blacklisted = false;
+        if (!this.user.blacklisted) {
             this.user.commandsUsed += 1;
+            await this.user.updateOne({ commandsUsed: this.user.commandsUsed });
         }
-        await this.user.updateOne({ commandsUsed: this.user.commandsUsed, blocked: this.user.blocked });
-        return this.user.blocked;
+        return this.user.blacklisted;
     }
 
     isIgnored() {

@@ -14,11 +14,6 @@ module.exports = class Shards extends Command {
         });
     }
     async run(client, ctx) {
-
-        client.logger.debug(ctx.guild);
-        client.logger.debug(client.shard.shardCount);
-        client.logger.debug(client.shard.clusterCount);
-
         const promises = [
             client.shard.fetchClientValues('guilds.cache.size'),
             client.shard.broadcastEval(c => c.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0)),
@@ -67,7 +62,7 @@ Memory: ${Number(i.memoryUsage).toLocaleString()} MB\nAPI: ${i.ping.toLocaleStri
 
                 embed.setDescription(`This guild is currently on **Shard ${ctx.guild.shardId}** and **Cluster ${client.shard.id}**.`);
                 embed.addField(client.config.emojis.online + ' Total Stats', `\`\`\`js
-Total Servers: ${totalGuilds.toLocaleString()}\nTotal Channels: ${totalChannels.toLocaleString()}\nTotal Users: ${totalMembers.toLocaleString()}\nTotal Memory: ${totalMemory.toFixed(2)} MB\nAvg API Latency: ${avgLatency} ms\nTotal Players: ${totalPlayers}\nTotal Playing Players: ${tpt}\`\`\``);
+Total Servers: ${totalGuilds.toLocaleString()}\nTotal Channels: ${totalChannels.toLocaleString()}\nTotal Users: ${totalMembers.toLocaleString()}\nTotal Memory: ${totalMemory.toFixed(2)} MB\nAvg API Latency: ${avgLatency} ms\nTotal Players: ${totalPlayers}\nTotal Playing Players: ${totalPlayingPlayers}\`\`\``);
                 embed.setTimestamp();
                 ctx.sendMessage({ embeds: [embed] });
             });

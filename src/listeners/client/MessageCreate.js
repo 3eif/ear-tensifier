@@ -19,8 +19,6 @@ module.exports = class MessageCreate extends Event {
 
         if (!message.channel.guild) return message.channel.send('I can\'t execute commands inside DMs! Please run this command in a server.');
 
-        if (message.author.id != '275831434772742144') return;
-
         const ctx = new Context(message);
 
         const messageHelper = new MessageHelper(this.client, ctx);
