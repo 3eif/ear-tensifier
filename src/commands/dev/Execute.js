@@ -29,6 +29,8 @@ module.exports = class Execute extends Command {
             const { stdout } = await exec(command);
             const output = clean(stdout);
 
+            if (output.includes(process.env.DISCORD_TOKEN)) return ctx.editMessage('Cannot run command since the token will be leaked.');
+
             if (output.length < 2048) {
                 const embed = new MessageEmbed()
                     .addField('Input', `\`\`\`bash\n${command}\`\`\``)

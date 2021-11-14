@@ -20,8 +20,8 @@ signale.config({
 const manager = new ShardingManager(join(__dirname, 'structures', 'Cluster'), {
     client: Client,
     respawn: false,
-    // clusterCount: 2,
-    // shardCount: 4,
+    clusterCount: 3,
+    shardCount: 4,
     clientOptions: {
         allowedMentions: { parse: ['roles'], repliedUser: false },
         makeCache: Discord.Options.cacheWithLimits({
@@ -74,5 +74,6 @@ if (isPrimary) {
     }
 }
 
-
 manager.spawn().catch((err) => signale.error(err));
+const ClusterMessage = require('./listeners/cluster/ClusterMessage');
+manager.on('message', (message) => new ClusterMessage(this, ClusterMessage).run(manager, message));

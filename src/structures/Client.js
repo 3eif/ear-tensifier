@@ -13,7 +13,7 @@ module.exports = class Client extends Discord.Client {
         this.commands = new Discord.Collection();
         this.aliases = new Discord.Collection();
 
-        this.logger = new Logger(this, {
+        this.logger = new Logger({
             displayTimestamp: true,
             displayDate: true,
         });

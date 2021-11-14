@@ -2,7 +2,7 @@ const { Signale } = require('signale');
 const { isMaster } = require('cluster');
 
 module.exports = class Logger extends Signale {
-	constructor(client, config) {
+	constructor(config) {
 		super({
 			config: config,
 			types: {
