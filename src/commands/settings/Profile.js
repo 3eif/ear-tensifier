@@ -21,10 +21,10 @@ module.exports = class Profile extends Command {
         if (!user) return ctx.editMessage('User not found');
 
         User.findById(user.id, async (err, u) => {
-            if (err) client.log(err);
+            if (err) client.logger.error(err);
             if (!u) {
                 const newUser = new User({ _id: user.id });
-                newUser.save().catch(e => client.log(e));
+                newUser.save().catch(e => client.logger.error(e));
 
                 const embed = new MessageEmbed()
                     .setThumbnail(user.user.displayAvatarURL())

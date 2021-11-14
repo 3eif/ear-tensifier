@@ -30,7 +30,7 @@ module.exports = class Blacklist extends Command {
                     _id: user.id,
                     blacklisted: true,
                 });
-                newUser.save().catch(e => client.log(e));
+                newUser.save().catch(e => client.logger.error(e));
             }
             else if (u.blacklisted) {
                 ctx.sendMessage(`${user.username} is already blacklisted.`);

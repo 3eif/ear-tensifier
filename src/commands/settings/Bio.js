@@ -20,11 +20,11 @@ module.exports = class Bio extends Command {
         await ctx.sendDeferMessage(`${client.config.emojis.typing} Setting bio...`);
 
         User.findById(ctx.author.id, async (err, u) => {
-            if (err) client.log(err);
+            if (err) client.logger.error(err);
             if (!u) return;
 
             u.bio = args.join(' ');
-            u.updateOne({ bio: args.join(' ') }).catch(err => client.log(err));
+            u.updateOne({ bio: args.join(' ') }).catch(err => client.logger.error(err));
 
             return ctx.editMessage(`Succesfully set your bio to \`${args.join(' ')}\``);
         });

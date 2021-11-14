@@ -28,7 +28,7 @@ module.exports = class MessageHelper {
                 _id: this.ctx.author.id,
                 commandsUsed: 1,
             });
-            await newUser.save().catch(e => this.client.log(e));
+            await newUser.save().catch(e => this.client.logger.error(e));
             this.user = await User.findOne({ authorID: this.ctx.author.id });
         }
     }

@@ -20,7 +20,7 @@ module.exports = class Charts extends Command {
         await ctx.sendDeferMessage(`${client.config.emojis.typing} Fetching most played songs...`);
 
         Song.find().sort([['timesPlayed', 'descending']]).exec(async (err, res) => {
-            if (err) client.log(err);
+            if (err) client.logger.error(err);
             const songsArr = [];
 
             if (res.length < 10) return ctx.editMessage('More songs must be aggregated in order for this command to function.');

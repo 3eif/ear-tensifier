@@ -45,7 +45,7 @@ module.exports = class Stats extends Command {
         }));
 
         Bot.findById(client.user.id, async (err, b) => {
-            if (err) client.log(err);
+            if (err) client.logger.error(err);
             Promise.all(promises)
                 .then(results => {
                     const totalGuilds = results[0].reduce((prev, guildCount) => prev + guildCount, 0);
