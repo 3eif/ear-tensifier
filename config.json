@@ -43,6 +43,7 @@
         "playlists": "500"
     },
     "urls": {
-        "youtube": "https://www.youtube.com/watch?v="
+        "youtube": "https://www.youtube.com/watch?v=",
+        "spotify": "https://open.spotify.com"
     }
 }

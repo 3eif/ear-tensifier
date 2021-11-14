@@ -12,6 +12,8 @@ module.exports = class Player extends TrackPlayer {
         this.trackRepeat = false;
         this.queueRepeat = false;
 
+        this.stayInVoice = false;
+
         this.position = 0;
         this.playing = false;
         this.paused = false;
@@ -92,6 +94,8 @@ module.exports = class Player extends TrackPlayer {
     }
 
     destroy() {
+        if (this.stayInVoice) return;
+
         if (this.connection) this.disconnect();
         super.destroy();
 

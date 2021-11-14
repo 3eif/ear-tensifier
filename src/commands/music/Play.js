@@ -17,7 +17,7 @@ module.exports = class Play extends Command {
 					'sc resonance',
 				],
 			},
-			aliases: ['p', 'youtube', 'spotify', 'soundcloud', 'tocar'],
+			aliases: ['p', 'tocar'],
 			args: true,
 			voiceRequirements: {
 				isInVoiceChannel: true,
@@ -26,47 +26,8 @@ module.exports = class Play extends Command {
 				{
 					name: 'query',
 					type: 3,
-					required: false,
+					required: true,
 					description: 'The query to search for.',
-				},
-				{
-					name: 'soundcloud',
-					description: 'Plays a song from soundcloud.',
-					type: 1,
-					options: [
-						{
-							name: 'query',
-							type: 3,
-							required: true,
-							description: 'The query to search for.',
-						},
-					],
-				},
-				{
-					name: 'youtube',
-					description: 'Plays a song from youtube.',
-					type: 1,
-					options: [
-						{
-							name: 'query',
-							type: 3,
-							required: true,
-							description: 'The query to search for.',
-						},
-					],
-				},
-				{
-					name: 'spotify',
-					description: 'Plays a song from spotify.',
-					type: 1,
-					options: [
-						{
-							name: 'link',
-							type: 3,
-							required: true,
-							description: 'A Spotify link for a song, playlist, or album.',
-						},
-					],
 				},
 			],
 			permissions: {
@@ -146,12 +107,12 @@ module.exports = class Play extends Command {
 
 			const totalDuration = list.reduce((acc, cur) => acc + cur.duration, 0);
 
-			if (!player.playing) player.play();
+			if (!player.playing && !player.paused) player.play();
 			return ctx.editMessage({ content: null, embeds: [QueueHelper.queuedEmbed(result.title, result.url, totalDuration, list.length, ctx.author, client.config.colors.default)] });
 		}
 
 		player.queue.add(result);
-		if (!player.playing) player.play();
+		if (!player.playing && !player.paused) player.play();
 
 		ctx.editMessage({ content: null, embeds: [QueueHelper.queuedEmbed(result.title, result.url, result.duration, null, ctx.author, client.config.colors.default)] });
 	}

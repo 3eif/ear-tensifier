@@ -25,11 +25,9 @@ module.exports = class Queue extends Command {
     }
 
     async run(client, ctx, args) {
-        let player = client.music.players.get(ctx.guild.id);
-        if (!player) {
-            player = client.music.newPlayer(ctx.guild, ctx.member.voice.channel, ctx.channel);
-            player.connect();
-        }
+        const player = client.music.players.get(ctx.guild.id);
+
+        if (!player.queue.current) return ctx.sendMessage('There is nothing currently playing.');
 
         const { title, requester, duration, url } = player.queue.current;
 

@@ -73,7 +73,13 @@ module.exports = class Manager extends EventEmitter {
             return;
         }
 
-        if (!player.queue.length) return this.queueEnd(player, track);
+        if (!player.queue.length && player.queue.current) {
+            player.stop();
+            player.queue.previous.push(track);
+            player.queue.current = null;
+            player.playing = false;
+            return this.queueEnd(player, track);
+        }
     }
 
     queueEnd(player, track) {
@@ -91,38 +97,44 @@ module.exports = class Manager extends EventEmitter {
 
     async search(query, requester, source) {
         let track;
-        switch (source) {
-            case 'soundcloud':
-                track = await Source.Soundcloud.search(query);
-                break;
-            case 'spotify':
-                track = await Source.Spotify.search(query);
-                break;
-            case 'youtube':
-                track = await Source.Youtube.search(query);
-                break;
-            default:
-                track = await Source.resolve(query);
-                break;
-        }
 
-        if (!track) track = (await Source.Youtube.search(query))[0];
-
-        if (!track) throw new Error('No track found');
-        else {
-            if (track instanceof TrackPlaylist) {
-                track.forEach(t => {
-                    t.requester = requester;
-                    t.icon = QueueHelper.reduceThumbnails(t.icons);
-                    t.thumbnail = QueueHelper.reduceThumbnails(t.thumbnails);
-                });
+        try {
+            switch (source) {
+                case 'soundcloud':
+                    track = (await Source.Soundcloud.search(query))[0];
+                    break;
+                case 'spotify':
+                    track = await Source.resolve(query);
+                    break;
+                case 'youtube':
+                    track = (await Source.Youtube.search(query))[0];
+                    break;
+                default:
+                    track = await Source.resolve(query);
+                    break;
             }
+
+            if (!track) track = (await Source.Youtube.search(query))[0];
+
+            if (!track) throw new Error('No track found');
             else {
-                track.requester = requester;
-                track.icon = QueueHelper.reduceThumbnails(track.icons);
-                track.thumbnail = QueueHelper.reduceThumbnails(track.thumbnails);
+                if (track instanceof TrackPlaylist) {
+                    track.forEach(t => {
+                        t.requester = requester;
+                        t.icon = QueueHelper.reduceThumbnails(t.icons);
+                        t.thumbnail = QueueHelper.reduceThumbnails(t.thumbnails);
+                    });
+                }
+                else {
+                    track.requester = requester;
+                    track.icon = QueueHelper.reduceThumbnails(track.icons);
+                    track.thumbnail = QueueHelper.reduceThumbnails(track.thumbnails);
+                }
+                return track;
             }
-            return track;
+        }
+        catch (err) {
+            throw new Error(err);
         }
     }
 
