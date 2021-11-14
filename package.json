@@ -30,6 +30,7 @@
   "dependencies": {
     "@discordjs/rest": "^0.1.0-canary.0",
     "@sentry/node": "^6.13.3",
+    "axios": "^0.24.0",
     "cpu-stat": "^2.0.1",
     "custom-env": "^2.0.1",
     "discord-api-types": "^0.24.0",
