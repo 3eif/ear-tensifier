@@ -8,10 +8,11 @@ module.exports = class Profile extends Command {
         super(client, {
             name: 'profile',
             description: {
-                content: 'Displays a user\'s profile',
+                content: 'Displays a user\'s profile.',
                 usage: '<user>',
                 examples: ['@user', 'user#1234'],
             },
+            slashCommand: true,
         });
     }
     async run(client, ctx, args) {

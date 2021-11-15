@@ -8,7 +8,7 @@ module.exports = class ListenAll extends Command {
         super(client, {
             name: 'listenall',
             description: {
-                content: 'The bot will listen to commands from all channels..',
+                content: 'The bot will listen to commands from all channels.',
             },
             permissions: {
                 userPermissions: ['MANAGE_CHANNELS'],

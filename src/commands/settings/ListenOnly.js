@@ -8,7 +8,7 @@ module.exports = class ListenOnly extends Command {
         super(client, {
             name: 'listenonly',
             description: {
-                content: 'The bot will only listen to commands from one channel..',
+                content: 'The bot will only listen to commands from one channel.',
                 usage: '<channel>',
                 examples: ['#general'],
             },

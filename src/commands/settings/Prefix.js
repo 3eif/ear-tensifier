@@ -8,7 +8,7 @@ module.exports = class Prefix extends Command {
         super(client, {
             name: 'prefix',
             description: {
-                content: 'Set the prefix for the server',
+                content: 'Set the prefix for the server.',
                 usage: '<prefix>',
                 examples: ['ear_', '!'],
             },
@@ -16,6 +16,15 @@ module.exports = class Prefix extends Command {
             permissions: {
                 userPermissions: ['MANAGE_MESSAGES'],
             },
+            options: [
+                {
+                    name: 'prefix',
+                    type: 3,
+                    required: false,
+                    description: 'The prefix to set for the server (to add a space to your prefix, add: _).',
+                },
+            ],
+            slashCommand: true,
         });
     }
     async run(client, ctx, args) {
