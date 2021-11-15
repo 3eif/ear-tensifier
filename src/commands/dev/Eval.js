@@ -30,7 +30,7 @@ module.exports = class Eval extends Command {
 
             if (output.includes(process.env.DISCORD_TOKEN)) return ctx.editMessage('Cannot run command since the token will be leaked.');
 
-            if (output.length < 2048) {
+            if (output.length < 1024) {
                 const embed = new MessageEmbed()
                     .addField('Input', `\`\`\`js\n${code}\`\`\``)
                     .addField('Output', `\`\`\`js\n${output}\`\`\``)

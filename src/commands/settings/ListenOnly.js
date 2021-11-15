@@ -3,12 +3,12 @@ const { MessageEmbed } = require('discord.js');
 const Command = require('../../structures/Command');
 const Server = require('../../models/Server');
 
-module.exports = class Ignore extends Command {
+module.exports = class ListenOnly extends Command {
     constructor(client) {
         super(client, {
-            name: 'ignore',
+            name: 'listenonly',
             description: {
-                content: 'The bot will stop responding to commands from a specific channel.',
+                content: 'The bot will only listen to commands from one channel..',
                 usage: '<channel>',
                 examples: ['#general'],
             },
@@ -19,8 +19,6 @@ module.exports = class Ignore extends Command {
         });
     }
     async run(client, ctx, args) {
-        await ctx.sendDeferMessage(`${client.config.emojis.typing} Ignoring commands from channel...`);
-
         let channel;
         if (ctx.ctx.mentions.channels.first() === undefined) {
             if (!isNaN(args[0])) channel = args[0];
@@ -30,17 +28,22 @@ module.exports = class Ignore extends Command {
             channel = ctx.ctx.mentions.channels.first().id;
         }
 
+        await ctx.sendDeferMessage(`${client.config.emojis.typing} Ignoring commands from all channels except ${args[0]}...`);
+
         Server.findById(ctx.guild.id, async (err, s) => {
             if (err) client.logger.error(err);
-            if (s.ignoredChannels.includes(channel)) return ctx.editMessage('I am already ignoring this channel!');
-            s.ignoredChannels.push(channel);
-            await s.updateOne({ ignoredChannels: s.ignoredChannels }).catch(e => client.logger.error(e));
+
+            const channelsToIgnore = [];
+            ctx.guild.channels.cache.filter(c => c.type === 'GUILD_TEXT').each(c => {
+                if (c.id !== channel) channelsToIgnore.push(c.id);
+            });
+            await s.updateOne({ ignoredChannels: channelsToIgnore }).catch(e => client.logger.error(e));
 
             const embed = new MessageEmbed()
                 .setAuthor(`${ctx.guild.name}`, ctx.guild.iconURL())
                 .setColor(client.config.colors.default)
-                .setDescription(`I will now ignore commands from ${args[0]}.`)
-                .setFooter(`Tip: You can make me listen to commands again by doing ${await ctx.messageHelper.getPrefix()}listen`);
+                .setDescription(`I will now only listen to commands from ${args[0]}.`)
+                .setFooter(`Tip: You can make me listen to commands in all channels again by doing ${await ctx.messageHelper.getPrefix()}listenall`);
             ctx.editMessage({ content: null, embeds: [embed] });
         });
     }

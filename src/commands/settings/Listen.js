@@ -47,7 +47,7 @@ module.exports = class Listen extends Command {
                 .setAuthor(`${ctx.guild.name}`, ctx.guild.iconURL())
                 .setColor(client.config.colors.default)
                 .setDescription(`I will now listen to commands from ${args[0]}.`);
-            ctx.editMessage({ content: ' ', embeds: [embed] });
+            ctx.editMessage({ content: null, embeds: [embed] });
         });
     }
 };
