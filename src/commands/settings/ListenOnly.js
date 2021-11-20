@@ -20,12 +20,12 @@ module.exports = class ListenOnly extends Command {
     }
     async run(client, ctx, args) {
         let channel;
-        if (ctx.ctx.mentions.channels.first() === undefined) {
+        if (ctx.message.mentions.channels.first() === undefined) {
             if (!isNaN(args[0])) channel = args[0];
             else return ctx.sendDeferMessage('No channel found.');
         }
         else {
-            channel = ctx.ctx.mentions.channels.first().id;
+            channel = ctx.message.mentions.channels.first().id;
         }
 
         await ctx.sendDeferMessage(`${client.config.emojis.typing} Ignoring commands from all channels except ${args[0]}...`);

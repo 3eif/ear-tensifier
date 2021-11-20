@@ -2,11 +2,12 @@ const { Message, CommandInteraction } = require('discord.js');
 
 module.exports = class Context {
     constructor(ctx, args) {
-        this.ctx = ctx;
-
-        this.isInteraction = this.ctx instanceof CommandInteraction;
+        this.isInteraction = ctx instanceof CommandInteraction;
 
         this.setArgs(args);
+
+        this.interaction = this.isInteraction ? ctx : null;
+        this.message = this.isInteraction ? null : ctx;
 
         this.applicationId = ctx.applicationId;
         this.channelId = ctx.channelId;
@@ -31,11 +32,11 @@ module.exports = class Context {
 
     sendMessage(content) {
         if (this.isInteraction) {
-            this.msg = this.ctx.reply(content);
+            this.msg = this.interaction.reply(content);
             return this.msg;
         }
         else {
-            this.msg = this.ctx.channel.send(content);
+            this.msg = this.message.channel.send(content);
             return this.msg;
         }
     }
@@ -61,14 +62,14 @@ module.exports = class Context {
     }
 
     reply(options) {
-        return this.ctx.reply(options);
+        return this.interaction.reply(options);
     }
 
     deferReply(options) {
-        return this.ctx.deferReply(options);
+        return this.interaction.deferReply(options);
     }
 
     editReply(options) {
-        return this.ctx.editReply(options);
+        return this.interaction.editReply(options);
     }
 };

@@ -35,7 +35,7 @@ module.exports = class Vps extends Command {
             .addField('Memory Usage', `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`)
             .addField('CPU Load', `${(os.loadavg()[0] * 100).toFixed(2)}%`)
             .addField('CPU Cores', `${os.cpus().length}`)
-            .setFooter('Node Version: ${process.version}')
+            .setFooter(`Node Version: ${process.version}`)
             .setTimestamp();
         return ctx.sendMessage({ content: null, embeds: [statsEmbed] });
     }
