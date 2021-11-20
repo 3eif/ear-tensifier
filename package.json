@@ -38,6 +38,7 @@
     "dotenv-flow": "^3.2.0",
     "express": "^4.17.1",
     "fs": "^0.0.1-security",
+    "humanize-duration": "^3.27.0",
     "kurasuta": "^3.0.1",
     "mongoose": "^6.0.12",
     "signale": "^1.4.0",

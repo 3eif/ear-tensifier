@@ -12,9 +12,9 @@
     "configurations": [
         {
             "type": "node-terminal",
-            "name": "Run Script: start",
+            "name": "Run Script: development",
             "request": "launch",
-            "command": "npm run start",
+            "command": "npm run development",
             "cwd": "${workspaceFolder}"
         }
     ]

@@ -120,7 +120,7 @@ module.exports = class Create extends Command {
                     name: playlistName,
                     tracks: [],
                     creator: ctx.author.id,
-                    timeCreated: Date.now(),
+                    createdTimestamp: Date.now(),
                 });
 
                 newPlaylist.tracks = tracksToAdd;

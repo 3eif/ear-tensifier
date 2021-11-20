@@ -69,9 +69,6 @@ module.exports = class Load extends Command {
                     requester: ctx.author,
                 }));
 
-                console.log(tracksToAdd[0]);
-
-
                 let tracksQueued = 0;
                 const queueAllSongs = new Promise((resolve) => {
                     for (let i = 0; i < tracksToAdd.length; i++) {
