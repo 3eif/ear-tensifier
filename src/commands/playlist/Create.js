@@ -38,7 +38,7 @@ module.exports = class Create extends Command {
         await ctx.sendDeferMessage(`${client.config.emojis.typing} Adding song(s) to your playlist (This might take a few seconds.)...`);
 
         if (!args[1]) return ctx.editMessage(`Please specify a search query or link.\nUsage: \`${await ctx.messageHelper.getPrefix()} create <playlist name> <search query/link>\``);
-        if (args[0].length > 32) return ctx.editMessage('Playlist title must be less than 32 characters!');
+        if (args[0].length > 32) return ctx.editMessage('Playlist name must be less than 32 characters!');
 
         const tracksToAdd = [];
         let playlistMessage = '';

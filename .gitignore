@@ -9,6 +9,7 @@ tokens.json
 webhooks.json
 package-lock.json
 botlists.json
+config.json
 
 *.bat
 *.log
