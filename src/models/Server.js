@@ -5,7 +5,7 @@ const ServerSchema = Schema({
     _id: String,
     prefix: { type: String, default: prefix },
     ignoredChannels: { type: Array, default: [] },
-    defaultVolume: { type: Number, default: 100 },
+    defaults: { volume: { type: Number, default: 100 } },
     nowPlayingMessages: { type: Boolean, default: true },
 });
 

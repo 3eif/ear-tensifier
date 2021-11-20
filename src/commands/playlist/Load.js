@@ -35,7 +35,7 @@ module.exports = class Load extends Command {
 
         let player = client.music.players.get(ctx.guild.id);
         if (!player) {
-            player = client.music.newPlayer(ctx.guild, ctx.member.voice.channel, ctx.channel);
+            player = await client.music.newPlayer(ctx.guild, ctx.member.voice.channel, ctx.channel);
             player.connect();
         }
 

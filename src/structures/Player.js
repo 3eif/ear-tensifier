@@ -17,7 +17,7 @@ module.exports = class Player extends TrackPlayer {
         this.position = 0;
         this.playing = false;
         this.paused = false;
-        this.volume = 1;
+        this.volume = options.volume ? options.volume : 100;
 
         this.queue = new Queue();
 
@@ -47,6 +47,7 @@ module.exports = class Player extends TrackPlayer {
             super.play(track);
         }
         this.start();
+        this.setVolume(this.volume);
     }
 
     skip() {
@@ -62,7 +63,7 @@ module.exports = class Player extends TrackPlayer {
     }
 
     setVolume(volume) {
-        super.setVolume(volume);
+        super.setVolume(volume / 100);
     }
 
     setBitrate(bitrate) {

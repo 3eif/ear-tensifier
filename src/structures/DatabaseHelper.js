@@ -1,6 +1,7 @@
 const Bot = require('../models/Bot');
 const Song = require('../models/Song');
 const User = require('../models/User');
+const Server = require('../models/Server');
 
 module.exports = class DatabaseHelper {
     constructor(client) {
@@ -77,5 +78,9 @@ module.exports = class DatabaseHelper {
                 u.updateOne({ songsPlayed: u.songsPlayed + 1 }).catch(e => this.logger.error(e));
             }
         });
+    }
+
+    static async getDefaultVolume(server) {
+        return (await Server.findById(server.id)).defaults.volume;
     }
 };

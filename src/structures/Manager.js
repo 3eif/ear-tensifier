@@ -5,6 +5,7 @@ const { TrackPlaylist } = require('yasha/src/Track');
 
 const Player = require('../structures/Player');
 const QueueHelper = require('./QueueHelper');
+const DatabaseHelper = require('./DatabaseHelper');
 
 module.exports = class Manager extends EventEmitter {
     constructor() {
@@ -12,13 +13,14 @@ module.exports = class Manager extends EventEmitter {
         this.players = new Collection();
     }
 
-    newPlayer(guild, voiceChannel, textChannel) {
+    async newPlayer(guild, voiceChannel, textChannel, volume) {
         const player = new Player({
             manager: this,
             guild: guild,
             voiceChannel: voiceChannel,
             textChannel: textChannel,
             external_encrypt: true,
+            volume: volume ? volume : await DatabaseHelper.getDefaultVolume(guild),
         });
 
         this.players.set(player.guild.id, player);
