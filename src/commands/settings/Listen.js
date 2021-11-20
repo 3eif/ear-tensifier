@@ -70,9 +70,39 @@ module.exports = class Listen extends Command {
         else {
             const subCommand = args[0].toLowerCase();
             if (subCommand == 'all') listenAll();
-            else if (subCommand == 'only') listenOnly(args[1]);
-            else if (subCommand == 'channel') listenChannel(args[1]);
-            else listenChannel(args[0]);
+            else if (subCommand == 'only') {
+                let channel;
+                if (ctx.message.mentions.channels.first() === undefined) {
+                    if (!isNaN(args[1])) channel = args[1];
+                    else return ctx.editMessage('No channel detected.');
+                }
+                else {
+                    channel = ctx.message.mentions.channels.first().id;
+                }
+                listenOnly(channel);
+            }
+            else if (subCommand == 'channel') {
+                let channel;
+                if (ctx.message.mentions.channels.first() === undefined) {
+                    if (!isNaN(args[1])) channel = args[1];
+                    else return ctx.editMessage('No channel detected.');
+                }
+                else {
+                    channel = ctx.message.mentions.channels.first().id;
+                }
+                listenChannel(channel);
+            }
+            else {
+                let channel;
+                if (ctx.message.mentions.channels.first() === undefined) {
+                    if (!isNaN(args[0])) channel = args[0];
+                    else return ctx.editMessage('No channel detected.');
+                }
+                else {
+                    channel = ctx.message.mentions.channels.first().id;
+                }
+                listenChannel(channel);
+            }
         }
 
         async function listenOnly(channel) {
