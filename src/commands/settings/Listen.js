@@ -53,7 +53,6 @@ module.exports = class Listen extends Command {
         });
     }
     async run(client, ctx, args) {
-        client.logger.log(ctx.interaction.options.data[0].options);
         if (ctx.isInteraction) {
             const subCommand = ctx.interaction.options.data[0].name;
             switch (subCommand) {
@@ -61,10 +60,10 @@ module.exports = class Listen extends Command {
                     listenAll();
                     break;
                 case 'only':
-                    listenOnly(ctx.interaction.options.data[0].options[0].id);
+                    listenOnly(ctx.interaction.options.data[0].options[0].channel.id);
                     break;
                 default:
-                    listenChannel(ctx.interaction.options.data[0].options[0].id);
+                    listenChannel(ctx.interaction.options.data[0].options[0].channel.id);
                     break;
             }
         }
@@ -77,7 +76,7 @@ module.exports = class Listen extends Command {
         }
 
         async function listenOnly(channel) {
-            await ctx.sendDeferMessage(`${client.config.emojis.typing} Ignoring commands from all channels except ${args[0]}...`);
+            await ctx.sendDeferMessage(`${client.config.emojis.typing} Ignoring commands from all channels except <#${channel}>...`);
 
             Server.findById(ctx.guild.id, async (err, s) => {
                 if (err) client.logger.error(err);
@@ -91,14 +90,14 @@ module.exports = class Listen extends Command {
                 const embed = new MessageEmbed()
                     .setAuthor(`${ctx.guild.name}`, ctx.guild.iconURL())
                     .setColor(client.config.colors.default)
-                    .setDescription(`I will now only listen to commands from ${args[0]}.`)
+                    .setDescription(`I will now only listen to commands from <#${channel}>.`)
                     .setFooter(`Tip: You can make me listen to commands in all channels again by doing ${await ctx.messageHelper.getPrefix()}listenall`);
                 ctx.editMessage({ content: null, embeds: [embed] });
             });
         }
 
         async function listenAll() {
-            await ctx.sendDeferMessage(`${client.config.emojis.typing} Listening to commands from all channels ${args[0]}...`);
+            await ctx.sendDeferMessage(`${client.config.emojis.typing} Listening to commands from all channels...`);
 
             Server.findById(ctx.guild.id, async (err, s) => {
                 if (err) client.logger.error(err);
@@ -113,7 +112,7 @@ module.exports = class Listen extends Command {
         }
 
         async function listenChannel(channel) {
-            await ctx.sendDeferMessage(`${client.config.emojis.typing} Listening to commands from channel...`);
+            await ctx.sendDeferMessage(`${client.config.emojis.typing} Listening to commands from <#${channel}>...`);
 
             Server.findById(ctx.guild.id, async (err, s) => {
                 if (err) client.logger.error(err);
@@ -131,7 +130,7 @@ module.exports = class Listen extends Command {
                 const embed = new MessageEmbed()
                     .setAuthor(`${ctx.guild.name}`, ctx.guild.iconURL())
                     .setColor(client.config.colors.default)
-                    .setDescription(`I will now listen to commands from ${args[0]}.`);
+                    .setDescription(`I will now listen to commands from <#${channel}>.`);
                 ctx.editMessage({ content: null, embeds: [embed] });
             });
         }
