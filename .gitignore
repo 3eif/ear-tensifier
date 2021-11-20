@@ -9,7 +9,7 @@ tokens.json
 webhooks.json
 package-lock.json
 botlists.json
-config.json
+/tests/config.json
 
 *.bat
 *.log
