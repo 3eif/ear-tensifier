@@ -17,13 +17,13 @@ module.exports = class TrackStart extends Event {
 
         const embed = new Discord.MessageEmbed()
             .setColor(this.client.config.colors.default)
-            .setAuthor('Now Playing', 'https://cdn.discordapp.com/emojis/673357192203599904.gif?v=1')
+            .setAuthor('Now Playing', 'https://eartensifier.net/images/cd.gif')
             .setThumbnail(thumbnail)
             .setDescription(`**[${title}](${url})** [${formatDuration(duration)}]`)
             .addField('Author', author, true)
             .addField('Requested by', `<@${requester.id}>`, true)
             .setFooter(platform)
             .setTimestamp();
-        player.textChannel.send({ embeds: [embed] });
+        player.nowPlayingMessage = await player.textChannel.send({ embeds: [embed] });
     }
 };
