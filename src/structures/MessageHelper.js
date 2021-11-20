@@ -105,7 +105,7 @@ module.exports = class MessageHelper {
 
 
     async paginate(pages, timeout, buttonRow) {
-        if (pages.length < 2) return;
+        if (pages.length < 2) return this.ctx.sendMessage({ embed: pages[0] });
 
         let page = 0;
 
@@ -132,15 +132,14 @@ module.exports = class MessageHelper {
         const interactionCollector = message.createMessageComponentCollector({ max: pages.length * 2 });
 
         interactionCollector.on('collect', async (interaction) => {
-            if (interaction.component.customId === 'prev') {
-                if (page === 0) return;
-                page--;
+            if (interaction.component.customId === 'back') {
+                if (page == 0) page = pages.length - 1;
+                else page--;
             }
             else if (interaction.component.customId === 'next') {
-                if (page === pages.length - 1) return;
-                page++;
+                if (page == pages.length - 1) page = 0;
+                else page++;
             }
-
 
             await interaction.update({
                 embeds: [pages[page]],
