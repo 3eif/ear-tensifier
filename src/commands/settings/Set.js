@@ -7,8 +7,8 @@ module.exports = class Set extends Command {
             name: 'set',
             description: {
                 content: 'Sets a certain setting.',
-                usage: 'set default <setting (volume)>',
-                examples: ['set default volume 200'],
+                usage: 'default <setting (volume)>',
+                examples: ['default volume 200'],
             },
             args: true,
             permissions: {
@@ -58,7 +58,9 @@ module.exports = class Set extends Command {
         else {
             const subCommand = args[0].toLowerCase();
             if (subCommand === 'default') {
+                if (!args[1]) return ctx.sendMessage('You need to provide a setting to set the default to. Please do `ear help set` for more information on this command.');
                 const subSubCommand = args[1].toLowerCase();
+                if (!args[2]) return ctx.sendMessage('You need to provide a value to set the default to. Please do `ear help set` for more information on this command.');
                 const subSubSubCommand = args[2].toLowerCase();
                 switch (subSubCommand) {
                     case 'volume':
