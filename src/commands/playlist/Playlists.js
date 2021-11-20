@@ -32,7 +32,7 @@ module.exports = class Playlists extends Command {
                     .setFooter(`Page ${i + 1}/${pagesNum} | ${p.length} playlists`);
                 pages.push(embed);
             }
-            if (pages > 1) ctx.messageHelper.paginate({ embeds: [pages] });
+            if (pages > 1) ctx.messageHelper.paginate(pages);
             else ctx.sendMessage({ embeds: [pages[0]] });
         }).catch(err => {
             client.logger.error(err);
