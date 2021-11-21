@@ -15,6 +15,16 @@ module.exports = class View extends Command {
                 examples: ['Random_Access_Memories'],
             },
             args: true,
+            aliases: ['viewplaylist', 'playlist'],
+            options: [
+                {
+                    name: 'playlist',
+                    type: 3,
+                    required: true,
+                    description: 'The playlist\'s name.',
+                },
+            ],
+            slashCommand: true,
         });
     }
     async run(client, ctx, args) {
