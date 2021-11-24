@@ -44,14 +44,14 @@ module.exports = class Loop extends Command {
                 return ctx.sendMessage('Song has been unlooped');
             }
         }
-        else if (args[0] == 'queue') {
+        else if (args[0].toLowerCase() == 'queue') {
             if (player.queueRepeat) {
                 player.setQueueRepeat(false);
                 return ctx.sendMessage('Queue has been unlooped.');
             }
             else {
                 player.setQueueRepeat(true);
-                return ctx.sendMessage('Queue is being looped.');
+                return ctx.sendMessage('Queue is now being looped.');
             }
         }
     }

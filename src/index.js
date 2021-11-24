@@ -1,4 +1,4 @@
-const { ShardingManager } = require('kurasuta');
+const { Manager } = require('discord-hybrid-sharding');
 const { join } = require('path');
 const { isPrimary } = require('cluster');
 const { AutoPoster } = require('topgg-autoposter');
@@ -8,7 +8,6 @@ const Discord = require('discord.js');
 require('custom-env').env(true);
 require('events').defaultMaxListeners = 15;
 
-const Client = require('./structures/Client');
 const signale = require('signale');
 
 signale.config({
@@ -17,36 +16,11 @@ signale.config({
     displayDate: false,
 });
 
-const manager = new ShardingManager(join(__dirname, 'structures', 'Cluster'), {
-    client: Client,
-    respawn: false,
-    // clusterCount: 3,
-    // shardCount: 4,
-    clientOptions: {
-        allowedMentions: { parse: ['roles'], repliedUser: false },
-        makeCache: Discord.Options.cacheWithLimits({
-            ...Discord.Options.defaultMakeCacheSettings,
-            MessageManager: {
-                sweepInterval: 300,
-                sweepFilter: Discord.LimitedCollection.filterByLifetime({
-                    lifetime: 1800,
-                    getComparisonTimestamp: e => e.editedTimestamp || e.createdTimestamp,
-                }),
-            },
-        }),
-        partials: [
-            'MESSAGE',
-            'CHANNEL',
-            'REACTION',
-        ],
-        intents: [
-            'GUILDS',
-            'GUILD_MESSAGES',
-            'GUILD_VOICE_STATES',
-            'GUILD_MESSAGE_REACTIONS',
-        ],
-        restTimeOffset: 0,
-    },
+const manager = new Manager(join(__dirname, 'eartensifier.js'), {
+    totalShards: 'auto',
+    shardsPerClusters: 'auto',
+    totalClusters: 'auto',
+    mode: 'process',
     token: process.env.DISCORD_TOKEN,
 });
 

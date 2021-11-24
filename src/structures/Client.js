@@ -6,9 +6,39 @@ const listenersFolder = fs.readdirSync('./src/listeners/');
 const Logger = require('./Logger.js');
 const DatabaseHelper = require('./DatabaseHelper.js');
 
+const Cluster = require('discord-hybrid-sharding');
+
 module.exports = class Client extends Discord.Client {
-    constructor(options) {
-        super({ ...options });
+    constructor() {
+        super({
+            allowedMentions: { parse: ['roles'], repliedUser: false },
+            makeCache: Discord.Options.cacheWithLimits({
+                ...Discord.Options.defaultMakeCacheSettings,
+                MessageManager: {
+                    sweepInterval: 300,
+                    sweepFilter: Discord.LimitedCollection.filterByLifetime({
+                        lifetime: 1800,
+                        getComparisonTimestamp: e => e.editedTimestamp || e.createdTimestamp,
+                    }),
+                },
+            }),
+            partials: [
+                'MESSAGE',
+                'CHANNEL',
+                'REACTION',
+            ],
+            intents: [
+                'GUILDS',
+                'GUILD_MESSAGES',
+                'GUILD_VOICE_STATES',
+                'GUILD_MESSAGE_REACTIONS',
+            ],
+            restTimeOffset: 0,
+        });
+
+        this.shards = Cluster.data.SHARD_LIST;
+        this.shardCount = Cluster.data.TOTAL_SHARDS;
+        this.cluster = new Cluster.Client(this);
 
         this.commands = new Discord.Collection();
         this.aliases = new Discord.Collection();
