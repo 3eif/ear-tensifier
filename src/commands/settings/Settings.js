@@ -3,13 +3,14 @@ const { MessageEmbed } = require('discord.js');
 const Command = require('../../structures/Command');
 const Server = require('../../models/Server');
 
-module.exports = class Profile extends Command {
+module.exports = class Settings extends Command {
     constructor(client) {
         super(client, {
             name: 'settings',
             description: {
                 content: 'Sends an embed which contains information about ignored channels, default values, and enabled/disabled features.',
             },
+            aliases: ['config', 'ignoredchannels', 'defaults'],
             args: false,
             slashCommand: true,
         });
