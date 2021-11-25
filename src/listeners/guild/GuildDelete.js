@@ -1,7 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 const Event = require('../../structures/Event');
 
-module.exports = class GuildCreate extends Event {
+module.exports = class GuildDelete extends Event {
     constructor(...args) {
         super(...args);
     }
@@ -12,10 +12,10 @@ module.exports = class GuildCreate extends Event {
                 const totalGuilds = guilds.reduce((prev, guildCount) => prev + guildCount, 0);
 
                 const embed = new MessageEmbed()
-                    .setDescription(`${this.client.config.emojis.added} Ear Tensifier has been added to a server.`)
+                    .setDescription(`${this.client.config.emojis.removed} Ear Tensifier has been removed from a server.`)
                     .setFooter(`${totalGuilds} servers`)
                     .setTimestamp()
-                    .setColor(this.client.config.colors.added);
+                    .setColor(this.client.config.colors.removed);
                 if (this.client.earTensifiers.includes(this.client.user.id))
                     this.client.shardMessage(this.client.config.channels.guildlogs, embed, true);
             });

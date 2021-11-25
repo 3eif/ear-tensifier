@@ -36,7 +36,12 @@
         "left": "<:earleft:908791059360927784>",
         "right": "<:earright:908791059390271558>",
         "online": "<:online:908939189888897054>",
-        "offline": "<:offline:908939189872132096>"
+        "offline": "<:offline:908939189872132096>",
+        "added": "<:earadded:913247304931246192>",
+        "removed": "<:earremoved:913247304801222656>"
+    },
+    "channels": {
+        "guildlogs": "734204437601583115"
     },
     "max": {
         "songsInQueue": "10000",

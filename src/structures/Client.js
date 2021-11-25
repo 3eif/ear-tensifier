@@ -21,6 +21,8 @@ module.exports = class Client extends Discord.Client {
         this.databaseHelper = new DatabaseHelper(this);
 
         this.config = require('../../config.json');
+
+        this.earTensifiers = ['472714545723342848', '888267634687213669', '888268490199433236', '669256663995514900'];
     }
 
     loadCommands() {
@@ -85,6 +87,24 @@ module.exports = class Client extends Discord.Client {
         }
         catch (error) {
             this.logger.error(error);
+        }
+    }
+
+    shardMessage(channelId, message, isEmbed) {
+        const s = JSON.stringify(message);
+        console.log(s);
+        this.shard.broadcastEval(`this.sendMessage('${channelId}', '${s}', ${isEmbed})`);
+    }
+
+    sendMessage(channelId, message, isEmbed) {
+        const channel = this.channels.cache.get(channelId);
+        if (channel) {
+            if (!isEmbed) {
+                channel.send(message);
+            }
+            else {
+                channel.send({ embeds: [message] });
+            }
         }
     }
 
