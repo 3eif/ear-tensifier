@@ -15,6 +15,7 @@ signale.config({
     displayDate: false,
 });
 
+let i = 0;
 commandFiles.forEach(category => {
     const categories = fs.readdirSync(`./src/commands/${category}/`).filter(file => file.endsWith('.js'));
     categories.forEach(command => {
@@ -27,11 +28,11 @@ commandFiles.forEach(category => {
                 options: cmd.options,
             };
             commands.push(data);
+            signale.debug(i + ': ' + JSON.stringify(data));
+            i++;
         }
     });
 });
-
-signale.debug(commands);
 
 const rest = new REST({ version: '9' }).setToken(process.env.DISCORD_TOKEN);
 

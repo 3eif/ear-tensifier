@@ -8,7 +8,7 @@ module.exports = class Settings extends Command {
         super(client, {
             name: 'settings',
             description: {
-                content: 'Sends an embed which contains information about ignored channels, default values, and enabled/disabled features.',
+                content: 'Sends an embed which contains the bot\'s server settings.',
             },
             aliases: ['config', 'ignoredchannels', 'defaults'],
             args: false,
