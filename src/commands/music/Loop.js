@@ -34,7 +34,7 @@ module.exports = class Loop extends Command {
     async run(client, ctx, args) {
         const player = client.music.players.get(ctx.guild.id);
 
-        if (!args[0] || args[0].toLowerCase() == 'song') {
+        if ((ctx.isInteraction && ctx.interaction.options.data[0].name == 'song') || (!ctx.isInteraction && (!args[0] || args[0].toLowerCase() == 'song'))) {
             if (!player.trackRepeat) {
                 player.setTrackRepeat(true);
                 return ctx.sendMessage('Song is now being looped');
@@ -44,7 +44,7 @@ module.exports = class Loop extends Command {
                 return ctx.sendMessage('Song has been unlooped');
             }
         }
-        else if (args[0] == 'queue') {
+        else if ((ctx.isInteraction && ctx.interaction.options.data[0].name == 'queue') || (!ctx.isInteraction && args[0] == 'queue')) {
             if (player.queueRepeat) {
                 player.setQueueRepeat(false);
                 return ctx.sendMessage('Queue has been unlooped.');
