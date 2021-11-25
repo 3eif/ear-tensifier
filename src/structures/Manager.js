@@ -50,9 +50,10 @@ module.exports = class Manager extends EventEmitter {
 
     trackEnd(player) {
         const track = player.queue.current;
+        const finished = Math.ceil(player.getTime()) >= Math.ceil(track.duration);
 
         if (track && player.trackRepeat) {
-            this.emit('trackEnd', player, track);
+            this.emit('trackEnd', player, track, finished);
             player.play();
             return;
         }
@@ -61,7 +62,7 @@ module.exports = class Manager extends EventEmitter {
             player.queue.add(player.queue.current);
             player.queue.current = player.queue.shift();
 
-            this.emit('trackEnd', player, track);
+            this.emit('trackEnd', player, track, finished);
             player.play();
             return;
         }
@@ -70,13 +71,13 @@ module.exports = class Manager extends EventEmitter {
             player.queue.previous.push(track);
             player.queue.current = player.queue.shift();
 
-            this.emit('trackEnd', player, track);
+            this.emit('trackEnd', player, track, finished);
             player.play();
             return;
         }
 
         if (!player.queue.length && player.queue.current) {
-            this.emit('trackEnd', player, track);
+            this.emit('trackEnd', player, track, finished);
             player.stop();
             player.queue.previous.push(track);
             player.queue.current = null;
