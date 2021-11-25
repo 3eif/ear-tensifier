@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 
 const DatabaseHelper = require('../../helpers/DatabaseHelper');
 const Event = require('../../structures/Event');
@@ -19,15 +19,30 @@ module.exports = class TrackStart extends Event {
         const shouldSend = await DatabaseHelper.shouldSendNowPlayingMessage(player.textChannel.guild);
         if (!shouldSend) return;
 
-        const embed = new Discord.MessageEmbed()
+        const n = 13;
+        let parsedCurrentDuration = formatDuration(player.getTime());
+        let parsedDuration = formatDuration(duration);
+        let part = Math.floor((player.getTime() / duration) * n);
+        let percentage = player.getTime() / duration;
+
+        const embed = new MessageEmbed()
             .setColor(this.client.config.colors.default)
-            .setAuthor('Now Playing', 'https://eartensifier.net/images/cd.gif')
+            .setAuthor(author, player.playing ? 'https://eartensifier.net/images/cd.gif' : 'https://eartensifier.net/images/cd.png', url)
             .setThumbnail(thumbnail)
-            .setDescription(`**[${title}](${url})** [${formatDuration(duration)}]`)
-            .addField('Author', author, true)
-            .addField('Requested by', `<@${requester.id}>`, true)
-            .setFooter(platform)
+            .setTitle(title)
+            .setDescription(`${parsedCurrentDuration}  ${percentage < 0.05 ? this.client.config.emojis.progress7 : this.client.config.emojis.progress1}${this.client.config.emojis.progress2.repeat(part)}${percentage < 0.05 ? '' : this.client.config.emojis.progress3}${this.client.config.emojis.progress5.repeat(12 - part)}${this.client.config.emojis.progress6}  ${parsedDuration}`)
+            .setFooter(requester.username, requester.displayAvatarURL())
             .setTimestamp();
         player.nowPlayingMessage = await player.textChannel.send({ embeds: [embed] });
+
+        player.nowPlayingMessage.interval = setInterval(() => {
+            parsedCurrentDuration = formatDuration(player.getTime());
+            parsedDuration = formatDuration(duration);
+            part = Math.floor((player.getTime() / duration) * n);
+            percentage = player.getTime() / duration;
+
+            const e = new MessageEmbed(embed.setDescription(`${parsedCurrentDuration}  ${percentage < 0.05 ? this.client.config.emojis.progress7 : this.client.config.emojis.progress1}${this.client.config.emojis.progress2.repeat(part)}${percentage < 0.05 ? '' : this.client.config.emojis.progress3}${this.client.config.emojis.progress5.repeat(12 - part)}${this.client.config.emojis.progress6}  ${parsedDuration}`));
+            player.nowPlayingMessage.edit({ content: null, embeds: [e] });
+        }, 5000);
     }
 };

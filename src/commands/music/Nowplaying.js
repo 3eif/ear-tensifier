@@ -11,7 +11,7 @@ module.exports = class NowPlaying extends Command {
                 content: 'Displays the song that is currently playing',
             },
             aliases: ['playing', 'np'],
-            voiceRequuirements: {
+            voiceRequirements: {
                 isPlaying: true,
             },
             slashCommand: true,
@@ -23,19 +23,17 @@ module.exports = class NowPlaying extends Command {
 
         const parsedCurrentDuration = formatDuration(player.getTime());
         const parsedDuration = formatDuration(duration);
-        const part = Math.floor((player.getTime() / duration) * 30);
-        const uni = player.playing ? '▶' : '⏸️';
-
-        const user = `<@${!requester.id ? requester : requester.id}>`;
+        const part = Math.floor((player.getTime() / duration) * 13);
+        const percentage = player.getTime() / duration;
 
         const embed = new MessageEmbed()
             .setColor(client.config.colors.default)
-            .setAuthor(player.playing ? 'Now Playing' : 'Paused', player.playing ? 'https://eartensifier.net/images/cd.gif' : 'https://eartensifier.net/images/cd.png')
+            .setAuthor(author, player.playing ? 'https://eartensifier.net/images/cd.gif' : 'https://eartensifier.net/images/cd.png', url)
             .setThumbnail(thumbnail)
-            .setDescription(`**[${title}](${url})**`)
-            .addField('Author', author, true)
-            .addField('Requested By', user, true)
-            .addField('Duration', `\`\`\`${parsedCurrentDuration}/${parsedDuration}  ${uni} ${'─'.repeat(part) + '⚪' + '─'.repeat(30 - part)}\`\`\``);
+            .setTitle(title)
+            .setDescription(`${parsedCurrentDuration}  ${percentage < 0.05 ? client.config.emojis.progress7 : client.config.emojis.progress1}${client.config.emojis.progress2.repeat(part)}${percentage < 0.05 ? '' : client.config.emojis.progress3}${client.config.emojis.progress5.repeat(12 - part)}${client.config.emojis.progress6}  ${parsedDuration}`)
+            .setFooter(requester.username)
+            .setTimestamp();
         return ctx.sendMessage({ content: null, embeds: [embed] });
     }
 };

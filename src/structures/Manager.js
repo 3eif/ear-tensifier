@@ -76,6 +76,7 @@ module.exports = class Manager extends EventEmitter {
         }
 
         if (!player.queue.length && player.queue.current) {
+            this.emit('trackEnd', player, track);
             player.stop();
             player.queue.previous.push(track);
             player.queue.current = null;
