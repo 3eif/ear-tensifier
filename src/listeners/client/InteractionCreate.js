@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 
 const Event = require('../../structures/Event');
 const Context = require('../../structures/Context');
-const MessageHelper = require('../../structures/MessageHelper');
+const MessageHelper = require('../../helpers/MessageHelper');
 
 const cooldowns = new Discord.Collection();
 

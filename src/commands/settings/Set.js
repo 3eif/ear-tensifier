@@ -7,8 +7,8 @@ module.exports = class Set extends Command {
             name: 'set',
             description: {
                 content: 'Sets a certain setting.',
-                usage: 'default <setting (volume)>',
-                examples: ['default volume 200'],
+                usage: '<setting (default, nowplaying)> <setting 2>',
+                examples: ['default volume 200', 'nowPlayingMessages off'],
             },
             args: true,
             permissions: {
@@ -35,6 +35,23 @@ module.exports = class Set extends Command {
                         },
                     ],
                 },
+                {
+                    name: 'nowplaying',
+                    description: 'Whether or not to send now playing messages.',
+                    type: 2,
+                    options: [
+                        {
+                            name: 'on',
+                            description: 'Sends now playing messages.',
+                            type: 1,
+                        },
+                        {
+                            name: 'off',
+                            description: 'Does not send now playing messages.',
+                            type: 1,
+                        },
+                    ],
+                },
             ],
             slashCommand: true,
         });
@@ -48,8 +65,18 @@ module.exports = class Set extends Command {
                     switch (subSubCommand) {
                         case 'volume':
                             setDefaultVolume(ctx.interaction.options.data[0].options[0].options[0].value);
+                            break;
                     }
-
+                    break;
+                case 'nowplaying':
+                    switch (subSubCommand) {
+                        case 'on':
+                            setNowPlayingMessages(true);
+                            break;
+                        case 'off':
+                            setNowPlayingMessages(false);
+                            break;
+                    }
                     break;
                 default:
                     return ctx.sendMessage('Not a valid subcommand.');
@@ -70,6 +97,20 @@ module.exports = class Set extends Command {
                         return ctx.sendMessage('Not a valid subcommand. Please do `ear help set` for more information on this command.');
                 }
             }
+            else if (subCommand === 'nowplayingmessages' || subCommand === 'nowplaying') {
+                if (!args[1]) return ctx.sendMessage('You need to provide whether or not you want to set now playing messages `on` or `off`.');
+                const subSubCommand = args[1].toLowerCase();
+                switch (subSubCommand) {
+                    case 'on':
+                        setNowPlayingMessages(true);
+                        break;
+                    case 'off':
+                        setNowPlayingMessages(false);
+                        break;
+                    default:
+                        return ctx.sendMessage('You need to provide whether or not you want to set now playing messages `on` or `off`.');
+                }
+            }
             else {
                 return ctx.sendMessage('Not a valid subcommand. Please do `ear help set` for more information on this command.');
             }
@@ -84,7 +125,17 @@ module.exports = class Set extends Command {
                 s.defaults.volume = volume;
                 await s.save().catch(e => client.logger.error(e));
             });
-            ctx.sendMessage(`Set default volume to ${volume}.`);
+            ctx.sendMessage(`The default volume has been set to ${volume}.`);
+        }
+
+        async function setNowPlayingMessages(bool) {
+            if (typeof bool !== 'boolean') return ctx.sendMessage('You need to provide whether or not you want to set now playing messages `on` or `off`.');
+            Server.findById(ctx.guild.id, async (err, s) => {
+                if (err) return client.logger.error(err);
+                s.nowPlayingMessages = bool;
+                await s.save().catch(e => client.logger.error(e));
+            });
+            ctx.sendMessage(bool ? 'Now playing messages will now be sent.' : 'Now playing messages will no longer be sent.');
         }
     }
 };

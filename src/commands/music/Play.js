@@ -1,7 +1,7 @@
 const { Track: { TrackPlaylist } } = require('yasha');
 
 const Command = require('../../structures/Command');
-const QueueHelper = require('../../structures/QueueHelper');
+const QueueHelper = require('../../helpers/QueueHelper');
 
 module.exports = class Play extends Command {
 	constructor(client) {

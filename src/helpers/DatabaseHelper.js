@@ -83,4 +83,8 @@ module.exports = class DatabaseHelper {
     static async getDefaultVolume(server) {
         return (await Server.findById(server.id)).defaults.volume;
     }
+
+    static async shouldSendNowPlayingMessage(server) {
+        return (await Server.findById(server.id)).nowPlayingMessages;
+    }
 };

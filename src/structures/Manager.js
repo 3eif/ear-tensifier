@@ -3,9 +3,9 @@ const { Collection } = require('discord.js');
 const EventEmitter = require('events');
 const { TrackPlaylist } = require('yasha/src/Track');
 
-const Player = require('../structures/Player');
-const QueueHelper = require('./QueueHelper');
-const DatabaseHelper = require('./DatabaseHelper');
+const Player = require('./Player');
+const QueueHelper = require('../helpers/QueueHelper');
+const DatabaseHelper = require('../helpers/DatabaseHelper');
 
 module.exports = class Manager extends EventEmitter {
     constructor() {

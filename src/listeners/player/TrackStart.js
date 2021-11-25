@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 
+const DatabaseHelper = require('../../helpers/DatabaseHelper');
 const Event = require('../../structures/Event');
 const formatDuration = require('../../utils/music/formatDuration');
 
@@ -14,6 +15,9 @@ module.exports = class TrackStart extends Event {
         this.client.databaseHelper.incrementTotalSongsPlayed();
         this.client.databaseHelper.incrementTimesSongPlayed(id, title, url, duration, platform, thumbnail, author);
         this.client.databaseHelper.incrementUserSongsPlayed(requester);
+
+        const shouldSend = await DatabaseHelper.shouldSendNowPlayingMessage(player.textChannel.guild);
+        if (!shouldSend) return;
 
         const embed = new Discord.MessageEmbed()
             .setColor(this.client.config.colors.default)
