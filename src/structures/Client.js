@@ -69,14 +69,13 @@ module.exports = class Client extends Discord.Client {
 
     reloadCommand(categoryName, commandName) {
         try {
-            const command = this.commands.get(commandName) || this.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+            const command = this.commands.get(commandName.toLowerCase()) || this.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName.toLowerCase()));
             if (!command) return;
 
-            const commandFileName = command.name.charAt(0).toUpperCase() + command.name.slice(1);
-            delete require.cache[require.resolve(`../commands/${categoryName}/${commandFileName}.js`)];
+            delete require.cache[require.resolve(`../commands/${categoryName}/${commandName}.js`)];
             this.commands.delete(command.name);
 
-            const newFile = require(`../commands/${categoryName}/${commandFileName}.js`);
+            const newFile = require(`../commands/${categoryName}/${commandName}.js`);
             const newCommand = new newFile(this, newFile);
             this.commands.set(newCommand.name, newCommand);
             if (newCommand.aliases && Array.isArray(newCommand.aliases)) {
@@ -92,7 +91,7 @@ module.exports = class Client extends Discord.Client {
 
     shardMessage(channelId, message, isEmbed) {
         const s = JSON.stringify(message);
-        console.log(s);
+
         this.shard.broadcastEval(`this.sendMessage('${channelId}', '${s}', ${isEmbed})`);
     }
 

@@ -18,9 +18,9 @@ module.exports = class Reload extends Command {
     async run(client, ctx, args) {
         if (!args[1]) return ctx.sendMessage('Please provide a command.');
 
-        const commandName = args[1].toLowerCase();
+        const commandName = args[1];
         const categoryName = args[0].toLowerCase();
-        const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+        const command = client.commands.get(commandName.toLowerCase()) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName.toLowerCase()));
 
         if (!command) {
             return ctx.sendMessage('I could not find that command.');
@@ -28,7 +28,7 @@ module.exports = class Reload extends Command {
 
         try {
             client.shard.broadcastEval(`this.reloadCommand('${categoryName}', '${commandName}')`);
-            return ctx.sendMessage(`Reloaded the **${commandName}** command.`);
+            return ctx.sendMessage(`Reloaded the **${commandName.toLowerCase()}** command.`);
         }
         catch (e) {
             return ctx.sendMessage(`An error occurred while reloading the command:\n\`\`\`${e.message}\`\`\``);

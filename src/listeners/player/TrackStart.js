@@ -31,7 +31,7 @@ module.exports = class TrackStart extends Event {
             .setThumbnail(thumbnail)
             .setTitle(title)
             .setDescription(`${parsedCurrentDuration}  ${percentage < 0.05 ? this.client.config.emojis.progress7 : this.client.config.emojis.progress1}${this.client.config.emojis.progress2.repeat(part)}${percentage < 0.05 ? '' : this.client.config.emojis.progress3}${this.client.config.emojis.progress5.repeat(12 - part)}${this.client.config.emojis.progress6}  ${parsedDuration}`)
-            .setFooter(requester.username, requester.displayAvatarURL())
+            .setFooter(requester.username)
             .setTimestamp();
         player.nowPlayingMessage = await player.textChannel.send({ embeds: [embed] });
 

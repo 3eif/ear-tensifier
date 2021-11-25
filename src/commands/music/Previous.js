@@ -1,13 +1,13 @@
 const Command = require('../../structures/Command');
 
-module.exports = class Skip extends Command {
+module.exports = class Previous extends Command {
     constructor(client) {
         super(client, {
-            name: 'skip',
+            name: 'previous',
             description: {
-                content: 'Skips the current song.',
+                content: 'Plays the previous song.',
             },
-            aliases: ['s', 'next'],
+            aliases: ['back'],
             args: false,
             voiceRequirements: {
                 isInVoiceChannel: true,
@@ -20,9 +20,8 @@ module.exports = class Skip extends Command {
 
     async run(client, ctx) {
         const player = client.music.players.get(ctx.guild.id);
-
-        if (player.trackRepeat) player.setTrackRepeat(false);
-        if (player.queueRepeat) player.setQueueRepeat(false);
-        if (player) player.skip();
+        if (player.queue.previous.length == 0) return ctx.sendMessage('There is no previous song.');
+        player.queue.unshift(player.queue.previous.pop());
+        player.skip();
     }
 };
