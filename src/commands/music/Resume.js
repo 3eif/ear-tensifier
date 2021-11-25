@@ -1,13 +1,12 @@
 const Command = require('../../structures/Command');
 
-module.exports = class Pause extends Command {
+module.exports = class Resume extends Command {
     constructor(client) {
         super(client, {
-            name: 'pause',
+            name: 'resume',
             description: {
-                content: 'Pauses the current song.',
+                content: 'Resumes the current song.',
             },
-            aliases: ['stop'],
             args: false,
             voiceRequirements: {
                 isInVoiceChannel: true,
@@ -21,8 +20,8 @@ module.exports = class Pause extends Command {
     async run(client, ctx) {
         const player = client.music.players.get(ctx.guild.id);
 
-        if (player.paused) return ctx.sendMessage('Song is already pauased.');
-        player.pause(true);
+        if (!player.paused) return ctx.sendMessage('Song is already resumed.');
+        player.pause(false);
         return ctx.sendMessage(`Song is now **${player.playing ? 'resumed' : 'paused'}.**`);
     }
 };

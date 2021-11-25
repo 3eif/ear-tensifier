@@ -10,6 +10,7 @@ module.exports = class Queue extends Command {
             description: {
                 content: 'Displays the queue.',
             },
+            aliases: ['q'],
             args: false,
             voiceRequirements: {
                 isPlaying: true,
