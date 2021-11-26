@@ -1,6 +1,6 @@
 const { Source } = require('yasha');
 const { TrackPlaylist, Track } = require('yasha/src/Track');
-const { MessageEmbed, MessageActionRow, MessageSelectMenu } = require('discord.js');
+const { MessageEmbed, MessageActionRow, MessageSelectMenu, MessageButton } = require('discord.js');
 
 const QueueHelper = require('../../helpers/QueueHelper');
 const Command = require('../../structures/Command');
@@ -159,19 +159,33 @@ module.exports = class Search extends Command {
 
             let hasReceivedIndexes = false;
 
-            const row = new MessageActionRow()
+            const selectMenuRow = new MessageActionRow()
                 .addComponents(
                     new MessageSelectMenu()
-                        .setCustomId(ctx.id)
+                        .setCustomId(`${ctx.id}:SELECT_MENU`)
                         .setPlaceholder('Nothing selected')
                         .setMinValues(1)
                         .setMaxValues(10)
                         .addOptions(selectMenuArray),
                 );
 
+            const buttonRow = new MessageActionRow()
+                .addComponents(
+                    new MessageButton()
+                        .setCustomId(`${ctx.id}:BUTTON`)
+                        .setStyle('SECONDARY')
+                        .setLabel('Cancel')
+                        .setEmoji('❌'),
+                );
+
             client.on('interactionCreate', async interaction => {
+                if (interaction.isButton() && interaction.customId === `${ctx.id}:BUTTON` && interaction.member.id == ctx.author.id) {
+                    hasReceivedIndexes = true;
+                    return interaction.message.delete();
+                }
+
                 if (!interaction.isSelectMenu()) return;
-                if (interaction.customId != ctx.id) return;
+                if (interaction.customId != `${ctx.id}:SELECT_MENU`) return;
                 if (interaction.member.id != ctx.author.id) return;
 
                 const selected = interaction.values.map(s => parseInt(s));
@@ -226,7 +240,7 @@ module.exports = class Search extends Command {
                     }
                 }
 
-                await interaction.update({ components: [] })
+                await interaction.update({ components: [] });
             });
 
             const embed = new MessageEmbed()
@@ -234,10 +248,10 @@ module.exports = class Search extends Command {
                 .setDescription(str)
                 .setFooter('Your response time closes within the next 30 seconds. Type "cancel" to cancel the selection, type "queueall" to queue all songs.')
                 .setColor(client.config.colors.default);
-            await ctx.editMessage({ content: null, embeds: [embed], components: [row] });
+            await ctx.editMessage({ content: null, embeds: [embed], components: [selectMenuRow, buttonRow] });
 
             setTimeout(() => {
-                if (!hasReceivedIndexes) return ctx.sendFollowUp('Cancelled selection.');
+                if (!hasReceivedIndexes) return ctx.sendFollowUp('Selection expired.');
             }, 30000);
         }
         catch (err) {

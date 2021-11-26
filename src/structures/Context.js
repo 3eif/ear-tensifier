@@ -71,6 +71,15 @@ module.exports = class Context {
         }
     }
 
+    deleteMessage() {
+        if (this.isInteraction) {
+            return this.deleteReply();
+        }
+        else {
+            return this.msg.delete();
+        }
+    }
+
     reply(options) {
         return this.interaction.reply(options);
     }
@@ -85,5 +94,9 @@ module.exports = class Context {
 
     followUp(options) {
         return this.interaction.followUp(options);
+    }
+
+    deleteReply() {
+        return this.interaction.deleteReply();
     }
 };
