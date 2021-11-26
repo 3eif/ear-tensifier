@@ -193,11 +193,6 @@ module.exports = class Search extends Command {
                 hasReceivedIndexes = true;
 
                 if (tracksToAdd.length) {
-                    for (const track of tracksToAdd) {
-                        if (!track.requester) track.requester = ctx.author;
-                        player.queue.add(track);
-                    }
-
                     if (tracksToAdd.length > 1) {
                         for (const track of tracksToAdd) {
                             player.queue.add(track);
