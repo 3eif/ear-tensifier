@@ -1,6 +1,6 @@
 const Command = require('../../structures/Command');
 
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
 const fs = require('fs');
 const categories = fs.readdirSync('./src/commands/');
 
@@ -39,6 +39,18 @@ module.exports = class Help extends Command {
 
         if (!args.length) {
 
+            const buttons = new MessageActionRow()
+                .addComponents(
+                    new MessageButton()
+                        .setLabel('Support Server')
+                        .setStyle('LINK')
+                        .setURL(client.config.server),
+                    new MessageButton()
+                        .setLabel('Website')
+                        .setStyle('LINK')
+                        .setURL(client.config.website),
+                );
+
             categories.forEach(async (category) => {
                 if (category == 'dev') return;
 
@@ -59,7 +71,7 @@ module.exports = class Help extends Command {
                 embed.addField(`${categoryName} (${commandsFile.length})`, categoryCommands);
             });
 
-            await ctx.sendMessage({ embeds: [embed] });
+            await ctx.sendMessage({ embeds: [embed], components: [buttons] });
         }
         else {
             if (!commands.has(args[0])) return ctx.sendMessage('That\'s not a valid command!');

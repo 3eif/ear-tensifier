@@ -246,7 +246,7 @@ module.exports = class Search extends Command {
             const embed = new MessageEmbed()
                 .setAuthor('Song Selection.', ctx.author.displayAvatarURL())
                 .setDescription(str)
-                .setFooter('Your response time closes within the next 30 seconds. Type "cancel" to cancel the selection, type "queueall" to queue all songs.')
+                .setFooter('Your have 30 seconds to make your selection via the dropdown menu.')
                 .setColor(client.config.colors.default);
             await ctx.editMessage({ content: null, embeds: [embed], components: [selectMenuRow, buttonRow] });
 
