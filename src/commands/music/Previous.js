@@ -1,3 +1,5 @@
+const { MessageEmbed } = require('discord.js');
+
 const Command = require('../../structures/Command');
 
 module.exports = class Previous extends Command {
@@ -23,5 +25,10 @@ module.exports = class Previous extends Command {
         if (player.queue.previous.length == 0) return ctx.sendMessage('There is no previous song.');
         player.queue.unshift(player.queue.previous.pop());
         player.skip();
+
+        const embed = new MessageEmbed()
+            .setColor(client.config.colors.default)
+            .setDescription(`Backing up to **${player.queue.current.title}**`);
+        return ctx.sendMessage({ embeds: [embed] });
     }
 };

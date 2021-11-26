@@ -6,7 +6,9 @@ module.exports = class Shards extends Command {
     constructor(client) {
         super(client, {
             name: 'shards',
-            description: 'Displays the bot\'s shards.',
+            description: {
+                content: 'Displays the bot\'s shards.',
+            },
             cooldown: '4',
             aliases: ['shardstats', 'shardinfo'],
             enabled: true,

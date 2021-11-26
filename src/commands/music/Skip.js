@@ -1,3 +1,5 @@
+const { MessageEmbed } = require('discord.js');
+
 const Command = require('../../structures/Command');
 
 module.exports = class Skip extends Command {
@@ -24,5 +26,10 @@ module.exports = class Skip extends Command {
         if (player.trackRepeat) player.setTrackRepeat(false);
         if (player.queueRepeat) player.setQueueRepeat(false);
         if (player) player.skip();
+
+        const embed = new MessageEmbed()
+            .setColor(client.config.colors.default)
+            .setDescription(`Skipped **${player.queue.current.title}**`);
+        return ctx.sendMessage({ embeds: [embed] });
     }
 };

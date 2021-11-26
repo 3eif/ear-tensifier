@@ -8,7 +8,9 @@ module.exports = class Playlists extends Command {
     constructor(client) {
         super(client, {
             name: 'playlists',
-            description: 'View all your playlists.',
+            description: {
+                content: 'View all your playlists.',
+            },
             args: false,
             slashCommand: true,
         });
