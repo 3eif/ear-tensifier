@@ -9,7 +9,7 @@ module.exports = class TwentyFourSeven extends Command {
             },
             aliases: ['stay', '247', '24-7', '24seven', '24-7mode', 'twentyfourseven'],
             voiceRequirements: {
-                inVoiceChannel: true,
+                isInVoiceChannel: true,
             },
             slashCommand: true,
         });

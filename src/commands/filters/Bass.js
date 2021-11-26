@@ -8,7 +8,7 @@ module.exports = class Bass extends Command {
                 content: 'bass',
             },
             voiceRequirements: {
-                inVoiceChannel: true,
+                isInVoiceChannel: true,
                 isInSameVoiceChannel: true,
                 isPlaying: true,
             },

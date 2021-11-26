@@ -63,6 +63,7 @@ module.exports = class Player extends TrackPlayer {
     }
 
     setVolume(volume) {
+        if (volume > 100000) volume = 100000;
         super.setVolume(volume / 100);
     }
 
