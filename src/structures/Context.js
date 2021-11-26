@@ -9,6 +9,7 @@ module.exports = class Context {
         this.interaction = this.isInteraction ? ctx : null;
         this.message = this.isInteraction ? null : ctx;
 
+        this.id = ctx.id;
         this.applicationId = ctx.applicationId;
         this.channelId = ctx.channelId;
         this.guildId = ctx.guildId;
