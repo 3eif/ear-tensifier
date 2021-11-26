@@ -52,6 +52,15 @@ module.exports = class Context {
         }
     }
 
+    async sendFollowUp(content) {
+        if (this.isInteraction) {
+            await this.followUp(content);
+        }
+        else {
+            this.channel.send(content);
+        }
+    }
+
     editMessage(content) {
         if (this.isInteraction) {
             return this.editReply(content);
@@ -71,5 +80,9 @@ module.exports = class Context {
 
     editReply(options) {
         return this.interaction.editReply(options);
+    }
+
+    followUp(options) {
+        return this.interaction.followUp(options);
     }
 };

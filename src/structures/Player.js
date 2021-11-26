@@ -97,6 +97,7 @@ module.exports = class Player extends TrackPlayer {
     destroy() {
         if (this.stayInVoice) return;
 
+        if (this.nowPlayingMessage) clearInterval(this.nowPlayingMessage.interval);
         if (this.connection) this.disconnect();
         super.destroy();
 
