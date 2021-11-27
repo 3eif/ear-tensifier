@@ -3,12 +3,12 @@ const { MessageEmbed } = require('discord.js');
 const Filter = require('../../structures/Filter');
 const Command = require('../../structures/Command');
 
-module.exports = class Nightcore extends Command {
+module.exports = class Earrape extends Command {
     constructor(client) {
         super(client, {
-            name: 'nightcore',
+            name: 'earrape',
             description: {
-                content: 'Turns the nightcore filter on or off.',
+                content: 'Turns the earrape filter on or off.',
             },
             voiceRequirements: {
                 isInVoiceChannel: true,
@@ -18,12 +18,12 @@ module.exports = class Nightcore extends Command {
             options: [
                 {
                     name: 'on',
-                    description: 'Turns on the nightcore filter.',
+                    description: 'Turns on the earrape filter.',
                     type: 1,
                 },
                 {
                     name: 'off',
-                    description: 'Turns off the nightcore filter.',
+                    description: 'Turns off the earrape filter.',
                     type: 1,
                 },
             ],
@@ -36,11 +36,12 @@ module.exports = class Nightcore extends Command {
 
         if ((ctx.isInteraction && ctx.interaction.options.data[0].name == 'off') || (args[0] && (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off'))) {
             player.resetFilter();
-            embed.setAuthor('Turned off nightcore', ctx.author.displayAvatarURL());
+            embed.setAuthor('Turned off earrape', ctx.author.displayAvatarURL());
         }
         else {
-            player.setFilter(new Filter.Nightcore(player));
-            embed.setAuthor('Turned on nightcore', ctx.author.displayAvatarURL());
+            player.setFilter(new Filter.Earrape(player));
+            embed.setAuthor('Turned on earrape', ctx.author.displayAvatarURL());
+            embed.setFooter(`You can turn this filter off by using the '${await ctx.messageHelper.getPrefix()}earrape off' command.`);
         }
         embed.setColor(client.config.colors.default);
         return ctx.sendMessage({ content: null, embeds: [embed] });

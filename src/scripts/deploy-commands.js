@@ -6,6 +6,7 @@ const { Client } = require('../structures/Client');
 require('events').defaultMaxListeners = 15;
 require('custom-env').env(true);
 
+const debug = false;
 const commands = [];
 const commandFiles = fs.readdirSync('./src/commands');
 
@@ -28,7 +29,8 @@ commandFiles.forEach(category => {
                 options: cmd.options,
             };
             commands.push(data);
-            signale.debug(i + ': ' + JSON.stringify(data));
+            if (debug) signale.debug(i + ': ' + JSON.stringify(data));
+            else signale.debug(`${i}. ${data.name}: ${data.description}`);
             i++;
         }
     });

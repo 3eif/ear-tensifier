@@ -31,7 +31,12 @@ module.exports = class Player extends TrackPlayer {
     }
 
     async connect() {
-        this.connection = await VoiceConnection.connect(this.voiceChannel);
+        this.connection = await VoiceConnection.connect(
+            this.voiceChannel,
+            {
+                self_deaf: true,
+            },
+        );
         this.subscription = this.connection.subscribe(this);
     }
 

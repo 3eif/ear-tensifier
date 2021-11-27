@@ -23,13 +23,14 @@ module.exports = class Skip extends Command {
     async run(client, ctx) {
         const player = client.music.players.get(ctx.guild.id);
 
+        const title = player.queue.current.title;
         if (player.trackRepeat) player.setTrackRepeat(false);
         if (player.queueRepeat) player.setQueueRepeat(false);
         if (player) player.skip();
 
         const embed = new MessageEmbed()
             .setColor(client.config.colors.default)
-            .setDescription(`Skipped **${player.queue.current.title}**`);
+            .setDescription(`Skipped **${title}**`);
         return ctx.sendMessage({ embeds: [embed] });
     }
 };

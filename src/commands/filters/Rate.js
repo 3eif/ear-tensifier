@@ -3,16 +3,17 @@ const { MessageEmbed } = require('discord.js');
 const Filter = require('../../structures/Filter');
 const Command = require('../../structures/Command');
 
-module.exports = class Bassboost extends Command {
+module.exports = class Rate extends Command {
     constructor(client) {
         super(client, {
-            name: 'bassboost',
+            name: 'rate',
             description: {
-                content: 'Bassboosts the player.',
-                usage: '[amount (-10 to 10)]',
+                content: 'Sets the rate of the player.',
+                usage: '<rate (0 to 10)>',
                 examples: ['bassboost -10', 'bassboost 0', 'bassboost 10'],
             },
-            aliases: ['bb', 'bass'],
+            aliases: ['pitch'],
+            args: true,
             voiceRequirements: {
                 isInVoiceChannel: true,
                 isInSameVoiceChannel: true,
@@ -21,20 +22,20 @@ module.exports = class Bassboost extends Command {
             options: [
                 {
                     name: 'on',
-                    description: 'Turns on the bassboost filter.',
+                    description: 'Sets the rate of the player.',
                     type: 1,
                     options: [
                         {
                             name: 'amount',
                             type: 4,
-                            required: false,
-                            description: 'The amount to bassboost the player (-10 to 10).',
+                            required: true,
+                            description: 'The amount to set the rate to (0 to 10).',
                         },
                     ],
                 },
                 {
                     name: 'off',
-                    description: 'Turns off the bassboost filter.',
+                    description: 'Sets the rate back to 1.',
                     type: 1,
                 },
             ],
@@ -47,24 +48,16 @@ module.exports = class Bassboost extends Command {
         if ((ctx.isInteraction && ctx.interaction.options.data[0].name == 'off') || (args[0] && (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off'))) {
             player.resetFilter();
             const embed = new MessageEmbed()
-                .setAuthor('Turned off bassboost', ctx.author.displayAvatarURL())
-                .setColor(client.config.colors.default);
-            return ctx.sendMessage({ content: null, embeds: [embed] });
-        }
-
-        if (!args[0] || args[0].toLowerCase() == 'on') {
-            player.setFilter(new Filter.Bassboost(player));
-            const embed = new MessageEmbed()
-                .setAuthor('Turned on bassboost', ctx.author.displayAvatarURL())
+                .setAuthor('Rate has been reset', ctx.author.displayAvatarURL())
                 .setColor(client.config.colors.default);
             return ctx.sendMessage({ content: null, embeds: [embed] });
         }
 
         if (isNaN(args[0])) return ctx.sendMessage('Amount must be a real number.');
 
-        player.setFilter(new Filter.Bassboost(player, args[0]));
+        player.setFilter(new Filter.Rate(player, args[0]));
         const embed = new MessageEmbed()
-            .setAuthor(`Bassboost set to ${args[0]}`, ctx.author.displayAvatarURL())
+            .setAuthor(`Rate set to ${args[0]}`, ctx.author.displayAvatarURL())
             .setColor(client.config.colors.default);
         return ctx.sendMessage({ content: null, embeds: [embed] });
     }
