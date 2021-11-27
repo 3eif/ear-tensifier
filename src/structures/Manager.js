@@ -6,11 +6,17 @@ const { TrackPlaylist } = require('yasha/src/Track');
 const Player = require('./Player');
 const QueueHelper = require('../helpers/QueueHelper');
 const DatabaseHelper = require('../helpers/DatabaseHelper');
+const Logger = require('./Logger');
 
 module.exports = class Manager extends EventEmitter {
     constructor() {
         super();
         this.players = new Collection();
+
+        this.logger = new Logger({
+            displayTimestamp: true,
+            displayDate: true,
+        });
     }
 
     async newPlayer(guild, voiceChannel, textChannel, volume) {
@@ -34,7 +40,7 @@ module.exports = class Manager extends EventEmitter {
         });
 
         player.on('error', (err) => {
-            this.emit('playerError', err);
+            this.logger.error(err);
         });
 
         return player;

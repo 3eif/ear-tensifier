@@ -1,4 +1,5 @@
 const { VoiceConnection, TrackPlayer } = require('yasha');
+const { MessageEmbed } = require('discord.js');
 
 const Queue = require('./Queue');
 const { Filter } = require('./Filter');
@@ -39,6 +40,14 @@ module.exports = class Player extends TrackPlayer {
             },
         );
         this.subscription = this.connection.subscribe(this);
+
+        this.connection.on(VoiceConnection.Status.Destroyed, () => {
+            this.destroy();
+        });
+
+        this.connection.on('error', (error) => {
+            this.manager.logger.error(error);
+        });
     }
 
     disconnect() {
@@ -155,6 +164,9 @@ module.exports = class Player extends TrackPlayer {
     }
 
     pause(pause) {
+        const embed = new MessageEmbed(this.nowPlayingMessage.embeds[0].setAuthor(this.queue.current.author, this.pause ? 'https://eartensifier.net/images/cd.png' : 'https://eartensifier.net/images/cd.gif', this.queue.current.url));
+        this.nowPlayingMessage.edit({ content: null, embeds: [embed] });
+
         if (this.paused === pause || !this.queue.totalSize) return this;
 
         this.playing = !pause;
