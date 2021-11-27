@@ -4,8 +4,8 @@ class Filter {
 
         this.defaultEqualizer = [];
         this.defaultTremolo = {
-            gain: 0,
-            frequency: 0,
+            depth: 0.5,
+            frequency: 5.0,
         };
         this.defaultTempo = 1;
         this.defaultRate = 1;
@@ -14,7 +14,7 @@ class Filter {
 
     off() {
         this.player.setEqualizer(this.defaultEqualizer);
-        this.player.setTremolo(this.defaultTremolo.gain, this.defaultTremolo.frequency);
+        this.player.setTremolo(this.defaultTremolo.depth, this.defaultTremolo.frequency);
         this.player.setTempo(this.defaultTempo);
         this.player.setRate(this.defaultRate);
         this.player.setVolume(this.defaultVolume);
@@ -71,7 +71,7 @@ class Nightcore extends Filter {
     }
 
     off() {
-        this.player.setTremolo(this.defaultTremolo.gain, this.defaultTremolo.frequency);
+        this.player.setTremolo(this.defaultTremolo.depth, this.defaultTremolo.frequency);
         this.player.setRate(this.defaultRate);
     }
 }
@@ -87,7 +87,7 @@ class Vaporwave extends Filter {
     }
 
     off() {
-        this.player.setTremolo(this.defaultTremolo.gain, this.defaultTremolo.frequency);
+        this.player.setTremolo(this.defaultTremolo.depth, this.defaultTremolo.frequency);
         this.player.setRate(this.defaultRate);
     }
 }
@@ -170,7 +170,7 @@ class Earrape extends Filter {
 class Rate extends Filter {
     constructor(player, rate) {
         super(player);
-        this.rate = rate ? super.clamp(rate, 0.01, 10) : 1;
+        this.rate = super.clamp(rate, 0.01, 10);
     }
 
     on() {
@@ -197,4 +197,31 @@ class Tempo extends Filter {
     }
 }
 
-module.exports = { Filter, Bass, Nightcore, Vaporwave, Bassboost, Earrape, Rate, Tempo };
+class Tremolo extends Filter {
+    constructor(player, depth, frequency) {
+        super(player);
+        this.depth = depth ? super.clamp(depth, 0.01, 0.99) : 0.5;
+        this.frequency = frequency ? super.clamp(frequency, 0.1, 20000) : 5;
+    }
+
+    on() {
+        this.player.setTremolo(this.depth, this.frequency);
+    }
+
+    setDepth(depth) {
+        this.depth = depth ? super.clamp(depth, 0.01, 0.99) : 0.5;
+        this.on();
+    }
+
+    setFrequency(frequency) {
+        this.frequency = frequency ? super.clamp(frequency, 0.1, 20000) : 5;
+        this.on();
+    }
+
+    off() {
+        this.player.setTempo(this.defaultTremolo.depth, this.defaultTremolo.frequency);
+    }
+}
+
+
+module.exports = { Filter, Bass, Nightcore, Vaporwave, Bassboost, Earrape, Rate, Tempo, Tremolo };

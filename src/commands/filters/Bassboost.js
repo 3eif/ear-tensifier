@@ -26,9 +26,11 @@ module.exports = class Bassboost extends Command {
                     options: [
                         {
                             name: 'amount',
-                            type: 4,
+                            type: 10,
                             required: false,
-                            description: 'The amount to bassboost the player (-10 to 10).',
+                            description: 'The amount to bassboost the player.',
+                            min_value: -10,
+                            max_value: 10,
                         },
                     ],
                 },

@@ -35,7 +35,7 @@ module.exports = class MessageCreate extends Event {
         let args;
         let command;
 
-        const messageContent = message.content.replace('`', '');
+        const messageContent = message.content.replace('`', '').replace('  ', ' ');
 
         if (prefix === this.client.config.prefix && !this.client.config.prefix.endsWith(' ')) {
             args = messageContent.split(' ');

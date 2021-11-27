@@ -9,7 +9,7 @@ module.exports = class Tempo extends Command {
             name: 'tempo',
             description: {
                 content: 'Sets the tempo of the player.',
-                usage: '<tempo (0 to 10)>',
+                usage: '<tempo (0.5 to 10)>',
                 examples: ['0.7', '1.3', '6'],
             },
             aliases: ['speed'],
@@ -27,9 +27,11 @@ module.exports = class Tempo extends Command {
                     options: [
                         {
                             name: 'amount',
-                            type: 4,
+                            type: 10,
                             required: true,
-                            description: 'The amount to set the tempo to (0 to 10).',
+                            description: 'The amount to set the tempo to.',
+                            min_value: 0.5,
+                            max_value: 10,
                         },
                     ],
                 },
@@ -53,7 +55,9 @@ module.exports = class Tempo extends Command {
             return ctx.sendMessage({ content: null, embeds: [embed] });
         }
 
-        if (isNaN(args[0])) return ctx.sendMessage('Amount must be a real number.');
+        if (isNaN(args[0]) && ctx.isInteraction) args[0] = ctx.interaction.options.data[0].options[0].value;
+        else if (isNaN(args[0])) return ctx.sendMessage('Amount must be a real number.');
+        if (args[0] > 10 || args[0] < 0.5) return ctx.sendMessage('Amount must be between 0.5 and 10.');
 
         player.setFilter(new Filter.Tempo(player, args[0]));
         const embed = new MessageEmbed()

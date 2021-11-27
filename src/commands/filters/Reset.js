@@ -22,7 +22,7 @@ module.exports = class Reset extends Command {
         player.resetAllFilters();
 
         const embed = new MessageEmbed()
-            .setDescription('All filters have been reset', ctx.author.displayAvatarURL())
+            .setAuthor('All filters have been reset', ctx.author.displayAvatarURL())
             .setColor(client.config.colors.default);
         return ctx.sendMessage({ content: null, embeds: [embed] });
     }

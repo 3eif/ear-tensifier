@@ -36,6 +36,6 @@ module.exports = class Seek extends Command {
         player.seek(seconds);
 
         const parsedDuration = formatDuration(player.getTime());
-        return ctx.sendMessage(`Seeked to ${parsedDuration}`);
+        return ctx.sendMessage(`Seeked to ${parsedDuration ? parsedDuration : args[0]}`);
     }
 };
