@@ -9,7 +9,6 @@ class Filter {
         };
         this.defaultTempo = 1;
         this.defaultRate = 1;
-        this.defaultBitrate = 1;
         this.defaultVolume = 100;
     }
 
@@ -18,7 +17,6 @@ class Filter {
         this.player.setTremolo(this.defaultTremolo.gain, this.defaultTremolo.frequency);
         this.player.setTempo(this.defaultTempo);
         this.player.setRate(this.defaultRate);
-        this.player.setBitrate(this.defaultBitrate);
         this.player.setVolume(this.defaultVolume);
     }
 
@@ -69,7 +67,7 @@ class Nightcore extends Filter {
 
     on() {
         this.player.setRate(1.2);
-        this.player.setTremolo(0.5, 15);
+        this.player.setTremolo(0.4, 15);
     }
 
     off() {
@@ -85,7 +83,7 @@ class Vaporwave extends Filter {
 
     on() {
         this.player.setRate(0.8);
-        this.player.setTremolo(0.5, 15);
+        this.player.setTremolo(0.4, 15);
     }
 
     off() {
@@ -184,4 +182,19 @@ class Rate extends Filter {
     }
 }
 
-module.exports = { Filter, Bass, Nightcore, Vaporwave, Bassboost, Earrape, Rate };
+class Tempo extends Filter {
+    constructor(player, tempo) {
+        super(player);
+        this.tempo = tempo ? super.clamp(tempo, 0.5, 10) : 1;
+    }
+
+    on() {
+        this.player.setTempo(this.tempo);
+    }
+
+    off() {
+        this.player.setTempo(this.defaultTempo);
+    }
+}
+
+module.exports = { Filter, Bass, Nightcore, Vaporwave, Bassboost, Earrape, Rate, Tempo };

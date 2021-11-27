@@ -1,6 +1,7 @@
 const { VoiceConnection, TrackPlayer } = require('yasha');
 
 const Queue = require('./Queue');
+const { Filter } = require('./Filter');
 
 module.exports = class Player extends TrackPlayer {
 
@@ -76,6 +77,11 @@ module.exports = class Player extends TrackPlayer {
 
     resetFilter() {
         if (this.filter) this.filter.off();
+        this.filter = null;
+    }
+
+    resetAllFilters() {
+        new Filter(this).off();
         this.filter = null;
     }
 
