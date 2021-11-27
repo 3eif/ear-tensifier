@@ -18,6 +18,12 @@ module.exports = class Logger extends Signale {
 					label: 'offline',
 					logLevel: 'info',
 				},
+				command: {
+					badge: '⌨️',
+					color: 'magenta',
+					label: 'command',
+					logLevel: 'info',
+				},
 			},
 			scope: `${isMaster ? 'Parent Cluster' : `Cluster ${process.env.CLUSTER_ID}`}`,
 		});

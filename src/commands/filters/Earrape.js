@@ -10,6 +10,7 @@ module.exports = class Earrape extends Command {
             description: {
                 content: 'Turns the earrape filter on or off.',
             },
+            aliases: ['veryloud', 'hell', 'loud'],
             voiceRequirements: {
                 isInVoiceChannel: true,
                 isInSameVoiceChannel: true,

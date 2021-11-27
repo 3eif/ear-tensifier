@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const { ShardingManager } = require('kurasuta');
 const { join } = require('path');
 const { isPrimary } = require('cluster');
@@ -5,6 +6,8 @@ const { AutoPoster } = require('topgg-autoposter');
 const { init } = require('@sentry/node');
 const mongoose = require('mongoose');
 const Discord = require('discord.js');
+const figlet = require('figlet');
+
 require('custom-env').env(true);
 require('events').defaultMaxListeners = 15;
 
@@ -56,6 +59,8 @@ mongoose.connect(process.env.MONGO_URL, {
 });
 
 if (isPrimary) {
+    console.log(figlet.textSync(process.env.CLIENT_USERNAME));
+
     if (process.env.NODE_ENV === 'production') {
         if (process.env.TOPGG_TOKEN) {
             const poster = AutoPoster(process.env.TOPGG_TOKEN, manager);

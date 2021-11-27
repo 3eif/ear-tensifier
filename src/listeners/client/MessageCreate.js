@@ -79,6 +79,8 @@ module.exports = class MessageCreate extends Event {
 
         if (cmd.permissions.dev && !this.client.config.devs.includes(message.author.id)) return;
 
+        this.client.logger.command('%s used by %s from %s', commandName, message.author.id, message.guild.id);
+
         const permissionHelpMessage = `If you need help configuring the correct permissions for the bot join the support server: ${this.client.config.server}`;
         cmd.permissions.botPermissions.concat(['SEND_MESSAGES', 'EMBED_LINKS']);
         if (cmd.permissions.botPermissions.length > 0) {

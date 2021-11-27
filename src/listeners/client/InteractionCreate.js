@@ -19,7 +19,7 @@ module.exports = class InteractionCreate extends Event {
         const commandName = cmd.name.toLowerCase();
 
         const ctx = new Context(interaction, interaction.options.data);
-
+read
         const messageHelper = new MessageHelper(this.client, ctx);
         ctx.messageHelper = messageHelper;
         await messageHelper.createServer();
@@ -34,6 +34,8 @@ module.exports = class InteractionCreate extends Event {
         }
 
         if (cmd.permissions.permission === 'dev' && !this.client.config.devs.includes(interaction.user.id)) return;
+
+        this.client.logger.command('%s used by %s from %s', commandName, ctx.author.id, ctx.guild.id);
 
         const permissionHelpMessage = `If you need help configuring the correct permissions for the bot join the support server: ${this.client.config.server}`;
         cmd.permissions.botPermissions.concat(['SEND_MESSAGES', 'EMBED_LINKS']);
