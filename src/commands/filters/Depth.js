@@ -9,7 +9,7 @@ module.exports = class Depth extends Command {
             name: 'depth',
             description: {
                 content: 'Sets the tremolo\'s depth of the player.',
-                usage: '<depth (0 to 1)>',
+                usage: '<depth (0% to 100%)>',
                 examples: ['0.7', '1', 0.5],
             },
             aliases: ['tremolo-depth'],
@@ -31,13 +31,13 @@ module.exports = class Depth extends Command {
                             required: true,
                             description: 'The amount to set the depth to.',
                             min_value: 0,
-                            max_value: 1,
+                            max_value: 100,
                         },
                     ],
                 },
                 {
                     name: 'off',
-                    description: 'Sets the tremolo\'s depth back to 0.5.',
+                    description: 'Sets the tremolo\'s depth back to 50%.',
                     type: 1,
                 },
             ],
@@ -50,7 +50,7 @@ module.exports = class Depth extends Command {
         if ((ctx.isInteraction && ctx.interaction.options.data[0].name == 'off') || (args[0] && (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off'))) {
             player.resetFilter();
             const embed = new MessageEmbed()
-                .setAuthor('Depth has been reset to 0.5', ctx.author.displayAvatarURL())
+                .setAuthor('Depth has been reset to 50%', ctx.author.displayAvatarURL())
                 .setColor(client.config.colors.default);
             return ctx.sendMessage({ content: null, embeds: [embed] });
         }
@@ -59,11 +59,11 @@ module.exports = class Depth extends Command {
         else if (isNaN(args[0])) return ctx.sendMessage('Amount must be a real number.');
         if (args[0] > 1 || args[0] < 0) return ctx.sendMessage('Amount must be between 0 and 1.');
 
-        if (player.filter instanceof Filter.Tremolo) player.filter.setDepth(args[0]);
-        else player.setFilter(new Filter.Tremolo(player, args[0]));
+        if (player.filter instanceof Filter.Tremolo) player.filter.setDepth(args[0] / 100);
+        else player.setFilter(new Filter.Tremolo(player, args[0] / 100));
 
         const embed = new MessageEmbed()
-            .setAuthor(`Depth set to ${args[0]}`, ctx.author.displayAvatarURL())
+            .setAuthor(`Depth set to ${args[0]}%`, ctx.author.displayAvatarURL())
             .setColor(client.config.colors.default);
         return ctx.sendMessage({ content: null, embeds: [embed] });
     }
