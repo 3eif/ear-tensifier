@@ -1,10 +1,15 @@
 const express = require('express');
+const cors = require('cors');
 
 const Bot = require('../models/Bot');
 const app = express();
 const port = 3000;
 
 module.exports = client => {
+    app.use(cors());
+    app.use(express.urlencoded({ extended: false }));
+    app.use(express.json());
+
     app.get('/commands', (req, res) => {
         res.send(client.commands);
         client.logger.api('Received get request for /commands');
