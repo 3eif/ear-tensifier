@@ -43,6 +43,7 @@
     "kurasuta": "^3.0.1",
     "mongoose": "^6.0.12",
     "signale": "^1.4.0",
+    "statcord.js": "github:Tetracyl/statcord.js",
     "topgg-autoposter": "^2.0.0",
     "yasha": "github:ilikdoge/yasha"
   },

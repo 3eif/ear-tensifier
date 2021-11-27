@@ -1,26 +1,26 @@
 /* eslint-disable no-console */
 const { ShardingManager } = require('kurasuta');
-const { join } = require('path');
 const { isPrimary } = require('cluster');
 const { AutoPoster } = require('topgg-autoposter');
-const { init } = require('@sentry/node');
+const Sentry = require('@sentry/node');
+const path = require('path');
 const mongoose = require('mongoose');
 const Discord = require('discord.js');
 const figlet = require('figlet');
+const Statcord = require('statcord.js');
 
 require('custom-env').env(true);
 require('events').defaultMaxListeners = 15;
 
+const Logger = require('./structures/Logger');
 const Client = require('./structures/Client');
-const signale = require('signale');
 
-signale.config({
-    displayFilename: true,
+const logger = new Logger({
     displayTimestamp: true,
-    displayDate: false,
+    displayDate: true,
 });
 
-const manager = new ShardingManager(join(__dirname, 'structures', 'Cluster'), {
+const manager = new ShardingManager(path.join(__dirname, 'structures', 'Cluster'), {
     client: Client,
     respawn: false,
     // clusterCount: 3,
@@ -60,25 +60,47 @@ mongoose.connect(process.env.MONGO_URL, {
 
 if (isPrimary) {
     console.log(figlet.textSync(process.env.CLIENT_USERNAME));
-
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env.NODE_ENV == 'production') {
         if (process.env.TOPGG_TOKEN) {
             const poster = AutoPoster(process.env.TOPGG_TOKEN, manager);
             poster.on('posted', (stats) => {
-                signale.success(`Posted stats to Top.gg | ${stats.serverCount} servers`);
+                logger.complete('Posted stats to Top.gg: %d servers, %d shards', stats.serverCount, stats.shardCount);
             });
         }
+        else logger.warn('Top.gg token missing');
+
+        if (process.env.STATCORD_TOKEN) {
+            const statcord = new Statcord.ShardingClient({
+                key: process.env.STATCORD_TOKEN,
+                manager,
+                postCpuStatistics: true,
+                postMemStatistics: true,
+                postNetworkStatistics: true,
+                autopost: true,
+            });
+
+            statcord.on('post', status => {
+                if (!status) logger.complete('Posted stats to statcord.com');
+                else logger.error(status);
+            });
+        }
+        else logger.warn('Statcord token missing');
     }
 
-    if (process.env.NODE_ENV !== 'development' && process.env.SENTRY_URL) {
-        init({
-            dsn: process.env.SENTRY_DSN,
-            environment: process.env.NODE_ENV,
-            release: require('../package.json').version,
-        });
+    if (process.env.NODE_ENV != 'development') {
+        if (process.env.SENTRY_DSN) {
+            Sentry.init({
+                dsn: process.env.SENTRY_DSN,
+                environment: process.env.NODE_ENV,
+                release: require('../package.json').version,
+                tracesSampleRate: 0.5,
+            });
+            logger.complete('Connected to Sentry');
+        }
+        else logger.warn('Sentry dsn missing.');
     }
 }
 
-manager.spawn().catch((err) => signale.error(err));
+manager.spawn().catch((err) => logger.error(err));
 const ClusterMessage = require('./listeners/cluster/ClusterMessage');
 manager.on('message', (message) => new ClusterMessage(this, ClusterMessage).run(manager, message));

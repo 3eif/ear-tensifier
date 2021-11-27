@@ -24,8 +24,14 @@ module.exports = class Logger extends Signale {
 					label: 'command',
 					logLevel: 'info',
 				},
+				api: {
+					badge: '🛰️',
+					color: 'blue',
+					label: 'api',
+					logLevel: 'info',
+				},
 			},
-			scope: `${isMaster ? 'Parent Cluster' : `Cluster ${process.env.CLUSTER_ID}`}`,
+			scope: `${isMaster ? 'Cluster P' : `Cluster ${process.env.CLUSTER_ID}`}`,
 		});
 	}
 };

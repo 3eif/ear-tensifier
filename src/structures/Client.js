@@ -31,6 +31,7 @@ module.exports = class Client extends Discord.Client {
             categories.forEach(command => {
                 const f = require(`../commands/${category}/${command}`);
                 const cmd = new f(this, f);
+                cmd.category = category;
                 this.commands.set(cmd.name, cmd);
                 if (cmd.aliases && Array.isArray(cmd.aliases)) {
                     for (const alias of cmd.aliases) {
