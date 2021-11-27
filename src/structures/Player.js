@@ -48,6 +48,7 @@ module.exports = class Player extends TrackPlayer {
         }
         this.start();
         this.setVolume(this.volume);
+        if (this.filter) this.filter.on();
     }
 
     skip() {
@@ -62,6 +63,17 @@ module.exports = class Player extends TrackPlayer {
         this[key] = value;
     }
 
+    setFilter(filter) {
+        if (this.filter) this.filter.off();
+        this.filter = filter;
+        filter.on();
+    }
+
+    resetFilter() {
+        if (this.filter) this.filter.off();
+        this.filter = null;
+    }
+
     setVolume(volume) {
         if (volume > 100000) volume = 100000;
         super.setVolume(volume / 100);
@@ -72,7 +84,7 @@ module.exports = class Player extends TrackPlayer {
     }
 
     setRate(rate) {
-        super.rate(rate);
+        super.setRate(rate);
     }
 
     setTempo(tempo) {
