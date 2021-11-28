@@ -11,11 +11,30 @@ module.exports = client => {
     app.use(express.json());
 
     app.get('/commands', (req, res) => {
-        res.send(client.commands);
         client.logger.api('Received get request for /commands');
+        const commands = [];
+        client.commands.forEach(command => {
+            commands.push({
+                name: command.name,
+                description: command.description,
+                args: command.args,
+                aliases: command.aliases,
+                isEnabled: command.isEnabled,
+                hide: command.hide,
+                cooldown: command.cooldown,
+                voiceRequirements: command.voiceRequirements,
+                permissions: command.permissions,
+                options: command.options,
+                slashCommand: command.slashCommand,
+                guildOnly: command.guildOnly,
+                category: command.category,
+            });
+        });
+        res.send(commands);
     });
 
     app.get('/statistics', async (req, res) => {
+        client.logger.api('Received get request for /statistics');
         const promises = [
             client.shard.fetchClientValues('guilds.cache.size'),
             client.shard.broadcastEval(c => c.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0)),
@@ -39,8 +58,6 @@ module.exports = client => {
 
                 res.send(stats);
             }).catch(err => client.logger.error(err));
-
-        client.logger.api('Received get request for /statistics');
     });
 
     app.listen(port, () => {
