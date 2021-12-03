@@ -95,7 +95,7 @@ class Vaporwave extends Filter {
 class Bassboost extends Filter {
     constructor(player, bb) {
         super(player);
-        this.bb = bb ? super.clamp(bb, -30, 30) : 5;
+        this.bb = bb ? super.clamp(bb, -30, 10) : 5;
     }
 
     on() {

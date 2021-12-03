@@ -1,8 +1,7 @@
 const { Signale } = require('signale');
-const { isMaster } = require('cluster');
 
 module.exports = class Logger extends Signale {
-	constructor(config) {
+	constructor(config, client) {
 		super({
 			config: config,
 			types: {
@@ -31,7 +30,7 @@ module.exports = class Logger extends Signale {
 					logLevel: 'info',
 				},
 			},
-			scope: `${isMaster ? 'Cluster P' : `Cluster ${process.env.CLUSTER_ID}`}`,
+			scope: (client ? `Shard ${client.shard.ids}` : 'Main'),
 		});
 	}
 };

@@ -5,7 +5,7 @@ module.exports = class Shutdown extends Command {
         super(client, {
             name: 'shutdown',
             description: {
-                content: 'Shuts down the bot or a specific cluster if given.',
+                content: 'Shuts down the bot or a specific shard if given.',
                 usage: '<shard or "all">',
                 examples: ['1', 'all'],
             },
@@ -17,15 +17,15 @@ module.exports = class Shutdown extends Command {
     }
     async run(client, ctx, args) {
         if (!args[0] || args[0] == 'all') {
-            await ctx.sendMessage('Shutting down all clusters...');
-            client.shard.send({ type: 'shutdown', cluster: 'all' });
+            await ctx.sendMessage('Shutting down all shards...');
+            client.shard.send({ type: 'shutdown', shard: 'all' });
         }
         else if (!isNaN(args[0])) {
-            await ctx.sendMessage(`Shutting down cluster ${args[0]}...`);
-            client.shard.send({ type: 'shutdown', cluster: Number(args[0]) });
+            await ctx.sendMessage(`Shutting down shard ${args[0]}...`);
+            client.shard.send({ type: 'shutdown', shard: Number(args[0]) });
         }
         else {
-            await ctx.sendMessage('Invalid argument. Please specify a cluster or "all".');
+            await ctx.sendMessage('Invalid argument. Please specify a shard or "all".');
         }
     }
 };

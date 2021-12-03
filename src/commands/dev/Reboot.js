@@ -5,7 +5,7 @@ module.exports = class Reboots extends Command {
         super(client, {
             name: 'reboot',
             description: {
-                content: 'Reboots the bot or a specific cluster if given.',
+                content: 'Reboots the bot or a specific shard if given.',
                 usage: '<shard or "all">',
                 examples: ['1', 'all'],
             },
@@ -17,15 +17,15 @@ module.exports = class Reboots extends Command {
     }
     async run(client, ctx, args) {
         if (!args[0] || args[0] == 'all') {
-            await ctx.sendMessage('Rebooting all clusters...');
-            client.shard.send({ type: 'reboot', cluster: 'all' });
+            await ctx.sendMessage('Rebooting all shards...');
+            client.shard.send({ type: 'reboot', shard: 'all' });
         }
         else if (!isNaN(args[0])) {
-            await ctx.sendMessage(`Rebooting cluster ${args[0]}...`);
-            client.shard.send({ type: 'reboot', cluster: Number(args[0]) });
+            await ctx.sendMessage(`Rebooting shard ${args[0]}...`);
+            client.shard.send({ type: 'reboot', shard: Number(args[0]) });
         }
         else {
-            await ctx.sendMessage('Invalid argument. Please specify a cluster or "all".');
+            await ctx.sendMessage('Invalid argument. Please specify a shard or "all".');
         }
     }
 };

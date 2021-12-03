@@ -5,7 +5,7 @@ module.exports = class Reload extends Command {
         super(client, {
             name: 'reload',
             description: {
-                content: 'Reloads all commands across all clusters.',
+                content: 'Reloads all commands across all shards.',
                 usage: '<category> <command>',
                 examples: ['bot ping', 'music play'],
             },
@@ -22,12 +22,10 @@ module.exports = class Reload extends Command {
         const categoryName = args[0].toLowerCase();
         const command = client.commands.get(commandName.toLowerCase()) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName.toLowerCase()));
 
-        if (!command) {
-            return ctx.sendMessage('I could not find that command.');
-        }
+        if (!command) return ctx.sendMessage('I could not find that command.');
 
         try {
-            client.shard.broadcastEval(`this.reloadCommand('${categoryName}', '${commandName}')`);
+            client.shard.broadcastEval(client.reloadCommand, { context: { categoryName: categoryName, commandName: commandName } });
             return ctx.sendMessage(`Reloaded the **${commandName.toLowerCase()}** command.`);
         }
         catch (e) {

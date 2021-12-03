@@ -22,7 +22,7 @@ module.exports = class Shards extends Command {
         ];
 
         const shardInfo = await client.shard.broadcastEval(c => ({
-            id: c.shard.id,
+            id: c.shard.ids,
             shards: c.shard.shards,
             status: c.shard.client.presence.status,
             guilds: c.guilds.cache.size,
@@ -42,8 +42,7 @@ module.exports = class Shards extends Command {
         let totalPlayingPlayers = 0;
         shardInfo.forEach(i => {
             const status = i.status === 'online' ? client.config.emojis.online : client.config.emojis.offline;
-            embed.addField(`${status} Cluster ${(parseInt(i.id)).toString()}`, `\`\`\`js
-Shards: ${i.shards.length}\nServers: ${i.guilds.toLocaleString()}\nChannels: ${i.channels.toLocaleString()}\nUsers: ${i.members.toLocaleString()}
+            embed.addField(`${status} Shard ${(parseInt(i.id)).toString()}`, `\`\`\`js\nServers: ${i.guilds.toLocaleString()}\nChannels: ${i.channels.toLocaleString()}\nUsers: ${i.members.toLocaleString()}
 Memory: ${Number(i.memoryUsage).toLocaleString()} MB\nAPI: ${i.ping.toLocaleString()} ms\nPlayers: ${i.playingPlayers.toLocaleString()}/${i.players.toLocaleString()}\`\`\``, true);
             totalPlayers += i.players;
             totalPlayingPlayers += i.playingPlayers;
@@ -62,7 +61,7 @@ Memory: ${Number(i.memoryUsage).toLocaleString()} MB\nAPI: ${i.ping.toLocaleStri
                 const totalGuilds = results[0].reduce((prev, guildCount) => prev + guildCount, 0);
                 const totalMembers = results[1].reduce((prev, memberCount) => prev + memberCount, 0);
 
-                embed.setDescription(`This guild is currently on **Shard ${ctx.guild.shardId}** and **Cluster ${client.shard.id}**.`);
+                embed.setDescription(`This guild is currently on **Shard ${client.shard.ids}**.`);
                 embed.addField(client.config.emojis.online + ' Total Stats', `\`\`\`js
 Total Servers: ${totalGuilds.toLocaleString()}\nTotal Channels: ${totalChannels.toLocaleString()}\nTotal Users: ${totalMembers.toLocaleString()}\nTotal Memory: ${totalMemory.toFixed(2)} MB\nAvg API Latency: ${avgLatency} ms\nTotal Players: ${totalPlayingPlayers}/${totalPlayers}\`\`\``);
                 embed.setTimestamp();

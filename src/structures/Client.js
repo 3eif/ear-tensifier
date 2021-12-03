@@ -7,8 +7,32 @@ const Logger = require('./Logger.js');
 const DatabaseHelper = require('../helpers/DatabaseHelper.js');
 
 module.exports = class Client extends Discord.Client {
-    constructor(options) {
-        super({ ...options });
+    constructor() {
+        super({
+            allowedMentions: { parse: ['roles'], repliedUser: false },
+            makeCache: Discord.Options.cacheWithLimits({
+                ...Discord.Options.defaultMakeCacheSettings,
+                MessageManager: {
+                    sweepInterval: 300,
+                    sweepFilter: Discord.LimitedCollection.filterByLifetime({
+                        lifetime: 1800,
+                        getComparisonTimestamp: e => e.editedTimestamp || e.createdTimestamp,
+                    }),
+                },
+            }),
+            partials: [
+                'MESSAGE',
+                'CHANNEL',
+                'REACTION',
+            ],
+            intents: [
+                'GUILDS',
+                'GUILD_MESSAGES',
+                'GUILD_VOICE_STATES',
+                'GUILD_MESSAGE_REACTIONS',
+            ],
+            restTimeOffset: 0,
+        });
 
         this.commands = new Discord.Collection();
         this.aliases = new Discord.Collection();
@@ -16,7 +40,7 @@ module.exports = class Client extends Discord.Client {
         this.logger = new Logger({
             displayTimestamp: true,
             displayDate: true,
-        });
+        }, this);
 
         this.databaseHelper = new DatabaseHelper(this);
 
@@ -68,7 +92,7 @@ module.exports = class Client extends Discord.Client {
         });
     }
 
-    reloadCommand(categoryName, commandName) {
+    reloadCommand({ categoryName, commandName }) {
         try {
             const command = this.commands.get(commandName.toLowerCase()) || this.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName.toLowerCase()));
             if (!command) return;
@@ -91,12 +115,6 @@ module.exports = class Client extends Discord.Client {
     }
 
     shardMessage(channelId, message, isEmbed) {
-        const s = JSON.stringify(message);
-
-        this.shard.broadcastEval(`this.sendMessage('${channelId}', '${s}', ${isEmbed})`);
-    }
-
-    sendMessage(channelId, message, isEmbed) {
         const channel = this.channels.cache.get(channelId);
         if (channel) {
             if (!isEmbed) {
@@ -108,7 +126,7 @@ module.exports = class Client extends Discord.Client {
         }
     }
 
-    async login(token = this.token) {
+    async login(token) {
         super.login(token);
 
         this.loadCommands();

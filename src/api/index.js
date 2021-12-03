@@ -3,7 +3,7 @@ const cors = require('cors');
 
 const Bot = require('../models/Bot');
 const app = express();
-const port = 3000;
+const port = 9999;
 
 module.exports = client => {
     app.use(cors());

@@ -5,7 +5,7 @@ module.exports = class Broadcast extends Command {
         super(client, {
             name: 'broadcast',
             description: {
-                content: 'Sends a message to all players in all clusters.',
+                content: 'Sends a message to all players in all shards.',
             },
             permissions: {
                 dev: true,
@@ -15,9 +15,13 @@ module.exports = class Broadcast extends Command {
     async run(client, ctx, args) {
         await ctx.sendDeferMessage(`${client.config.emojis.typing} Broadcasting message...`);
 
-        const message = args.join(' ');
-        const players = await client.shard.broadcastEval(`this.music.players.each(p => p.textChannel.send('${message}'))`);
+        const arg = args.join(' ');
+        await client.shard.broadcastEval(broadcastMessage, { context: { message: arg } });
 
-        ctx.editMessage(`${client.config.emojis.success} Successfully broadcasted message to ${players.size} channels.`);
+        function broadcastMessage(c, { message }) {
+            c.music.players.each(p => p.textChannel.send(message));
+        }
+
+        ctx.editMessage(`${client.config.emojis.success} Successfully broadcasted message to ${client.music.players.size} server.`);
     }
 };
