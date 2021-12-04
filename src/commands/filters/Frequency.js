@@ -47,7 +47,7 @@ module.exports = class Frequency extends Command {
         const player = client.music.players.get(ctx.guild.id);
 
         if ((ctx.isInteraction && ctx.interaction.options.data[0].name == 'off') || (args[0] && (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off'))) {
-            player.resetFrequency();
+            player.filter.resetFrequency();
             const embed = new MessageEmbed()
                 .setAuthor('Frequency has been reset to 5.0Hz', ctx.author.displayAvatarURL())
                 .setColor(client.config.colors.default);

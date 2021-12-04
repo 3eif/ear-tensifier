@@ -10,6 +10,9 @@ module.exports = class Bench extends Command {
             },
             args: false,
             slashCommand: false,
+            permissions: {
+                dev: true,
+            },
         });
     }
 

@@ -91,18 +91,16 @@ module.exports = class Search extends Command {
             }
 
             if (!results) {
-                results = new FileTrack(query, ctx.author);
-                source = 'file';
-            }
-
-            if (!results) {
                 results = await Source.Youtube.search(query);
                 source = 'youtube';
             }
 
-            if (!results) return ctx.editMessage('No results found.');
+            if (!results || results.length === 0) {
+                results = new FileTrack(query, ctx.author);
+                source = 'file';
+            }
 
-            if (!results.duration && !(await FileTrack.getDuration(results.url))) return ctx.editMessage('No results found.');
+            if (!results) return ctx.editMessage('No results found.');
 
             if (results instanceof Track || results instanceof FileTrack) {
                 const track = results;

@@ -46,7 +46,7 @@ module.exports = class Bassboost extends Command {
         const player = client.music.players.get(ctx.guild.id);
 
         if ((ctx.isInteraction && ctx.interaction.options.data[0].name == 'off') || (args[0] && (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off'))) {
-            player.filter.resetBassboost();
+            player.filter.setBassboost(false);
             const embed = new MessageEmbed()
                 .setAuthor('Turned off bassboost', ctx.author.displayAvatarURL())
                 .setColor(client.config.colors.default);

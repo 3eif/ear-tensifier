@@ -11,11 +11,19 @@ module.exports = class Clean extends Command {
             },
             aliases: ['purge'],
             args: false,
-            slashCommand: false,
+            slashCommand: true,
             permissions: {
                 userPermissions: ['MANAGE_MESSAGES'],
                 botPermissions: ['MANAGE_MESSAGES'],
             },
+            options: [
+                {
+                    name: 'messages',
+                    type: 4,
+                    required: true,
+                    description: 'The amount of messages to clean up.',
+                },
+            ],
         });
     }
 

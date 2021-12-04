@@ -42,6 +42,7 @@ module.exports = class ShardMessage extends Event {
                 }
                 break;
             case 'statcord':
+                if (!manager.statcord) return;
                 if (manager.statcordHandlerRegistered) return;
                 manager.statcordHandlerRegistered = true;
                 switch (message.value) {

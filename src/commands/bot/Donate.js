@@ -9,7 +9,7 @@ module.exports = class Donate extends Command {
             },
             aliases: ['patreon'],
             args: false,
-            slashCommand: false,
+            slashCommand: true,
         });
     }
 

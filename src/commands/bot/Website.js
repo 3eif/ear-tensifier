@@ -9,7 +9,7 @@ module.exports = class Website extends Command {
             },
             aliases: ['site'],
             args: false,
-            slashCommand: false,
+            slashCommand: true,
         });
     }
 

@@ -3,7 +3,7 @@ const Command = require('../../structures/Command');
 module.exports = class TwentyFourSeven extends Command {
     constructor(client) {
         super(client, {
-            name: 'TwentyFourSeven',
+            name: 'twentyfourseven',
             description: {
                 content: 'Stays in the voice channel even if no one is in it.',
             },

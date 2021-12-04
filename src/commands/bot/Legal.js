@@ -11,7 +11,7 @@ module.exports = class Legal extends Command {
             },
             aliases: ['privacy', 'policy', 'privacypolicy', 'privacy-policy', 'privacy policy'],
             args: false,
-            slashCommand: false,
+            slashCommand: true,
         });
     }
 

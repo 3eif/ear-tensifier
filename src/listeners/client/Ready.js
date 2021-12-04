@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
+const blapi = require('blapi');
 
 const Event = require('../../structures/Event');
 const Manager = require('../../structures/Manager');
+const lists = require('../../../lists.json');
 
 module.exports = class Ready extends Event {
     constructor(...args) {
@@ -25,13 +27,26 @@ module.exports = class Ready extends Event {
         this.client.loadPlayerListeners();
 
         if (this.client.shard.ids[0] == this.client.shard.count - 1) {
-            this.client.logger.ready('Ear Tensifier is ready');
+            const guildNum = await this.client.shard.fetchClientValues('guilds.cache.size');
+            const memberNum = await this.client.shard.broadcastEval(c => c.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0));
+            const totalMembers = memberNum.reduce((prev, memberCount) => prev + memberCount, 0);
+            const totalGuilds = guildNum.reduce((total, shard) => total + shard, 0);
 
+            this.client.logger.ready('%s is online: %s shards, %s servers, and %s members.', this.client.user.username, this.client.shard.count, totalGuilds, totalMembers);
             if (process.env.NODE_ENV == 'production' || process.env.NODE_ENV == 'development') {
                 try {
                     require('../../api/index.js')(this.client);
-                    this.client.shard.send({ type: 'statcord', value: 1 });
-                    this.client.shard.send({ type: 'statcord', value: 2 });
+                    blapi.setLogging({
+                        extended: true,
+                        logger: this.client.logger,
+                    });
+
+                    if (process.env.NODE_ENV == 'production') {
+                        blapi.manualPost(totalGuilds, this.client.user.id, lists);
+                        setInterval(async () => {
+                            blapi.manualPost(totalGuilds, this.client.user.id, lists);
+                        }, 1800000);
+                    }
                 }
                 catch (err) {
                     this.client.logger.error(err.message);

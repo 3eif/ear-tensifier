@@ -5,7 +5,7 @@ module.exports = class Filter {
         this.defaultEqualizer = [];
         this.defaultTremolo = {
             depth: 0,
-            frequency: 0,
+            frequency: 5,
         };
         this.defaultTempo = 1;
         this.defaultRate = 1;
@@ -34,7 +34,7 @@ module.exports = class Filter {
     setTremolo(depth, frequency) {
         this.tremolo = {
             depth: depth ? this.clamp(depth, 0.01, 0.99) : 0,
-            frequency: frequency ? this.clamp(frequency, 0.1, 20000) : 0,
+            frequency: frequency ? this.clamp(frequency, 0.1, 20000) : 5,
         };
         this.player.setTremolo(this.tremolo.depth, this.tremolo.frequency);
     }

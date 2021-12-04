@@ -15,6 +15,7 @@ module.exports = class Stats extends Command {
             },
             cooldown: 5,
             args: false,
+            slashCommand: true,
         });
     }
     async run(client, ctx) {
