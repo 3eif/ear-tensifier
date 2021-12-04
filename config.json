@@ -48,7 +48,11 @@
         "progress7": "<:7_:913538687286001716>",
         "progress8": "<:8_:913551185842176020>",
         "cdplaying": "<a:earcdplaying:913542541499039784>",
-        "cdstopped": "<a:earcdstopped:913541747466993714>"
+        "cdstopped": "<a:earcdstopped:913541747466993714>",
+        "pause": "<:earpause:916547288069984308>",
+        "previous": "<:earprevious:916547288254513192>",
+        "skip": "<:earskip:916547288216764426>",
+        "resume": "<:earresume:916549575035203605>"
     },
     "channels": {
         "guildlogs": "734204437601583115"

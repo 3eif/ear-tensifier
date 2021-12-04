@@ -173,9 +173,9 @@ module.exports = class Search extends Command {
                 .addComponents(
                     new MessageButton()
                         .setCustomId(`${ctx.id}:BUTTON`)
-                        .setStyle('SECONDARY')
+                        .setStyle('DANGER')
                         .setLabel('Cancel')
-                        .setEmoji('❌'),
+                        .setEmoji('🗑️'),
                 );
 
             client.on('interactionCreate', async interaction => {

@@ -164,8 +164,10 @@ module.exports = class Player extends TrackPlayer {
     }
 
     pause(pause) {
-        const embed = new MessageEmbed(this.nowPlayingMessage.embeds[0].setAuthor(this.queue.current.author, this.pause ? 'https://eartensifier.net/images/cd.png' : 'https://eartensifier.net/images/cd.gif', this.queue.current.url));
-        this.nowPlayingMessage.edit({ content: null, embeds: [embed] });
+        if (this.queue.current) {
+            const embed = new MessageEmbed(this.nowPlayingMessage.embeds[0].setAuthor(this.queue.current.author, this.pause ? 'https://eartensifier.net/images/cd.png' : 'https://eartensifier.net/images/cd.gif', this.queue.current.url));
+            this.nowPlayingMessage.edit({ content: null, embeds: [embed] });
+        }
 
         if (this.paused === pause || !this.queue.totalSize) return this;
 

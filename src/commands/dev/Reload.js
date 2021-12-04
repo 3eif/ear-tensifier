@@ -62,7 +62,7 @@ module.exports = class Reload extends Command {
                         .setCustomId(`${ctx.id}:CANCEL_BUTTON`)
                         .setStyle('SECONDARY')
                         .setLabel('Cancel')
-                        .setEmoji('❌'),
+                        .setEmoji(client.config.emojis.failure),
                 );
 
             const embed = new Discord.MessageEmbed()
@@ -137,15 +137,15 @@ module.exports = class Reload extends Command {
                             .setCustomId(`${ctx.id}:BACK_BUTTON`)
                             .setStyle('SECONDARY')
                             .setLabel('Back')
-                            .setEmoji('⬅️'),
+                            .setEmoji(client.config.emojis.left),
                     );
 
                     buttonRow.addComponents(
                         new Discord.MessageButton()
                             .setCustomId(`${ctx.id}:CANCEL_BUTTON`)
-                            .setStyle('SECONDARY')
+                            .setStyle('DANGER')
                             .setLabel('Cancel')
-                            .setEmoji('❌'),
+                            .setEmoji('🗑️'),
                     );
 
                     await interaction.update({ embeds: [embed], components: [selectMenuRow, buttonRow] });
