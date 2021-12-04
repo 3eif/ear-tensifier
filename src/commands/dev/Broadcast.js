@@ -22,6 +22,6 @@ module.exports = class Broadcast extends Command {
             c.music.players.each(p => p.textChannel.send(message));
         }
 
-        ctx.editMessage(`${client.config.emojis.success} Successfully broadcasted message to ${client.music.players.size} server.`);
+        ctx.editMessage(`${client.config.emojis.success} Successfully broadcasted message to ${client.music.players.size} servers.`);
     }
 };

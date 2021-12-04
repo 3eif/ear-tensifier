@@ -4,7 +4,7 @@ class Filter {
 
         this.defaultEqualizer = [];
         this.defaultTremolo = {
-            depth: 0.5,
+            depth: 0,
             frequency: 5.0,
         };
         this.defaultTempo = 1;
@@ -83,7 +83,7 @@ class Vaporwave extends Filter {
 
     on() {
         this.player.setRate(0.8);
-        this.player.setTremolo(0.4, 15);
+        this.player.setTremolo(0.3, 15);
     }
 
     off() {

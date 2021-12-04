@@ -3,11 +3,11 @@ const Command = require('../../structures/Command');
 module.exports = class TwentyFourSeven extends Command {
     constructor(client) {
         super(client, {
-            name: '247',
+            name: 'TwentyFourSeven',
             description: {
                 content: 'Stays in the voice channel even if no one is in it.',
             },
-            aliases: ['stay', '247', '24-7', '24seven', '24-7mode', 'twentyfourseven'],
+            aliases: ['stay', '247', '24-7', '24seven', '24-7mode', 'twentyfourseven', '24/7'],
             voiceRequirements: {
                 isInVoiceChannel: true,
             },

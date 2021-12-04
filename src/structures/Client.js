@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const fs = require('fs');
 
-const commandsFodler = fs.readdirSync('./src/commands/');
+const commandsFolder = fs.readdirSync('./src/commands/');
 const listenersFolder = fs.readdirSync('./src/listeners/');
 const Logger = require('./Logger.js');
 const DatabaseHelper = require('../helpers/DatabaseHelper.js');
@@ -50,20 +50,25 @@ module.exports = class Client extends Discord.Client {
     }
 
     loadCommands() {
-        commandsFodler.forEach(category => {
-            const categories = fs.readdirSync(`./src/commands/${category}/`);
-            categories.forEach(command => {
-                const f = require(`../commands/${category}/${command}`);
-                const cmd = new f(this, f);
-                cmd.category = category;
-                this.commands.set(cmd.name, cmd);
-                if (cmd.aliases && Array.isArray(cmd.aliases)) {
-                    for (const alias of cmd.aliases) {
-                        this.aliases.set(alias, cmd);
-                    }
-                }
-            });
+        commandsFolder.forEach(category => {
+            const categories = fs.readdirSync(`${process.cwd()}/src/commands/${category}/`);
+            categories.forEach(command => this.loadCommand(command, category));
         });
+    }
+
+    loadCommand(command, category) {
+        const f = require(`${process.cwd()}/src/commands/${category}/${command}`);
+        const cmd = new f(this, f);
+        cmd.category = category;
+        cmd.file = f;
+        cmd.fileName = f.name;
+        this.commands.set(cmd.name, cmd);
+        if (cmd.aliases && Array.isArray(cmd.aliases)) {
+            for (const alias of cmd.aliases) {
+                this.aliases.set(alias, cmd);
+            }
+        }
+        return cmd;
     }
 
     loadListeners() {
@@ -92,28 +97,6 @@ module.exports = class Client extends Discord.Client {
         });
     }
 
-    reloadCommand({ categoryName, commandName }) {
-        try {
-            const command = this.commands.get(commandName.toLowerCase()) || this.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName.toLowerCase()));
-            if (!command) return;
-
-            delete require.cache[require.resolve(`../commands/${categoryName}/${commandName}.js`)];
-            this.commands.delete(command.name);
-
-            const newFile = require(`../commands/${categoryName}/${commandName}.js`);
-            const newCommand = new newFile(this, newFile);
-            this.commands.set(newCommand.name, newCommand);
-            if (newCommand.aliases && Array.isArray(newCommand.aliases)) {
-                for (const alias of newCommand.aliases) {
-                    this.aliases.set(alias, newCommand);
-                }
-            }
-        }
-        catch (error) {
-            this.logger.error(error);
-        }
-    }
-
     shardMessage(channelId, message, isEmbed) {
         const channel = this.channels.cache.get(channelId);
         if (channel) {
@@ -123,6 +106,30 @@ module.exports = class Client extends Discord.Client {
             else {
                 channel.send({ embeds: [message] });
             }
+        }
+    }
+
+    reloadFile(fileToReload) {
+        delete require.cache[require.resolve(fileToReload)];
+        return require(fileToReload);
+    }
+
+    reloadCommands(commandsToReload) {
+        if (commandsToReload.length > 0) {
+            commandsToReload.forEach(c => {
+                if (c) {
+                    this.reloadFile(`${process.cwd()}/src/commands/${c.category}/${c.fileName}`);
+                    this.loadCommand(c.fileName, c.category);
+                    this.logger.info('Reloaded %s command', c.fileName);
+                }
+            });
+        }
+        else {
+            this.commands.forEach(command => {
+                this.reloadFile(`${process.cwd()}/src/commands/${command.category}/${command.fileName}`);
+                this.logger.info('Reloaded %s command', command.fileName);
+            });
+            this.loadCommands();
         }
     }
 

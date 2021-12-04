@@ -25,5 +25,7 @@ module.exports = class Command {
         this.options = options.options || [];
         this.slashCommand = options.slashCommand || false;
         this.guildOnly = options.guildOnly || false;
+        this.file = options.file || null;
+        this.category = options.category || 'general';
     }
 };

@@ -1,6 +1,6 @@
 const Command = require('../../structures/Command');
 
-module.exports = class Reboots extends Command {
+module.exports = class Reboot extends Command {
     constructor(client) {
         super(client, {
             name: 'reboot',
