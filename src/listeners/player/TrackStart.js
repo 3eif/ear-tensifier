@@ -50,41 +50,6 @@ module.exports = class TrackStart extends Event {
             .setTimestamp();
         player.nowPlayingMessage = await player.textChannel.send({ embeds: [embed], components: [buttonRow] });
 
-        this.client.on('interactionCreate', async interaction => {
-            if (!interaction.isButton()) return;
-            player.nowPlayingMessage.interaction = interaction;
-            switch (interaction.customId) {
-                case 'PREVIOUS_BUTTON':
-                    if (player.queue.previous.length > 0) {
-                        player.queue.unshift(player.queue.previous.pop());
-                        player.skip();
-                    }
-                    break;
-                case 'PAUSE_BUTTON':
-                    if (player.paused) {
-                        player.pause(false);
-                        buttonRow.components[1] = new MessageButton()
-                            .setCustomId('PAUSE_BUTTON')
-                            .setStyle('PRIMARY')
-                            .setEmoji(this.client.config.emojis.pause);
-                    }
-                    else {
-                        player.pause(true);
-                        buttonRow.components[1] = new MessageButton()
-                            .setCustomId('PAUSE_BUTTON')
-                            .setStyle('PRIMARY')
-                            .setEmoji(this.client.config.emojis.resume);
-                    }
-                    await interaction.update({ components: [buttonRow] });
-                    break;
-                case 'SKIP_BUTTON':
-                    if (player.trackRepeat) player.setTrackRepeat(false);
-                    if (player.queueRepeat) player.setQueueRepeat(false);
-                    if (player) player.skip();
-                    break;
-            }
-        });
-
         player.nowPlayingMessage.interval = setInterval(() => {
             parsedCurrentDuration = formatDuration(player.getTime());
             parsedDuration = formatDuration(duration);

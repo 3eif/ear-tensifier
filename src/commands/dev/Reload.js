@@ -69,22 +69,26 @@ module.exports = class Reload extends Command {
                 .setAuthor('Reload File', client.user.displayAvatarURL())
                 .setColor(client.config.colors.default)
                 .setDescription(`📂 **${dir}**` + folders.map(dir => `\n- 📁 ${dir} `).join('') + files.map(dir => `\n- 📄 ${dir} `).join(''));
-            ctx.sendMessage({ embeds: [embed], components: [selectMenuRow, buttonRow] });
+            const message = await ctx.sendMessage({ embeds: [embed], components: [selectMenuRow, buttonRow] });
 
-            client.on('interactionCreate', async interaction => {
-                if (interaction.isButton() && interaction.member.id == ctx.author.id) {
-                    if (interaction.customId === `${ctx.id}:CANCEL_BUTTON`) {
-                        hasReceivedIndexes = true;
-                        return interaction.message.delete();
-                    }
-                    else if (interaction.customId === `${ctx.message.id}:BACK_BUTTON`) {
-                        currentDir = currentDir.split('/').slice(0, -1).join('/');
-                        dir = currentDir.split('/').slice(currentDir.split('/').length - 1);
-                        await updateMessage();
-                    }
+            const buttonCollector = message.createMessageComponentCollector({ componentType: 'BUTTON', time: 15000 });
+            buttonCollector.on('collect', async interaction => {
+                if (interaction.user.id != ctx.author.id) return;
+                if (interaction.customId === `${ctx.id}:CANCEL_BUTTON`) {
+                    hasReceivedIndexes = true;
+                    return interaction.message.delete();
                 }
+                else if (interaction.customId === `${ctx.message.id}:BACK_BUTTON`) {
+                    currentDir = currentDir.split('/').slice(0, -1).join('/');
+                    dir = currentDir.split('/').slice(currentDir.split('/').length - 1);
+                    await updateMessage();
+                    await interaction.update({ embeds: [embed], components: [selectMenuRow, buttonRow] });
+                }
+            });
 
-                if (!interaction.isSelectMenu()) return;
+            const selectMenuCollector = message.createMessageComponentCollector({ componentType: 'SELECT_MENU', time: 15000 });
+            selectMenuCollector.on('collect', async interaction => {
+                if (interaction.user.id != ctx.author.id) return;
                 if (interaction.customId != `${ctx.id}:SELECT_MENU`) return;
                 if (interaction.member.id != ctx.author.id) return;
                 hasReceivedIndexes = true;
@@ -102,55 +106,55 @@ module.exports = class Reload extends Command {
                 }
 
                 await updateMessage();
-
-                async function updateMessage() {
-                    const files = fs.readdirSync(currentDir).filter((file) => {
-                        return fs.statSync(currentDir + '/' + file).isFile();
-                    });
-                    const folders = fs.readdirSync(currentDir).filter((file) => {
-                        return fs.statSync(currentDir + '/' + file).isDirectory();
-                    });
-                    dirs = [...folders, ...files];
-
-                    embed.setDescription(`📂 **${dir}**` + folders.map(dir => `\n- 📁 ${dir} `).join('') + files.map(dir => `\n- 📄 ${dir} `).join(''));
-                    selectMenuArray = [];
-                    for (let i = 0; i < dirs.length; i++) {
-                        const dir = dirs[i];
-                        selectMenuArray.push({
-                            label: dir,
-                            value: i.toString(),
-                        });
-                    }
-
-                    selectMenuRow = new Discord.MessageActionRow()
-                        .addComponents(
-                            new Discord.MessageSelectMenu()
-                                .setCustomId(`${ctx.message.id}:SELECT_MENU`)
-                                .setPlaceholder('Nothing selected')
-                                .addOptions(selectMenuArray),
-                        );
-
-                    buttonRow = new Discord.MessageActionRow();
-
-                    if (currentDir != './src') buttonRow.addComponents(
-                        new Discord.MessageButton()
-                            .setCustomId(`${ctx.id}:BACK_BUTTON`)
-                            .setStyle('SECONDARY')
-                            .setLabel('Back')
-                            .setEmoji(client.config.emojis.left),
-                    );
-
-                    buttonRow.addComponents(
-                        new Discord.MessageButton()
-                            .setCustomId(`${ctx.id}:CANCEL_BUTTON`)
-                            .setStyle('DANGER')
-                            .setLabel('Cancel')
-                            .setEmoji('🗑️'),
-                    );
-
-                    await interaction.update({ embeds: [embed], components: [selectMenuRow, buttonRow] });
-                }
+                await interaction.update({ embeds: [embed], components: [selectMenuRow, buttonRow] });
             });
+
+            // eslint-disable-next-line no-inner-declarations
+            async function updateMessage() {
+                const files = fs.readdirSync(currentDir).filter((file) => {
+                    return fs.statSync(currentDir + '/' + file).isFile();
+                });
+                const folders = fs.readdirSync(currentDir).filter((file) => {
+                    return fs.statSync(currentDir + '/' + file).isDirectory();
+                });
+                dirs = [...folders, ...files];
+
+                embed.setDescription(`📂 **${dir}**` + folders.map(dir => `\n- 📁 ${dir} `).join('') + files.map(dir => `\n- 📄 ${dir} `).join(''));
+                selectMenuArray = [];
+                for (let i = 0; i < dirs.length; i++) {
+                    const dir = dirs[i];
+                    selectMenuArray.push({
+                        label: dir,
+                        value: i.toString(),
+                    });
+                }
+
+                selectMenuRow = new Discord.MessageActionRow()
+                    .addComponents(
+                        new Discord.MessageSelectMenu()
+                            .setCustomId(`${ctx.message.id}:SELECT_MENU`)
+                            .setPlaceholder('Nothing selected')
+                            .addOptions(selectMenuArray),
+                    );
+
+                buttonRow = new Discord.MessageActionRow();
+
+                if (currentDir != './src') buttonRow.addComponents(
+                    new Discord.MessageButton()
+                        .setCustomId(`${ctx.id}:BACK_BUTTON`)
+                        .setStyle('SECONDARY')
+                        .setLabel('Back')
+                        .setEmoji(client.config.emojis.left),
+                );
+
+                buttonRow.addComponents(
+                    new Discord.MessageButton()
+                        .setCustomId(`${ctx.id}:CANCEL_BUTTON`)
+                        .setStyle('DANGER')
+                        .setLabel('Cancel')
+                        .setEmoji('🗑️'),
+                );
+            }
 
             setTimeout(() => {
                 if (!hasReceivedIndexes) return ctx.sendFollowUp('Selection expired.');

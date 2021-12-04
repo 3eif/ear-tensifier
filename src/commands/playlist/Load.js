@@ -51,7 +51,7 @@ module.exports = class Load extends Command {
             if (!playlist) {
                 const embed = new MessageEmbed()
                     .setAuthor(playlistName, ctx.author.displayAvatarURL())
-                    .setDescription(`${client.config.emojis.success} Couldn't find a playlist by the name ${playlistName}.`)
+                    .setDescription(`${client.config.emojis.failure} Could not find a playlist by the name ${playlistName}.`)
                     .setTimestamp()
                     .setColor(client.config.colors.default);
                 await ctx.editMessage({ content: null, embeds: [embed] });

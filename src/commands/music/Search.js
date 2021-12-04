@@ -178,15 +178,27 @@ module.exports = class Search extends Command {
                         .setEmoji('🗑️'),
                 );
 
-            client.on('interactionCreate', async interaction => {
-                if (interaction.isButton() && interaction.customId === `${ctx.id}:BUTTON` && interaction.member.id == ctx.author.id) {
-                    hasReceivedIndexes = true;
-                    return interaction.message.delete();
-                }
+            const embed = new MessageEmbed()
+                .setAuthor('Song Selection.', ctx.author.displayAvatarURL())
+                .setDescription(str)
+                .setFooter('Your have 30 seconds to make your selection via the dropdown menu.')
+                .setColor(client.config.colors.default);
+            const message = await ctx.editMessage({ content: null, embeds: [embed], components: [selectMenuRow, buttonRow] });
 
-                if (!interaction.isSelectMenu()) return;
+            const buttonCollector = message.createMessageComponentCollector({ componentType: 'BUTTON', time: 30000 });
+            buttonCollector.on('collect', interaction => {
+                if (interaction.user.id === ctx.author.id) {
+                    if (interaction.customId == `${ctx.id}:BUTTON`) {
+                        hasReceivedIndexes = true;
+                        return interaction.message.delete();
+                    }
+                }
+            });
+
+            const selectMenuCollector = message.createMessageComponentCollector({ componentType: 'SELECT_MENU', time: 30000 });
+            selectMenuCollector.on('collect', async interaction => {
                 if (interaction.customId != `${ctx.id}:SELECT_MENU`) return;
-                if (interaction.member.id != ctx.author.id) return;
+                if (interaction.user.id != ctx.author.id) return;
 
                 const selected = interaction.values.map(s => parseInt(s));
                 const tracksToAdd = selected.map(s => results[s]);
@@ -238,16 +250,9 @@ module.exports = class Search extends Command {
                 await interaction.update({ components: [] });
             });
 
-            const embed = new MessageEmbed()
-                .setAuthor('Song Selection.', ctx.author.displayAvatarURL())
-                .setDescription(str)
-                .setFooter('Your have 30 seconds to make your selection via the dropdown menu.')
-                .setColor(client.config.colors.default);
-            await ctx.editMessage({ content: null, embeds: [embed], components: [selectMenuRow, buttonRow] });
-
-            setTimeout(() => {
+            buttonCollector.on('end', async () => {
                 if (!hasReceivedIndexes) return ctx.sendFollowUp('Selection expired.');
-            }, 30000);
+            });
         }
         catch (err) {
             client.logger.error(err);

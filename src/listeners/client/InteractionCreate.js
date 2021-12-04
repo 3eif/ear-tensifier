@@ -12,6 +12,43 @@ module.exports = class InteractionCreate extends Event {
     }
 
     async run(interaction) {
+        if (interaction.isButton()) {
+            const player = this.client.music.players.get(interaction.guild.id);
+            switch (interaction.customId) {
+                case 'PREVIOUS_BUTTON': {
+                    if (player.queue.previous.length > 0) {
+                        player.queue.unshift(player.queue.previous.pop());
+                        player.skip();
+                    }
+                    break;
+                }
+                case 'PAUSE_BUTTON': {
+                    const buttonRow = interaction.message.components[0];
+                    if (player.paused) {
+                        player.pause(false);
+                        buttonRow.components[1] = new Discord.MessageButton()
+                            .setCustomId('PAUSE_BUTTON')
+                            .setStyle('PRIMARY')
+                            .setEmoji(this.client.config.emojis.pause);
+                    }
+                    else {
+                        player.pause(true);
+                        buttonRow.components[1] = new Discord.MessageButton()
+                            .setCustomId('PAUSE_BUTTON')
+                            .setStyle('PRIMARY')
+                            .setEmoji(this.client.config.emojis.resume);
+                    }
+                    await interaction.update({ components: [buttonRow] });
+                    break;
+                }
+                case 'SKIP_BUTTON': {
+                    if (player.trackRepeat) player.setTrackRepeat(false);
+                    if (player.queueRepeat) player.setQueueRepeat(false);
+                    if (player) player.skip();
+                    break;
+                }
+            }
+        }
         if (!interaction.isCommand()) return;
 
         const cmd = this.client.commands.get(interaction.commandName);
@@ -19,7 +56,6 @@ module.exports = class InteractionCreate extends Event {
         const commandName = cmd.name.toLowerCase();
 
         const ctx = new Context(interaction, interaction.options.data);
-read
         const messageHelper = new MessageHelper(this.client, ctx);
         ctx.messageHelper = messageHelper;
         await messageHelper.createServer();

@@ -3,6 +3,7 @@ const { Message, CommandInteraction } = require('discord.js');
 module.exports = class Context {
     constructor(ctx, args) {
         this.isInteraction = ctx instanceof CommandInteraction;
+        this.ctx = ctx;
 
         this.setArgs(args);
 
