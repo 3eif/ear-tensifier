@@ -58,6 +58,7 @@ module.exports = class Manager extends EventEmitter {
     trackEnd(player) {
         const track = player.queue.current;
         const finished = Math.ceil(player.getTime()) >= (player.getDuration() ? player.getDuration() : track.duration);
+        if (!track.duration) track.duration = player.getDuration();
 
         if (track && player.trackRepeat) {
             this.emit('trackEnd', player, track, finished);
