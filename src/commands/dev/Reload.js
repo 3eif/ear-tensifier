@@ -30,9 +30,14 @@ module.exports = class Reload extends Command {
             let hasReceivedIndexes = false;
 
             let currentDir = './src';
-            let dirs = fs.readdirSync(currentDir).filter((file) => {
+            let dir = currentDir.split('/').slice(currentDir.split('/').length - 1);
+            const files = fs.readdirSync(currentDir).filter((file) => {
+                return fs.statSync(currentDir + '/' + file).isFile();
+            });
+            const folders = fs.readdirSync(currentDir).filter((file) => {
                 return fs.statSync(currentDir + '/' + file).isDirectory();
             });
+            let dirs = [...folders, ...files];
 
             let selectMenuArray = [];
             for (let i = 0; i < dirs.length; i++) {
@@ -51,19 +56,40 @@ module.exports = class Reload extends Command {
                         .addOptions(selectMenuArray),
                 );
 
+            let buttonRow = new Discord.MessageActionRow()
+                .addComponents(
+                    new Discord.MessageButton()
+                        .setCustomId(`${ctx.id}:CANCEL_BUTTON`)
+                        .setStyle('SECONDARY')
+                        .setLabel('Cancel')
+                        .setEmoji('❌'),
+                );
+
             const embed = new Discord.MessageEmbed()
                 .setAuthor('Reload File', client.user.displayAvatarURL())
                 .setColor(client.config.colors.default)
-                .setDescription('📁 src\n' + dirs.map(dir => `- 📁 ${dir}`).join('\n'));
-            ctx.sendMessage({ embeds: [embed], components: [selectMenuRow] });
+                .setDescription(`📂 **${dir}**` + folders.map(dir => `\n- 📁 ${dir} `).join('') + files.map(dir => `\n- 📄 ${dir} `).join(''));
+            ctx.sendMessage({ embeds: [embed], components: [selectMenuRow, buttonRow] });
 
             client.on('interactionCreate', async interaction => {
+                if (interaction.isButton() && interaction.member.id == ctx.author.id) {
+                    if (interaction.customId === `${ctx.id}:CANCEL_BUTTON`) {
+                        hasReceivedIndexes = true;
+                        return interaction.message.delete();
+                    }
+                    else if (interaction.customId === `${ctx.message.id}:BACK_BUTTON`) {
+                        currentDir = currentDir.split('/').slice(0, -1).join('/');
+                        dir = currentDir.split('/').slice(currentDir.split('/').length - 1);
+                        await updateMessage();
+                    }
+                }
+
                 if (!interaction.isSelectMenu()) return;
                 if (interaction.customId != `${ctx.id}:SELECT_MENU`) return;
                 if (interaction.member.id != ctx.author.id) return;
                 hasReceivedIndexes = true;
 
-                const dir = dirs[interaction.values.map(s => parseInt(s))];
+                dir = dirs[interaction.values.map(s => parseInt(s))];
                 currentDir += `/${dir}`;
 
                 if (fs.statSync(currentDir).isFile()) {
@@ -75,33 +101,55 @@ module.exports = class Reload extends Command {
                     return ctx.sendMessage(`Reloaded file: \`${dir}\``);
                 }
 
-                const files = fs.readdirSync(currentDir).filter((file) => {
-                    return fs.statSync(currentDir + '/' + file).isFile();
-                });
-                const folders = fs.readdirSync(currentDir).filter((file) => {
-                    return fs.statSync(currentDir + '/' + file).isDirectory();
-                });
-                dirs = [...folders, ...files];
+                await updateMessage();
 
-                embed.setDescription(`📁 ${dir} \n` + folders.map(dir => ` - 📁 ${dir} `).join('\n') + files.map(dir => ` - 📄 ${dir} `).join('\n'));
-                selectMenuArray = [];
-                for (let i = 0; i < dirs.length; i++) {
-                    const dir = dirs[i];
-                    selectMenuArray.push({
-                        label: dir,
-                        value: i.toString(),
+                async function updateMessage() {
+                    const files = fs.readdirSync(currentDir).filter((file) => {
+                        return fs.statSync(currentDir + '/' + file).isFile();
                     });
-                }
+                    const folders = fs.readdirSync(currentDir).filter((file) => {
+                        return fs.statSync(currentDir + '/' + file).isDirectory();
+                    });
+                    dirs = [...folders, ...files];
 
-                selectMenuRow = new Discord.MessageActionRow()
-                    .addComponents(
-                        new Discord.MessageSelectMenu()
-                            .setCustomId(`${ctx.message.id}:SELECT_MENU`)
-                            .setPlaceholder('Nothing selected')
-                            .addOptions(selectMenuArray),
+                    embed.setDescription(`📂 **${dir}**` + folders.map(dir => `\n- 📁 ${dir} `).join('') + files.map(dir => `\n- 📄 ${dir} `).join(''));
+                    selectMenuArray = [];
+                    for (let i = 0; i < dirs.length; i++) {
+                        const dir = dirs[i];
+                        selectMenuArray.push({
+                            label: dir,
+                            value: i.toString(),
+                        });
+                    }
+
+                    selectMenuRow = new Discord.MessageActionRow()
+                        .addComponents(
+                            new Discord.MessageSelectMenu()
+                                .setCustomId(`${ctx.message.id}:SELECT_MENU`)
+                                .setPlaceholder('Nothing selected')
+                                .addOptions(selectMenuArray),
+                        );
+
+                    buttonRow = new Discord.MessageActionRow();
+
+                    if (currentDir != './src') buttonRow.addComponents(
+                        new Discord.MessageButton()
+                            .setCustomId(`${ctx.id}:BACK_BUTTON`)
+                            .setStyle('SECONDARY')
+                            .setLabel('Back')
+                            .setEmoji('⬅️'),
                     );
 
-                await interaction.update({ embeds: [embed], components: [selectMenuRow] });
+                    buttonRow.addComponents(
+                        new Discord.MessageButton()
+                            .setCustomId(`${ctx.id}:CANCEL_BUTTON`)
+                            .setStyle('SECONDARY')
+                            .setLabel('Cancel')
+                            .setEmoji('❌'),
+                    );
+
+                    await interaction.update({ embeds: [embed], components: [selectMenuRow, buttonRow] });
+                }
             });
 
             setTimeout(() => {
