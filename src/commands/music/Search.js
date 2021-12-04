@@ -91,7 +91,7 @@ module.exports = class Search extends Command {
 
                 player.queue.add(track);
                 if (!player.playing && !player.paused) player.play();
-                return ctx.editMessage({ content: null, embeds: [QueueHelper.queuedEmbed(track.title, track.url, track.duration, null, ctx.author, client.config.colors.default)] });
+                return ctx.editMessage({ content: null, embeds: [QueueHelper.queuedEmbed(track.title, track.url, player.getDuration(), null, ctx.author, client.config.colors.default)] });
             }
 
             if (results instanceof TrackPlaylist) {
@@ -232,18 +232,18 @@ module.exports = class Search extends Command {
                         track.thumbnail = QueueHelper.reduceThumbnails(track.thumbnails);
 
                         player.queue.add(track);
+                        if (!player.playing && !player.paused) player.play();
+
                         ctx.sendFollowUp({
                             content: ' ', embeds: [QueueHelper.queuedEmbed(
                                 track.title,
                                 track.uri,
-                                track.duration,
+                                player.getDuration() ? player.getDuration() : track.duration,
                                 null,
                                 track.requester,
                                 client.config.colors.default,
                             )],
                         });
-
-                        if (!player.playing && !player.paused) player.play();
                     }
                 }
 

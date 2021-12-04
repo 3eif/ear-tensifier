@@ -7,6 +7,7 @@ const Player = require('./Player');
 const QueueHelper = require('../helpers/QueueHelper');
 const DatabaseHelper = require('../helpers/DatabaseHelper');
 const Logger = require('./Logger');
+const FileTrack = require('./FileTrack');
 
 module.exports = class Manager extends EventEmitter {
     constructor() {
@@ -56,7 +57,7 @@ module.exports = class Manager extends EventEmitter {
 
     trackEnd(player) {
         const track = player.queue.current;
-        const finished = Math.ceil(player.getTime()) >= Math.ceil(track.duration);
+        const finished = Math.ceil(player.getTime()) >= (player.getDuration() ? player.getDuration() : track.duration);
 
         if (track && player.trackRepeat) {
             this.emit('trackEnd', player, track, finished);
@@ -126,7 +127,9 @@ module.exports = class Manager extends EventEmitter {
 
             if (!track) track = (await Source.Youtube.search(query))[0];
 
-            if (!track) throw new Error('No track found');
+            if (!track) {
+                return (new FileTrack(query, requester));
+            }
             else {
                 if (track instanceof TrackPlaylist) {
                     track.forEach(t => {

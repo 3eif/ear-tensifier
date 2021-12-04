@@ -10,7 +10,8 @@ module.exports = class TrackStart extends Event {
     }
 
     async run(player, track) {
-        const { id, title, url, duration, platform, requester, author, thumbnail } = track;
+        const { id, title, url, platform, requester, author, thumbnail } = track;
+        const duration = player.getDuration() ? player.getDuration() : track.duration;
 
         this.client.databaseHelper.incrementTotalSongsPlayed();
         this.client.databaseHelper.incrementTimesSongPlayed(id, title, url, duration, platform, thumbnail, author);

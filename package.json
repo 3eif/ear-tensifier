@@ -38,6 +38,8 @@
     "discord.js": "^13.3.0",
     "dotenv-flow": "^3.2.0",
     "express": "^4.17.1",
+    "ffprobe": "^1.1.2",
+    "ffprobe-static": "^3.0.0",
     "figlet": "^1.5.2",
     "fs": "^0.0.1-security",
     "humanize-duration": "^3.27.0",
