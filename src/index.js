@@ -28,24 +28,28 @@ if (process.env.NODE_ENV == 'production') {
         });
     }
     else logger.warn('Top.gg token missing');
-
-    if (process.env.STATCORD_TOKEN) {
-        const statcord = new Statcord.ShardingClient({
-            key: process.env.STATCORD_TOKEN,
-            manager,
-            postCpuStatistics: true,
-            postMemStatistics: true,
-            postNetworkStatistics: true,
-            autopost: true,
-        });
-
-        statcord.on('post', status => {
-            if (!status) logger.complete('Posted stats to statcord.com');
-            else logger.error(status);
-        });
-    }
-    else logger.warn('Statcord token missing');
 }
+
+if (process.env.STATCORD_TOKEN) {
+    manager.statcord = new Statcord.ShardingClient({
+        key: process.env.STATCORD_TOKEN,
+        manager,
+        postCpuStatistics: true,
+        postMemStatistics: true,
+        postNetworkStatistics: true,
+        autopost: true,
+    });
+
+    manager.statcord.on('autopost-start', () => {
+        logger.ready('Started autopost');
+    });
+
+    manager.statcord.on('post', status => {
+        if (!status) logger.complete('Posted stats to statcord.com');
+        else logger.error(status);
+    });
+}
+else logger.warn('Statcord token missing');
 
 if (process.env.NODE_ENV != 'development') {
     if (process.env.SENTRY_DSN) {

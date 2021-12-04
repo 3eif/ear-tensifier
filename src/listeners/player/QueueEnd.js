@@ -19,7 +19,7 @@ module.exports = class QueueEnd extends Event {
                 msg = 'Enjoying Ear Tensifier? Consider voting for it **[here](https://top.gg/bot/472714545723342848/vote)**.';
                 break;
             case 2:
-                msg = 'Ear Tensifier is expensive to run and depends on donations to pay for hosting costs. Please consider becoming a Patreon supporter **[here](https://www.patreon.com/eartensifier)**.';
+                msg = 'Enjoying Ear Tensifier? Consider becoming a Patreon supporter **[here](https://www.patreon.com/eartensifier)**.';
                 break;
 
             default:

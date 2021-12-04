@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const Statcord = require('statcord.js');
 
 const Event = require('../../structures/Event');
 const MessageHelper = require('../../helpers/MessageHelper');
@@ -68,8 +69,7 @@ module.exports = class MessageCreate extends Event {
         if (await messageHelper.isIgnored() || await messageHelper.isBlacklisted()) return;
 
         const commandName = cmd.name.toLowerCase();
-        // if (process.env.NODE_ENV == 'production') Statcord.ShardingClient.postCommand(commandName, message.author.id, client);
-        // TODO: Add statcord
+        if (process.env.NODE_ENV == 'production') Statcord.ShardingClient.postCommand(commandName, ctx.author.id, this.client);
 
         this.client.databaseHelper.incrementTimesCommandUsed(cmd);
 

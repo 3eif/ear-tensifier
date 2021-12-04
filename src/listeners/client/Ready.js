@@ -30,6 +30,8 @@ module.exports = class Ready extends Event {
             if (process.env.NODE_ENV == 'production' || process.env.NODE_ENV == 'development') {
                 try {
                     require('../../api/index.js')(this.client);
+                    this.client.shard.send({ type: 'statcord', value: 1 });
+                    this.client.shard.send({ type: 'statcord', value: 2 });
                 }
                 catch (err) {
                     this.client.logger.error(err.message);

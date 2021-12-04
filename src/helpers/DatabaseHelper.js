@@ -24,6 +24,7 @@ module.exports = class DatabaseHelper {
 
     incrementTotalSongsPlayed() {
         if (!this.client.user) return;
+        this.client.statcordSongs += 1;
         Bot.findById(this.client.user.id).then(async bot => {
             if (!bot) {
                 const newBot = new Bot({ _id: this.client.user.id, username: this.client.name, commands: [], commandsUsed: 0, songsPlayed: 1 });

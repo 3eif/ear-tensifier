@@ -41,6 +41,22 @@ module.exports = class ShardMessage extends Event {
                         break;
                 }
                 break;
+            case 'statcord':
+                switch (message.value) {
+                    case 1:
+                        manager.statcord.registerCustomFieldHandler(1, async (m) => {
+                            const players = await m.broadcastEval(c => c.music.getPlayingPlayers().size);
+                            return players.reduce((a, b) => a + b, 0).toString();
+                        });
+                        break;
+                    case 2:
+                        manager.statcord.registerCustomFieldHandler(2, async (m) => {
+                            const songs = await m.broadcastEval(c => c.statcordSongs);
+                            return songs.reduce((a, b) => a + b, 0).toString();
+                        });
+                        break;
+                }
+                break;
             default:
                 // logger.error('Unknown message type: %s', message.type);
                 break;
