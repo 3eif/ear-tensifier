@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-vars */
-const Command = require('../../structures/Command');
-
 const { MessageEmbed } = require('discord.js');
+
+const Command = require('../../structures/Command');
 const Playlist = require('../../models/Playlist');
 const formatDuration = require('../../utils/music/formatDuration');
+const FileTrack = require('../../structures/FileTrack');
 
 module.exports = class View extends Command {
     constructor(client) {
@@ -63,13 +64,11 @@ module.exports = class View extends Command {
                     .setTitle(p.name)
                     .setDescription(str)
                     .setColor(client.config.colors.default)
-                    .setFooter(`ID: ${p._id}`)
                     .setTimestamp()
                     .setFooter(`Page ${i + 1}/${pagesNum} | ${p.tracks.length} songs | ${formatDuration(totalQueueDuration)} total duration`);
                 pages.push(embed);
-                if (i == pagesNum - 1 && pagesNum > 1) ctx.messageHelper.paginate(pages);
-                else if (pagesNum == 1) ctx.sendMesasge({ embeds: [embed] });
             }
+            return ctx.messageHelper.paginate(pages);
         });
     }
 };

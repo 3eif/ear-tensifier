@@ -3,6 +3,7 @@ const { MessageEmbed } = require('discord.js');
 const Command = require('../../structures/Command');
 const Playlist = require('../../models/Playlist');
 const PlaylistTrack = require('../../structures/PlaylistTrack');
+const FileTrack = require('../../structures/FileTrack');
 
 module.exports = class Load extends Command {
     constructor(client) {
@@ -57,16 +58,25 @@ module.exports = class Load extends Command {
                 await ctx.editMessage({ content: null, embeds: [embed] });
             }
             else {
-                const tracksToAdd = playlist.tracks.map(track => new PlaylistTrack({
-                    id: track.id,
-                    title: track.title,
-                    url: track.url,
-                    duration: track.duration,
-                    thumbnail: track.thumbnail,
-                    author: track.author,
-                    platform: track.platform,
-                    requester: ctx.author,
-                }));
+                const tracksToAdd = playlist.tracks.map(track => {
+                    return track.platform == 'file' ? new FileTrack({
+                        url: track.url,
+                        author: 'Unknown Author',
+                        title: 'Unknown Title',
+                        platform: track.platform,
+                        requester: ctx.author,
+                        duration: FileTrack.getDuration(track.url),
+                    }) : new PlaylistTrack({
+                        id: track.id,
+                        title: track.title,
+                        url: track.url,
+                        duration: track.duration,
+                        thumbnail: track.thumbnail,
+                        author: track.author,
+                        platform: track.platform,
+                        requester: ctx.author,
+                    });
+                });
 
                 let tracksQueued = 0;
                 const queueAllSongs = new Promise((resolve) => {

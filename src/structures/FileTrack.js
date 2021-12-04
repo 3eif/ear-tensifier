@@ -1,4 +1,5 @@
 const { Track: { TrackStreams, TrackStream } } = require('yasha');
+const { getVideoDurationInSeconds } = require('get-video-duration');
 
 module.exports = class FileTrack {
     constructor(url, requester) {
@@ -6,6 +7,7 @@ module.exports = class FileTrack {
         this.requester = requester;
         this.author = 'Unknown Author';
         this.title = 'Unknown Title';
+        this.platform = 'File';
     }
 
     async getStreams() {
@@ -17,6 +19,15 @@ module.exports = class FileTrack {
             }
         };
         return streams;
+    }
+
+    static async getDuration(url) {
+        try {
+            return await getVideoDurationInSeconds(url);
+        }
+        catch (err) {
+            return undefined;
+        }
     }
 };
 

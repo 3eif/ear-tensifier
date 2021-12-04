@@ -4,6 +4,7 @@ const { MessageEmbed, MessageActionRow, MessageSelectMenu, MessageButton } = req
 
 const QueueHelper = require('../../helpers/QueueHelper');
 const Command = require('../../structures/Command');
+const FileTrack = require('../../structures/FileTrack');
 
 module.exports = class Search extends Command {
     constructor(client) {
@@ -20,6 +21,7 @@ module.exports = class Search extends Command {
                 ],
             },
             args: true,
+            acceptsAttachments: true,
             voiceRequirements: {
                 isInVoiceChannel: true,
             },
@@ -38,23 +40,29 @@ module.exports = class Search extends Command {
         });
     }
     async run(client, ctx, args) {
-        await ctx.sendDeferMessage(`${client.config.emojis.typing} Searching for \`${args.join(' ')}\`...`);
-
-        let query = args.slice(0).join(' ');
+        let query;
         let source;
+        if (args[0]) {
+            query = args.slice(0).join(' ');
+            if (args[0].toLowerCase() === 'soundcloud' || args[0].toLowerCase() === 'sc') {
+                query = args.slice(1).join(' ');
+                source = 'soundcloud';
+            }
+            else if (args[0].toLowerCase() === 'spotify' || args[0].toLowerCase() === 'sp') {
+                query = args.slice(1).join(' ');
+                source = 'spotify';
+            }
+            else if (args[0].toLowerCase() === 'youtube' || args[0].toLowerCase() === 'yt') {
+                query = args.slice(1).join(' ');
+                source = 'youtube';
+            }
+        }
+        else {
+            query = ctx.attachments.first().url;
+            source = 'file';
+        }
 
-        if (args[0].toLowerCase() === 'soundcloud' || args[0].toLowerCase() === 'sc') {
-            query = args.slice(1).join(' ');
-            source = 'soundcloud';
-        }
-        else if (args[0].toLowerCase() === 'spotify' || args[0].toLowerCase() === 'sp') {
-            query = args.slice(1).join(' ');
-            source = 'spotify';
-        }
-        else if (args[0].toLowerCase() === 'youtube' || args[0].toLowerCase() === 'yt') {
-            query = args.slice(1).join(' ');
-            source = 'youtube';
-        }
+        await ctx.sendDeferMessage(`${client.config.emojis.typing} Searching for \`${query}\`...`);
 
         let player = client.music.players.get(ctx.guild.id);
         if (!player) {
@@ -74,20 +82,36 @@ module.exports = class Search extends Command {
                 case 'youtube':
                     results = await Source.Youtube.search(query);
                     break;
+                case 'file':
+                    results = new FileTrack(query);
+                    break;
                 default:
                     results = await Source.resolve(query);
                     break;
             }
 
-            if (!results) results = await Source.Youtube.search(query);
+            if (!results) {
+                results = new FileTrack(query, ctx.author);
+                source = 'file';
+            }
+
+            if (!results) {
+                results = await Source.Youtube.search(query);
+                source = 'youtube';
+            }
 
             if (!results) return ctx.editMessage('No results found.');
 
-            if (results instanceof Track) {
+            if (!results.duration && !(await FileTrack.getDuration(results.url))) return ctx.editMessage('No results found.');
+
+            if (results instanceof Track || results instanceof FileTrack) {
                 const track = results;
                 track.requester = ctx.author;
-                track.icon = QueueHelper.reduceThumbnails(track.icons);
-                track.thumbnail = QueueHelper.reduceThumbnails(track.thumbnails);
+                if (results instanceof Track) {
+                    track.icon = QueueHelper.reduceThumbnails(track.icons);
+                    track.thumbnail = QueueHelper.reduceThumbnails(track.thumbnails);
+                }
+                else track.platform = 'file';
 
                 player.queue.add(track);
                 if (!player.playing && !player.paused) player.play();
@@ -144,7 +168,7 @@ module.exports = class Search extends Command {
 
             const str = tracks
                 .slice(0, 10)
-                .map(result => `**${++n}.** [${result.title}](${result.url})`)
+                .map(r => `**${++n}.** [${r.title}](${r.url})`)
                 .join('\n');
 
             const selectMenuArray = [];

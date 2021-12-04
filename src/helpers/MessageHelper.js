@@ -105,8 +105,7 @@ module.exports = class MessageHelper {
 
 
     async paginate(pages, timeout, buttonRow) {
-        if (pages.length < 2) return this.ctx.sendMessage({ embed: pages[0] });
-
+        if (pages.length < 2) return this.ctx.sendMessage({ embeds: pages });
         let page = 0;
 
         const buttons = buttonRow ? buttonRow : new MessageActionRow()

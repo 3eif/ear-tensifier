@@ -2,6 +2,7 @@ const { MessageEmbed } = require('discord.js');
 
 const Command = require('../../structures/Command');
 const formatDuration = require('../../utils/music/formatDuration');
+const FileTrack = require('../../structures/FileTrack');
 
 module.exports = class Queue extends Command {
     constructor(client) {
@@ -32,7 +33,7 @@ module.exports = class Queue extends Command {
 
         const { title, requester, duration, url } = player.queue.current;
 
-        const parsedDuration = formatDuration(duration);
+        const parsedDuration = formatDuration(player.getDuration() || duration);
         const parsedQueueDuration = formatDuration(player.queue.reduce((acc, cur) => acc + cur.duration, 0));
 
         let pagesNum = Math.ceil(player.queue.length / 10);
@@ -41,7 +42,7 @@ module.exports = class Queue extends Command {
         const songStrings = [];
         for (let i = 0; i < player.queue.length; i++) {
             const song = player.queue[i];
-            songStrings.push(`**${i + 1}.** [${song.title}](${song.url}) \`[${formatDuration(song.duration)}]\` • <@${song.requester.id}>\n`);
+            songStrings.push(`**${i + 1}.** [${song.title}](${song.url}) \`[${formatDuration(song.duration || await FileTrack.getDuration(song.url))}]\` • <@${song.requester.id}>\n`);
         }
 
         const user = `<@${requester.id}>`;
@@ -57,8 +58,7 @@ module.exports = class Queue extends Command {
         }
 
         if (!args[0]) {
-            if (pages.length == pagesNum && player.queue.length > 10) await ctx.messageHelper.paginate(pages);
-            else return ctx.sendMessage({ embeds: [pages[0]] });
+            ctx.messageHelper.paginate(pages);
         }
         else {
             if (isNaN(args[0])) return ctx.sendMessage('Page must be a number.');

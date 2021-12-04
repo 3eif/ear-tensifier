@@ -42,6 +42,8 @@ module.exports = class ShardMessage extends Event {
                 }
                 break;
             case 'statcord':
+                if (manager.statcordHandlerRegistered) return;
+                manager.statcordHandlerRegistered = true;
                 switch (message.value) {
                     case 1:
                         manager.statcord.registerCustomFieldHandler(1, async (m) => {
@@ -52,6 +54,7 @@ module.exports = class ShardMessage extends Event {
                     case 2:
                         manager.statcord.registerCustomFieldHandler(2, async (m) => {
                             const songs = await m.broadcastEval(c => c.statcordSongs);
+                            m.broadcastEval(c => c.statcordSongs = 0);
                             return songs.reduce((a, b) => a + b, 0).toString();
                         });
                         break;

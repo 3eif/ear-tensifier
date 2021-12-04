@@ -110,13 +110,13 @@ module.exports = class MessageCreate extends Event {
         else if (cmd.voiceRequirements.isPlaying && !this.client.music.players.get(message.guild.id)) return messageHelper.sendResponse('noSongsPlaying');
 
         if (prefix == this.client.config.prefix) {
-            if (!args[0] && cmd.args === true) {
+            if (!args[0] && cmd.args === true && ((cmd.acceptsAttachments && message.attachments.size == 0) || !cmd.acceptsAttachments)) {
                 const embed = new Discord.MessageEmbed()
                     .setDescription(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`ear ${commandName} ${cmd.description.usage}\``);
                 return message.channel.send({ embeds: [embed] });
             }
         }
-        else if (!args[0] && cmd.args === true) {
+        else if (!args[0] && cmd.args === true && ((cmd.acceptsAttachments && message.attachments.size == 0) || !cmd.acceptsAttachments)) {
             const embed = new Discord.MessageEmbed()
                 .setDescription(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`${prefix} ${commandName} ${cmd.description.usage}\` or \`${prefix}${cmd.name} ${cmd.description.usage}\``);
             return message.channel.send({ embeds: [embed] });

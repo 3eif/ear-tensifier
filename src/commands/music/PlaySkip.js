@@ -9,7 +9,7 @@ module.exports = class PlaySkip extends Command {
             name: 'playskip',
             description: {
                 content: 'Skips the current playing song and immediately plays the song provided.',
-                usage: '[source (yt, sc, or sp)] <search query>',
+                usage: '<search query>',
                 examples: [
                     'resonance',
                     'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
@@ -19,6 +19,7 @@ module.exports = class PlaySkip extends Command {
             },
             aliases: ['ps', 'forceplay', 'fp'],
             args: true,
+            acceptsAttachments: true,
             voiceRequirements: {
                 isInVoiceChannel: true,
                 isInSameVoiceChannel: true,
@@ -40,23 +41,29 @@ module.exports = class PlaySkip extends Command {
     }
 
     async run(client, ctx, args) {
-        await ctx.sendDeferMessage(`${client.config.emojis.typing} Searching for \`${args.join(' ')}\`...`);
-
-        let query = args.slice(0).join(' ');
+        let query;
         let source;
+        if (args[0]) {
+            query = args.slice(0).join(' ');
+            if (args[0].toLowerCase() === 'soundcloud' || args[0].toLowerCase() === 'sc') {
+                query = args.slice(1).join(' ');
+                source = 'soundcloud';
+            }
+            else if (args[0].toLowerCase() === 'spotify' || args[0].toLowerCase() === 'sp') {
+                query = args.slice(1).join(' ');
+                source = 'spotify';
+            }
+            else if (args[0].toLowerCase() === 'youtube' || args[0].toLowerCase() === 'yt') {
+                query = args.slice(1).join(' ');
+                source = 'youtube';
+            }
+        }
+        else {
+            query = ctx.attachments.first().url;
+            source = 'file';
+        }
 
-        if (args[0].toLowerCase() === 'soundcloud' || args[0].toLowerCase() === 'sc') {
-            query = args.slice(1).join(' ');
-            source = 'soundcloud';
-        }
-        else if (args[0].toLowerCase() === 'spotify' || args[0].toLowerCase() === 'sp') {
-            query = args.slice(1).join(' ');
-            source = 'spotify';
-        }
-        else if (args[0].toLowerCase() === 'youtube' || args[0].toLowerCase() === 'yt') {
-            query = args.slice(1).join(' ');
-            source = 'youtube';
-        }
+        await ctx.sendDeferMessage(`${client.config.emojis.typing} Searching for \`${query}\`...`);
 
         let player = client.music.players.get(ctx.guild.id);
         if (!player) {

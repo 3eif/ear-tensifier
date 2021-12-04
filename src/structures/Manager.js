@@ -107,8 +107,9 @@ module.exports = class Manager extends EventEmitter {
         this.players.delete(guild.id);
     }
 
-    async search(query, requester, source) {
+    async search(query, requester, s) {
         let track;
+        let source = s;
 
         try {
             switch (source) {
@@ -121,16 +122,24 @@ module.exports = class Manager extends EventEmitter {
                 case 'youtube':
                     track = (await Source.Youtube.search(query))[0];
                     break;
+                case 'file':
+                    track = new FileTrack(query, requester);
+                    break;
                 default:
                     track = await Source.resolve(query);
                     break;
             }
 
-            if (!track) track = (await Source.Youtube.search(query))[0];
-
             if (!track) {
-                return (new FileTrack(query, requester));
+                track = (await Source.Youtube.search(query))[0];
+                source = 'youtube';
             }
+            if (!track) {
+                track = new FileTrack(query, requester);
+                source = 'file';
+            }
+
+            if (!track || (!track.duration && !(await FileTrack.getDuration(track.url)))) throw new Error('No track found');
             else {
                 if (track instanceof TrackPlaylist) {
                     track.forEach(t => {
@@ -139,10 +148,15 @@ module.exports = class Manager extends EventEmitter {
                         t.thumbnail = QueueHelper.reduceThumbnails(t.thumbnails);
                     });
                 }
-                else {
+                else if (track.source != 'file') {
                     track.requester = requester;
                     track.icon = QueueHelper.reduceThumbnails(track.icons);
                     track.thumbnail = QueueHelper.reduceThumbnails(track.thumbnails);
+                }
+                else {
+                    track.requester = requester;
+                    track.platform = 'file';
+                    track.duration = await FileTrack.getDuration(track.url);
                 }
                 return track;
             }

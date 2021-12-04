@@ -15,8 +15,6 @@ module.exports = class CommandStats extends Command {
         });
     }
     async run(client, ctx) {
-        await ctx.sendDeferMessage(`${client.config.emojis.typing} Fetching most used commands...`);
-
         Bot.findById(client.user.id, async (err, bot) => {
             if (err) client.logger.error(err);
             const commands = bot.commands.sort((a, b) => b.timesUsed - a.timesUsed);
@@ -28,7 +26,7 @@ module.exports = class CommandStats extends Command {
                 }
                 catch (e) {
                     client.logger.error(e);
-                    return ctx.editMessage('An error occured.');
+                    return ctx.sendMessage('An error occured.');
                 }
             }
 
@@ -38,6 +36,7 @@ module.exports = class CommandStats extends Command {
                 embeds.push({
                     title: `Top ${i * commandsPerPage + commandsPerPage} most used commands`,
                     description: commandsString.slice(i * commandsPerPage, i * commandsPerPage + commandsPerPage).join('\n'),
+                    color: client.config.colors.default,
                 });
             }
 

@@ -2,6 +2,7 @@ const { MessageEmbed } = require('discord.js');
 
 const Command = require('../../structures/Command');
 const formatDuration = require('../../utils/music/formatDuration');
+const FileTrack = require('../../structures/FileTrack');
 
 module.exports = class NowPlaying extends Command {
     constructor(client) {
@@ -19,9 +20,10 @@ module.exports = class NowPlaying extends Command {
     }
     async run(client, ctx) {
         const player = client.music.players.get(ctx.guild.id);
-        const { title, author, duration, requester, url, thumbnail } = player.queue.current;
+        const { title, author, requester, url, thumbnail } = player.queue.current;
+        const duration = player.getDuration() || await FileTrack.getDuration(url);
 
-        const parsedCurrentDuration = formatDuration(player.getTime());
+        const parsedCurrentDuration = formatDuration(player.getTime() || 0);
         const parsedDuration = formatDuration(duration);
         const part = Math.floor((player.getTime() / duration) * 13);
         const percentage = player.getTime() / duration;

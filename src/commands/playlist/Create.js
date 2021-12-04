@@ -3,6 +3,7 @@ const { MessageEmbed } = require('discord.js');
 
 const Command = require('../../structures/Command');
 const Playlist = require('../../models/Playlist');
+const FileTrack = require('../../structures/FileTrack');
 const formatDuration = require('../../utils/music/formatDuration');
 
 module.exports = class Create extends Command {
@@ -16,6 +17,7 @@ module.exports = class Create extends Command {
             },
             aliases: ['add'],
             args: true,
+            acceptsAttachemnts: true,
             options: [
                 {
                     name: 'playlist',
@@ -37,7 +39,7 @@ module.exports = class Create extends Command {
     async run(client, ctx, args) {
         await ctx.sendDeferMessage(`${client.config.emojis.typing} Adding song(s) to your playlist (This might take a few seconds.)...`);
 
-        if (!args[1]) return ctx.editMessage(`Please specify a search query or link.\nUsage: \`${await ctx.messageHelper.getPrefix()} create <playlist name> <search query/link>\``);
+        if (!args[1] && !ctx.attachments) return ctx.editMessage(`Please specify a search query or link.\nUsage: \`${await ctx.messageHelper.getPrefix()} create <playlist name> <search query/link>\``);
         if (args[0].length > 32) return ctx.editMessage('Playlist name must be less than 32 characters!');
 
         const tracksToAdd = [];
@@ -91,20 +93,20 @@ module.exports = class Create extends Command {
         }
         else {
             tracksToAdd.push(result);
-            playlistMessage = `Added **[${result.title}](${result.url})** [${formatDuration(result.duration)}] to **${playlistName}**`;
+            playlistMessage = `Added **[${result.title}](${result.url})** [${formatDuration(result.duration ? result.duration : await FileTrack.getDuration(result.url))}] to **${playlistName}**`;
         }
 
         if (!tracksToAdd.length) return;
 
         for (let i = 0; i < tracksToAdd.length; i++) {
             tracksToAdd[i] = {
-                _id: tracksToAdd[i].id,
-                title: tracksToAdd[i].title,
+                _id: tracksToAdd[i].id ? tracksToAdd[i].id : tracksToAdd[i].url,
+                title: tracksToAdd[i].title ? tracksToAdd[i].title : 'Unknown Title',
                 url: tracksToAdd[i].url,
-                author: tracksToAdd[i].author,
-                duration: tracksToAdd[i].duration,
+                author: tracksToAdd[i].author ? tracksToAdd[i].author : 'Unknown Author',
+                duration: tracksToAdd[i].duration ? tracksToAdd[i].duration : await FileTrack.getDuration(tracksToAdd[i].url),
                 thumbnail: tracksToAdd[i].thumbnail,
-                platform: tracksToAdd[i].platform,
+                platform: tracksToAdd[i].platform ? tracksToAdd[i].platform : 'file',
                 playable: tracksToAdd[i].playable,
             };
         }

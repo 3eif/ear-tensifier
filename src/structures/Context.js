@@ -21,6 +21,7 @@ module.exports = class Context {
         this.member = ctx.member;
         this.createdAt = ctx.createdAt;
         this.createdTimestamp = ctx.createdTimestamp;
+        this.attachments = ctx.attachments;
     }
 
     setArgs(args) {
