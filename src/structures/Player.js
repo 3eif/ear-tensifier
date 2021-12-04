@@ -36,14 +36,10 @@ module.exports = class Player extends TrackPlayer {
         this.connection = await VoiceConnection.connect(
             this.voiceChannel,
             {
-                self_deaf: true,
+                selfDeaf: true,
             },
         );
         this.subscription = this.connection.subscribe(this);
-
-        this.connection.on(VoiceConnection.Status.Destroyed, () => {
-            this.destroy();
-        });
 
         this.connection.on('error', (error) => {
             this.manager.logger.error(error);
