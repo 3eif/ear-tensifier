@@ -1,6 +1,5 @@
 const { MessageEmbed } = require('discord.js');
 
-const Filter = require('../../structures/Filter');
 const Command = require('../../structures/Command');
 
 module.exports = class Rate extends Command {
@@ -48,7 +47,7 @@ module.exports = class Rate extends Command {
         const player = client.music.players.get(ctx.guild.id);
 
         if ((ctx.isInteraction && ctx.interaction.options.data[0].name == 'off') || (args[0] && (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off'))) {
-            player.resetFilter();
+            player.filter.resetRate();
             const embed = new MessageEmbed()
                 .setAuthor('Rate has been reset to 1x', ctx.author.displayAvatarURL())
                 .setColor(client.config.colors.default);
@@ -59,7 +58,7 @@ module.exports = class Rate extends Command {
         else if (isNaN(args[0])) return ctx.sendMessage('Amount must be a real number.');
         if (args[0] > 10 || args[0] < 0) return ctx.sendMessage('Amount must be between 0 and 10.');
 
-        player.setFilter(new Filter.Rate(player, args[0]));
+        player.filter.setRate(args[0]);
         const embed = new MessageEmbed()
             .setAuthor(`Rate set to ${args[0]}x`, ctx.author.displayAvatarURL())
             .setColor(client.config.colors.default);

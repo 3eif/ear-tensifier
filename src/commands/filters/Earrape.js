@@ -1,6 +1,5 @@
 const { MessageEmbed } = require('discord.js');
 
-const Filter = require('../../structures/Filter');
 const Command = require('../../structures/Command');
 
 module.exports = class Earrape extends Command {
@@ -36,11 +35,11 @@ module.exports = class Earrape extends Command {
         const embed = new MessageEmbed();
 
         if ((ctx.isInteraction && ctx.interaction.options.data[0].name == 'off') || (args[0] && (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off'))) {
-            player.resetFilter();
+            player.filter.setEarrape(false);
             embed.setAuthor('Turned off earrape', ctx.author.displayAvatarURL());
         }
         else {
-            player.setFilter(new Filter.Earrape(player));
+            player.filter.setEarrape(true);
             embed.setAuthor('Turned on earrape', ctx.author.displayAvatarURL());
             embed.setFooter(`You can turn this filter off by using the '${await ctx.messageHelper.getPrefix()}earrape off' command.`);
         }

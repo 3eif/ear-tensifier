@@ -1,6 +1,5 @@
 const { MessageEmbed } = require('discord.js');
 
-const Filter = require('../../structures/Filter');
 const Command = require('../../structures/Command');
 
 module.exports = class Nightcore extends Command {
@@ -35,11 +34,11 @@ module.exports = class Nightcore extends Command {
         const embed = new MessageEmbed();
 
         if ((ctx.isInteraction && ctx.interaction.options.data[0].name == 'off') || (args[0] && (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off'))) {
-            player.resetFilter();
+            player.filter.setNightcore(false);
             embed.setAuthor('Turned off nightcore', ctx.author.displayAvatarURL());
         }
         else {
-            player.setFilter(new Filter.Nightcore(player));
+            player.filter.setNightcore(true);
             embed.setAuthor('Turned on nightcore', ctx.author.displayAvatarURL());
         }
         embed.setColor(client.config.colors.default);

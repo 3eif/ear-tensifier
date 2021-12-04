@@ -1,6 +1,5 @@
 const { MessageEmbed } = require('discord.js');
 
-const Filter = require('../../structures/Filter');
 const Command = require('../../structures/Command');
 
 module.exports = class Frequency extends Command {
@@ -48,7 +47,7 @@ module.exports = class Frequency extends Command {
         const player = client.music.players.get(ctx.guild.id);
 
         if ((ctx.isInteraction && ctx.interaction.options.data[0].name == 'off') || (args[0] && (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off'))) {
-            player.resetFilter();
+            player.resetFrequency();
             const embed = new MessageEmbed()
                 .setAuthor('Frequency has been reset to 5.0Hz', ctx.author.displayAvatarURL())
                 .setColor(client.config.colors.default);
@@ -59,8 +58,8 @@ module.exports = class Frequency extends Command {
         else if (isNaN(args[0])) return ctx.sendMessage('Amount must be a real number.');
         if (args[0] < 0.1 || args[0] > 20000) return ctx.sendMessage('Amount must be between 0.1 and 20000.');
 
-        if (player.filter instanceof Filter.Tremolo) player.filter.setFrequency(args[0]);
-        else player.setFilter(new Filter.Tremolo(player, null, args[0]));
+        player.filter.setTremolo(player.filter.tremolo.depth, args[0]);
+
 
         const embed = new MessageEmbed()
             .setAuthor(`Frequency set to ${args[0]}Hz`, ctx.author.displayAvatarURL())

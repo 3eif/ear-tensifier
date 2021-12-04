@@ -2,7 +2,7 @@ const { VoiceConnection, TrackPlayer } = require('yasha');
 const { MessageEmbed } = require('discord.js');
 
 const Queue = require('./Queue');
-const { Filter } = require('./Filter');
+const Filter = require('./Filter');
 
 module.exports = class Player extends TrackPlayer {
 
@@ -30,6 +30,8 @@ module.exports = class Player extends TrackPlayer {
         this.voiceChannel = options.voiceChannel;
         this.textChannel = options.textChannel;
         this.guild = options.guild;
+
+        this.filter = new Filter(this);
     }
 
     async connect() {
@@ -58,8 +60,7 @@ module.exports = class Player extends TrackPlayer {
             super.play(track);
         }
         this.start();
-        this.setVolume(this.volume);
-        if (this.filter) this.filter.on();
+        this.filter.setAllFilters();
     }
 
     skip() {
@@ -72,22 +73,6 @@ module.exports = class Player extends TrackPlayer {
 
     set(key, value) {
         this[key] = value;
-    }
-
-    setFilter(filter) {
-        if (this.filter) this.filter.off();
-        this.filter = filter;
-        filter.on();
-    }
-
-    resetFilter() {
-        if (this.filter) this.filter.off();
-        this.filter = null;
-    }
-
-    resetAllFilters() {
-        new Filter(this).off();
-        this.filter = null;
     }
 
     setVolume(volume) {

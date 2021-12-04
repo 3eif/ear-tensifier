@@ -13,7 +13,9 @@ module.exports = class InteractionCreate extends Event {
 
     async run(interaction) {
         if (interaction.isButton()) {
+            if (interaction.guild.me.voice.channel && !interaction.guild.me.voice.channel.equals(interaction.member.voice.channel)) return;
             const player = this.client.music.players.get(interaction.guild.id);
+            if (!player) return;
             switch (interaction.customId) {
                 case 'PREVIOUS_BUTTON': {
                     if (player.queue.previous.length > 0) {

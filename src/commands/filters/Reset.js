@@ -19,7 +19,7 @@ module.exports = class Reset extends Command {
     }
     async run(client, ctx) {
         const player = client.music.players.get(ctx.guild.id);
-        player.resetAllFilters();
+        player.filter.resetAll();
 
         const embed = new MessageEmbed()
             .setAuthor('All filters have been reset', ctx.author.displayAvatarURL())

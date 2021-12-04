@@ -1,6 +1,5 @@
 const { MessageEmbed } = require('discord.js');
 
-const Filter = require('../../structures/Filter');
 const Command = require('../../structures/Command');
 
 module.exports = class Depth extends Command {
@@ -48,19 +47,18 @@ module.exports = class Depth extends Command {
         const player = client.music.players.get(ctx.guild.id);
 
         if ((ctx.isInteraction && ctx.interaction.options.data[0].name == 'off') || (args[0] && (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off'))) {
-            player.resetFilter();
+            player.filter.resetDepth();
             const embed = new MessageEmbed()
-                .setAuthor('Depth has been reset to 50%', ctx.author.displayAvatarURL())
+                .setAuthor('Depth has been reset to 0%', ctx.author.displayAvatarURL())
                 .setColor(client.config.colors.default);
             return ctx.sendMessage({ content: null, embeds: [embed] });
         }
 
         if (isNaN(args[0]) && ctx.isInteraction) args[0] = ctx.interaction.options.data[0].options[0].value;
         else if (isNaN(args[0])) return ctx.sendMessage('Amount must be a real number.');
-        if (args[0] > 1 || args[0] < 0) return ctx.sendMessage('Amount must be between 0 and 1.');
+        if (args[0] > 100 || args[0] < 0) return ctx.sendMessage('Amount must be between 0 and 100.');
 
-        if (player.filter instanceof Filter.Tremolo) player.filter.setDepth(args[0] / 100);
-        else player.setFilter(new Filter.Tremolo(player, args[0] / 100));
+        player.filter.setTremolo(args[0] / 100, player.filter.tremolo.frequency);
 
         const embed = new MessageEmbed()
             .setAuthor(`Depth set to ${args[0]}%`, ctx.author.displayAvatarURL())

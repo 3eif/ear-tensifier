@@ -1,6 +1,5 @@
 const { MessageEmbed } = require('discord.js');
 
-const Filter = require('../../structures/Filter');
 const Command = require('../../structures/Command');
 
 module.exports = class Bassboost extends Command {
@@ -47,7 +46,7 @@ module.exports = class Bassboost extends Command {
         const player = client.music.players.get(ctx.guild.id);
 
         if ((ctx.isInteraction && ctx.interaction.options.data[0].name == 'off') || (args[0] && (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off'))) {
-            player.resetFilter();
+            player.filter.resetBassboost();
             const embed = new MessageEmbed()
                 .setAuthor('Turned off bassboost', ctx.author.displayAvatarURL())
                 .setColor(client.config.colors.default);
@@ -55,7 +54,7 @@ module.exports = class Bassboost extends Command {
         }
 
         if (!args[0] || args[0].toLowerCase() == 'on') {
-            player.setFilter(new Filter.Bassboost(player));
+            player.filter.setBassboost(true);
             const embed = new MessageEmbed()
                 .setAuthor('Turned on bassboost', ctx.author.displayAvatarURL())
                 .setColor(client.config.colors.default);
@@ -64,7 +63,7 @@ module.exports = class Bassboost extends Command {
 
         if (isNaN(args[0])) return ctx.sendMessage('Amount must be a real number.');
 
-        player.setFilter(new Filter.Bassboost(player, args[0]));
+        player.filter.setBassboost(true, args[0]);
         const embed = new MessageEmbed()
             .setAuthor(`Bassboost set to ${args[0]}`, ctx.author.displayAvatarURL())
             .setColor(client.config.colors.default);

@@ -32,9 +32,9 @@ module.exports = class Volume extends Command {
         if (!args[0]) return ctx.sendMessage(`The current volume is set to: **${player.volume}%**`);
 
         if (args[0].toString().toLowerCase() == 'reset') {
-            player.setVolume(Number(client.settings.normal));
+            player.filter.resetVolume();
             const embed = new MessageEmbed()
-                .setAuthor(`Volume has been reset to **${volume}%**`, ctx.author.displayAvatarURL())
+                .setAuthor(`Volume has been reset to ${volume}%`, ctx.author.displayAvatarURL())
                 .setColor(client.config.colors.default);
             return ctx.sendMessage({ embeds: [embed] });
         }
@@ -42,10 +42,10 @@ module.exports = class Volume extends Command {
         if (isNaN(args[0])) return ctx.sendMessage('Invalid number.');
 
         const volume = Number(args[0]);
-        player.setVolume(volume);
+        player.filter.setVolume(volume);
 
         const embed = new MessageEmbed()
-            .setAuthor(`Volume set to **${volume}%**`, ctx.author.displayAvatarURL())
+            .setAuthor(`Volume set to ${volume}%`, ctx.author.displayAvatarURL())
             .setColor(client.config.colors.default);
         return ctx.sendMessage({ embeds: [embed] });
     }
