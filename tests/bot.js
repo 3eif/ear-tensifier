@@ -1,5 +1,5 @@
 /* eslint-disable */
-
+require('events').defaultMaxListeners = 20;
 process.on('uncaughtException', (e) => {
     console.error(e.stack);
 });
@@ -57,7 +57,7 @@ client.on('messageCreate', async (message) => {
     const args = message.content.substring(config.prefix.length).split(/[ ]+/g);
 
     if (args[0] === 'enable' && message.author.id == '275831434772742144') {
-        client.sendMessage = true;
+        client.broadcastEval(c => c.sendMessage = true);
     } else if (client.sendMessage) {
         console.log(`${args[0]} command received from ${message.author.id}:${message.guild.id}`);
         return message.channel.send('Ear Tensifier is currently being upgraded to version 2.0.0. Please be patient while we update the bot. Estimated time: 10 - 30 minutes.');
