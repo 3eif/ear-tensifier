@@ -158,7 +158,7 @@ module.exports = class Player extends TrackPlayer {
         this.playing = !pause;
         this.paused = pause;
 
-        this.setPaused(pause);
+        if (this.player) this.setPaused(pause);
 
         return this;
     }
