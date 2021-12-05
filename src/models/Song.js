@@ -11,4 +11,4 @@ const SongSchema = Schema({
     timesPlayed: { type: Number, default: 0 },
 });
 
-module.exports = model('NewSong', SongSchema);
+module.exports = model('Song', SongSchema);

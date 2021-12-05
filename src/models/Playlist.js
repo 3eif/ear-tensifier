@@ -9,4 +9,4 @@ const PlaylistSchema = new Schema({
     createdTimestamp: Number,
 });
 
-module.exports = model('NewPlaylist', PlaylistSchema);
+module.exports = model('Playlist', PlaylistSchema);

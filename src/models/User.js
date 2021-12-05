@@ -9,4 +9,4 @@ const UserSchema = new Schema({
     developer: { type: Boolean, default: false },
 });
 
-module.exports = model('NewUser', UserSchema);
+module.exports = model('User', UserSchema);

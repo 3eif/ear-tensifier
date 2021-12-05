@@ -14,4 +14,4 @@ const BotSchema = new Schema({
 	lastPosted: { type: Number, default: undefined },
 });
 
-module.exports = model('NewBot', BotSchema);
+module.exports = model('Bot', BotSchema);

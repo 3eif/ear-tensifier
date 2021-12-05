@@ -9,4 +9,4 @@ const ServerSchema = Schema({
     nowPlayingMessages: { type: Boolean, default: true },
 });
 
-module.exports = model('NewServer', ServerSchema);
+module.exports = model('Server', ServerSchema);
