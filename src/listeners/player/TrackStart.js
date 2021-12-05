@@ -58,7 +58,7 @@ module.exports = class TrackStart extends Event {
             percentage = player.getTime() / duration;
 
             const e = new MessageEmbed(embed.setDescription(`${parsedCurrentDuration}  ${percentage < 0.05 ? this.client.config.emojis.progress7 : this.client.config.emojis.progress1}${this.client.config.emojis.progress2.repeat(part)}${percentage < 0.05 ? '' : this.client.config.emojis.progress3}${this.client.config.emojis.progress5.repeat(12 - part)}${this.client.config.emojis.progress6}  ${parsedDuration}`));
-            player.nowPlayingMessage.edit({ content: null, embeds: [e] });
+            if (player.nowPlayingMessage) player.nowPlayingMessage.edit({ content: null, embeds: [e] });
         }, 5000);
     }
 };
