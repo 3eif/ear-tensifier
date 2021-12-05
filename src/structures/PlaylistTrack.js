@@ -1,4 +1,4 @@
-const { Source, Track: { TrackStreams, TrackStream } } = require('yasha');
+const { Source } = require('yasha');
 
 module.exports = class PlaylistTrack {
     constructor(track) {
@@ -20,18 +20,8 @@ module.exports = class PlaylistTrack {
                 return Source.Youtube.getStreams(this.id);
             case 'soundcloud':
                 return Source.Soundcloud.getStreams(this.id);
-            case 'spotify':
+            case 'Spotify':
                 return Source.Spotify.getStreams(this.id);
-            case 'file': {
-                const url = this.url;
-                const streams = new class extends TrackStreams {
-                    constructor() {
-                        super();
-                        this.push(new TrackStream(url).setTracks(false, true));
-                    }
-                };
-                return streams;
-            }
             default:
                 return null;
         }

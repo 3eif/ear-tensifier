@@ -139,7 +139,7 @@ module.exports = class Manager extends EventEmitter {
                 source = 'file';
             }
 
-            if (!track || (!track.duration && !(await FileTrack.getDuration(track.url)))) throw new Error('No track found');
+            if (!track || (!(track instanceof TrackPlaylist) && !track.duration && !(await FileTrack.getDuration(track.url)))) throw new Error('No track found');
             else {
                 if (track instanceof TrackPlaylist) {
                     track.forEach(t => {
