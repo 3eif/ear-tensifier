@@ -213,27 +213,29 @@ async function migrateServersCollection() {
         Server.findById(oldServer.serverID, async (err, server) => {
             if (!server && !addedServers.includes(oldServer.serverID)) {
                 signale.pending('%s Creating new server', oldServer.serverID);
-                const newServer = new Server({
-                    _id: oldServer.serverID,
-                    prefix: oldServer.bio,
-                    ignoredChannels: oldServer.songsPlayed,
-                });
-                await newServer.save().catch(e => signale.error(e));
+                if (oldServer.serverID) {
+                    const newServer = new Server({
+                        _id: oldServer.serverID,
+                        prefix: oldServer.prefix,
+                        ignoredChannels: oldServer.songsPlayed,
+                    });
+                    await newServer.save().catch(e => signale.error(e));
+                }
             }
-            else {
-                signale.pending('%s Updating existing server', oldServer.serverID);
-                await server.updateOne({
-                    prefix: oldServer.prefix,
-                    ignoredChannels: oldServer.ignoredChannels,
-                }).catch(e => signale.error(e));
-            }
+            // else {
+            //     signale.pending('%s Updating existing server', oldServer.serverID);
+            //     await server.updateOne({
+            //         prefix: oldServer.prefix,
+            //         ignoredChannels: oldServer.ignoredChannels,
+            //     }).catch(e => signale.error(e));
+            // }
             addedServers.push(oldServer.serverID);
         });
     }
 
 }
 
-migrateBotsCollection();
-migratePlaylistsCollection();
-migrateUsersCollection();
+// migrateBotsCollection();
+// migratePlaylistsCollection();
+// migrateUsersCollection();
 migrateServersCollection();
