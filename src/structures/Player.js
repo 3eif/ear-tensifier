@@ -101,6 +101,7 @@ module.exports = class Player extends TrackPlayer {
     }
 
     getTime() {
+        if (!this.player) return 0;
         return super.getTime();
     }
 
