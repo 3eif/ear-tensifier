@@ -30,7 +30,7 @@ module.exports = class Logger extends Signale {
 					logLevel: 'info',
 				},
 			},
-			scope: (client ? `Shard ${client.shard.ids}` : 'Manager'),
+			scope: (client ? `Shard ${('0' + client.shard.ids).slice(-2)}` : 'Manager '),
 		});
 	}
 };
