@@ -70,13 +70,28 @@ module.exports = class Load extends Command {
                         id: track.id,
                         title: track.title,
                         url: track.url,
-                        duration: track.duration,
+                        duration: track.duration > 10000 ? track.duration / 1000 : track.duration,
                         thumbnail: track.thumbnail,
                         author: track.author,
                         platform: track.platform,
                         requester: ctx.author,
                     });
                 });
+
+                const tracksToSave = [];
+                for (let i = 0; i < tracksToSave.length; i++) {
+                    tracksToSave[i] = {
+                        _id: tracksToAdd[i].id,
+                        title: tracksToAdd[i].title,
+                        url: tracksToAdd[i].url,
+                        author: tracksToAdd[i].author,
+                        duration: tracksToAdd[i].duration,
+                        thumbnail: tracksToAdd[i].thumbnail,
+                        platform: tracksToAdd[i].platform,
+                        playable: tracksToAdd[i].playable,
+                    };
+                }
+                await player.updateOne({ tracks: tracksToSave });
 
                 let tracksQueued = 0;
                 const queueAllSongs = new Promise((resolve) => {
