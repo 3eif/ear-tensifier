@@ -29,7 +29,7 @@ module.exports = class View extends Command {
         });
     }
     async run(client, ctx, args) {
-        const playlistName = args.join(' ').replace(/_/g, ' ');
+        const playlistName = args.slice(0).join(' ');
 
         Playlist.findOne({
             name: playlistName,
