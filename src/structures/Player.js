@@ -7,7 +7,7 @@ const Filter = require('./Filter');
 module.exports = class Player extends TrackPlayer {
 
     constructor(options) {
-        super();
+        super({ external_encrypt: true, external_packet_send: true });
 
         this.manager = options.manager;
 
