@@ -52,6 +52,7 @@ module.exports = class TrackStart extends Event {
         player.nowPlayingMessage = await player.textChannel.send({ embeds: [embed], components: [buttonRow] });
 
         player.nowPlayingMessage.interval = setInterval(() => {
+            if (!player.player) return;
             parsedCurrentDuration = formatDuration(player.getTime());
             parsedDuration = formatDuration(duration);
             part = Math.floor((player.getTime() / duration) * n);
