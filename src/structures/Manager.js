@@ -26,7 +26,6 @@ module.exports = class Manager extends EventEmitter {
             guild: guild,
             voiceChannel: voiceChannel,
             textChannel: textChannel,
-            external_encrypt: true,
             volume: volume ? volume : await DatabaseHelper.getDefaultVolume(guild),
         });
 
