@@ -91,7 +91,7 @@ module.exports = class Load extends Command {
                         playable: tracksToAdd[i].playable,
                     };
                 }
-                await player.updateOne({ tracks: tracksToSave });
+                await playlist.updateOne({ tracks: tracksToSave });
 
                 let tracksQueued = 0;
                 const queueAllSongs = new Promise((resolve) => {
