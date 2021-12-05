@@ -38,6 +38,13 @@ commandFiles.forEach(category => {
 
 const rest = new REST({ version: '9' }).setToken(process.env.DISCORD_TOKEN);
 
-rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID, '473426453204172811'), { body: commands })
-    .then(() => signale.success('Successfully registered application commands.'))
-    .catch((e) => signale.error(e));
+if (process.env.NODE_ENV === 'development') {
+    rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID, '473426453204172811'), { body: commands })
+        .then(() => signale.success('Successfully registered application commands.'))
+        .catch((e) => signale.error(e));
+}
+else {
+    rest.put(Routes.applicationCommands(process.env.CLIENT_ID), { body: commands })
+        .then(() => signale.success('Successfully registered application commands.'))
+        .catch((e) => signale.error(e));
+}

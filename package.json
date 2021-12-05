@@ -10,11 +10,8 @@
     "development": "export NODE_ENV=development&&npm start",
     "ear2": "export NODE_ENV=ear2&&npm start",
     "ear3": "export NODE_ENV=ear3&&npm start",
-    "win_production": "set NODE_ENV=production&&npm start",
-    "win_development": "set NODE_ENV=development&&npm start",
-    "win_ear2": "set NODE_ENV=ear2&&npm start",
-    "win_ear3": "set NODE_ENV=ear3&&npm start",
-    "deploy-commands": "export NODE_ENV=development&&node ./src/scripts/deploy-commands.js",
+    "deploy-development-commands": "export NODE_ENV=production&&node ./src/scripts/deploy-commands.js",
+    "deploy-production-commands": "export NODE_ENV=production&&node ./src/scripts/deploy-commands.js",
     "migrate-database": "export NODE_ENV=development&&node ./src/scripts/migrate-database.js"
   },
   "repository": {
