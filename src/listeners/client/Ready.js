@@ -19,7 +19,7 @@ module.exports = class Ready extends Event {
         }
         else this.client.logger.warn('MongoDB URL missing');
 
-        const status = `${this.client.config.prefix}help`;
+        const status = `${process.env.PREFIX}help`;
         const statusType = 'LISTENING';
         this.client.user.setActivity(`${status}`, { type: `${statusType}` });
 

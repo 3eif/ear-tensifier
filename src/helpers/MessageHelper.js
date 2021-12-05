@@ -40,8 +40,8 @@ module.exports = class MessageHelper {
     }
 
     async getPrefixFromMessage(rawMessageContent, mentionPrefix) {
-        if (rawMessageContent.indexOf(this.client.config.prefix) === 0) {
-            return this.client.config.prefix;
+        if (rawMessageContent.indexOf(process.env.PREFIX) === 0) {
+            return process.env.PREFIX;
         }
         else if (rawMessageContent.indexOf(this.server.prefix.toLowerCase()) === 0) {
             return this.server.prefix;

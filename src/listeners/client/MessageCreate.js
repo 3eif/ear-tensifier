@@ -38,12 +38,12 @@ module.exports = class MessageCreate extends Event {
 
         const messageContent = message.content.replace('`', '').replace('  ', ' ');
 
-        if (prefix === this.client.config.prefix && !this.client.config.prefix.endsWith(' ')) {
+        if (prefix === process.env.PREFIX && !process.env.PREFIX.endsWith(' ')) {
             args = messageContent.split(' ');
             command = args.shift().toLowerCase();
-            command = command.slice(this.client.config.prefix.length);
+            command = command.slice(process.env.PREFIX.length);
         }
-        else if (prefix === this.client.config.prefix) {
+        else if (prefix === process.env.PREFIX) {
             args = messageContent.split(' ');
             args.shift();
             command = args.shift().toLowerCase();
@@ -109,7 +109,7 @@ module.exports = class MessageCreate extends Event {
         else if (cmd.voiceRequirements.isInSameVoiceChannel && message.guild.me.voice.channel && !message.guild.me.voice.channel.equals(message.member.voice.channel)) return messageHelper.sendResponse('sameVoiceChannel');
         else if (cmd.voiceRequirements.isPlaying && !this.client.music.players.get(message.guild.id)) return messageHelper.sendResponse('noSongsPlaying');
 
-        if (prefix == this.client.config.prefix) {
+        if (prefix == process.env.PREFIX) {
             if (!args[0] && cmd.args === true && ((cmd.acceptsAttachments && message.attachments.size == 0) || !cmd.acceptsAttachments)) {
                 const embed = new Discord.MessageEmbed()
                     .setDescription(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`ear ${commandName} ${cmd.description.usage}\``);
