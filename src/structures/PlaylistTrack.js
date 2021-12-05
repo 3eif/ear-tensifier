@@ -15,7 +15,7 @@ module.exports = class PlaylistTrack {
     }
 
     async getStreams() {
-        switch (this.platform.toLowerCase()) {
+        switch (this.platform) {
             case 'youtube':
                 return Source.Youtube.getStreams(this.id);
             case 'soundcloud':
