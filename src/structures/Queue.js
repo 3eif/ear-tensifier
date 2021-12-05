@@ -1,45 +1,38 @@
-const { Structure } = require("erela.js");
+module.exports = class Queue extends Array {
+    constructor() {
+        super();
+        this.current = null;
+        this.previous = [];
+    }
 
-module.exports = Structure.extend('Queue', Queue => {
-    class queue extends Queue {
-        constructor(...args) {
-            super(...args);
+    add(track, index) {
+        if (!this.current) {
+            this.current = track;
         }
-
-        add(track, offset) {
-            // if (!Utils_1.TrackUtils.validate(track)) {
-            //     throw new RangeError('Track must be a "Track" or "Track[]".');
-            // }
-            if (!this.current) {
-                if (!Array.isArray(track)) {
-                    this.current = track;
-                    return;
-                }
-                else {
-                    this.current = (track = [...track]).shift();
-                }
-            }
-            if (typeof offset !== "undefined" && typeof offset === "number") {
-                if (isNaN(offset)) {
-                    throw new RangeError("Offset must be a number.");
-                }
-                if (offset < 0 || offset > this.length) {
-                    throw new RangeError(`Offset must be or between 0 and ${this.length}.`);
-                }
-            }
-            if (typeof offset === "undefined" && typeof offset !== "number") {
-                if (track instanceof Array)
-                    this.push(...track);
-                else
-                    this.push(track);
-            }
-            else {
-                if (track instanceof Array)
-                    this.splice(offset, 0, ...track);
-                else
-                    this.splice(offset, 0, track);
-            }
+        else if (typeof index === 'undefined' && typeof index !== 'number') {
+            this.push(track);
+        }
+        else {
+            this.splice(index, 0, track);
         }
     }
-    return queue;
-});
+
+    remove(index) {
+        this.splice(index, 1);
+    }
+
+    clear() {
+        this.splice(0);
+    }
+
+    shuffle() {
+        for (let i = this.length - 1; i > 0; i--) {
+            const n = Math.floor(Math.random() * (i + 1));
+            [this[i], this[n]] = [this[n], this[i]];
+        }
+    }
+
+    totalSize() {
+        return this.length + (this.current ? 1 : 0);
+    }
+};

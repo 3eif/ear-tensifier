@@ -1,61 +1,31 @@
-module.exports = (milliseconds) => {
-    if (milliseconds > 3600000000) return 'Live';
-    if (milliseconds === 0) return "00:00";
-
-    const times = {
-        years: 0,
-        months: 0,
-        weeks: 0,
-        days: 0,
-        hours: 0,
-        minutes: 0,
-        seconds: 0,
-    };
-
-    while (milliseconds > 0) {
-        if (milliseconds - 31557600000 >= 0) {
-            milliseconds -= 31557600000;
-            times.years++;
-        } else if (milliseconds - 2628000000 >= 0) {
-            milliseconds -= 2628000000;
-            times.months++;
-        } else if (milliseconds - 604800000 >= 0) {
-            milliseconds -= 604800000;
-            times.weeks += 7;
-        } else if (milliseconds - 86400000 >= 0) {
-            milliseconds -= 86400000;
-            times.days++;
-        } else if (milliseconds - 3600000 >= 0) {
-            milliseconds -= 3600000;
-            times.hours++;
-        } else if (milliseconds - 60000 >= 0) {
-            milliseconds -= 60000;
-            times.minutes++;
-        } else {
-            times.seconds = Math.round(milliseconds / 1000);
-            milliseconds = 0;
+module.exports = (t) => {
+    if (Number(t) != 0 && !isNaN(Number(t)) && t != undefined && t != null && (typeof t == 'string' || typeof t == 'number')) {
+        t = Number(t);
+        const pad = n => n.toString().padStart(2, '0');
+        const h = pad(Math.floor(+t / 3600));
+        const m = pad(Math.floor(+t % 3600 / 60));
+        const s = pad(Math.floor(+t % 3600 % 60));
+        return (h == 0 && m == 0) ? ('00:' + s) : (h == 0) ? (m + ':' + s) : (h + ':' + m + ':' + s);
+    }
+    else if (typeof t == 'string' && t.indexOf(':') != -1) {
+        const parts = t.split(':');
+        if (parts.length == 3) {
+            const h = Number(parts[0]);
+            const m = Number(parts[1]);
+            const s = Number(parts[2]);
+            if (!isNaN(h) && !isNaN(m) && !isNaN(s)) {
+                return (h * 3600) + (m * 60) + s;
+            }
+        }
+        else if (parts.length == 2) {
+            const m = Number(parts[0]);
+            const s = Number(parts[1]);
+            if (!isNaN(m) && !isNaN(s)) {
+                return (m * 60) + s;
+            }
         }
     }
-
-    let finalTime = [];
-    let first = false;
-
-    for (const [k, v] of Object.entries(times)) {
-        if (v === 0 && !first) continue;
-        finalTime.push(v < 10 ? `0${v}` : `${v}`);
-        first = true;
-        continue;
-        if (v > 0) finalTime.push(`${v} ${v > 1 ? k : k.slice(0, -1)}`);
+    else {
+        return undefined;
     }
-
-    if (finalTime.length === 1) finalTime.unshift("00");
-
-    let time = finalTime.join(":");
-
-    if (time.includes(",")) {
-        const pos = time.lastIndexOf(",");
-        time = `${time.slice(0, pos)} and ${time.slice(pos + 1)}`;
-    }
-
-    return time;
 };

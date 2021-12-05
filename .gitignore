@@ -6,9 +6,11 @@ json.sqlite
 .vs
 
 tokens.json
+lists.json
 webhooks.json
 package-lock.json
 botlists.json
+/tests/config.json
 
 *.bat
 *.log

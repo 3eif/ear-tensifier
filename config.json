@@ -1,0 +1,70 @@
+{
+    "prefix": "ear ",
+    "version": "2.0.0",
+    "website": "https://eartensifier.net/",
+    "server": "https://discord.gg/xKgKMAP",
+    "patreon": "https://www.patreon.com/eartensifier",
+    "invite": "https://discord.com/oauth2/authorize?client_id=472714545723342848&scope=bot%20applications.commands&permissions=3460160",
+    "review": "https://bots.ondiscord.xyz/bots/472714545723342848/review",
+    "vote": "https://top.gg/bot/472714545723342848/vote",
+    "devs": [
+        "275831434772742144"
+    ],
+    "colors": {
+        "default": "#2F3136",
+        "online": "#7BCBA7",
+        "offline": "#9EA5AF",
+        "youtube": "#292B2F",
+        "soundcloud": "#FD8B1B",
+        "twitch": "#6442A4",
+        "bandcamp": "#619AA9",
+        "added": "#2ECC71",
+        "removed": "#E74C3C"
+    },
+    "emojis": {
+        "channel": "<:earchannel:908723485789020160>",
+        "chat": "<:earchat:908722429852024842>",
+        "loading": "<a:earloading:908723485705121793>",
+        "locked": "<:earlocked:908724089269649478>",
+        "nochannelperms": "<:earnochannelperms:908723485818368050>",
+        "novoiceperms": "<:earnovoiceperms:908723485860319302>",
+        "search": "<:earsearch:908722429667446866>",
+        "success": "<:earsuccess:908728690664439808>",
+        "failure": "<:earfailure:908721961453101127>",
+        "typing": "<a:eartyping:908723802563837993>",
+        "voice": "<a:earvoice:908723485768048710>",
+        "left": "<:earleft:908791059360927784>",
+        "right": "<:earright:908791059390271558>",
+        "online": "<:online:908939189888897054>",
+        "offline": "<:offline:908939189872132096>",
+        "added": "<:earadded:913247304931246192>",
+        "removed": "<:earremoved:913247304801222656>",
+        "progress1": "<:1_:913529332868218880>",
+        "progress2": "<:2_:913529332859801630>",
+        "progress3": "<:3_:913529896276475966>",
+        "progress4": "<:4_:913529332864000010>",
+        "progress5": "<:5_:913529332884963328>",
+        "progress6": "<:6_:913529332864000011>",
+        "progress7": "<:7_:913538687286001716>",
+        "progress8": "<:8_:913551185842176020>",
+        "cdplaying": "<a:earcdplaying:913542541499039784>",
+        "cdstopped": "<a:earcdstopped:913541747466993714>",
+        "pause": "<:earpause:916547288069984308>",
+        "previous": "<:earprevious:916547288254513192>",
+        "skip": "<:earskip:916547288216764426>",
+        "resume": "<:earresume:916549575035203605>"
+    },
+    "channels": {
+        "guildlogs": "734204437601583115"
+    },
+    "max": {
+        "songsInQueue": 10000,
+        "songsInPlaylist": 5000,
+        "playlists": 500
+    },
+    "urls": {
+        "youtube": "https://www.youtube.com/watch?v=",
+        "spotify": "https://open.spotify.com"
+    },
+    "voiceTimeout": 300000
+}

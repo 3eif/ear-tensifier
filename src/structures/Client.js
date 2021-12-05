@@ -1,6 +1,10 @@
 const Discord = require('discord.js');
-const chalk = require('chalk');
-const Statcord = require('statcord.js');
+const fs = require('fs');
+
+const commandsFolder = fs.readdirSync('./src/commands/');
+const listenersFolder = fs.readdirSync('./src/listeners/');
+const Logger = require('./Logger.js');
+const DatabaseHelper = require('../helpers/DatabaseHelper.js');
 
 module.exports = class Client extends Discord.Client {
     constructor() {
@@ -12,9 +16,9 @@ module.exports = class Client extends Discord.Client {
                     sweepInterval: 300,
                     sweepFilter: Discord.LimitedCollection.filterByLifetime({
                         lifetime: 1800,
-                        getComparisonTimestamp: e => e.editedTimestamp ?? e.createdTimestamp,
-                    })
-                }
+                        getComparisonTimestamp: e => e.editedTimestamp || e.createdTimestamp,
+                    }),
+                },
             }),
             partials: [
                 'MESSAGE',
@@ -27,45 +31,114 @@ module.exports = class Client extends Discord.Client {
                 'GUILD_VOICE_STATES',
                 'GUILD_MESSAGE_REACTIONS',
             ],
-            restTimeOffset: 0
+            restTimeOffset: 0,
         });
 
         this.commands = new Discord.Collection();
         this.aliases = new Discord.Collection();
 
-        this.settings = require('../settings.js');
-        this.channelList = require('../../config/channels.js');
-        this.filters = require('../../config/filters.js');
-        this.colors = require('../../config/colors.js');
-        this.emojiList = require('../../config/emojis.js');
+        this.statcordSongs = 0;
 
-        this.shardMessage = require('../utils/misc/shardMessage.js');
-        this.responses = require('../utils/misc/responses.js');
-        this.errors = require('../utils/misc/errors.js');
-        this.formatDuration = require('./../utils/music/formatDuration.js');
-        this.setFilter = require('./../utils/music/setFilter.js');
-        this.queuedEmbed = require('./../utils/music/queuedEmbed.js');
-        this.songLimit = require('./../utils/music/songLimit.js');
-        this.getSongLimit = require('./../utils/music/getSongLimit.js');
+        this.logger = new Logger({
+            displayTimestamp: true,
+            displayDate: true,
+        }, this);
 
-        this.earTensifiers = ['472714545723342848', '888267634687213669', '888268490199433236', '669256663995514900']
+        this.databaseHelper = new DatabaseHelper(this);
 
-        this.environment = process.env.NODE_ENV;
+        this.config = require('../../config.json');
 
-        // Statcord.ShardingClient.registerCustomFieldHandler(1, () => {
-        //     return this.client.music.nodes.array()[0].stats.players;
-        // });
-
-        // Statcord.ShardingClient.registerCustomFieldHandler(2, () => {
-        //     return this.client.music.nodes.array()[0].stats.playingPlayers;
-        // });
+        this.earTensifiers = ['472714545723342848', '888267634687213669', '888268490199433236', '669256663995514900'];
     }
 
-    log(msg) {
-        console.log(chalk.white.bold(`[${new Date().toLocaleString()}]`) + chalk.white.bold(' > ') + msg);
+    loadCommands() {
+        commandsFolder.forEach(category => {
+            const categories = fs.readdirSync(`${process.cwd()}/src/commands/${category}/`);
+            categories.forEach(command => this.loadCommand(command, category));
+        });
     }
 
-    async login(token = this.token) {
+    loadCommand(command, category) {
+        const f = require(`${process.cwd()}/src/commands/${category}/${command}`);
+        const cmd = new f(this, f);
+        cmd.category = category;
+        cmd.file = f;
+        cmd.fileName = f.name;
+        this.commands.set(cmd.name, cmd);
+        if (cmd.aliases && Array.isArray(cmd.aliases)) {
+            for (const alias of cmd.aliases) {
+                this.aliases.set(alias, cmd);
+            }
+        }
+        return cmd;
+    }
+
+    loadListeners() {
+        listenersFolder.forEach(async (eventFolder) => {
+            const events = fs.readdirSync(`./src/listeners/${eventFolder}`).filter(c => c.split('.').pop() === 'js');
+            if (eventFolder != 'player') {
+                events.forEach(async (eventStr) => {
+                    if (!events.length) throw Error('No event files found!');
+                    const file = require(`../listeners/${eventFolder}/${eventStr}`);
+                    const event = new file(this, file);
+                    const eventName = eventStr.split('.')[0].charAt(0).toLowerCase() + eventStr.split('.')[0].slice(1);
+                    this.on(eventName, (...args) => event.run(...args));
+                });
+            }
+        });
+    }
+
+    loadPlayerListeners() {
+        const events = fs.readdirSync('./src/listeners/player').filter(c => c.split('.').pop() === 'js');
+        events.forEach(async (eventStr) => {
+            if (!events.length) throw Error('No event files found!');
+            const file = require(`../listeners/player/${eventStr}`);
+            const event = new file(this, file);
+            const eventName = eventStr.split('.')[0].charAt(0).toLowerCase() + eventStr.split('.')[0].slice(1);
+            this.music.on(eventName, (...args) => event.run(...args));
+        });
+    }
+
+    shardMessage(channelId, message, isEmbed) {
+        const channel = this.channels.cache.get(channelId);
+        if (channel) {
+            if (!isEmbed) {
+                channel.send(message);
+            }
+            else {
+                channel.send({ embeds: [message] });
+            }
+        }
+    }
+
+    reloadFile(fileToReload) {
+        delete require.cache[require.resolve(fileToReload)];
+        return require(fileToReload);
+    }
+
+    reloadCommands(commandsToReload) {
+        if (commandsToReload.length > 0) {
+            commandsToReload.forEach(c => {
+                if (c) {
+                    this.reloadFile(`${process.cwd()}/src/commands/${c.category}/${c.fileName}`);
+                    this.loadCommand(c.fileName, c.category);
+                    this.logger.info('Reloaded %s command', c.fileName);
+                }
+            });
+        }
+        else {
+            this.commands.forEach(command => {
+                this.reloadFile(`${process.cwd()}/src/commands/${command.category}/${command.fileName}`);
+                this.logger.info('Reloaded %s command', command.fileName);
+            });
+            this.loadCommands();
+        }
+    }
+
+    async login(token) {
         super.login(token);
+
+        this.loadCommands();
+        this.loadListeners();
     }
 };
