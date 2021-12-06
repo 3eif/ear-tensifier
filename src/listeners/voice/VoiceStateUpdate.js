@@ -31,6 +31,7 @@ module.exports = class VoiceStateUpdate extends Event {
         await delay(this.client.config.voiceTimeout);
 
         if (!player.waitingMessage) return;
+        if (!newState.guild.me.voice.channel) return;
         const voiceMembers = newState.guild.me.voice.channel.members.filter(member => !member.user.bot).size;
         if (!voiceMembers || voiceMembers == 0) {
             let newPlayer = this.client.music.players.get(newState.guild.id);

@@ -19,8 +19,14 @@ module.exports = class TrackEnd extends Event {
         const embed = new MessageEmbed(player.nowPlayingMessage.embeds[0].setAuthor(track.author, 'https://eartensifier.net/images/cd.png', track.url));
 
         if (finished) embed.setDescription(`${parsedDuration}  ${this.client.config.emojis.progress1}${this.client.config.emojis.progress2.repeat(13)}${this.client.config.emojis.progress8}  ${parsedDuration}`);
-        player.nowPlayingMessage.edit({ components: [], embeds: [embed] });
 
-        clearInterval(player.nowPlayingMessage.interval);
+        try {
+            player.nowPlayingMessage.edit({ components: [], embeds: [embed] });
+        }
+        catch (error) {
+            return;
+        }
+
+        // clearInterval(player.nowPlayingMessage.interval);
     }
 };

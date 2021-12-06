@@ -11,7 +11,7 @@ module.exports = class TrackStart extends Event {
 
     async run(player, track) {
         const { id, title, url, platform, requester, author, thumbnail } = track;
-        const duration = player.getDuration() ? player.getDuration() : track.duration;
+        const duration = player.getDuration() || track.duration;
 
         this.client.databaseHelper.incrementTotalSongsPlayed();
         this.client.databaseHelper.incrementTimesSongPlayed(id, title, url, duration, platform, thumbnail, author);
@@ -21,7 +21,7 @@ module.exports = class TrackStart extends Event {
         if (!shouldSend) return;
 
         const n = 13;
-        let parsedCurrentDuration = formatDuration(player.getTime());
+        let parsedCurrentDuration = formatDuration(0);
         let parsedDuration = formatDuration(duration);
         let part = Math.floor((player.getTime() / duration) * n);
         let percentage = player.getTime() / duration;
@@ -51,15 +51,15 @@ module.exports = class TrackStart extends Event {
             .setTimestamp();
         player.nowPlayingMessage = await player.textChannel.send({ embeds: [embed], components: [buttonRow] });
 
-        player.nowPlayingMessage.interval = setInterval(() => {
-            if (!player.player) return;
-            parsedCurrentDuration = formatDuration(player.getTime());
-            parsedDuration = formatDuration(duration);
-            part = Math.floor((player.getTime() / duration) * n);
-            percentage = player.getTime() / duration;
+        // player.nowPlayingMessageInterval = setInterval(() => {
+        //     if (!player.player) return;
+        //     parsedCurrentDuration = formatDuration(player.getTime());
+        //     parsedDuration = formatDuration(duration);
+        //     part = Math.floor((player.getTime() / duration) * n);
+        //     percentage = player.getTime() / duration;
 
-            const e = new MessageEmbed(embed.setDescription(`${parsedCurrentDuration}  ${percentage < 0.05 ? this.client.config.emojis.progress7 : this.client.config.emojis.progress1}${this.client.config.emojis.progress2.repeat(part)}${percentage < 0.05 ? '' : this.client.config.emojis.progress3}${this.client.config.emojis.progress5.repeat(12 - part)}${this.client.config.emojis.progress6}  ${parsedDuration}`));
-            // if (player.nowPlayingMessage) player.nowPlayingMessage.edit({ content: null, embeds: [e] });
-        }, 5000);
+        //     const e = new MessageEmbed(embed.setDescription(`${parsedCurrentDuration}  ${percentage < 0.05 ? this.client.config.emojis.progress7 : this.client.config.emojis.progress1}${this.client.config.emojis.progress2.repeat(part)}${percentage < 0.05 ? '' : this.client.config.emojis.progress3}${this.client.config.emojis.progress5.repeat(12 - part)}${this.client.config.emojis.progress6}  ${parsedDuration}`));
+        //     // if (player.nowPlayingMessage) player.nowPlayingMessage.edit({ content: null, embeds: [e] });
+        // }, 5000);
     }
 };

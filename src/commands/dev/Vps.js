@@ -33,7 +33,7 @@ module.exports = class Vps extends Command {
             .addField('Uptime', `${days} days, ${hours} hours, ${mins} minutes, and ${realTotalSecs} seconds`)
             .addField('RAM', `${(os.totalmem() / 1024 / 1024 / 1024).toFixed(2)} GB`)
             .addField('Memory Usage', `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`)
-            .addField('CPU Load', `${(os.loadavg()[0] * 100).toFixed(2)}%`)
+            .addField('CPU Load', `${(os.loadavg()[0]).toFixed(2)}%`)
             .addField('CPU Cores', `${os.cpus().length}`)
             .setFooter(`Node Version: ${process.version}`)
             .setTimestamp();

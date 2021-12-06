@@ -1,5 +1,6 @@
 module.exports = (t) => {
-    if (Number(t) != 0 && !isNaN(Number(t)) && t != undefined && t != null && (typeof t == 'string' || typeof t == 'number')) {
+    if (Number(t) == 0) return '00:00';
+    else if (!isNaN(Number(t)) && t != undefined && t != null && (typeof t == 'string' || typeof t == 'number')) {
         t = Number(t);
         const pad = n => n.toString().padStart(2, '0');
         const h = pad(Math.floor(+t / 3600));

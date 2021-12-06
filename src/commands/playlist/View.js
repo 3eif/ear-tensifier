@@ -35,7 +35,7 @@ module.exports = class View extends Command {
             name: playlistName,
             creator: ctx.author.id,
         }, async (err, p) => {
-            if (err) client.logger.erro(err);
+            if (err) client.logger.error(err);
 
             if (!p) {
                 const embed = new MessageEmbed()

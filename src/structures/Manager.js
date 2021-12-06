@@ -36,7 +36,7 @@ module.exports = class Manager extends EventEmitter {
         });
 
         player.on('finish', () => {
-            this.trackEnd(player);
+            this.trackEnd(player, true);
         });
 
         player.on('error', (err) => {
@@ -54,9 +54,8 @@ module.exports = class Manager extends EventEmitter {
         this.emit('trackStart', player, track);
     }
 
-    trackEnd(player) {
+    trackEnd(player, finished) {
         const track = player.queue.current;
-        const finished = Math.ceil(player.getTime()) >= (player.getDuration() ? player.getDuration() : track.duration);
         if (!track.duration) track.duration = player.getDuration();
 
         if (track && player.trackRepeat) {
@@ -138,24 +137,25 @@ module.exports = class Manager extends EventEmitter {
                 source = 'file';
             }
 
-            if (!track || (!(track instanceof TrackPlaylist) && !track.duration && !(await FileTrack.getDuration(track.url)))) throw new Error('No track found');
+            const fileDuration = await FileTrack.getDuration(track.url);
+            if (!track || (!(track instanceof TrackPlaylist) && !track.duration && !fileDuration)) throw new Error('No track found');
             else {
                 if (track instanceof TrackPlaylist) {
                     track.forEach(t => {
                         t.requester = requester;
-                        t.icon = QueueHelper.reduceThumbnails(t.icons);
+                        t.icon = null;
                         t.thumbnail = QueueHelper.reduceThumbnails(t.thumbnails);
                     });
                 }
                 else if (track.source != 'file') {
                     track.requester = requester;
-                    track.icon = QueueHelper.reduceThumbnails(track.icons);
+                    track.icon = null;
                     track.thumbnail = QueueHelper.reduceThumbnails(track.thumbnails);
                 }
                 else {
                     track.requester = requester;
                     track.platform = 'file';
-                    track.duration = await FileTrack.getDuration(track.url);
+                    track.duration = fileDuration;
                 }
                 return track;
             }
