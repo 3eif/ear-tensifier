@@ -51,19 +51,19 @@ setInterval(() => {
 });
 
 client.on('messageCreate', async (message) => {
+    if (message.channel.id != '689277002988912661') return;
     if (!message.content.startsWith(config.prefix))
         return;
     var start = Date.now();
     const args = message.content.substring(config.prefix.length).split(/[ ]+/g);
 
-    if (args[0] === 'enable' && message.author.id == '275831434772742144') {
-        client.shard.broadcastEval(c => c.sendMessage = true);
-    } else if (client.sendMessage) {
-        console.log(`${args[0]} command received from ${message.author.id}:${message.guild.id}`);
-        return message.channel.send('Ear Tensifier is currently being upgraded to version 2.0.0. Please be patient while we update the bot. Estimated time: 10 - 30 minutes.');
-    }
+    // if (args[0] === 'enable' && message.author.id == '275831434772742144') {
+    //     client.shard.broadcastEval(c => c.sendMessage = true);
+    // } else if (client.sendMessage) {
+    //     console.log(`${args[0]} command received from ${message.author.id}:${message.guild.id}`);
+    //     return message.channel.send('Ear Tensifier is currently being upgraded to version 2.0.0. Please be patient while we update the bot. Estimated time: 10 - 30 minutes.');
+    // }
 
-    return;
     if (args[0] == 'play') {
         const title = args.slice(1).join(' ');
 
@@ -127,11 +127,13 @@ client.on('messageCreate', async (message) => {
         message.channel.send(player.getTime() + '');
     } else if (args[0] == 'bench') {
         var secretKey = player.subscriptions[0].connection.state.networking.state.connectionData.secretKey;
+        var udp = player.subscriptions[0].connection.state.networking.state.udp;
 
         for (var i = 0; i < parseInt(args[1]); i++) {
             await new Promise((resolve) => {
                 let p = new TrackPlayer({
-                    external_encrypt: true
+                    external_encrypt: true,
+                    external_packet_send: true
                 });
 
                 playerz.push(p);
@@ -143,7 +145,7 @@ client.on('messageCreate', async (message) => {
                         networking: {
                             state: {
                                 connectionData: {
-                                    encryption_mode: 1,
+                                    encryptionMode: 'xsalsa20_poly1305_lite',
                                     sequence: 0,
                                     timestamp: 0,
                                     ssrc: 0,
@@ -151,11 +153,7 @@ client.on('messageCreate', async (message) => {
                                     secretKey
                                 },
 
-                                udp: {
-                                    send: () => {
-                                        // packets++;
-                                    }
-                                }
+                                udp
                             }
                         }
                     },
@@ -170,15 +168,19 @@ client.on('messageCreate', async (message) => {
                     onSubscriptionRemoved: () => { }
                 });
 
-                p.once('ready', resolve);
+                // p.once('ready', resolve);
+                resolve();
 
                 p.once('packet', () => {
+                    // p.setVolume(2);
+                    // p.setRate(2);
                     console.log('Player benching', ++players);
                 });
 
-                p.on('packet', () => {
-                    pp++;
-                });
+                // p.on('packet', () => {
+                //     // packets++;
+                //     pp++;
+                // });
 
                 p.once('finish', () => {
                     console.log(--players);
@@ -189,6 +191,7 @@ client.on('messageCreate', async (message) => {
                 });
             });
         }
+
     } else if (args[0] == 'dur') {
         message.channel.send(player.getDuration() + '');
     } else if (args[0] == 'frame') {
