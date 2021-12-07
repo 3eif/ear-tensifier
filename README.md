@@ -13,7 +13,7 @@
 
 <h1>Ear Tensifier</h1>
 
-Ear Tensifier is a powerful discord bot written in javascript using the discord.js library and Lavalink client. Ear Tensifier can play music from Youtube, SoundCloud, bandcamp and Twitch and includes more than 50 unique commands.
+Ear Tensifier is a powerful discord bot written in JavaScript using the [discord.js](https://github.com/discordjs/discord.js) library and [yasha](https://github.com/ilikdoge/yasha) and [sange](https://github.com/ilikdoge/sange) to deliver audio. Ear Tensifier can play music from Youtube, SoundCloud, bandcamp and Twitch and includes more than 60 unique commands.
 
 ## Add to Discord
 Click [here](https://eartensifier.net/invite) to invite Ear Tensifier to your server. 
@@ -56,8 +56,8 @@ Navigate to the newly created EarTensifier folder and install the npm packages
 Navigate to the `.env.example` file and rename it to `.env`. 
 Then fill out the following credentials:
 
-1. Set the `DISCORD_PREFIX` key to the prefix you wish the bot to respond to.
-2. Set the `DISCORD_ID` key to your bot's ID.
+1. Set the `PREFIX` key to the prefix you wish the bot to respond to.
+2. Set the `CLIENT_ID` key to your bot's ID and the `CLIENT_USERNAME` to the bot's username.
 3. Set the `DISCORD_TOKEN` key to your bot's token.
 4. Set the `MONGO_URL` key to your monogdb's connection URL.
 
@@ -82,10 +82,10 @@ If you installed and setup eveything correctly then the bot should output someth
 - [Omar](https://github.com/HysMX): Fixed Youtube playlist bug
 - [lmpham1](https://github.com/lmpham1): Added clean command.
 - [rajamoulimallareddy](https://github.com/rajamoulimallareddy): Updated bot to discord.js v13
+- [ilikdoge](https://github.com/ilikdoge): Helped with implementation of yasha and overall development of bot
 
 ## Bot Lists
 [![Bots On Discord](https://bots.ondiscord.xyz/bots/472714545723342848/embed?theme=dark&showGuilds=true)](https://bots.ondiscord.xyz/bots/472714545723342848)
 [![Discord Bots](https://top.gg/api/widget/472714545723342848.svg)](https://top.gg/bot/472714545723342848)
 [![Discord Bot List](https://discordbotlist.com/api/bots/ear-tensifier/widget)](https://discordbotlist.com/bots/ear-tensifier)
 [![Discord Boats](https://discord.boats/api/widget/472714545723342848)](https://discord.boats/bot/472714545723342848)
-[![Bots for Discord](https://botsfordiscord.com/api/bot/472714545723342848/widget)](https://botsfordiscord.com/bots/472714545723342848)
