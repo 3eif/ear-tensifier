@@ -13,7 +13,7 @@
 
 <h1>Ear Tensifier</h1>
 
-Ear Tensifier is a powerful discord bot written in JavaScript using the [discord.js](https://github.com/discordjs/discord.js) library and [yasha](https://github.com/ilikdoge/yasha) and [sange](https://github.com/ilikdoge/sange) to deliver audio. Ear Tensifier can play music from Youtube, SoundCloud, bandcamp and Twitch and includes more than 60 unique commands.
+[Ear Tensifier](https://eartensifier.net/) is a powerful discord bot written in JavaScript using the [discord.js](https://github.com/discordjs/discord.js) library and [yasha](https://github.com/ilikdoge/yasha) and [sange](https://github.com/ilikdoge/sange) to deliver audio. Ear Tensifier currently supports playback from Youtube, Soundcloud, and Spotify. 
 
 ## Add to Discord
 Click [here](https://eartensifier.net/invite) to invite Ear Tensifier to your server. 
