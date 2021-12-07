@@ -3,7 +3,6 @@ const blapi = require('blapi');
 
 const Event = require('../../structures/Event');
 const Manager = require('../../structures/Manager');
-const lists = require('../../../lists.json');
 
 module.exports = class Ready extends Event {
     constructor(...args) {
@@ -42,9 +41,9 @@ module.exports = class Ready extends Event {
                     });
 
                     if (process.env.NODE_ENV == 'production') {
-                        blapi.manualPost(totalGuilds, this.client.user.id, lists);
+                        blapi.manualPost(totalGuilds, this.client.user.id, require('../../../lists.json'));
                         setInterval(async () => {
-                            blapi.manualPost(totalGuilds, this.client.user.id, lists);
+                            blapi.manualPost(totalGuilds, this.client.user.id, require('../../../lists.json'));
                         }, 1800000);
                     }
                 }
