@@ -22,6 +22,11 @@ module.exports = class Broadcast extends Command {
             c.music.players.each(p => p.textChannel.send(message));
         }
 
-        ctx.editMessage(`${client.config.emojis.success} Successfully broadcasted message to ${client.music.players.size} servers.`);
+        const players = await client.shard.broadcastEval(c => c.music.players.size);
+        let totalPlayers = 0;
+        for (const player of players) {
+            totalPlayers += player;
+        }
+        ctx.editMessage(`${client.config.emojis.success} Successfully broadcasted message to ${totalPlayers} servers.`);
     }
 };
