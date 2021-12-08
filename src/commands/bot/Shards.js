@@ -35,6 +35,8 @@ module.exports = class Shards extends Command {
             ping: c.ws.ping,
         }));
 
+        let totalPlayers = 0;
+        let totalPlayingPlayers = 0;
         for (let n = 0; n < shardInfo.length / 15; n++) {
             const shardArray = shardInfo.slice(n * 15, n * 15 + 15);
 
@@ -42,8 +44,6 @@ module.exports = class Shards extends Command {
                 .setColor(client.config.colors.default)
                 .setAuthor('Ear Tensifier', client.user.displayAvatarURL());
 
-            let totalPlayers = 0;
-            let totalPlayingPlayers = 0;
             shardArray.forEach(i => {
                 const status = i.status === 'online' ? client.config.emojis.online : client.config.emojis.offline;
                 embed.addField(`${status} Shard ${(parseInt(i.id)).toString()}`, `\`\`\`js\nServers: ${i.guilds.toLocaleString()}\nChannels: ${i.channels.toLocaleString()}\nUsers: ${i.members.toLocaleString()}
