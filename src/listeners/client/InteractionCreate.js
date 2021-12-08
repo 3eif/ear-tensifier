@@ -18,8 +18,8 @@ module.exports = class InteractionCreate extends Event {
             if (!player) return;
             switch (interaction.customId) {
                 case 'PREVIOUS_BUTTON': {
-                    if (player.queue.previous.length > 0) {
-                        player.queue.unshift(player.queue.previous.pop());
+                    if (player.queue.previous) {
+                        player.queue.unshift(player.queue.previous);
                         player.skip();
                     }
                     break;

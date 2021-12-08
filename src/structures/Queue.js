@@ -2,7 +2,7 @@ module.exports = class Queue extends Array {
     constructor() {
         super();
         this.current = null;
-        this.previous = [];
+        this.previous = null;
     }
 
     add(track, index) {
