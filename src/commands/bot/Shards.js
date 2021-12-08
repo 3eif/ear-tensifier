@@ -71,7 +71,7 @@ Memory: ${Number(i.memoryUsage).toLocaleString()} MB\nAPI: ${i.ping.toLocaleStri
 Total Servers: ${totalGuilds.toLocaleString()}\nTotal Channels: ${totalChannels.toLocaleString()}\nTotal Users: ${totalMembers.toLocaleString()}\nTotal Memory: ${totalMemory.toFixed(2)} MB\nAvg API Latency: ${avgLatency} ms\nTotal Players: ${totalPlayingPlayers}/${totalPlayers}\`\`\``);
                     embed.setTimestamp();
                     embeds.push(embed);
-                    if (embeds.length == Math.ceil(shardArray.length / 15)) {
+                    if (embeds.length == Math.ceil(shardArray.length)) {
                         await ctx.messageHelper.paginate(embeds);
                     }
                 });
