@@ -35,6 +35,7 @@ module.exports = class Shards extends Command {
             ping: c.ws.ping,
         }));
 
+
         let totalPlayers = 0;
         let totalPlayingPlayers = 0;
         for (let n = 0; n < shardInfo.length / 15; n++) {

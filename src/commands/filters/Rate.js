@@ -56,7 +56,7 @@ module.exports = class Rate extends Command {
 
         if (isNaN(args[0]) && ctx.isInteraction) args[0] = ctx.interaction.options.data[0].options[0].value;
         else if (isNaN(args[0])) return ctx.sendMessage('Amount must be a real number.');
-        if (args[0] > 10 || args[0] < 0) return ctx.sendMessage('Amount must be between 0 and 10.');
+        if (args[0] > 3 || args[0] < 0) return ctx.sendMessage('Amount must be between 0 and 3.');
 
         player.filter.setRate(args[0]);
         const embed = new MessageEmbed()
