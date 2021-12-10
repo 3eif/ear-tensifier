@@ -19,7 +19,7 @@ module.exports = class Play extends Command {
 			},
 			aliases: ['p', 'tocar'],
 			args: true,
-			acceptsAttachments: true,
+			acceptsAttachments: false,
 			voiceRequirements: {
 				isInVoiceChannel: true,
 			},
@@ -55,10 +55,6 @@ module.exports = class Play extends Command {
 				query = args.slice(1).join(' ');
 				source = 'youtube';
 			}
-		}
-		else {
-			query = ctx.attachments.first().url;
-			source = 'file';
 		}
 
 		await ctx.sendDeferMessage(`${client.config.emojis.typing} Searching for \`${query}\`...`);

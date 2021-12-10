@@ -21,7 +21,7 @@ module.exports = class Search extends Command {
                 ],
             },
             args: true,
-            acceptsAttachments: true,
+            acceptsAttachments: false,
             voiceRequirements: {
                 isInVoiceChannel: true,
             },
@@ -82,9 +82,6 @@ module.exports = class Search extends Command {
                 case 'youtube':
                     results = await Source.Youtube.search(query);
                     break;
-                case 'file':
-                    results = new FileTrack(query);
-                    break;
                 default:
                     results = await Source.resolve(query);
                     break;
@@ -93,11 +90,6 @@ module.exports = class Search extends Command {
             if (!results) {
                 results = await Source.Youtube.search(query);
                 source = 'youtube';
-            }
-
-            if (!results || results.length === 0) {
-                results = new FileTrack(query, ctx.author);
-                source = 'file';
             }
 
             if (!results) return ctx.editMessage('No results found.');

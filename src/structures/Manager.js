@@ -118,9 +118,6 @@ module.exports = class Manager extends EventEmitter {
                 case 'youtube':
                     track = (await Source.Youtube.search(query))[0];
                     break;
-                case 'file':
-                    track = new FileTrack(query, requester);
-                    break;
                 default:
                     track = await Source.resolve(query);
                     break;
@@ -130,13 +127,8 @@ module.exports = class Manager extends EventEmitter {
                 track = (await Source.Youtube.search(query))[0];
                 source = 'youtube';
             }
-            if (!track) {
-                track = new FileTrack(query, requester);
-                source = 'file';
-            }
 
-            const fileDuration = await FileTrack.getDuration(track.url);
-            if (!track || (!(track instanceof TrackPlaylist) && !track.duration && !fileDuration)) throw new Error('No track found');
+            if (!track) throw new Error('No track found');
             else {
                 if (track instanceof TrackPlaylist) {
                     track.forEach(t => {
@@ -145,15 +137,10 @@ module.exports = class Manager extends EventEmitter {
                         t.thumbnail = QueueHelper.reduceThumbnails(t.thumbnails);
                     });
                 }
-                else if (track.source != 'file') {
+                else {
                     track.requester = requester;
                     track.icon = null;
                     track.thumbnail = QueueHelper.reduceThumbnails(track.thumbnails);
-                }
-                else {
-                    track.requester = requester;
-                    track.platform = 'file';
-                    track.duration = fileDuration;
                 }
                 return track;
             }

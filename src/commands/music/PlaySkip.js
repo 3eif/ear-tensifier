@@ -19,7 +19,7 @@ module.exports = class PlaySkip extends Command {
             },
             aliases: ['ps', 'forceplay', 'fp'],
             args: true,
-            acceptsAttachments: true,
+            acceptsAttachments: false,
             voiceRequirements: {
                 isInVoiceChannel: true,
                 isInSameVoiceChannel: true,
