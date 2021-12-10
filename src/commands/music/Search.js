@@ -4,7 +4,6 @@ const { MessageEmbed, MessageActionRow, MessageSelectMenu, MessageButton } = req
 
 const QueueHelper = require('../../helpers/QueueHelper');
 const Command = require('../../structures/Command');
-const FileTrack = require('../../structures/FileTrack');
 
 module.exports = class Search extends Command {
     constructor(client) {
@@ -94,7 +93,7 @@ module.exports = class Search extends Command {
 
             if (!results) return ctx.editMessage('No results found.');
 
-            if (results instanceof Track || results instanceof FileTrack) {
+            if (results instanceof Track) {
                 const track = results;
                 track.requester = ctx.author;
                 if (results instanceof Track) {

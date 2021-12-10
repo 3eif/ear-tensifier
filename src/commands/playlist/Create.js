@@ -3,7 +3,6 @@ const { MessageEmbed } = require('discord.js');
 
 const Command = require('../../structures/Command');
 const Playlist = require('../../models/Playlist');
-const FileTrack = require('../../structures/FileTrack');
 const formatDuration = require('../../utils/music/formatDuration');
 
 module.exports = class Create extends Command {
@@ -93,7 +92,7 @@ module.exports = class Create extends Command {
         }
         else {
             tracksToAdd.push(result);
-            playlistMessage = `Added **[${result.title}](${result.url})** [${formatDuration(result.duration ? result.duration : await FileTrack.getDuration(result.url))}] to **${playlistName}**`;
+            playlistMessage = `Added **[${result.title}](${result.url})** [${formatDuration(result.duration)}] to **${playlistName}**`;
         }
 
         if (!tracksToAdd.length) return;
@@ -104,7 +103,7 @@ module.exports = class Create extends Command {
                 title: tracksToAdd[i].title ? tracksToAdd[i].title : 'Unknown Title',
                 url: tracksToAdd[i].url,
                 author: tracksToAdd[i].author ? tracksToAdd[i].author : 'Unknown Author',
-                duration: tracksToAdd[i].duration ? tracksToAdd[i].duration : await FileTrack.getDuration(tracksToAdd[i].url),
+                duration: tracksToAdd[i].duration,
                 thumbnail: tracksToAdd[i].thumbnail,
                 platform: tracksToAdd[i].platform ? tracksToAdd[i].platform : 'file',
                 playable: tracksToAdd[i].playable,

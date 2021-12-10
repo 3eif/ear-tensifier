@@ -4,7 +4,6 @@ const { MessageEmbed } = require('discord.js');
 const Command = require('../../structures/Command');
 const Playlist = require('../../models/Playlist');
 const formatDuration = require('../../utils/music/formatDuration');
-const FileTrack = require('../../structures/FileTrack');
 
 module.exports = class View extends Command {
     constructor(client) {

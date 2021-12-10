@@ -7,7 +7,6 @@ const Player = require('./Player');
 const QueueHelper = require('../helpers/QueueHelper');
 const DatabaseHelper = require('../helpers/DatabaseHelper');
 const Logger = require('./Logger');
-const FileTrack = require('./FileTrack');
 
 module.exports = class Manager extends EventEmitter {
     constructor() {

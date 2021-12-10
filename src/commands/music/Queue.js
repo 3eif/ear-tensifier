@@ -2,7 +2,6 @@ const { MessageEmbed } = require('discord.js');
 
 const Command = require('../../structures/Command');
 const formatDuration = require('../../utils/music/formatDuration');
-const FileTrack = require('../../structures/FileTrack');
 
 module.exports = class Queue extends Command {
     constructor(client) {
@@ -42,7 +41,7 @@ module.exports = class Queue extends Command {
         const songStrings = [];
         for (let i = 0; i < player.queue.length; i++) {
             const song = player.queue[i];
-            songStrings.push(`**${i + 1}.** [${song.title}](${song.url}) \`[${formatDuration(song.duration || await FileTrack.getDuration(song.url))}]\` • <@${song.requester.id}>\n`);
+            songStrings.push(`**${i + 1}.** [${song.title}](${song.url}) \`[${formatDuration(song.duration)}]\` • <@${song.requester.id}>\n`);
         }
 
         const user = `<@${requester.id}>`;
