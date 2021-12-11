@@ -113,7 +113,7 @@ module.exports = class Player extends TrackPlayer {
         if (this.stayInVoice) return;
 
         if (this.nowPlayingMessage) {
-            // clearInterval(this.nowPlayingMessage.interval);
+            if (this.nowPlayingMessageInterval) clearInterval(this.nowPlayingMessageInterval);
             try {
                 this.nowPlayingMessage.edit({ components: [] });
             }

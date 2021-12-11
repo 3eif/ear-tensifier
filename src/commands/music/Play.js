@@ -22,6 +22,7 @@ module.exports = class Play extends Command {
 			acceptsAttachments: false,
 			voiceRequirements: {
 				isInVoiceChannel: true,
+				isInSameVoiceChannel: true,
 			},
 			options: [
 				{

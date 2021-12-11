@@ -32,6 +32,7 @@ module.exports = class NowPlaying extends Command {
             .setAuthor(author, player.playing ? 'https://eartensifier.net/images/cd.gif' : 'https://eartensifier.net/images/cd.png', url)
             .setThumbnail(thumbnail)
             .setTitle(title)
+            .setURL(url)
             .setDescription(`${parsedCurrentDuration}  ${percentage < 0.05 ? client.config.emojis.progress7 : client.config.emojis.progress1}${client.config.emojis.progress2.repeat(part)}${percentage < 0.05 ? '' : client.config.emojis.progress3}${client.config.emojis.progress5.repeat(12 - part)}${client.config.emojis.progress6}  ${parsedDuration}`)
             .setFooter(requester.username)
             .setTimestamp();

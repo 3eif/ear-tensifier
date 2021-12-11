@@ -43,7 +43,6 @@
     "signale": "^1.4.0",
     "statcord.js": "github:Tetracyl/statcord.js",
     "topgg-autoposter": "^2.0.0",
-    "video-length": "^2.0.6",
     "yasha": "github:ilikdoge/yasha"
   },
   "devDependencies": {

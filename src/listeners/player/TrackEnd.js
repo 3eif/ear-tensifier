@@ -27,6 +27,6 @@ module.exports = class TrackEnd extends Event {
             return;
         }
 
-        // clearInterval(player.nowPlayingMessage.interval);
+        clearInterval(player.nowPlayingMessage.interval);
     }
 };

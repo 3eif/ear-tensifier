@@ -20,10 +20,10 @@ module.exports = class PlaylistTrack {
                 return Source.Youtube.getStreams(this.id);
             case 'soundcloud':
                 return Source.Soundcloud.getStreams(this.id);
-            case 'Spotify':
+            case 'spotify':
                 return Source.Spotify.getStreams(this.id);
             default:
-                return null;
+                return Source.Youtube.getStreams(this.id);
         }
     }
 };

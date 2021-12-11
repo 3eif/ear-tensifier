@@ -19,7 +19,7 @@ module.exports = class VoiceStateUpdate extends Event {
             return;
         }
 
-        if (!player.player) return;
+        if (!player.player || player.waitingMessage) return;
         const embed = new MessageEmbed()
             .setDescription(`Leaving <#${oldState.guild.me.voice.channel.id}> in ${this.client.config.voiceTimeout / 60 / 1000} minutes because I was left alone.`)
             .setColor(this.client.config.colors.default);

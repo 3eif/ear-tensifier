@@ -65,13 +65,13 @@ module.exports = class Load extends Command {
                         duration: track.duration > 10000 ? track.duration / 1000 : track.duration,
                         thumbnail: track.thumbnail,
                         author: track.author,
-                        platform: track.platform,
+                        platform: track.platform || 'youtube',
                         requester: ctx.author,
                     });
                 });
 
                 const tracksToSave = [];
-                for (let i = 0; i < tracksToSave.length; i++) {
+                for (let i = 0; i < tracksToAdd.length; i++) {
                     tracksToSave[i] = {
                         _id: tracksToAdd[i].id,
                         title: tracksToAdd[i].title,
