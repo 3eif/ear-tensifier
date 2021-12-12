@@ -17,11 +17,15 @@ module.exports = class GuildDelete extends Event {
                     .setTimestamp()
                     .setColor(this.client.config.colors.removed);
                 if (this.client.earTensifiers.includes(this.client.user.id))
-                    this.client.shardMessage(this.client.config.channels.guildlogs, embed, true);
+                    this.client.shard.broadcastEval(shardMessage, { context: { channel: this.client.config.channels.guildlogs, embed: embed, isShard: true } });
             });
         }
         catch (error) {
             this.client.logger.error(error);
+        }
+
+        function shardMessage(c, { channel, embed, isShard }) {
+            c.shardMessage(channel, embed, isShard);
         }
     }
 };

@@ -44,26 +44,31 @@ module.exports = class TrackStart extends Event {
                     .setStyle('SECONDARY')
                     .setEmoji(this.client.config.emojis.skip));
 
-        const embed = new MessageEmbed()
-            .setColor(this.client.config.colors.default)
-            .setAuthor(author, player.playing ? 'https://eartensifier.net/images/cd.gif' : 'https://eartensifier.net/images/cd.png', url)
-            .setThumbnail(thumbnail)
-            .setTitle(title)
-            .setURL(url)
-            .setDescription(`${parsedCurrentDuration}  ${percentage < 0.05 ? this.client.config.emojis.progress7 : this.client.config.emojis.progress1}${this.client.config.emojis.progress2.repeat(part)}${percentage < 0.05 ? '' : this.client.config.emojis.progress3}${this.client.config.emojis.progress5.repeat(12 - part)}${this.client.config.emojis.progress6}  ${parsedDuration}`)
-            .setFooter(requester.username)
-            .setTimestamp();
-        player.nowPlayingMessage = await player.textChannel.send({ embeds: [embed], components: [buttonRow] });
+        try {
+            const embed = new MessageEmbed()
+                .setColor(this.client.config.colors.default)
+                .setAuthor(author, player.playing ? 'https://eartensifier.net/images/cd.gif' : 'https://eartensifier.net/images/cd.png', url)
+                .setThumbnail(thumbnail)
+                .setTitle(title)
+                .setURL(url)
+                .setDescription(`${parsedCurrentDuration}  ${percentage < 0.05 ? this.client.config.emojis.progress7 : this.client.config.emojis.progress1}${this.client.config.emojis.progress2.repeat(part)}${percentage < 0.05 ? '' : this.client.config.emojis.progress3}${this.client.config.emojis.progress5.repeat(12 - part)}${this.client.config.emojis.progress6}  ${parsedDuration}`)
+                .setFooter(requester.username)
+                .setTimestamp();
+            player.nowPlayingMessage = await player.textChannel.send({ embeds: [embed], components: [buttonRow] });
 
-        player.nowPlayingMessageInterval = setInterval(() => {
-            if (!player.player || !player.nowPlayingMessage) return clearInterval(player.nowPlayingMessageInterval);
-            parsedCurrentDuration = formatDuration(player.getTime());
-            parsedDuration = formatDuration(duration);
-            part = Math.floor((player.getTime() / duration) * n);
-            percentage = player.getTime() / duration;
+            if (!player.nowPlayingMessageInterval) player.nowPlayingMessageInterval = setInterval(() => {
+                if (!player.player || !player.nowPlayingMessage) return clearInterval(player.nowPlayingMessageInterval);
+                parsedCurrentDuration = formatDuration(player.getTime());
+                parsedDuration = formatDuration(duration);
+                part = Math.floor((player.getTime() / duration) * n);
+                percentage = player.getTime() / duration;
 
-            const e = new MessageEmbed(embed.setDescription(`${parsedCurrentDuration}  ${percentage < 0.05 ? this.client.config.emojis.progress7 : this.client.config.emojis.progress1}${this.client.config.emojis.progress2.repeat(part)}${percentage < 0.05 ? '' : this.client.config.emojis.progress3}${this.client.config.emojis.progress5.repeat(12 - part)}${this.client.config.emojis.progress6}  ${parsedDuration}`));
-            if (player.nowPlayingMessage) player.nowPlayingMessage.edit({ content: null, embeds: [e] });
-        }, 30000);
+                const e = new MessageEmbed(embed.setDescription(`${parsedCurrentDuration}  ${percentage < 0.05 ? this.client.config.emojis.progress7 : this.client.config.emojis.progress1}${this.client.config.emojis.progress2.repeat(part)}${percentage < 0.05 ? '' : this.client.config.emojis.progress3}${this.client.config.emojis.progress5.repeat(12 - part)}${this.client.config.emojis.progress6}  ${parsedDuration}`));
+                if (player.nowPlayingMessage) player.nowPlayingMessage.edit({ content: null, embeds: [e] });
+            }, 30000);
+        }
+        catch (err) {
+            this.client.logger.error(err);
+        }
     }
 };
