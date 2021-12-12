@@ -92,7 +92,6 @@ module.exports = class Manager extends EventEmitter {
 
     queueEnd(player, track) {
         this.emit('queueEnd', player, track);
-        player.destroy();
     }
 
     get(guild) {

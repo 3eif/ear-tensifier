@@ -20,7 +20,7 @@ module.exports = class TwentyFourSeven extends Command {
 
         if (player.stayInVoice) {
             player.stayInVoice = false;
-            if (!player.playing) player.destroy();
+            if (!player.playing) player.destroy(false);
             return ctx.sendMessage('24/7 mode is now off.');
         }
         else {

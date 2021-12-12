@@ -109,22 +109,29 @@ module.exports = class Player extends TrackPlayer {
         return super.getDuration();
     }
 
-    destroy() {
-        if (this.stayInVoice) return;
+    async softDestroy(force) {
+        try {
+            if (this.stayInVoice && !force) return;
 
-        if (this.nowPlayingMessage) {
-            if (this.nowPlayingMessageInterval) clearInterval(this.nowPlayingMessageInterval);
-            try {
-                this.nowPlayingMessage.edit({ components: [] });
+            if (this.nowPlayingMessage) {
+                if (this.nowPlayingMessageInterval) clearInterval(this.nowPlayingMessageInterval);
+                // eslint-disable-next-line no-empty-function
+                await this.nowPlayingMessage.edit({ components: [] }).catch(() => { });
             }
-            catch (error) {
-                return;
-            }
+            if (this.connection) this.disconnect();
+            if (this.player) super.destroy();
+
+            this.manager.players.delete(this.guild.id);
         }
-        if (this.connection) this.disconnect();
+        catch (e) {
+            this.manager.logger.error(e);
+        }
+    }
+
+    async destroy() {
         super.destroy();
 
-        this.manager.players.delete(this.guild.id);
+        await this.softDestroy().catch((e) => this.manager.logger.error(e));
     }
 
     setTrackRepeat(repeat) {

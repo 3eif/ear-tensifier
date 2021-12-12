@@ -32,6 +32,6 @@ module.exports = class QueueEnd extends Event {
             .setColor(this.client.config.colors.default);
         player.textChannel.send({ embeds: [embed] });
         player.cleanup();
-        return player.destroy();
+        return player.destroy(false);
     }
 };

@@ -20,12 +20,12 @@ module.exports = class Leave extends Command {
         let player = client.music.players.get(ctx.guild.id);
 
         if (player) {
-            player.destroy();
+            player.destroy(true);
         }
         else {
             player = await client.music.newPlayer(ctx.guild, ctx.member.voice.channel, ctx.channel);
             await player.connect();
-            player.destroy();
+            player.destroy(true);
         }
 
         return ctx.sendMessage(`Left <#${ctx.member.voice.channel.id}>`);
