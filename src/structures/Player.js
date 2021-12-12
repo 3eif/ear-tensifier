@@ -128,10 +128,10 @@ module.exports = class Player extends TrackPlayer {
         }
     }
 
-    async destroy() {
+    async destroy(force) {
         super.destroy();
 
-        await this.softDestroy().catch((e) => this.manager.logger.error(e));
+        await this.softDestroy(force).catch((e) => this.manager.logger.error(e));
     }
 
     setTrackRepeat(repeat) {
