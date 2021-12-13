@@ -164,7 +164,7 @@ module.exports = class Search extends Command {
             for (let i = 0; i < tracks.length; i++) {
                 const track = tracks[i];
                 selectMenuArray.push({
-                    label: track.title,
+                    label: `${i + 1}. ${track.title}`,
                     description: track.author,
                     value: i.toString(),
                 });

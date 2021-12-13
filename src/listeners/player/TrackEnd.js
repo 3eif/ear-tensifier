@@ -9,7 +9,7 @@ module.exports = class TrackEnd extends Event {
         super(...args);
     }
 
-    async run(player, track, finished) {
+async run(player, track, finished) {
         player.queue.previous = track;
 
         const shouldSend = await DatabaseHelper.shouldSendNowPlayingMessage(player.textChannel.guild);

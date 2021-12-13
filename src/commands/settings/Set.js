@@ -7,7 +7,7 @@ module.exports = class Set extends Command {
             name: 'set',
             description: {
                 content: 'Sets a certain setting.',
-                usage: '<setting (default, nowplaying)> <setting 2>',
+                usage: '<setting (default, nowplayingmessages)> <setting 2>',
                 examples: ['default volume 200', 'nowPlayingMessages off'],
             },
             args: true,
