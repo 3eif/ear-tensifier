@@ -33,7 +33,7 @@ module.exports = class Help extends Command {
 
         const embed = new MessageEmbed()
             .setAuthor('Commands', client.user.displayAvatarURL())
-            .setDescription(`A detailed list of commands can be found here: **[eartensifier.net/commands](https://eartensifier.net/commands)**.\nNeed more help? Join the support server here: **[${client.config.server.replace('https://', '')}](${client.config.server})**.`)
+            .setDescription(`A detailed list of commands can be found here: **[eartensifier.net](https://eartensifier.net/#commands)**.\nNeed more help? Join the support server here: **[${client.config.server.replace('https://', '')}](${client.config.server})**.`)
             .setFooter(`For more information on a command: ${prefix}help <command>`)
             .setColor(client.config.colors.default);
 
