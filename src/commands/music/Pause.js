@@ -21,7 +21,7 @@ module.exports = class Pause extends Command {
     async run(client, ctx) {
         const player = client.music.players.get(ctx.guild.id);
 
-        if (player.paused) return ctx.sendMessage('Song is already pauased.');
+        if (player.paused) return ctx.sendMessage('Song is already paused.');
         player.pause(true);
         return ctx.sendMessage(`Song is now **${player.playing ? 'resumed' : 'paused'}.**`);
     }
