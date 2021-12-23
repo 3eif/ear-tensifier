@@ -59,12 +59,12 @@ module.exports = class InteractionCreate extends Event {
 
         const ctx = new Context(interaction, interaction.options.data);
         const messageHelper = new MessageHelper(this.client, ctx);
+        await messageHelper.createServer();
         ctx.messageHelper = messageHelper;
 
         if (await messageHelper.isIgnored() || await messageHelper.isBlacklisted()) return;
 
         this.client.databaseHelper.incrementTimesCommandUsed(commandName);
-        await messageHelper.createServer();
         await messageHelper.createUser();
 
         if (!cooldowns.has(commandName)) {
