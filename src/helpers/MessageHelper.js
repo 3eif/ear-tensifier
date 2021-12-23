@@ -55,6 +55,7 @@ module.exports = class MessageHelper {
     }
 
     async isBlacklisted() {
+        if(!this.user) return false;
         if (this.user.blacklisted == null) this.user.blacklisted = false;
         if (!this.user.blacklisted) {
             this.user.commandsUsed += 1;
