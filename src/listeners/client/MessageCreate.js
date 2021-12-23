@@ -24,8 +24,6 @@ module.exports = class MessageCreate extends Event {
 
         const messageHelper = new MessageHelper(this.client, ctx);
         ctx.messageHelper = messageHelper;
-        await messageHelper.createServer();
-        await messageHelper.createUser();
 
         const mentionPrefix = new RegExp(`^<@!?${this.client.user.id}>( |)$`);
         const rawMessageContent = message.content.toLowerCase();
@@ -72,6 +70,8 @@ module.exports = class MessageCreate extends Event {
         if (process.env.NODE_ENV == 'production') Statcord.ShardingClient.postCommand(commandName, ctx.author.id, this.client);
 
         this.client.databaseHelper.incrementTimesCommandUsed(cmd);
+        await messageHelper.createServer();
+        await messageHelper.createUser();
 
         if (!cooldowns.has(commandName)) {
             cooldowns.set(commandName, new Discord.Collection());
