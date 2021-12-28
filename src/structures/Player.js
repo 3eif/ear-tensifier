@@ -141,7 +141,6 @@ module.exports = class Player extends TrackPlayer {
         }
         else {
             this.trackRepeat = false;
-            this.queueRepeat = false;
         }
 
         return this;
@@ -153,7 +152,6 @@ module.exports = class Player extends TrackPlayer {
             this.queueRepeat = true;
         }
         else {
-            this.trackRepeat = false;
             this.queueRepeat = false;
         }
 
