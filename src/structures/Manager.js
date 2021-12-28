@@ -65,11 +65,12 @@ module.exports = class Manager extends EventEmitter {
         }
 
         if (track && player.queueRepeat) {
-            player.queue.add(player.queue.current);
+            player.queue.add(track);
             player.queue.current = player.queue.shift();
 
             this.emit('trackEnd', player, track, finished);
             player.play();
+            player.queueRepeat = true;
             return;
         }
 
