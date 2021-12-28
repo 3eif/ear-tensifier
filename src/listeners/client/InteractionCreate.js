@@ -45,7 +45,6 @@ module.exports = class InteractionCreate extends Event {
                 }
                 case 'SKIP_BUTTON': {
                     if (player.trackRepeat) player.setTrackRepeat(false);
-                    if (player.queueRepeat) player.setQueueRepeat(false);
                     if (player) player.skip();
                     break;
                 }

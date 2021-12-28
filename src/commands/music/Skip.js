@@ -25,7 +25,6 @@ module.exports = class Skip extends Command {
 
         const title = player.queue.current.title;
         if (player.trackRepeat) player.setTrackRepeat(false);
-        if (player.queueRepeat) player.setQueueRepeat(false);
         if (player) player.skip();
 
         const embed = new MessageEmbed()

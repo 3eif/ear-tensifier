@@ -124,7 +124,6 @@ module.exports = class PlaySkip extends Command {
         if (!player.playing && !player.paused) player.play();
 
         if (player.trackRepeat) player.setTrackRepeat(false);
-        if (player.queueRepeat) player.setQueueRepeat(false);
         player.skip();
 
         ctx.editMessage({ content: null, embeds: [QueueHelper.queuedEmbed(result.title, result.url, result.duration, null, ctx.author, client.config.colors.default)] });

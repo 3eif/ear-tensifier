@@ -10,7 +10,6 @@ module.exports = class TrackEnd extends Event {
     }
 
 async run(player, track, finished) {
-        if(player.queueRepeat) player.queue.add(track);
         player.queue.previous = track;
 
         const shouldSend = await DatabaseHelper.shouldSendNowPlayingMessage(player.textChannel.guild);
