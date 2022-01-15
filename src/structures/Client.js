@@ -47,8 +47,14 @@ module.exports = class Client extends Discord.Client {
         this.databaseHelper = new DatabaseHelper(this);
 
         this.config = require('../../config.json');
-
         this.earTensifiers = ['472714545723342848', '888267634687213669', '888268490199433236', '669256663995514900'];
+
+        this.totalCommandsUsed = 0;
+        this.totalSongsPlayed = 0;
+        this.timesCommandsUsed = [];
+        this.timesSongsPlayed = [];
+        this.usersStats = [];
+        this.lastUpdatedDatabase = Date.now();
     }
 
     loadCommands() {

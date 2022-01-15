@@ -70,7 +70,7 @@ module.exports = class MessageCreate extends Event {
         const commandName = cmd.name.toLowerCase();
         if (process.env.NODE_ENV == 'production') Statcord.ShardingClient.postCommand(commandName, ctx.author.id, this.client);
 
-        this.client.databaseHelper.incrementTimesCommandUsed(cmd);
+        this.client.databaseHelper.incrementTimesCommandUsed(cmd, ctx.author);
         await messageHelper.createUser();
 
         if (!cooldowns.has(commandName)) {

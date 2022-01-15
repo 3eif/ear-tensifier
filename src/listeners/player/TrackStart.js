@@ -14,7 +14,7 @@ module.exports = class TrackStart extends Event {
         const duration = player.getDuration() || track.duration;
 
         this.client.databaseHelper.incrementTotalSongsPlayed();
-        this.client.databaseHelper.incrementTimesSongPlayed(id, title, url, duration, platform, thumbnail, author);
+        this.client.databaseHelper.incrementTimesSongsPlayed(id, title, url, duration, platform, thumbnail, author);
         this.client.databaseHelper.incrementUserSongsPlayed(requester);
 
         const shouldSend = await DatabaseHelper.shouldSendNowPlayingMessage(player.textChannel.guild);

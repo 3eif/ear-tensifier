@@ -63,7 +63,7 @@ module.exports = class InteractionCreate extends Event {
 
         if (await messageHelper.isIgnored() || await messageHelper.isBlacklisted()) return;
 
-        this.client.databaseHelper.incrementTimesCommandUsed(commandName);
+        this.client.databaseHelper.incrementTimesCommandUsed(commandName, ctx.author);
         await messageHelper.createUser();
 
         if (!cooldowns.has(commandName)) {
