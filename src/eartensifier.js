@@ -1,4 +1,4 @@
-const {Source: {Youtube}} = require('yasha');
+const { Source: { Youtube } } = require('yasha');
 require('events').defaultMaxListeners = 30;
 const EarTensifier = require('./structures/Client');
 const client = new EarTensifier();
