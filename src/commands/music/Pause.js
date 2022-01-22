@@ -1,3 +1,5 @@
+const { MessageEmbed } = require('discord.js');
+
 const Command = require('../../structures/Command');
 
 module.exports = class Pause extends Command {
@@ -23,6 +25,9 @@ module.exports = class Pause extends Command {
 
         if (player.paused) return ctx.sendMessage('Song is already paused.');
         player.pause(true);
-        return ctx.sendMessage(`Song is now **${player.playing ? 'resumed' : 'paused'}.**`);
+        const embed = new MessageEmbed()
+            .setColor(client.config.colors.default)
+            .setAuthor(`Song is now ${player.playing ? 'resumed' : 'paused'}.`, ctx.author.displayAvatarURL());
+        return ctx.sendMessage({ embeds: [embed] });
     }
 };

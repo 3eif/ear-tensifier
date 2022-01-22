@@ -21,31 +21,38 @@ module.exports = class InteractionCreate extends Event {
                     if (player.queue.previous) {
                         player.queue.unshift(player.queue.previous);
                         player.skip();
+
+                        const embed = new Discord.MessageEmbed()
+                            .setColor(this.client.config.colors.default)
+                            .setAuthor(`Backing up to ${player.queue.current.title}`, interaction.member.displayAvatarURL());
+                        await player.textChannel.send({ embeds: [embed] });
                     }
                     break;
                 }
                 case 'PAUSE_BUTTON': {
                     const buttonRow = interaction.message.components[0];
-                    if (player.paused) {
-                        player.pause(false);
-                        buttonRow.components[1] = new Discord.MessageButton()
-                            .setCustomId('PAUSE_BUTTON')
-                            .setStyle('PRIMARY')
-                            .setEmoji(this.client.config.emojis.pause);
-                    }
-                    else {
-                        player.pause(true);
-                        buttonRow.components[1] = new Discord.MessageButton()
-                            .setCustomId('PAUSE_BUTTON')
-                            .setStyle('PRIMARY')
-                            .setEmoji(this.client.config.emojis.resume);
-                    }
+                    player.pause(!player.paused);
+                    buttonRow.components[1] = new Discord.MessageButton()
+                        .setCustomId('PAUSE_BUTTON')
+                        .setStyle('PRIMARY')
+                        .setEmoji(player.paused ? this.client.config.emojis.resume : this.client.config.emojis.pause);
+
+                    const embed = new Discord.MessageEmbed()
+                        .setColor(this.client.config.colors.default)
+                        .setAuthor(`Song is now ${player.playing ? 'resumed' : 'paused'}.`, interaction.member.displayAvatarURL());
+                    await player.textChannel.send({ embeds: [embed] });
                     await interaction.update({ components: [buttonRow] });
                     break;
                 }
                 case 'SKIP_BUTTON': {
+                    const title = player.queue.current.title;
                     if (player.trackRepeat) player.setTrackRepeat(false);
                     if (player) player.skip();
+
+                    const embed = new Discord.MessageEmbed()
+                        .setColor(this.client.config.colors.default)
+                        .setAuthor(`Skipped ${title}`, interaction.member.displayAvatarURL());
+                    await player.textChannel.send({ embeds: [embed] });
                     break;
                 }
             }
