@@ -8,7 +8,7 @@ module.exports = class QueueEnd extends Event {
     }
 
     async run(player) {
-        const n = Math.floor(Math.random() * 3);
+        const n = ~~(Math.random() * 3);
         let msg = '';
 
         switch (n) {
@@ -23,7 +23,6 @@ module.exports = class QueueEnd extends Event {
                 break;
 
             default:
-                msg = '';
                 break;
         }
 

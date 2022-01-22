@@ -24,7 +24,7 @@ module.exports = class NowPlaying extends Command {
 
         const parsedCurrentDuration = formatDuration(player.getTime() || 0);
         const parsedDuration = formatDuration(duration);
-        const part = Math.floor((player.getTime() / duration) * 13);
+        const part = ~~((player.getTime() / duration) * 13);
         const percentage = player.getTime() / duration;
 
         const embed = new MessageEmbed()

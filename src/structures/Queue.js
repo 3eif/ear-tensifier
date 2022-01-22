@@ -27,7 +27,7 @@ module.exports = class Queue extends Array {
 
     shuffle() {
         for (let i = this.length - 1; i > 0; i--) {
-            const n = Math.floor(Math.random() * (i + 1));
+            const n = ~~(Math.random() * (i + 1));
             [this[i], this[n]] = [this[n], this[i]];
         }
     }
