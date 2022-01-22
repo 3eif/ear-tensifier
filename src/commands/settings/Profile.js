@@ -37,10 +37,7 @@ module.exports = class Profile extends Command {
                 return ctx.editMessage({ content: null, embeds: [embed] });
             }
             else {
-                let bio;
-                if (!u.bio) bio = 'No bio set. To set your bio type `ear bio <desired bio>`';
-                else bio = u.bio;
-
+                const bio = u ? u.bio : 'No bio set. To set your bio type `ear bio <desired bio>`';
                 const embed = new MessageEmbed()
                     .setThumbnail(user.user.displayAvatarURL())
                     .addField('User', `${user.user.tag}`, true)
