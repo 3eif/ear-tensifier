@@ -42,18 +42,20 @@ module.exports = class Search extends Command {
         let query;
         let source;
         if (args[0]) {
-            query = args.slice(0).join(' ');
-            if (args[0].toLowerCase() === 'soundcloud' || args[0].toLowerCase() === 'sc') {
-                query = args.slice(1).join(' ');
-                source = 'soundcloud';
-            }
-            else if (args[0].toLowerCase() === 'spotify' || args[0].toLowerCase() === 'sp') {
-                query = args.slice(1).join(' ');
-                source = 'spotify';
-            }
-            else if (args[0].toLowerCase() === 'youtube' || args[0].toLowerCase() === 'yt') {
-                query = args.slice(1).join(' ');
-                source = 'youtube';
+            const platform = args[0].toLowerCase();
+            query = args.slice(1).join(' ');
+            switch (platform) {
+                case 'yt' || 'youtube':
+                    source = 'youtube';
+                    break;
+                case 'sc' || 'soundcloud':
+                    source = 'soundcloud';
+                    break;
+                case 'sp' || 'spotify':
+                    source = 'spotify';
+                    break;
+                default:
+                    break;
             }
         }
         else {
