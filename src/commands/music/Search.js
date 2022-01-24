@@ -55,6 +55,8 @@ module.exports = class Search extends Command {
                     source = 'spotify';
                     break;
                 default:
+                    // If the platform is not recognized, assume it's just a query
+                    query = args.slice(0).join(' ');
                     break;
             }
         }
