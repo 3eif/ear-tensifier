@@ -116,7 +116,7 @@ module.exports = class InteractionCreate extends Event {
             }
             const now = Date.now();
             const timestamps = cooldowns.get(commandName);
-            const cooldownAmount = Math.floor(cmd.cooldown || 5) * 1000;
+            const cooldownAmount = ~~(cmd.cooldown || 5) * 1000;
             if (!timestamps.has(interaction.user.id)) {
                 timestamps.set(interaction.user.id, now);
                 setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
