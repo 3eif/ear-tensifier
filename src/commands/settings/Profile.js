@@ -19,7 +19,7 @@ module.exports = class Profile extends Command {
         await ctx.sendDeferMessage(`${client.config.emojis.typing} Fetching profile...`);
 
         let user;
-        if (ctx.interaction) user = ctx.author;
+        if (ctx.interaction) user = ctx.member;
         else user = ctx.message.mentions.members.first() || ctx.guild.members.cache.get(args[0]) || ctx.member;
         if (!user) return ctx.editMessage('User not found');
         User.findById(user.id, async (err, u) => {
