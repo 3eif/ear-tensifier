@@ -30,7 +30,7 @@ module.exports = class Profile extends Command {
                 newUser.save().catch(e => client.logger.error(e));
 
                 const embed = new MessageEmbed()
-                    .setThumbnail(ctx.interaction ? ctx.author.displayAvatarURL() : user.user.displayAvatarURL())
+                    .setThumbnail(user.user.displayAvatarURL())
                     .addField('User', `${user.user.tag}`, true)
                     .addField('Bio', 'No bio set')
                     .setColor(client.config.colors.default)
@@ -41,7 +41,7 @@ module.exports = class Profile extends Command {
             else {
                 const bio = u.bio ?? 'No bio set. To set your bio type `ear bio <desired bio>`';
                 const embed = new MessageEmbed()
-                    .setThumbnail(ctx.interaction ? ctx.author.displayAvatarURL() : user.user.displayAvatarURL())
+                    .setThumbnail(user.user.displayAvatarURL())
                     .addField('User', `${user.user.tag}`, true)
                     .addField('Bio', `${bio}`)
                     .setColor(client.config.colors.default)
