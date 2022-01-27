@@ -18,7 +18,9 @@ module.exports = class Profile extends Command {
     async run(client, ctx, args) {
         await ctx.sendDeferMessage(`${client.config.emojis.typing} Fetching profile...`);
 
-        const user = ctx.message.mentions.members.first() || ctx.guild.members.cache.get(args[0]) || ctx.member;
+        let user;
+        if (ctx.interaction) user = ctx.author;
+        else user = ctx.message.mentions.members.first() || ctx.guild.members.cache.get(args[0]) || ctx.member;
         if (!user) return ctx.editMessage('User not found');
         User.findById(user.id, async (err, u) => {
             if (err) client.logger.error(err);
@@ -37,10 +39,7 @@ module.exports = class Profile extends Command {
                 return ctx.editMessage({ content: null, embeds: [embed] });
             }
             else {
-                let bio;
-                if (!u.bio) bio = 'No bio set. To set your bio type `ear bio <desired bio>`';
-                else bio = u.bio;
-
+                const bio = u.bio ?? 'No bio set. To set your bio type `ear bio <desired bio>`';
                 const embed = new MessageEmbed()
                     .setThumbnail(user.user.displayAvatarURL())
                     .addField('User', `${user.user.tag}`, true)
