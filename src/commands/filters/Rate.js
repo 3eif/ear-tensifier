@@ -8,7 +8,7 @@ module.exports = class Rate extends Command {
             name: 'rate',
             description: {
                 content: 'Sets the rate of the player.',
-                usage: '<rate (0 to 10)>',
+                usage: '<rate (0 to 3)>',
                 examples: ['0.7', '1.3', '6'],
             },
             aliases: ['pitch'],
@@ -30,7 +30,7 @@ module.exports = class Rate extends Command {
                             required: true,
                             description: 'The amount to set the rate to.',
                             min_value: 0,
-                            max_value: 10,
+                            max_value: 3,
                         },
                     ],
                 },

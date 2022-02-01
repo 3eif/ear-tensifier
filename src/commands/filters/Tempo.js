@@ -8,7 +8,7 @@ module.exports = class Tempo extends Command {
             name: 'tempo',
             description: {
                 content: 'Sets the tempo of the player.',
-                usage: '<tempo (0.5 to 10)>',
+                usage: '<tempo (0.5 to 3)>',
                 examples: ['0.7', '1.3', '6'],
             },
             aliases: ['speed'],
@@ -30,7 +30,7 @@ module.exports = class Tempo extends Command {
                             required: true,
                             description: 'The amount to set the tempo to.',
                             min_value: 0.5,
-                            max_value: 10,
+                            max_value: 3,
                         },
                     ],
                 },

@@ -22,10 +22,10 @@ module.exports = class Stats extends Command {
         const msg = await ctx.sendDeferMessage(`${client.config.emojis.typing} Gathering stats...`);
 
         const totalSeconds = process.uptime();
-        const realTotalSecs = ~~(totalSeconds % 60);
-        const days = ~~((totalSeconds % (31536 * 100)) / 86400);
-        const hours = ~~((totalSeconds / 3600) % 24);
-        const mins = ~~((totalSeconds / 60) % 60);
+        const realTotalSecs = Math.floor(totalSeconds % 60);
+        const days = Math.floor((totalSeconds % (31536 * 100)) / 86400);
+        const hours = Math.floor((totalSeconds / 3600) % 24);
+        const mins = Math.floor((totalSeconds / 60) % 60);
 
         const promises = [
             client.shard.fetchClientValues('guilds.cache.size'),

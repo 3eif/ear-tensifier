@@ -3,9 +3,9 @@ module.exports = (t) => {
     else if (!isNaN(Number(t)) && t != undefined && t != null && (typeof t == 'string' || typeof t == 'number')) {
         t = Number(t);
         const pad = n => n.toString().padStart(2, '0');
-        const h = pad(~~(+t / 3600));
-        const m = pad(~~(+t % 3600 / 60));
-        const s = pad(~~(+t % 3600 % 60));
+        const h = pad(Math.floor(+t / 3600));
+        const m = pad(Math.floor(+t % 3600 / 60));
+        const s = pad(Math.floor(+t % 3600 % 60));
         return (h == 0 && m == 0) ? ('00:' + s) : (h == 0) ? (m + ':' + s) : (h + ':' + m + ':' + s);
     }
     else if (typeof t == 'string' && t.indexOf(':') != -1) {

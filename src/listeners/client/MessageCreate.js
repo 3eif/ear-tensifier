@@ -131,7 +131,7 @@ module.exports = class MessageCreate extends Event {
             }
             const now = Date.now();
             const timestamps = cooldowns.get(commandName);
-            const cooldownAmount = ~~(cmd.cooldown || 5) * 1000;
+            const cooldownAmount = Math.floor(cmd.cooldown || 5) * 1000;
             if (!timestamps.has(message.author.id)) {
                 timestamps.set(message.author.id, now);
                 setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
