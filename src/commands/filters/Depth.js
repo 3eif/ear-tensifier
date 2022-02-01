@@ -8,7 +8,7 @@ module.exports = class Depth extends Command {
             name: 'depth',
             description: {
                 content: 'Sets the tremolo\'s depth of the player.',
-                usage: '<depth (0% to 100%)>',
+                usage: '<depth (0 to 100)>',
                 examples: ['0.7', '1', 0.5],
             },
             aliases: ['tremolo-depth'],

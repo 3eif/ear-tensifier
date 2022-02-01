@@ -39,9 +39,16 @@ module.exports = class Volume extends Command {
             return ctx.sendMessage({ embeds: [embed] });
         }
 
-        if (isNaN(args[0])) return ctx.sendMessage('Invalid number.');
+        let volume;
+        if (args[0].toString().includes('%')) {
+            volume = args[0].toString().replace('%', '');
+        }
+        else {
+            volume = args[0];
+        }
 
-        const volume = Number(args[0]);
+        if (isNaN(volume)) return ctx.sendMessage('Invalid number.');
+
         player.filter.setVolume(volume);
 
         const embed = new MessageEmbed()
