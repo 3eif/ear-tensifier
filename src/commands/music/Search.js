@@ -79,7 +79,7 @@ module.exports = class Search extends Command {
                     results = await Source.Soundcloud.search(query);
                     break;
                 case 'spotify':
-                    results = await Source.resolve(query);
+                    results = await Source.Spotify.search(query);
                     break;
                 case 'youtube':
                     results = await Source.Youtube.search(query);
@@ -166,8 +166,10 @@ module.exports = class Search extends Command {
             const selectMenuArray = [];
             for (let i = 0; i < tracks.length; i++) {
                 const track = tracks[i];
+                let label = `${i + 1}. ${track.title}`;
+                if (label.length > 100) label = label.substring(0, 98) + '...';
                 selectMenuArray.push({
-                    label: `${i + 1}. ${track.title}`,
+                    label: label,
                     description: track.author,
                     value: i.toString(),
                 });
