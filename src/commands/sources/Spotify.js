@@ -37,7 +37,7 @@ module.exports = class Spotify extends Command {
     }
 
     async run(client, ctx, args) {
-        if (!args[0].startsWith(client.config.urls.spotify)) return ctx.sendMessage('Please provide a valid Spotify URL.');
+        // if (!args[0].startsWith(client.config.urls.spotify)) return ctx.sendMessage('Please provide a valid Spotify URL.');
 
         await ctx.sendDeferMessage(`${client.config.emojis.typing} Searching for \`${args.join(' ')}\`...`);
 
