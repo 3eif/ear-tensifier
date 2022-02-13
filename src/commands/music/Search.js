@@ -54,6 +54,9 @@ module.exports = class Search extends Command {
                 case 'sp' || 'spotify':
                     source = 'spotify';
                     break;
+                case 'apple' || 'applemusic':
+                    source = 'apple';
+                    break;
                 default:
                     query = args.slice(0).join(' ');
                     break;
@@ -170,7 +173,7 @@ module.exports = class Search extends Command {
             for (let i = 0; i < tracks.length; i++) {
                 const track = tracks[i];
                 let label = `${i + 1}. ${track.title}`;
-                if (label.length > 100) label = label.substring(0, 98) + '...';
+                if (label.length > 100) label = label.substring(0, 97) + '...';
                 selectMenuArray.push({
                     label: label,
                     description: track.author,
