@@ -56,6 +56,10 @@ module.exports = class Play extends Command {
 				query = args.slice(1).join(' ');
 				source = 'youtube';
 			}
+			else if (args[0].toLowerCase() === 'applemusic' || args[0].toLowerCase() === 'apple') {
+				query = args.slice(1).join(' ');
+				source = 'apple';
+			}
 		}
 
 		await ctx.sendDeferMessage(`${client.config.emojis.typing} Searching for \`${query}\`...`);

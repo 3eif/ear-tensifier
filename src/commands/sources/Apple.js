@@ -6,17 +6,17 @@ const QueueHelper = require('../../helpers/QueueHelper');
 module.exports = class Spotify extends Command {
     constructor(client) {
         super(client, {
-            name: 'spotify',
+            name: 'apple',
             description: {
-                content: 'Plays a song or playlist from spotify.',
+                content: 'Plays a song or playlist from Apple Music.',
                 usage: '<search query>',
                 examples: [
-                    'Time',
+                    'https://open.spotify.com/track/1pKYYY0dkg23sQQXi0Q5zN?si=75df097fdbb54572',
                     'https://open.spotify.com/album/5uRdvUR7xCnHmUW8n64n9y?si=-x7dShkeTS-aqFvlDCG8GA',
                     'https://open.spotify.com/playlist/4ESFBGQQZEM426tyQo61Nt?si=8d376ef5dc2e403a',
                 ],
             },
-            aliases: ['sp'],
+            aliases: ['applemusic', 'am'],
             args: true,
             voiceRequirements: {
                 isInVoiceChannel: true,
@@ -40,7 +40,7 @@ module.exports = class Spotify extends Command {
         await ctx.sendDeferMessage(`${client.config.emojis.typing} Searching for \`${args.join(' ')}\`...`);
 
         const query = args.slice(0).join(' ');
-        const source = 'spotify';
+        const source = 'apple';
 
         let player = client.music.players.get(ctx.guild.id);
         if (!player) {
