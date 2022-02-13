@@ -14,7 +14,7 @@ module.exports = class VoiceStateUpdate extends Event {
             if (player.waitingMessage) {
                 player.waitingMessage.delete();
                 player.waitingMessage = null;
-                player.pause(false);
+                if (!player.previouslyPaused) player.pause(false);
             }
             return;
         }
@@ -25,6 +25,7 @@ module.exports = class VoiceStateUpdate extends Event {
             .setColor(this.client.config.colors.default);
         const msg = await player.textChannel.send({ embeds: [embed] });
         player.waitingMessage = msg;
+        player.previouslyPaused = player.paused;
         player.pause(true);
 
         const delay = ms => new Promise(res => setTimeout(res, ms));
