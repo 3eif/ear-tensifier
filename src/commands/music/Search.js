@@ -84,6 +84,9 @@ module.exports = class Search extends Command {
                 case 'youtube':
                     results = await Source.Youtube.search(query);
                     break;
+                case 'apple':
+                    results = await Source.AppleMusic.search(query);
+                    break;
                 default:
                     results = await Source.resolve(query);
                     break;

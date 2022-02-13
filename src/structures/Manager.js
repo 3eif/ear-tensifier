@@ -117,6 +117,9 @@ module.exports = class Manager extends EventEmitter {
                 case 'youtube':
                     track = (await Source.Youtube.search(query))[0];
                     break;
+                case 'apple':
+                    track = (await Source.AppleMusic.search(query))[0];
+                    break;
                 default:
                     track = await Source.resolve(query);
                     break;
