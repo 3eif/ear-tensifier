@@ -27,8 +27,6 @@ This project is licensed under the GNU General Public License v3.0 - see the [LI
 
 NOTE: WINDOWS AND MACOS ARE NOT OFFICIALLY SUPPORTED BY EAR TENSIFIER, THE BOT IS ONLY ABLE TO RUN ON LINUX. IF YOU ARE USING WINDOWS YOU CAN STILL RUN IT USING [WINDOWS SUBSYSTEM FOR LINUX](https://docs.microsoft.com/en-us/windows/wsl/install).
 
-Ear Tensifier is open source to allow people to contribute to the bot, gain inspiration/ideas from the bot's code, or host a private version of the bot for their own use. You may NOT however host your own clone of Ear Tensifier publicly or list your clone on bot list.
-
 These instructions assume that you have some experience with creating and running Discord Bots. If you have any questions or issues self hosting the bot, feel free to ask on the [Discord server](https://discord.gg/xKgKMAP).
 
 > This self hosting guide is a WIP. If you have any suggestions or edits please make an issue or pull request.
