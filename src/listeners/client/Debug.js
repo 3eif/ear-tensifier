@@ -1,17 +1,21 @@
-const fs = require('fs');
-
+var { createWriteStream, existsSync, mkdirSync, writeFileSync } = require("fs");
+var { format } = require("util");
+var debugLog = createWriteStream("./src/logs/debug.log", { flags: "a" });
+var log_stdout = process.stdout;
 const Event = require('../../structures/Event');
 
-module.exports = class Debug extends Event {
-    constructor(...args) {
-        super(...args);
-    }
+class Debug extends Event {
+  constructor(...args) {
+    super(...args);
+  }
 
-    async run(log) {
-        // TODO: FIX THIS
-        if (!fs.existsSync('./src/logs')) fs.mkdirSync('./src/logs');
-        if (!fs.existsSync('./src/logs/debug.log')) fs.writeFileSync('./src/logs/debug.log', '');
-
-        fs.appendFileSync('./src/logs/debug.log', `${log}\n`);
-    }
-};
+  async run(log) {
+    console.log(log);
+    if (!existsSync("./src/logs")) mkdirSync("./src/logs");
+    if (!existsSync("./src/logs/debug.log"))
+      writeFileSync("./src/logs/debug.log", "");
+    debugLog.write(`${format(log)}\n`);
+    log_stdout.write(`${format(log)}\n`);
+  }
+}
+module.exports = Debug;
