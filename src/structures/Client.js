@@ -168,7 +168,7 @@ module.exports = class Client extends Discord.Client {
   }
 
   async login(token) {
-    await findUpdate.check().then(() => {
+    findUpdate.check().then(() => {
       super.login(token);
 
       this.loadCommands();
