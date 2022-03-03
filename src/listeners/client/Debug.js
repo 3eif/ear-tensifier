@@ -1,17 +1,29 @@
-const fs = require('fs');
-
+var { createWriteStream, existsSync, mkdirSync, writeFileSync } = require("fs");
+var { format } = require("util");
+var file = createWriteStream("./src/logs/debug.log", { flags: "a" }); // 'flags: a' basically allows the file to automatically append to the next line.
+var printf = process.stdout;
 const Event = require('../../structures/Event');
 
-module.exports = class Debug extends Event {
-    constructor(...args) {
-        super(...args);
-    }
+Date.prototype.today = function () { 
+    return ((this.getDate() < 10)?"0":"") + this.getDate() +"/"+(((this.getMonth()+1) < 10)?"0":"") + (this.getMonth()+1) +"/"+ this.getFullYear();
+}
 
-    async run(log) {
-        // TODO: FIX THIS
-        if (!fs.existsSync('./src/logs')) fs.mkdirSync('./src/logs');
-        if (!fs.existsSync('./src/logs/debug.log')) fs.writeFileSync('./src/logs/debug.log', '');
+Date.prototype.timeNow = function () {
+     return ((this.getHours() < 10)?"0":"") + this.getHours() +":"+ ((this.getMinutes() < 10)?"0":"") + this.getMinutes() +":"+ ((this.getSeconds() < 10)?"0":"") + this.getSeconds();
+}
 
-        fs.appendFileSync('./src/logs/debug.log', `${log}\n`);
-    }
-};
+class Debug extends Event {
+  constructor(...args) {
+    super(...args);
+  }
+
+  async run(log) {
+    if (!existsSync("./src/logs")) mkdirSync("./src/logs");
+    if (!existsSync("./src/logs/debug.log"))
+      writeFileSync("./src/logs/debug.log", "");
+    var date = new Date().today() + " @ " + new Date().timeNow(); // added for aesthetics of timestamp & date finding when debugging. 
+    file.write(`[${date}] ${format(log)}\n`); // Writes to ./src/logs/debug.log file (also automatically appends).
+    printf.write(`[${date}] ${format(log)}\n`); // Writes to Console.
+  }
+}
+module.exports = Debug;

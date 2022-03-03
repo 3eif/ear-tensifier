@@ -39,6 +39,7 @@
     "express": "^4.17.1",
     "figlet": "^1.5.2",
     "fs": "^0.0.1-security",
+    "gh-check": "^0.1.1",
     "humanize-duration": "^3.27.0",
     "mongoose": "^6.0.12",
     "signale": "^1.4.0",
