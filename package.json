@@ -13,7 +13,8 @@
     "ear4": "export NODE_ENV=ear4&&npm start",
     "deploy-development-commands": "export NODE_ENV=production&&node ./src/scripts/deploy-commands.js",
     "deploy-production-commands": "export NODE_ENV=production&&node ./src/scripts/deploy-commands.js",
-    "migrate-database": "export NODE_ENV=development&&node ./src/scripts/migrate-database.js"
+    "migrate-database": "export NODE_ENV=development&&node ./src/scripts/migrate-database.js",
+    "benchmark": "export NODE_ENV=development&&node tests/index.js"
   },
   "repository": {
     "type": "git",
