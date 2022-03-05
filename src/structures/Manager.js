@@ -39,7 +39,7 @@ module.exports = class Manager extends EventEmitter {
         });
 
         player.on('error', (err) => {
-            this.logger.error(`${player.queue.current.id} ${err}`);
+            this.logger.error(`${player.queue.current.id} ${err} ${err.stack}`);
             player.skip();
         });
 
