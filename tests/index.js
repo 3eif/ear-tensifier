@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 const { ShardingManager } = require('discord.js');
-const config = require('../config.json');
+require('custom-env').env(true);
 
-const manager = new ShardingManager('./tests/bot.js', { token: config.token });
+const manager = new ShardingManager('./tests/bot.js', { token: process.env.DISCORD_TOKEN });
 
 manager.on('shardCreate', shard => console.log(`Launched shard ${shard.id}`));
 
