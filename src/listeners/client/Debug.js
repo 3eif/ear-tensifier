@@ -4,26 +4,24 @@ const file = createWriteStream('./src/logs/debug.log', { flags: 'a' }); // 'flag
 const printf = process.stdout;
 const Event = require('../../structures/Event');
 
-Date.prototype.today = function() {
-    return ((this.getDate() < 10) ? '0' : '') + this.getDate() + '/' + (((this.getMonth() + 1) < 10) ? '0' : '') + (this.getMonth() + 1) + '/' + this.getFullYear();
-};
-
-Date.prototype.timeNow = function() {
-     return ((this.getHours() < 10) ? '0' : '') + this.getHours() + ':' + ((this.getMinutes() < 10) ? '0' : '') + this.getMinutes() + ':' + ((this.getSeconds() < 10) ? '0' : '') + this.getSeconds();
-};
-
 class Debug extends Event {
   constructor(...args) {
     super(...args);
   }
 
   async run(log) {
+    const date = new Date();
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    const time = date.getHours() + ':' + ('0' + date.getMinutes()).slice(-2) + ':' + ('0' + date.getSeconds()).slice(-2);
+
     if (!existsSync('./src/logs')) mkdirSync('./src/logs');
     if (!existsSync('./src/logs/debug.log'))
       writeFileSync('./src/logs/debug.log', '');
-    const date = new Date().today() + ' @ ' + new Date().timeNow(); // added for aesthetics of timestamp & date finding when debugging.
-    file.write(`[${date}] ${format(log)}\n`); // Writes to ./src/logs/debug.log file (also automatically appends).
-    printf.write(`[${date}] ${format(log)}\n`); // Writes to Console.
+    const dateString = `[${month}/${day}/${year}] [${time} ${(date.getHours() >= 12) ? 'PM' : 'AM'}]`; // added for aesthetics of timestamp & date finding when debugging.
+    file.write(`${dateString} ${format(log)}\n`); // Writes to ./src/logs/debug.log file (also automatically appends).
+    printf.write(`${dateString} ${format(log)}\n`); // Writes to Console.
   }
 }
 module.exports = Debug;
