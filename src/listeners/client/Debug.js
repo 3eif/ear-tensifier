@@ -1,7 +1,6 @@
 const { createWriteStream, existsSync, mkdirSync, writeFileSync } = require('fs');
 const { format } = require('util');
-const file = createWriteStream('./src/logs/debug.log', { flags: 'a' }); // 'flags: a' basically allows the file to automatically append to the next line.
-const printf = process.stdout;
+const file = createWriteStream('./src/logs/debug.log', { flags: 'a' });
 const Event = require('../../structures/Event');
 
 class Debug extends Event {
@@ -19,9 +18,8 @@ class Debug extends Event {
     if (!existsSync('./src/logs')) mkdirSync('./src/logs');
     if (!existsSync('./src/logs/debug.log'))
       writeFileSync('./src/logs/debug.log', '');
-    const dateString = `[${month}/${day}/${year}] [${time} ${(date.getHours() >= 12) ? 'PM' : 'AM'}]`; // added for aesthetics of timestamp & date finding when debugging.
-    file.write(`${dateString} ${format(log)}\n`); // Writes to ./src/logs/debug.log file (also automatically appends).
-    printf.write(`${dateString} ${format(log)}\n`); // Writes to Console.
+    const dateString = `[${month}/${day}/${year}] [${time} ${(date.getHours() >= 12) ? 'PM' : 'AM'}]`;
+    file.write(`${dateString} ${format(log)}\n`);
   }
 }
 module.exports = Debug;
