@@ -1,17 +1,25 @@
-const fs = require('fs');
-
+const { createWriteStream, existsSync, mkdirSync, writeFileSync } = require('fs');
+const { format } = require('util');
+const file = createWriteStream('./src/logs/debug.log', { flags: 'a' });
 const Event = require('../../structures/Event');
 
-module.exports = class Debug extends Event {
-    constructor(...args) {
-        super(...args);
-    }
+class Debug extends Event {
+  constructor(...args) {
+    super(...args);
+  }
 
-    async run(log) {
-        // TODO: FIX THIS
-        if (!fs.existsSync('./src/logs')) fs.mkdirSync('./src/logs');
-        if (!fs.existsSync('./src/logs/debug.log')) fs.writeFileSync('./src/logs/debug.log', '');
+  async run(log) {
+    const date = new Date();
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    const time = date.getHours() + ':' + ('0' + date.getMinutes()).slice(-2) + ':' + ('0' + date.getSeconds()).slice(-2);
 
-        fs.appendFileSync('./src/logs/debug.log', `${log}\n`);
-    }
-};
+    if (!existsSync('./src/logs')) mkdirSync('./src/logs');
+    if (!existsSync('./src/logs/debug.log'))
+      writeFileSync('./src/logs/debug.log', '');
+    const dateString = `[${month}/${day}/${year}] [${time} ${(date.getHours() >= 12) ? 'PM' : 'AM'}]`;
+    file.write(`${dateString} ${format(log)}\n`);
+  }
+}
+module.exports = Debug;
