@@ -130,7 +130,7 @@ module.exports = class Create extends Command {
 
                 const embed = new MessageEmbed()
                     .setAuthor(newPlaylist.name, ctx.author.displayAvatarURL())
-                    .setDescription(`${client.config.emojis.success} Created a plalist with name: **${newPlaylist.name}**.\n${playlistMessage}`)
+                    .setDescription(`${client.config.emojis.success} Created a playlist with name: **${newPlaylist.name}**.\n${playlistMessage}`)
                     .setFooter(`ID: ${newPlaylist._id} • ${newPlaylist.tracks.length}/${client.config.max.songsInPlaylist}`)
                     .setColor(client.config.colors.default)
                     .setTimestamp();
