@@ -12,7 +12,7 @@ module.exports = class Set extends Command {
             },
             args: true,
             permissions: {
-                userPermissions: ['MANAGE_SERVER'],
+                userPermissions: ['MANAGE_GUILD'],
             },
             options: [
                 {
