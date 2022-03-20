@@ -119,8 +119,8 @@ module.exports = class Play extends Command {
 			return ctx.editMessage({ content: null, embeds: [QueueHelper.queuedEmbed(result.title, result.url, totalDuration, list.length, ctx.author, client.config.colors.default)] });
 		}
 
-		console.log(result);
-		if (result.streams.isLive) return ctx.editMessage(client.config.emojis.failure + ' Live stream playback is currently not supported.');
+		// console.log(result);
+		// if (result.streams.isLive) return ctx.editMessage(client.config.emojis.failure + ' Live stream playback is currently not supported.');
 
 		player.queue.add(result);
 		if (!player.playing && !player.paused) player.play();
