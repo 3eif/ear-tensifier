@@ -68,7 +68,7 @@ module.exports = class TrackStart extends Event {
             }, 60000);
         }
         catch (err) {
-            if(!err.includes('CHANNEL_NOT_CACHED')) this.client.logger.error(err);
+            this.client.logger.error(err);
         }
     }
 };
