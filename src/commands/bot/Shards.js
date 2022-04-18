@@ -13,6 +13,7 @@ module.exports = class Shards extends Command {
             aliases: ['shardstats', 'shardinfo'],
             enabled: true,
             args: false,
+            slashCommand: true,
         });
     }
     async run(client, ctx) {

@@ -16,6 +16,8 @@ module.exports = class Bio extends Command {
         });
     }
     async run(client, ctx, args) {
+        if (ctx.guild.id == '441290611904086016') return;
+
         if (args.join(' ').length > 1000) return ctx.sendMessage('Bio must be less than 1000 characters!');
         await ctx.sendDeferMessage(`${client.config.emojis.typing} Setting bio...`);
 

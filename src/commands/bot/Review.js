@@ -8,7 +8,7 @@ module.exports = class Review extends Command {
                 content: 'Sends a link to review Ear Tensifier on bots.ondiscord.xyz.',
             },
             args: false,
-            slashCommand: false,
+            slashCommand: true,
             hide: true,
         });
     }

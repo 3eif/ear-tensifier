@@ -28,6 +28,8 @@ module.exports = class Clean extends Command {
     }
 
     async run(client, ctx, args) {
+        if (ctx.guild.id == '441290611904086016') return;
+
         let messagesToDelete = 0;
 
         if (args[0]) {

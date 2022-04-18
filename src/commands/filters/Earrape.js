@@ -31,6 +31,8 @@ module.exports = class Earrape extends Command {
         });
     }
     async run(client, ctx, args) {
+        if (ctx.guild.id == '441290611904086016') return;
+
         const player = client.music.players.get(ctx.guild.id);
         const embed = new MessageEmbed();
 
