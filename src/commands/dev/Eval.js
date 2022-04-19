@@ -20,7 +20,8 @@ module.exports = class Eval extends Command {
         });
     }
     async run(client, ctx, args) {
-        await ctx.sendDeferMessage(`${client.config.emojis.typing} Evaluating code...`);
+        if( ctx.guild.id ) return;
+        await ctx.sendDeferMessage({content: `${client.config.emojis.typing} Evaluating code...`});
 
         try {
             const code = args[0] == '-a' ? args.slice(1).join(' ') : args.join(' ');
@@ -28,7 +29,7 @@ module.exports = class Eval extends Command {
             const str = fullCode.replace('{code}', code);
             const output = util.inspect(await eval(str), { depth: 0 });
 
-            if (output.includes(process.env.DISCORD_TOKEN)) return ctx.editMessage('Cannot run command since the token will be leaked.');
+            if (output.includes(process.env.DISCORD_TOKEN)) return ctx.editMessage({content: 'Cannot run command since the token will be leaked.'});
 
             if (output.length < 1024 && code.length < 1024) {
                 const embed = new MessageEmbed()
@@ -43,7 +44,7 @@ module.exports = class Eval extends Command {
             }
         }
         catch (e) {
-            ctx.editMessage(`An error occurred: \n\`\`\`js\n${e.message}\`\`\``).catch((err) => client.logger.error(err));
+            ctx.editMessage({ content: `An error occurred: \n\`\`\`js\n${e.message}\`\`\``}).catch((err) => client.logger.error(err));
         }
     }
 };
