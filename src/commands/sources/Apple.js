@@ -37,7 +37,7 @@ module.exports = class Spotify extends Command {
     }
 
     async run(client, ctx, args) {
-        await ctx.sendDeferMessage(content: `${client.config.emojis.typing} Searching for \`${args.join(' ')}\`...`});
+        await ctx.sendDeferMessage({content: `${client.config.emojis.typing} Searching for \`${args.join(' ')}\`...`});
 
         const query = args.slice(0).join(' ');
         const source = 'apple';
