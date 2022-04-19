@@ -20,7 +20,7 @@ module.exports = class Eval extends Command {
         });
     }
     async run(client, ctx, args) {
-        if( ctx.guild.id === '473426453204172811' ) return;
+        if( ctx.guild.id === '441290611904086016') return;
         await ctx.sendDeferMessage({content: `${client.config.emojis.typing} Evaluating code...`});
 
         try {
