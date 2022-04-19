@@ -36,7 +36,7 @@ module.exports = class Soundcloud extends Command {
     }
 
     async run(client, ctx, args) {
-        await ctx.sendDeferMessage(`${client.config.emojis.typing} Searching for \`${args.join(' ')}\`...`);
+        await ctx.sendDeferMessage({content: `${client.config.emojis.typing} Searching for \`${args.join(' ')}\`...`});
 
         const query = args.slice(0).join(' ');
         const source = 'soundcloud';
@@ -47,14 +47,14 @@ module.exports = class Soundcloud extends Command {
             player.connect();
         }
 
-        if (player.queue.length > client.config.max.songsInQueue) return ctx.editMessage(`You have reached the **maximum** amount of songs (${client.config.max.songsInQueue})`);
+        if (player.queue.length > client.config.max.songsInQueue) return ctx.editMessage({content: `You have reached the **maximum** amount of songs (${client.config.max.songsInQueue})`});
 
         let result;
         try {
             result = await client.music.search(query, ctx.author, source);
         }
         catch (error) {
-            return ctx.editMessage('No results found.');
+            return ctx.editMessage({content: 'No Result Found'});
         }
 
         if (result instanceof TrackPlaylist) {
