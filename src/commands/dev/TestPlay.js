@@ -42,8 +42,15 @@ module.exports = class TestPlay extends Command {
         const query = args.slice(0).join(' ');
         let result;
         try {
+            let player = client.music.players.get(ctx.guild.id);
+		    if (!player) {
+			player = await client.music.newPlayer(ctx.guild, ctx.member.voice.channel, ctx.channel);
+			player.connect();
+		    }
             result = await client.music.search(query, ctx.author);
-        }
+            player.queue.add(result);
+		    if (!player.playing && !player.paused) player.play();
+            }
         catch (error) {
             return client.logger.error(error);
         }
