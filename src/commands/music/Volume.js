@@ -27,6 +27,8 @@ module.exports = class Volume extends Command {
         });
     }
     async run(client, ctx, args) {
+        if (ctx.guild.id == '441290611904086016') return;
+
         const player = client.music.players.get(ctx.guild.id);
 
         if (!args[0]) return ctx.sendMessage(`The current volume is set to: **${player.volume}%**`);
