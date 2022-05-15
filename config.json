@@ -67,5 +67,6 @@
         "youtube": "https://www.youtube.com/watch?v=",
         "spotify": "https://open.spotify.com"
     },
-    "voiceTimeout": 300000
+    "voiceTimeout": 300000,
+    "leaveTimeout": 60000
 }

@@ -1,6 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 
 const Event = require('../../structures/Event');
+const config = require('../../../config.json');
 
 module.exports = class QueueEnd extends Event {
     constructor(...args) {
@@ -32,6 +33,7 @@ module.exports = class QueueEnd extends Event {
             .setColor(this.client.config.colors.default);
         player.textChannel.send({ embeds: [embed] });
         player.cleanup();
-        return player.destroy(false);
+
+        setTimeout(() => player.destroy(false), config.leaveTimeout);
     }
 };
