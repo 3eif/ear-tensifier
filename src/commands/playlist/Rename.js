@@ -1,3 +1,5 @@
+const { MessageEmbed } = require('discord.js');
+
 const Command = require('../../structures/Command');
 const Playlist = require('../../models/Playlist');
 
@@ -30,7 +32,7 @@ module.exports = class Save extends Command {
     }
     async run(client, ctx, args) {
         if (!args[1]) {
-            return ctx.sendMessage(`Please provide a new name for the playlist.\nUsage: \`${await ctx.messageHelper.getPrefix()} rename <current playlist name> <new playlist name>\``);
+            return ctx.sendMessage(`Please provide a new name for the playlist.\nUsage: \`${await ctx.messageHelper.getPrefix()}rename <current playlist name> <new playlist name>\``);
         }
 
         if (args[0].length > 32 || args[1].length > 32) return ctx.sendMessage('Playlist title must be less than 32 characters!');
@@ -43,12 +45,24 @@ module.exports = class Save extends Command {
         }, async (err, p) => {
             if (err) client.log(err);
             if (!p) {
-                return ctx.sendMessage(`You don't have a playlist named \`${playlistName}\`.`);
+                const embed = new MessageEmbed()
+                    .setAuthor(playlistName, ctx.author.displayAvatarURL())
+                    .setDescription(`${client.config.emojis.failure} Could not find a playlist by the name ${playlistName}.\nFor a list of your playlists type \`ear playlists\``)
+                    .setTimestamp()
+                    .setColor(client.config.colors.default);
+                return ctx.sendMessage({ content: null, embeds: [embed] });
             }
             else {
                 p.name = newPlaylistName;
                 p.save();
-                return ctx.sendMessage(`Successfully renamed \`${playlistName}\` to \`${newPlaylistName}\`.`);
+
+                const embed = new MessageEmbed()
+                    .setAuthor(p.name, ctx.author.displayAvatarURL())
+                    .setDescription(`${client.config.emojis.success} Successfully renamed \`${playlistName}\` to \`${newPlaylistName}\`.`)
+                    .setFooter(`ID: ${p._id}`)
+                    .setColor(client.config.colors.default)
+                    .setTimestamp();
+                return ctx.sendMessage({ content: null, embeds: [embed] });
             }
         });
     }
