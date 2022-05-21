@@ -3,10 +3,10 @@ const { MessageEmbed } = require('discord.js');
 const Command = require('../../structures/Command');
 const Playlist = require('../../models/Playlist');
 
-module.exports = class PRemove extends Command {
+module.exports = class PlaylistRemove extends Command {
     constructor(client) {
         super(client, {
-            name: 'premove',
+            name: 'playlistremove',
             description: {
                 content: 'Removes a song from one of your playlists.',
                 usage: '<playlist name> <song position>',

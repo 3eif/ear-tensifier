@@ -3,7 +3,7 @@ const { MessageEmbed } = require('discord.js');
 const Command = require('../../structures/Command');
 const Playlist = require('../../models/Playlist');
 
-module.exports = class Save extends Command {
+module.exports = class Rename extends Command {
     constructor(client) {
         super(client, {
             name: 'rename',

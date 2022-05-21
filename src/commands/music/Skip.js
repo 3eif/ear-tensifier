@@ -29,7 +29,7 @@ module.exports = class Skip extends Command {
 
         const embed = new MessageEmbed()
             .setColor(client.config.colors.default)
-            .setAuthor(`Skipped ${title}`, ctx.author.displayAvatarURL())
+            .setAuthor(`Skipped ${title}`, ctx.author.displayAvatarURL());
         return ctx.sendMessage({ embeds: [embed] });
     }
 };
