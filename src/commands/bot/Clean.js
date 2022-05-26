@@ -30,28 +30,16 @@ module.exports = class Clean extends Command {
     async run(client, ctx, args) {
         if (ctx.guild.id == '441290611904086016') return;
 
-        let messagesToDelete = 0;
-
+        let messagesToDelete = parseInt(args[0]) || 100;
         if (args[0]) {
-            messagesToDelete = parseInt(args[0]);
-            if (isNaN(messagesToDelete) || messagesToDelete < 1) {
+            if (isNaN(messagesToDelete) || messagesToDelete < 1 || messagesToDelete > 100) {
                 return ctx.sendMessage({ content: `Invalid argument, argument must be a number.\nCorrect Usage: \`${await ctx.messageHelper.getPrefix()}clean <number messages>\`` });
             }
         }
-
         if (ctx.channel.type == 'GUILD_TEXT') {
-            await ctx.channel.messages.fetch({ limit: 100 }).then(messages => {
-                let botMessages = messages.filter(msg => msg.author == client.user.id);
-                if (messagesToDelete > 0) {
-                    botMessages = messages.filter(msg => msg.author == client.user.id);
-                    botMessages.forEach(msg => {
-                        messagesToDelete--;
-                        if (messagesToDelete > 0) {
-                            msg.delete();
-                        }
-                    });
-                }
-                else ctx.channel.bulkDelete(botMessages);
+            await ctx.channel.messages.fetch({ limit: messagesToDelete }).then(messages => {
+                let botMessages = messages.filter(msg => msg.author.id == client.user.id);
+                ctx.channel.bulkDelete(botMessages).catch(console.error);
             }).catch(err => {
                 client.logger.error(err);
             });
