@@ -10,7 +10,7 @@ module.exports = class DatabaseHelper {
     }
 
     updateAll() {
-        if (Date.now() > this.client.lastUpdatedDatabase + 1000 * 60 * 60) {
+        if (Date.now() > this.client.lastUpdatedDatabase + 600000) {
             const updateBot = new Promise((resolve) => {
                 Bot.findById(this.client.user.id).then(async bot => {
                     if (!bot) {
