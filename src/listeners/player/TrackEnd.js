@@ -15,10 +15,10 @@ async run(player, track, finished) {
         const shouldSend = await DatabaseHelper.shouldSendNowPlayingMessage(player.textChannel.guild);
 
         try {
-            if (player.nowPlayingMessageInterval) {
-                clearInterval(player.nowPlayingMessageInterval);
-                player.nowPlayingMessageInterval = null;
-            }
+            // if (player.nowPlayingMessageInterval) {
+            //     clearInterval(player.nowPlayingMessageInterval);
+            //     player.nowPlayingMessageInterval = null;
+            // }
             if (!shouldSend || !player.nowPlayingMessage) return;
 
             const parsedDuration = formatDuration(track.duration);

@@ -114,7 +114,7 @@ module.exports = class Player extends TrackPlayer {
             if (this.stayInVoice && !force) return;
 
             if (this.nowPlayingMessage) {
-                if (this.nowPlayingMessageInterval) clearInterval(this.nowPlayingMessageInterval);
+                // if (this.nowPlayingMessageInterval) clearInterval(this.nowPlayingMessageInterval);
                 // eslint-disable-next-line no-empty-function
                 await this.nowPlayingMessage.edit({ components: [] }).catch(() => { });
             }
