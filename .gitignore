@@ -8,16 +8,19 @@ json.sqlite
 tokens.json
 lists.json
 webhooks.json
-package-lock.json
 botlists.json
 /tests/config.json
 
 *.bat
 *.log
-*.env
-*.development
-.env.development
-.env.production
+
+# Env
+*.env*
+!.env.example
+
+# Configs
+*config*
+!config.json.example
 
 # Logs
 logs
@@ -89,10 +92,6 @@ web_modules/
 # Yarn Integrity file
 .yarn-integrity
 
-# dotenv environment variables file
-.env
-.env.test
-
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 .parcel-cache
@@ -134,5 +133,3 @@ dist
 .yarn/unplugged
 .yarn/build-state.yml
 .pnp.*
-.env.ear2
-.env.ear3

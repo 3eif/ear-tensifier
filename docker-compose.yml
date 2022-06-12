@@ -1,0 +1,26 @@
+version: '3.7'
+services:
+  mongo:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password123
+    volumes:
+      - mongodb_data:/data/db
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongo mongo:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
+  bot:
+    depends_on:
+      - mongo
+    build: .
+    volumes:
+      - ./config.json:/app/config.json
+    env_file:
+      - .env
+
+volumes:
+  mongodb_data:
