@@ -53,7 +53,7 @@ module.exports = class PlaylistRemove extends Command {
                 return ctx.sendMessage({ content: null, embeds: [embed] });
             }
             else {
-                if (playlist.tracks.length <= args[1]) return ctx.sendMessage('That song doesn\'t exist in the playlist.');
+                if (playlist.tracks.length < args[1]) return ctx.sendMessage('That song doesn\'t exist in the playlist.');
                 const songName = playlist.tracks[args[1] - 1].title;
                 playlist.tracks.splice(args[1] - 1, 1);
                 await playlist.updateOne({ tracks: playlist.tracks }).catch(e => client.logger.error(e));
