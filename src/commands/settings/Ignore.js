@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { ApplicationCommandOptionType, ApplicationCommandType } = require('discord-api-types');
 
 const Command = require('../../structures/Command');
@@ -54,7 +54,7 @@ module.exports = class Ignore extends Command {
             s.ignoredChannels.push(channelId);
             await s.updateOne({ ignoredChannels: s.ignoredChannels }).catch(e => client.logger.error(e));
 
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setAuthor(`${ctx.guild.name}`, ctx.guild.iconURL())
                 .setColor(client.config.colors.default)
                 .setDescription(`I will now ignore commands from <#${channelId}>.`)

@@ -1,6 +1,6 @@
 const Command = require('../../structures/Command');
 
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const os = require('os');
 
 module.exports = class Vps extends Command {
@@ -25,16 +25,18 @@ module.exports = class Vps extends Command {
         const hours = Math.floor((totalSeconds / 3600) % 24);
         const mins = Math.floor((totalSeconds / 60) % 60);
 
-        const statsEmbed = new MessageEmbed()
+        const statsEmbed = new EmbedBuilder()
             .setAuthor('VPS')
             .setColor(client.config.colors.default)
-            .addField('Host', `${os.type()} ${os.release()} (${os.arch()})`)
-            .addField('CPU', `${os.cpus()[0].model}`)
-            .addField('Uptime', `${days} days, ${hours} hours, ${mins} minutes, and ${realTotalSecs} seconds`)
-            .addField('RAM', `${(os.totalmem() / 1024 / 1024 / 1024).toFixed(2)} GB`)
-            .addField('Memory Usage', `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`)
-            .addField('CPU Load', `${(os.loadavg()[0]).toFixed(2)}%`)
-            .addField('CPU Cores', `${os.cpus().length}`)
+            .addFields(
+                { name: 'Host', value: `${os.type()} ${os.release()} (${os.arch()})` },
+                { name: 'CPU', value: `${os.cpus()[0].model}` },
+                { name: 'Uptime', value: `${days} days, ${hours} hours, ${mins} minutes, and ${realTotalSecs} seconds` },
+                { name: 'RAM', value: `${(os.totalmem() / 1024 / 1024 / 1024).toFixed(2)} GB` },
+                { name: 'Memory Usage', value: `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB` },
+                { name: 'CPU Load', value: `${(os.loadavg()[0]).toFixed(2)}%` },
+                { name: 'CPU Cores', value: `${os.cpus().length}` },
+            )
             .setFooter(`Node Version: ${process.version}`)
             .setTimestamp();
         return ctx.sendMessage({ content: null, embeds: [statsEmbed] });

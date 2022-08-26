@@ -49,15 +49,15 @@ module.exports = class Reload extends Command {
                 });
             }
 
-            let selectMenuRow = new Discord.MessageActionRow()
+            let selectMenuRow = new Discord.ActionRowBuilder()
                 .addComponents(
-                    new Discord.MessageSelectMenu()
+                    new Discord.SelectMenuBuilder()
                         .setCustomId(`${ctx.message.id}:SELECT_MENU`)
                         .setPlaceholder('Nothing selected')
                         .addOptions(selectMenuArray),
                 );
 
-            let buttonRow = new Discord.MessageActionRow()
+            let buttonRow = new Discord.ActionRowBuilder()
                 .addComponents(
                     new Discord.ButtonBuilder()
                         .setCustomId(`${ctx.id}:CANCEL_BUTTON`)
@@ -66,7 +66,7 @@ module.exports = class Reload extends Command {
                         .setEmoji(client.config.emojis.failure),
                 );
 
-            const embed = new Discord.MessageEmbed()
+            const embed = new Discord.EmbedBuilder()
                 .setAuthor('Reload File', client.user.displayAvatarURL())
                 .setColor(client.config.colors.default)
                 .setDescription(`📂 **${dir}**` + folders.map(dir => `\n- 📁 ${dir} `).join('') + files.map(dir => `\n- 📄 ${dir} `).join(''));
@@ -130,15 +130,15 @@ module.exports = class Reload extends Command {
                     });
                 }
 
-                selectMenuRow = new Discord.MessageActionRow()
+                selectMenuRow = new Discord.ActionRowBuilder()
                     .addComponents(
-                        new Discord.MessageSelectMenu()
+                        new Discord.SelectMenuBuilder()
                             .setCustomId(`${ctx.message.id}:SELECT_MENU`)
                             .setPlaceholder('Nothing selected')
                             .addOptions(selectMenuArray),
                     );
 
-                buttonRow = new Discord.MessageActionRow();
+                buttonRow = new Discord.ActionRowBuilder();
 
                 if (currentDir != './src') buttonRow.addComponents(
                     new Discord.ButtonBuilder()

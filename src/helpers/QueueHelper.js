@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const formatDuration = require('../utils/music/formatDuration');
 
 module.exports = class QueueHelper {
@@ -13,7 +13,7 @@ module.exports = class QueueHelper {
             else embedString += ` • <@${trackRequester.id}>`;
         }
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setDescription(embedString)
             .setColor(color);
         return embed;

@@ -1,6 +1,6 @@
 const Command = require('../../structures/Command');
 
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { ApplicationCommandOptionType } = require('discord-api-types');
 
 module.exports = class Volume extends Command {
@@ -36,7 +36,7 @@ module.exports = class Volume extends Command {
 
         if (args[0].toString().toLowerCase() == 'reset') {
             player.filter.resetVolume();
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setAuthor(`Volume has been reset to ${volume}%`, ctx.author.displayAvatarURL())
                 .setColor(client.config.colors.default);
             return ctx.sendMessage({ embeds: [embed] });
@@ -54,7 +54,7 @@ module.exports = class Volume extends Command {
 
         player.filter.setVolume(volume);
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setAuthor(`Volume set to ${volume}%`, ctx.author.displayAvatarURL())
             .setColor(client.config.colors.default);
         return ctx.sendMessage({ embeds: [embed] });

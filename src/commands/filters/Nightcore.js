@@ -1,5 +1,5 @@
 const { ApplicationCommandOptionType } = require('discord-api-types');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 const Command = require('../../structures/Command');
 
@@ -34,7 +34,7 @@ module.exports = class Nightcore extends Command {
         if (ctx.guild.id == '441290611904086016') return;
 
         const player = client.music.players.get(ctx.guild.id);
-        const embed = new MessageEmbed();
+        const embed = new EmbedBuilder();
 
         if ((ctx.isInteraction && ctx.interaction.options.data[0].name == 'off') || (args[0] && (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off'))) {
             player.filter.setNightcore(false);

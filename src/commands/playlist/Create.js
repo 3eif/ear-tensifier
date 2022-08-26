@@ -1,5 +1,5 @@
 const { Track: { TrackPlaylist } } = require('yasha');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { ApplicationCommandType, ApplicationCommandOptionType } = require('discord-api-types');
 
 const Command = require('../../structures/Command');
@@ -129,7 +129,7 @@ module.exports = class Create extends Command {
                 newPlaylist.length = clamp(newPlaylist.tracks.length, 0, client.config.max.songsInPlaylist);
                 await newPlaylist.save().catch(e => client.logger.error(e));
 
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setAuthor(newPlaylist.name, ctx.author.displayAvatarURL())
                     .setDescription(`${client.config.emojis.success} Created a playlist with name: **${newPlaylist.name}**.\n${playlistMessage}`)
                     .setFooter(`ID: ${newPlaylist._id} • ${newPlaylist.tracks.length}/${client.config.max.songsInPlaylist}`)
@@ -145,7 +145,7 @@ module.exports = class Create extends Command {
                 playlist.tracks.length = clamp(playlist.tracks.length, 0, client.config.max.songsInPlaylist);
                 await playlist.updateOne({ tracks: playlist.tracks }).catch(e => client.logger.error(e));
 
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setAuthor(playlist.name, ctx.author.displayAvatarURL())
                     .setDescription(`${client.config.emojis.success} Found an existing playlist with the name: **${playlist.name}**.\n${playlistMessage}`)
                     .setFooter(`ID: ${playlist._id} • ${playlist.tracks.length}/${client.config.max.songsInPlaylist}`)

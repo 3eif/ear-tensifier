@@ -1,10 +1,8 @@
-const { MessageActionRow } = require('discord.js');
-
 const Server = require('../models/Server.js');
 const User = require('../models/User.js');
 const { emojis } = require('../../config.json');
 const { ButtonStyle } = require('discord-api-types');
-const { ButtonBuilder } = require('@discordjs/builders');
+const { ButtonBuilder, ActionRowBuilder } = require('@discordjs/builders');
 
 module.exports = class MessageHelper {
     constructor(client, ctx) {
@@ -111,7 +109,7 @@ module.exports = class MessageHelper {
         if (pages.length < 2) return this.ctx.sendMessage({ embeds: pages });
         let page = 0;
 
-        const buttons = buttonRow ? buttonRow : new MessageActionRow()
+        const buttons = buttonRow ? buttonRow : new ActionRowBuilder()
             .addComponents(
                 new ButtonBuilder()
                     .setCustomId('back')

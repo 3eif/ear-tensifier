@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 const DatabaseHelper = require('../../helpers/DatabaseHelper');
 const Event = require('../../structures/Event');
@@ -9,7 +9,7 @@ module.exports = class TrackEnd extends Event {
         super(...args);
     }
 
-async run(player, track, finished) {
+    async run(player, track, finished) {
         player.queue.previous = track;
 
         const shouldSend = await DatabaseHelper.shouldSendNowPlayingMessage(player.textChannel.guild);
@@ -22,7 +22,7 @@ async run(player, track, finished) {
             if (!shouldSend || !player.nowPlayingMessage) return;
 
             const parsedDuration = formatDuration(track.duration);
-            const embed = new MessageEmbed(player.nowPlayingMessage.embeds[0].setAuthor(track.author, 'https://eartensifier.net/images/cd.png', track.url));
+            const embed = new EmbedBuilder(player.nowPlayingMessage.embeds[0].setAuthor(track.author, 'https://eartensifier.net/images/cd.png', track.url));
 
             if (finished) embed.setDescription(`${parsedDuration}  ${this.client.config.emojis.progress1}${this.client.config.emojis.progress2.repeat(13)}${this.client.config.emojis.progress8}  ${parsedDuration}`);
 

@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 const Command = require('../../structures/Command');
 
@@ -27,7 +27,7 @@ module.exports = class Skip extends Command {
         if (player.trackRepeat) player.setTrackRepeat(false);
         if (player) player.skip();
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setColor(client.config.colors.default)
             .setAuthor(`Skipped ${title}`, ctx.author.displayAvatarURL());
         return ctx.sendMessage({ embeds: [embed] });

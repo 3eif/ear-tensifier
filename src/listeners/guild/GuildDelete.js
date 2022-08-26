@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const Event = require('../../structures/Event');
 
 module.exports = class GuildDelete extends Event {
@@ -11,7 +11,7 @@ module.exports = class GuildDelete extends Event {
             this.client.shard.fetchClientValues('guilds.cache.size').then(guilds => {
                 const totalGuilds = guilds.reduce((prev, guildCount) => prev + guildCount, 0);
 
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setDescription(`${this.client.config.emojis.removed} Ear Tensifier has been removed from a server.`)
                     .setFooter(`${totalGuilds} servers`)
                     .setTimestamp()

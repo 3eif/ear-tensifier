@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { ApplicationCommandOptionType, ApplicationCommandType } = require('discord-api-types');
 
 const Command = require('../../structures/Command');
@@ -72,7 +72,7 @@ module.exports = class Save extends Command {
                 newPlaylist.tracks.length = clamp(newPlaylist.tracks.length, 0, client.config.max.songsInPlaylist);
                 await newPlaylist.save().catch(e => client.logger.error(e));
 
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setAuthor(newPlaylist.name, ctx.author.displayAvatarURL())
                     .setDescription(`${client.config.emojis.success} Saved the current queue to playlist: **${newPlaylist.name}**.`)
                     .setFooter(`ID: ${newPlaylist._id} • ${newPlaylist.tracks.length}/${client.config.max.songsInPlaylist}`)
@@ -88,7 +88,7 @@ module.exports = class Save extends Command {
                 p.tracks.length = clamp(p.tracks.length, 0, client.config.max.songsInPlaylist);
                 await p.updateOne({ tracks: p.tracks }).catch(e => client.logger.error(e));
 
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setAuthor(p.name, ctx.author.displayAvatarURL())
                     .setDescription(`${client.config.emojis.success} Saved the queue to an existing playlist with the name: **${p.name}**.`)
                     .setFooter(`ID: ${p._id} • ${p.tracks.length}/${client.config.max.songsInPlaylist}`)

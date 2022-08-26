@@ -1,5 +1,5 @@
 const { ApplicationCommandOptionType } = require('discord-api-types');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 const Command = require('../../structures/Command');
 
@@ -51,7 +51,7 @@ module.exports = class Frequency extends Command {
 
         if ((ctx.isInteraction && ctx.interaction.options.data[0].name == 'off') || (args[0] && (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off'))) {
             player.filter.resetFrequency();
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setAuthor('Frequency has been reset to 5.0Hz', ctx.author.displayAvatarURL())
                 .setColor(client.config.colors.default);
             return ctx.sendMessage({ content: null, embeds: [embed] });
@@ -64,7 +64,7 @@ module.exports = class Frequency extends Command {
         player.filter.setTremolo(player.filter.tremolo.depth, args[0]);
 
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setAuthor(`Frequency set to ${args[0]}Hz`, ctx.author.displayAvatarURL())
             .setColor(client.config.colors.default);
         return ctx.sendMessage({ content: null, embeds: [embed] });

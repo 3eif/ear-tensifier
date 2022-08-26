@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const Event = require('../../structures/Event');
 
 module.exports = class VoiceStateUpdate extends Event {
@@ -20,7 +20,7 @@ module.exports = class VoiceStateUpdate extends Event {
         }
 
         if (!player.player || player.waitingMessage) return;
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setDescription(`Leaving <#${oldState.guild.me.voice.channel.id}> in ${this.client.config.voiceTimeout / 60 / 1000} minutes because I was left alone.`)
             .setColor(this.client.config.colors.default);
         const msg = await player.textChannel.send({ embeds: [embed] });
@@ -45,7 +45,7 @@ module.exports = class VoiceStateUpdate extends Event {
                 newPlayer.destroy(false);
             }
 
-            const embed2 = new MessageEmbed()
+            const embed2 = new EmbedBuilder()
                 .setDescription(`I left <#${oldState.guild.me.voice.channel.id}> because I was left alone.`)
                 .setColor(this.client.config.colors.default);
             return msg.edit({ embeds: [embed2], content: null });

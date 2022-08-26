@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { ApplicationCommandOptionType, ApplicationCommandType } = require('discord-api-types');
 
 const Command = require('../../structures/Command');
@@ -38,7 +38,7 @@ module.exports = class View extends Command {
             if (err) client.logger.error(err);
 
             if (!p) {
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setAuthor(playlistName, ctx.author.displayAvatarURL())
                     .setDescription(`${client.config.emojis.failure} Could not find a playlist by the name ${playlistName}.\nFor a list of your playlists type \`ear playlists\``)
                     .setTimestamp()
@@ -58,7 +58,7 @@ module.exports = class View extends Command {
             let n = 1;
             for (let i = 0; i < pagesNum; i++) {
                 const str = `${p.tracks.slice(i * 10, i * 10 + 10).map(song => `**${n++}.** [${song.title}](${song.url}) \`[${formatDuration(song.duration)}]\``).join('\n')}`;
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setAuthor(ctx.author.tag, ctx.author.displayAvatarURL())
                     .setThumbnail(ctx.author.displayAvatarURL())
                     .setTitle(p.name)

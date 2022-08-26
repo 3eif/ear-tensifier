@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const humanizeDuration = require('humanize-duration');
 const { ApplicationCommandType } = require('discord-api-types');
 
@@ -27,7 +27,7 @@ module.exports = class Playlists extends Command {
             for (let i = 0; i < pagesNum; i++) {
                 const str = `${p.slice(i * 10, i * 10 + 10).map(playlist => `**• ${playlist.name}** | ${playlist.tracks.length} song(s) | ${humanizeDuration(Number(Date.now() - playlist.createdTimestamp), { round: true })} ago`).join('\n')}`;
 
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setAuthor(ctx.author.username, ctx.author.displayAvatarURL())
                     .setDescription(`**__Your Playlists__**\n\n${str}`)
                     .setColor(client.config.colors.default)
@@ -38,7 +38,7 @@ module.exports = class Playlists extends Command {
             ctx.messageHelper.paginate(pages);
         }).catch(err => {
             client.logger.error(err);
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setAuthor(ctx.author.username, ctx.author.displayAvatarURL())
                 .setDescription(`${client.config.emojis.failure} You don't have any playlists.\nTo create a playlist type: \`ear create <playlist name> <search query/link>\``)
                 .setTimestamp()

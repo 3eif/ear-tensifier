@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { ApplicationCommandType } = require('discord-api-types');
 
 const Command = require('../../structures/Command');
@@ -45,7 +45,7 @@ module.exports = class Prefix extends Command {
             if (err) client.logger.error(err);
             await s.updateOne({ prefix: f }).catch(e => client.logger.error(e));
 
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setAuthor(`${ctx.guild.name}`, ctx.guild.iconURL())
                 .setColor(client.config.colors.default)
                 .setDescription(`Successfully set the prefix to \`${f}\``)

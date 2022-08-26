@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 const Command = require('../../structures/Command');
 
@@ -42,7 +42,7 @@ module.exports = class Shards extends Command {
         for (let n = 0; n < shardInfo.length / 15; n++) {
             const shardArray = shardInfo.slice(n * 15, n * 15 + 15);
 
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setColor(client.config.colors.default)
                 .setAuthor('Ear Tensifier', client.user.displayAvatarURL());
 

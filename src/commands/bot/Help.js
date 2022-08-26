@@ -1,7 +1,6 @@
-const { MessageEmbed, MessageActionRow } = require('discord.js');
 const fs = require('fs');
 const { ApplicationCommandOptionType, ButtonStyle } = require('discord-api-types');
-const { ButtonBuilder } = require('@discordjs/builders');
+const { ButtonBuilder, ActionRowBuilder, EmbedBuilder } = require('@discordjs/builders');
 
 const Command = require('../../structures/Command');
 const categories = fs.readdirSync('./src/commands/');
@@ -32,15 +31,14 @@ module.exports = class Help extends Command {
 
         const prefix = await ctx.messageHelper.getPrefix();
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setAuthor('Commands', client.user.displayAvatarURL())
             .setDescription(`A detailed list of commands can be found here: **[eartensifier.net](https://eartensifier.net/#commands)**.\nNeed more help? Join the support server here: **[${client.config.server.replace('https://', '')}](${client.config.server})**.`)
             .setFooter(`For more information on a command: ${prefix}help <command>`)
             .setColor(client.config.colors.default);
 
         if (!args.length) {
-
-            const buttons = new MessageActionRow()
+            const buttons = new ActionRowBuilder()
                 .addComponents(
                     new ButtonBuilder()
                         .setLabel('Support Server')

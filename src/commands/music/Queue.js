@@ -1,5 +1,5 @@
 const { ApplicationCommandOptionType } = require('discord-api-types');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 const Command = require('../../structures/Command');
 const formatDuration = require('../../utils/music/formatDuration');
@@ -49,7 +49,7 @@ module.exports = class Queue extends Command {
         const pages = [];
         for (let i = 0; i < pagesNum; i++) {
             const str = songStrings.slice(i * 10, i * 10 + 10).join('');
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setAuthor(`Queue - ${ctx.guild.name}`, ctx.guild.iconURL())
                 .setColor(client.config.colors.default)
                 .setDescription(`**Now Playing**: [${title}](${url}}) \`[${parsedDuration}]\` • ${user}.\n\n**Up Next**:${str == '' ? '  Nothing' : `\n${str}`}`)

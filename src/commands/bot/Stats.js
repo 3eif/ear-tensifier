@@ -1,9 +1,8 @@
-const Command = require('../../structures/Command');
-
-const { MessageEmbed } = require('discord.js');
 const cpuStat = require('cpu-stat');
 const os = require('os');
+const { EmbedBuilder } = require('discord.js');
 
+const Command = require('../../structures/Command');
 const Bot = require('../../models/Bot');
 
 module.exports = class Stats extends Command {
@@ -70,21 +69,23 @@ module.exports = class Stats extends Command {
                     shardInfo.forEach(s => totalPlayingPlayers += s.playingPlayers);
 
                     cpuStat.usagePercent((err, percent) => {
-                        const statsEmbed = new MessageEmbed()
+                        const statsEmbed = new EmbedBuilder()
                             .setAuthor('Ear Tensifier')
                             .setColor(client.config.colors.default)
                             .setThumbnail(client.user.displayAvatarURL())
-                            .addField('Born On', new Date(client.user.createdAt).toLocaleString('en-US', { timezone: 'America/Los_Angeles' }, true) + ' (Pacific Standard Time)')
-                            .addField('Current Version', client.config.version, true)
-                            .addField('Shard', `${client.shard.ids}/${client.shard.count}`, true)
-                            .addField('Servers', `${totalGuilds.toLocaleString()}`, true)
-                            .addField('Users', `${totalMembers.toLocaleString()}`, true)
-                            .addField('Players', `${totalPlayingPlayers.toLocaleString()}/${totalPlayers.toLocaleString()}`, true)
-                            .addField('CPU usage', `${percent.toFixed(2)}%`, true)
-                            .addField('Commands Used', `${b.commandsUsed.toLocaleString()}`, true)
-                            .addField('Songs Played', `${b.songsPlayed.toLocaleString()}`, true)
-                            .addField('Memory Usage', `\`\`\`RSS: ${totalRSS.toLocaleString().replace(/^0+(?!\.|$)/, '')} | ${totalMemory.toLocaleString().replace(/^0+(?!\.|$)/, '')} / ${(os.totalmem() / 1024 / 1024).toLocaleString().replace(/^0+(?!\.|$)/, '')} MB | ${memoryPercentage}% used\`\`\``)
-                            .addField('Uptime', `\`\`\`${days} days, ${hours} hours, ${mins} minutes, and ${realTotalSecs} seconds\`\`\``)
+                            .addFields(
+                                { name: 'Born On', value: new Date(client.user.createdAt).toLocaleString('en-US', { timezone: 'America/Los_Angeles' }, true) + ' (Pacific Standard Time)' },
+                                { name: 'Current Version', value: client.config.version, inline: true },
+                                { name: 'Shard', value: `${client.shard.ids}/${client.shard.count}`, inline: true },
+                                { name: 'Servers', value: `${totalGuilds.toLocaleString()}`, inline: true },
+                                { name: 'Users', value: `${totalMembers.toLocaleString()}`, inline: true },
+                                { name: 'Players', value: `${totalPlayingPlayers.toLocaleString()}/${totalPlayers.toLocaleString()}`, inline: true },
+                                { name: 'CPU usage', value: `${percent.toFixed(2)}%`, inline: true },
+                                { name: 'Commands Used', value: `${b.commandsUsed.toLocaleString()}`, inline: true },
+                                { name: 'Songs Played', value: `${b.songsPlayed.toLocaleString()}`, inline: true },
+                                { name: 'Memory Usage', value: `\`\`\`RSS: ${totalRSS.toLocaleString().replace(/^0+(?!\.|$)/, '')} | ${totalMemory.toLocaleString().replace(/^0+(?!\.|$)/, '')} / ${(os.totalmem() / 1024 / 1024).toLocaleString().replace(/^0+(?!\.|$)/, '')} MB | ${memoryPercentage}% used\`\`\`` },
+                                { name: 'Uptime', value: `\`\`\`${days} days, ${hours} hours, ${mins} minutes, and ${realTotalSecs} seconds\`\`\`` },
+                            )
                             .setFooter(`Latency ${msg.createdTimestamp - ctx.createdTimestamp}ms`)
                             .setTimestamp();
                         return ctx.editMessage({ content: null, embeds: [statsEmbed] });

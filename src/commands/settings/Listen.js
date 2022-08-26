@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { ApplicationCommandType, ApplicationCommandOptionType } = require('discord-api-types');
 
 const Command = require('../../structures/Command');
@@ -118,7 +118,7 @@ module.exports = class Listen extends Command {
                 });
                 await s.updateOne({ ignoredChannels: channelsToIgnore }).catch(e => client.logger.error(e));
 
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setAuthor(`${ctx.guild.name}`, ctx.guild.iconURL())
                     .setColor(client.config.colors.default)
                     .setDescription(`I will now only listen to commands from <#${channel}>.`)
@@ -134,7 +134,7 @@ module.exports = class Listen extends Command {
                 if (err) client.logger.error(err);
                 await s.updateOne({ ignoredChannels: [] }).catch(e => client.logger.error(e));
 
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setAuthor(`${ctx.guild.name}`, ctx.guild.iconURL())
                     .setColor(client.config.colors.default)
                     .setDescription('I will now listen to commands from all channels.');
@@ -158,7 +158,7 @@ module.exports = class Listen extends Command {
                 }
                 else return ctx.editMessage('This channel is not being ignored!');
 
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setAuthor(`${ctx.guild.name}`, ctx.guild.iconURL())
                     .setColor(client.config.colors.default)
                     .setDescription(`I will now listen to commands from <#${channel}>.`);

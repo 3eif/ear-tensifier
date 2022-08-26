@@ -1,5 +1,5 @@
 const { ApplicationCommandOptionType } = require('discord-api-types');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 const Command = require('../../structures/Command');
 
@@ -51,7 +51,7 @@ module.exports = class Rate extends Command {
 
         if ((ctx.isInteraction && ctx.interaction.options.data[0].name == 'off') || (args[0] && (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off'))) {
             player.filter.resetRate();
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setAuthor('Rate has been reset to 1x', ctx.author.displayAvatarURL())
                 .setColor(client.config.colors.default);
             return ctx.sendMessage({ content: null, embeds: [embed] });
@@ -62,7 +62,7 @@ module.exports = class Rate extends Command {
         if (args[0] > 3 || args[0] < 0) return ctx.sendMessage('Amount must be between 0 and 3.');
 
         player.filter.setRate(args[0]);
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setAuthor(`Rate set to ${args[0]}x`, ctx.author.displayAvatarURL())
             .setColor(client.config.colors.default);
         return ctx.sendMessage({ content: null, embeds: [embed] });

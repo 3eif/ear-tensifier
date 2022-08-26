@@ -23,7 +23,7 @@ module.exports = class InteractionCreate extends Event {
                         player.queue.unshift(player.queue.previous);
                         player.skip();
 
-                        const embed = new Discord.MessageEmbed()
+                        const embed = new Discord.EmbedBuilder()
                             .setColor(this.client.config.colors.default)
                             .setAuthor(`Backing up to ${player.queue.current.title}`, interaction.member.displayAvatarURL());
                         await player.textChannel.send({ embeds: [embed] });
@@ -38,7 +38,7 @@ module.exports = class InteractionCreate extends Event {
                         .setStyle(ButtonStyle.Primary)
                         .setEmoji(player.paused ? this.client.config.emojis.resume : this.client.config.emojis.pause);
 
-                    const embed = new Discord.MessageEmbed()
+                    const embed = new Discord.EmbedBuilder()
                         .setColor(this.client.config.colors.default)
                         .setAuthor(`Song is now ${player.playing ? 'resumed' : 'paused'}.`, interaction.member.displayAvatarURL());
                     await player.textChannel.send({ embeds: [embed] });
@@ -50,7 +50,7 @@ module.exports = class InteractionCreate extends Event {
                     if (player.trackRepeat) player.setTrackRepeat(false);
                     if (player) player.skip();
 
-                    const embed = new Discord.MessageEmbed()
+                    const embed = new Discord.EmbedBuilder()
                         .setColor(this.client.config.colors.default)
                         .setAuthor(`Skipped ${title}`, interaction.member.displayAvatarURL());
                     await player.textChannel.send({ embeds: [embed] });

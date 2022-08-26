@@ -1,6 +1,6 @@
-const { ButtonBuilder } = require('@discordjs/builders');
+const { ButtonBuilder, ActionRowBuilder } = require('@discordjs/builders');
 const { ButtonStyle } = require('discord-api-types');
-const { MessageEmbed, MessageActionRow } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 const DatabaseHelper = require('../../helpers/DatabaseHelper');
 const Event = require('../../structures/Event');
@@ -31,7 +31,7 @@ module.exports = class TrackStart extends Event {
         const part = Math.floor((player.getTime() / duration) * n);
         const percentage = player.getTime() / duration;
 
-        const buttonRow = new MessageActionRow()
+        const buttonRow = new ActionRowBuilder()
             .addComponents(
                 new ButtonBuilder()
                     .setCustomId('PREVIOUS_BUTTON')
@@ -47,7 +47,7 @@ module.exports = class TrackStart extends Event {
                     .setEmoji(this.client.config.emojis.skip));
 
         try {
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setColor(this.client.config.colors.default)
                 .setAuthor(author, player.playing ? 'https://eartensifier.net/images/cd.gif' : 'https://eartensifier.net/images/cd.png', url)
                 .setThumbnail(thumbnail)
@@ -65,7 +65,7 @@ module.exports = class TrackStart extends Event {
             //     part = Math.floor((player.getTime() / duration) * n);
             //     percentage = player.getTime() / duration;
 
-            //     const e = new MessageEmbed(embed.setDescription(`${parsedCurrentDuration}  ${percentage < 0.05 ? this.client.config.emojis.progress7 : this.client.config.emojis.progress1}${this.client.config.emojis.progress2.repeat(part)}${percentage < 0.05 ? '' : this.client.config.emojis.progress3}${this.client.config.emojis.progress5.repeat(12 - part)}${this.client.config.emojis.progress6}  ${parsedDuration}`));
+            //     const e = new EmbedBuilder(embed.setDescription(`${parsedCurrentDuration}  ${percentage < 0.05 ? this.client.config.emojis.progress7 : this.client.config.emojis.progress1}${this.client.config.emojis.progress2.repeat(part)}${percentage < 0.05 ? '' : this.client.config.emojis.progress3}${this.client.config.emojis.progress5.repeat(12 - part)}${this.client.config.emojis.progress6}  ${parsedDuration}`));
             //     if (player.nowPlayingMessage) player.nowPlayingMessage.edit({ content: null, embeds: [e] });
             // }, 60000);
         }

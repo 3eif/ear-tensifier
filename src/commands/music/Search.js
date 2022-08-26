@@ -1,11 +1,11 @@
 const { Source } = require('yasha');
 const { TrackPlaylist, Track } = require('yasha/src/Track');
-const { MessageEmbed, MessageActionRow, MessageSelectMenu } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
+const { ApplicationCommandOptionType, ButtonStyle } = require('discord-api-types');
+const { ButtonBuilder, SelectMenuBuilder, ActionRowBuilder } = require('@discordjs/builders');
 
 const QueueHelper = require('../../helpers/QueueHelper');
 const Command = require('../../structures/Command');
-const { ApplicationCommandOptionType, ButtonStyle } = require('discord-api-types');
-const { ButtonBuilder } = require('@discordjs/builders');
 
 module.exports = class Search extends Command {
     constructor(client) {
@@ -185,9 +185,9 @@ module.exports = class Search extends Command {
 
             let hasReceivedIndexes = false;
 
-            const selectMenuRow = new MessageActionRow()
+            const selectMenuRow = new ActionRowBuilder()
                 .addComponents(
-                    new MessageSelectMenu()
+                    new SelectMenuBuilder()
                         .setCustomId(`${ctx.id}:SELECT_MENU`)
                         .setPlaceholder('Nothing selected')
                         .setMinValues(1)
@@ -195,7 +195,7 @@ module.exports = class Search extends Command {
                         .addOptions(selectMenuArray),
                 );
 
-            const buttonRow = new MessageActionRow()
+            const buttonRow = new ActionRowBuilder()
                 .addComponents(
                     new ButtonBuilder()
                         .setCustomId(`${ctx.id}:BUTTON`)
@@ -204,7 +204,7 @@ module.exports = class Search extends Command {
                         .setEmoji('🗑️'),
                 );
 
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setAuthor('Song Selection.', ctx.author.displayAvatarURL())
                 .setDescription(str)
                 .setFooter('Your have 30 seconds to make your selection via the dropdown menu.')

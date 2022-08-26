@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { ApplicationCommandType, ApplicationCommandOptionType } = require('discord-api-types');
 
 const Command = require('../../structures/Command');
@@ -46,7 +46,7 @@ module.exports = class Rename extends Command {
         }, async (err, p) => {
             if (err) client.log(err);
             if (!p) {
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setAuthor(playlistName, ctx.author.displayAvatarURL())
                     .setDescription(`${client.config.emojis.failure} Could not find a playlist by the name ${playlistName}.\nFor a list of your playlists type \`ear playlists\``)
                     .setTimestamp()
@@ -57,7 +57,7 @@ module.exports = class Rename extends Command {
                 p.name = newPlaylistName;
                 p.save();
 
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setAuthor(p.name, ctx.author.displayAvatarURL())
                     .setDescription(`${client.config.emojis.success} Successfully renamed \`${playlistName}\` to \`${newPlaylistName}\`.`)
                     .setFooter(`ID: ${p._id}`)

@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 const Command = require('../../structures/Command');
 const formatDuration = require('../../utils/music/formatDuration');
@@ -27,7 +27,7 @@ module.exports = class NowPlaying extends Command {
         const part = Math.floor((player.getTime() / duration) * 13);
         const percentage = player.getTime() / duration;
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setColor(client.config.colors.default)
             .setAuthor(author, player.playing ? 'https://eartensifier.net/images/cd.gif' : 'https://eartensifier.net/images/cd.png', url)
             .setThumbnail(thumbnail)

@@ -1,5 +1,5 @@
 const { ApplicationCommandOptionType } = require('discord-api-types');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 const Command = require('../../structures/Command');
 
@@ -41,7 +41,7 @@ module.exports = class SkipTo extends Command {
             player.skip();
         }
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setColor(client.config.colors.default)
             .setDescription(`Skipped to **${player.queue.current.title}**`);
         return ctx.sendMessage({ embeds: [embed] });

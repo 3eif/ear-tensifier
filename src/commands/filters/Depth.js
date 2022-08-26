@@ -1,5 +1,5 @@
 const { ApplicationCommandOptionType } = require('discord-api-types');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 const Command = require('../../structures/Command');
 
@@ -51,7 +51,7 @@ module.exports = class Depth extends Command {
 
         if ((ctx.isInteraction && ctx.interaction.options.data[0].name == 'off') || (args[0] && (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off'))) {
             player.filter.resetDepth();
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setAuthor('Depth has been reset to 0%', ctx.author.displayAvatarURL())
                 .setColor(client.config.colors.default);
             return ctx.sendMessage({ content: null, embeds: [embed] });
@@ -63,7 +63,7 @@ module.exports = class Depth extends Command {
 
         player.filter.setTremolo(args[0] / 100, player.filter.tremolo.frequency);
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setAuthor(`Depth set to ${args[0]}%`, ctx.author.displayAvatarURL())
             .setColor(client.config.colors.default);
         return ctx.sendMessage({ content: null, embeds: [embed] });

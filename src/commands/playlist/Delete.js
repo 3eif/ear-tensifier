@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const { ApplicationCommandType, ApplicationCommandOptionType } = require('discord-api-types');
 
 const Command = require('../../structures/Command');
@@ -34,7 +34,7 @@ module.exports = class Delete extends Command {
             creator: ctx.author.id,
         }).then(deletedDocument => {
             if (deletedDocument) {
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setAuthor(playlistName, ctx.author.displayAvatarURL())
                     .setDescription(`${client.config.emojis.success} Deleted playlist: \`${playlistName}\``)
                     .setTimestamp()
@@ -42,7 +42,7 @@ module.exports = class Delete extends Command {
                 return ctx.editMessage({ content: null, embeds: [embed] });
             }
             else {
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setAuthor(playlistName, ctx.author.displayAvatarURL())
                     .setDescription(`${client.config.emojis.failure} Could not find a playlist by the name ${playlistName}.\nFor a list of your playlists type \`ear playlists\``)
                     .setTimestamp()

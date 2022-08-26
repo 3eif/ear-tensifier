@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 const Command = require('../../structures/Command');
 const Playlist = require('../../models/Playlist');
@@ -50,7 +50,7 @@ module.exports = class Load extends Command {
             if (err) client.logger.error(err);
 
             if (!playlist) {
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setAuthor(playlistName, ctx.author.displayAvatarURL())
                     .setDescription(`${client.config.emojis.failure} Could not find a playlist by the name ${playlistName}.`)
                     .setTimestamp()
@@ -97,7 +97,7 @@ module.exports = class Load extends Command {
                 });
 
                 queueAllSongs.then(async () => {
-                    const embed = new MessageEmbed()
+                    const embed = new EmbedBuilder()
                         .setDescription(`Queued **${tracksQueued} songs** from **${playlistName}**.`)
                         .setColor(client.config.colors.default)
                         .setTimestamp();

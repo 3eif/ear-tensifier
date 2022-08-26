@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 const Command = require('../../structures/Command');
 const Playlist = require('../../models/Playlist');
@@ -46,7 +46,7 @@ module.exports = class PlaylistRemove extends Command {
             if (err) client.logger.error(err);
 
             if (!playlist) {
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setAuthor(playlistName, ctx.author.displayAvatarURL())
                     .setDescription(`${client.config.emojis.failure} Could not find a playlist by the name ${playlistName}.\nFor a list of your playlists type \`ear playlists\``)
                     .setTimestamp()
@@ -59,7 +59,7 @@ module.exports = class PlaylistRemove extends Command {
                 playlist.tracks.splice(args[1] - 1, 1);
                 await playlist.updateOne({ tracks: playlist.tracks }).catch(e => client.logger.error(e));
 
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setAuthor(playlist.name, ctx.author.displayAvatarURL())
                     .setDescription(`${client.config.emojis.success} Removed **${songName}** from **${playlist.name}**.`)
                     .setFooter(`ID: ${playlist._id}`)
