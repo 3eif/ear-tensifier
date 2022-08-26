@@ -21,15 +21,15 @@ module.exports = class Client extends Discord.Client {
                 },
             }),
             partials: [
-                'MESSAGE',
-                'CHANNEL',
-                'REACTION',
+                Discord.Partials.Message,
+                Discord.Partials.Channel,
+                Discord.Partials.Reaction,
             ],
             intents: [
-                'GUILDS',
-                'GUILD_MESSAGES',
-                'GUILD_VOICE_STATES',
-                'GUILD_MESSAGE_REACTIONS',
+                Discord.GatewayIntentBits.Guilds,
+                Discord.GatewayIntentBits.GuildMessages,
+                Discord.GatewayIntentBits.GuildVoiceStates,
+                Discord.GatewayIntentBits.GuildMessageReactions,
             ],
             restTimeOffset: 0,
         });
