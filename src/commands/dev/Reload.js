@@ -3,6 +3,7 @@ const fs = require('fs');
 const Discord = require('discord.js');
 
 const Command = require('../../structures/Command');
+const { ButtonStyle } = require('discord-api-types');
 
 module.exports = class Reload extends Command {
     constructor(client) {
@@ -60,7 +61,7 @@ module.exports = class Reload extends Command {
                 .addComponents(
                     new Discord.MessageButton()
                         .setCustomId(`${ctx.id}:CANCEL_BUTTON`)
-                        .setStyle('SECONDARY')
+                        .setStyle(ButtonStyle.Secondary)
                         .setLabel('Cancel')
                         .setEmoji(client.config.emojis.failure),
                 );
@@ -142,7 +143,7 @@ module.exports = class Reload extends Command {
                 if (currentDir != './src') buttonRow.addComponents(
                     new Discord.MessageButton()
                         .setCustomId(`${ctx.id}:BACK_BUTTON`)
-                        .setStyle('SECONDARY')
+                        .setStyle(ButtonStyle.Secondary)
                         .setLabel('Back')
                         .setEmoji(client.config.emojis.left),
                 );
@@ -150,7 +151,7 @@ module.exports = class Reload extends Command {
                 buttonRow.addComponents(
                     new Discord.MessageButton()
                         .setCustomId(`${ctx.id}:CANCEL_BUTTON`)
-                        .setStyle('DANGER')
+                        .setStyle(ButtonStyle.Danger)
                         .setLabel('Cancel')
                         .setEmoji('🗑️'),
                 );

@@ -1,3 +1,4 @@
+const { ButtonStyle } = require('discord-api-types');
 const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
 
 const DatabaseHelper = require('../../helpers/DatabaseHelper');
@@ -24,24 +25,24 @@ module.exports = class TrackStart extends Event {
         // if (player.nowPlayingMessageInterval) clearInterval(player.nowPlayingMessageInterval);
 
         const n = 13;
-        let parsedCurrentDuration = formatDuration(0);
-        let parsedDuration = formatDuration(duration);
-        let part = Math.floor((player.getTime() / duration) * n);
-        let percentage = player.getTime() / duration;
+        const parsedCurrentDuration = formatDuration(0);
+        const parsedDuration = formatDuration(duration);
+        const part = Math.floor((player.getTime() / duration) * n);
+        const percentage = player.getTime() / duration;
 
         const buttonRow = new MessageActionRow()
             .addComponents(
                 new MessageButton()
                     .setCustomId('PREVIOUS_BUTTON')
-                    .setStyle('SECONDARY')
+                    .setStyle(ButtonStyle.Secondary)
                     .setEmoji(this.client.config.emojis.previous),
                 new MessageButton()
                     .setCustomId('PAUSE_BUTTON')
-                    .setStyle('PRIMARY')
+                    .setStyle(ButtonStyle.Primary)
                     .setEmoji(this.client.config.emojis.pause),
                 new MessageButton()
                     .setCustomId('SKIP_BUTTON')
-                    .setStyle('SECONDARY')
+                    .setStyle(ButtonStyle.Secondary)
                     .setEmoji(this.client.config.emojis.skip));
 
         try {

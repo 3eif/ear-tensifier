@@ -3,6 +3,7 @@ const Discord = require('discord.js');
 const Event = require('../../structures/Event');
 const Context = require('../../structures/Context');
 const MessageHelper = require('../../helpers/MessageHelper');
+const { ButtonStyle } = require('discord-api-types');
 
 const cooldowns = new Discord.Collection();
 
@@ -34,7 +35,7 @@ module.exports = class InteractionCreate extends Event {
                     player.pause(!player.paused);
                     buttonRow.components[1] = new Discord.MessageButton()
                         .setCustomId('PAUSE_BUTTON')
-                        .setStyle('PRIMARY')
+                        .setStyle(ButtonStyle.Primary)
                         .setEmoji(player.paused ? this.client.config.emojis.resume : this.client.config.emojis.pause);
 
                     const embed = new Discord.MessageEmbed()

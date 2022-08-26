@@ -4,7 +4,7 @@ const { MessageEmbed, MessageActionRow, MessageSelectMenu, MessageButton } = req
 
 const QueueHelper = require('../../helpers/QueueHelper');
 const Command = require('../../structures/Command');
-const { ApplicationCommandOptionType } = require('discord-api-types');
+const { ApplicationCommandOptionType, ButtonStyle } = require('discord-api-types');
 
 module.exports = class Search extends Command {
     constructor(client) {
@@ -198,7 +198,7 @@ module.exports = class Search extends Command {
                 .addComponents(
                     new MessageButton()
                         .setCustomId(`${ctx.id}:BUTTON`)
-                        .setStyle('DANGER')
+                        .setStyle(ButtonStyle.Danger)
                         .setLabel('Cancel')
                         .setEmoji('🗑️'),
                 );

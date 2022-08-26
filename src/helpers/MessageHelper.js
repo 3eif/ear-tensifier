@@ -3,6 +3,7 @@ const { MessageButton, MessageActionRow } = require('discord.js');
 const Server = require('../models/Server.js');
 const User = require('../models/User.js');
 const { emojis } = require('../../config.json');
+const { ButtonStyle } = require('discord-api-types');
 
 module.exports = class MessageHelper {
     constructor(client, ctx) {
@@ -55,7 +56,7 @@ module.exports = class MessageHelper {
     }
 
     async isBlacklisted() {
-        if(!this.user) return false;
+        if (!this.user) return false;
         if (this.user.blacklisted == null) this.user.blacklisted = false;
         if (!this.user.blacklisted) {
             this.user.commandsUsed += 1;
@@ -114,12 +115,12 @@ module.exports = class MessageHelper {
                 new MessageButton()
                     .setCustomId('back')
                     .setLabel('Back')
-                    .setStyle('PRIMARY')
+                    .setStyle(ButtonStyle.Primary)
                     .setEmoji(emojis.left),
                 new MessageButton()
                     .setCustomId('next')
                     .setLabel('Next')
-                    .setStyle('PRIMARY')
+                    .setStyle(ButtonStyle.Primary)
                     .setEmoji(emojis.right),
             );
 

@@ -2,7 +2,7 @@ const Command = require('../../structures/Command');
 
 const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
 const fs = require('fs');
-const { ApplicationCommandOptionType } = require('discord-api-types');
+const { ApplicationCommandOptionType, ButtonStyle } = require('discord-api-types');
 const categories = fs.readdirSync('./src/commands/');
 
 
@@ -44,11 +44,11 @@ module.exports = class Help extends Command {
                 .addComponents(
                     new MessageButton()
                         .setLabel('Support Server')
-                        .setStyle('LINK')
+                        .setStyle(ButtonStyle.Link)
                         .setURL(client.config.server),
                     new MessageButton()
                         .setLabel('Website')
-                        .setStyle('LINK')
+                        .setStyle(ButtonStyle.Link)
                         .setURL(client.config.website),
                 );
 
