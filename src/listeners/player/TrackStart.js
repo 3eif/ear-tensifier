@@ -1,5 +1,6 @@
+const { ButtonBuilder } = require('@discordjs/builders');
 const { ButtonStyle } = require('discord-api-types');
-const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
+const { MessageEmbed, MessageActionRow } = require('discord.js');
 
 const DatabaseHelper = require('../../helpers/DatabaseHelper');
 const Event = require('../../structures/Event');
@@ -32,15 +33,15 @@ module.exports = class TrackStart extends Event {
 
         const buttonRow = new MessageActionRow()
             .addComponents(
-                new MessageButton()
+                new ButtonBuilder()
                     .setCustomId('PREVIOUS_BUTTON')
                     .setStyle(ButtonStyle.Secondary)
                     .setEmoji(this.client.config.emojis.previous),
-                new MessageButton()
+                new ButtonBuilder()
                     .setCustomId('PAUSE_BUTTON')
                     .setStyle(ButtonStyle.Primary)
                     .setEmoji(this.client.config.emojis.pause),
-                new MessageButton()
+                new ButtonBuilder()
                     .setCustomId('SKIP_BUTTON')
                     .setStyle(ButtonStyle.Secondary)
                     .setEmoji(this.client.config.emojis.skip));

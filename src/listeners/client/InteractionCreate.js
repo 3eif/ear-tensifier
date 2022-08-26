@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 const Event = require('../../structures/Event');
 const Context = require('../../structures/Context');
 const MessageHelper = require('../../helpers/MessageHelper');
-const { ButtonStyle } = require('discord-api-types');
+const { ButtonStyle, InteractionType } = require('discord-api-types');
 
 const cooldowns = new Discord.Collection();
 
@@ -33,7 +33,7 @@ module.exports = class InteractionCreate extends Event {
                 case 'PAUSE_BUTTON': {
                     const buttonRow = interaction.message.components[0];
                     player.pause(!player.paused);
-                    buttonRow.components[1] = new Discord.MessageButton()
+                    buttonRow.components[1] = new Discord.ButtonBuilder()
                         .setCustomId('PAUSE_BUTTON')
                         .setStyle(ButtonStyle.Primary)
                         .setEmoji(player.paused ? this.client.config.emojis.resume : this.client.config.emojis.pause);
@@ -58,7 +58,7 @@ module.exports = class InteractionCreate extends Event {
                 }
             }
         }
-        if (!interaction.isCommand()) return;
+        if (interaction.type !== InteractionType.ApplicationCommand) return;
 
         const cmd = this.client.commands.get(interaction.commandName);
         if (!cmd || !cmd.slashCommand) return;

@@ -1,10 +1,11 @@
 const { Source } = require('yasha');
 const { TrackPlaylist, Track } = require('yasha/src/Track');
-const { MessageEmbed, MessageActionRow, MessageSelectMenu, MessageButton } = require('discord.js');
+const { MessageEmbed, MessageActionRow, MessageSelectMenu } = require('discord.js');
 
 const QueueHelper = require('../../helpers/QueueHelper');
 const Command = require('../../structures/Command');
 const { ApplicationCommandOptionType, ButtonStyle } = require('discord-api-types');
+const { ButtonBuilder } = require('@discordjs/builders');
 
 module.exports = class Search extends Command {
     constructor(client) {
@@ -196,7 +197,7 @@ module.exports = class Search extends Command {
 
             const buttonRow = new MessageActionRow()
                 .addComponents(
-                    new MessageButton()
+                    new ButtonBuilder()
                         .setCustomId(`${ctx.id}:BUTTON`)
                         .setStyle(ButtonStyle.Danger)
                         .setLabel('Cancel')

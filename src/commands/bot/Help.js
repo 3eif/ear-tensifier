@@ -1,10 +1,10 @@
-const Command = require('../../structures/Command');
-
-const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
+const { MessageEmbed, MessageActionRow } = require('discord.js');
 const fs = require('fs');
 const { ApplicationCommandOptionType, ButtonStyle } = require('discord-api-types');
-const categories = fs.readdirSync('./src/commands/');
+const { ButtonBuilder } = require('@discordjs/builders');
 
+const Command = require('../../structures/Command');
+const categories = fs.readdirSync('./src/commands/');
 
 module.exports = class Help extends Command {
     constructor(client) {
@@ -42,11 +42,11 @@ module.exports = class Help extends Command {
 
             const buttons = new MessageActionRow()
                 .addComponents(
-                    new MessageButton()
+                    new ButtonBuilder()
                         .setLabel('Support Server')
                         .setStyle(ButtonStyle.Link)
                         .setURL(client.config.server),
-                    new MessageButton()
+                    new ButtonBuilder()
                         .setLabel('Website')
                         .setStyle(ButtonStyle.Link)
                         .setURL(client.config.website),

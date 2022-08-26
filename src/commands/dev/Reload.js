@@ -59,7 +59,7 @@ module.exports = class Reload extends Command {
 
             let buttonRow = new Discord.MessageActionRow()
                 .addComponents(
-                    new Discord.MessageButton()
+                    new Discord.ButtonBuilder()
                         .setCustomId(`${ctx.id}:CANCEL_BUTTON`)
                         .setStyle(ButtonStyle.Secondary)
                         .setLabel('Cancel')
@@ -141,7 +141,7 @@ module.exports = class Reload extends Command {
                 buttonRow = new Discord.MessageActionRow();
 
                 if (currentDir != './src') buttonRow.addComponents(
-                    new Discord.MessageButton()
+                    new Discord.ButtonBuilder()
                         .setCustomId(`${ctx.id}:BACK_BUTTON`)
                         .setStyle(ButtonStyle.Secondary)
                         .setLabel('Back')
@@ -149,7 +149,7 @@ module.exports = class Reload extends Command {
                 );
 
                 buttonRow.addComponents(
-                    new Discord.MessageButton()
+                    new Discord.ButtonBuilder()
                         .setCustomId(`${ctx.id}:CANCEL_BUTTON`)
                         .setStyle(ButtonStyle.Danger)
                         .setLabel('Cancel')

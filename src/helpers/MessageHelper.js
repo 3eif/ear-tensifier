@@ -1,9 +1,10 @@
-const { MessageButton, MessageActionRow } = require('discord.js');
+const { MessageActionRow } = require('discord.js');
 
 const Server = require('../models/Server.js');
 const User = require('../models/User.js');
 const { emojis } = require('../../config.json');
 const { ButtonStyle } = require('discord-api-types');
+const { ButtonBuilder } = require('@discordjs/builders');
 
 module.exports = class MessageHelper {
     constructor(client, ctx) {
@@ -112,12 +113,12 @@ module.exports = class MessageHelper {
 
         const buttons = buttonRow ? buttonRow : new MessageActionRow()
             .addComponents(
-                new MessageButton()
+                new ButtonBuilder()
                     .setCustomId('back')
                     .setLabel('Back')
                     .setStyle(ButtonStyle.Primary)
                     .setEmoji(emojis.left),
-                new MessageButton()
+                new ButtonBuilder()
                     .setCustomId('next')
                     .setLabel('Next')
                     .setStyle(ButtonStyle.Primary)
