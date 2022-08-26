@@ -1,4 +1,5 @@
 const { MessageEmbed } = require('discord.js');
+const { ApplicationCommandType, ApplicationCommandOptionType } = require('discord-api-types');
 
 const Command = require('../../structures/Command');
 const Server = require('../../models/Server');
@@ -20,11 +21,11 @@ module.exports = class Listen extends Command {
                 {
                     name: 'channel',
                     description: 'Resumes responding to commands coming from the channel you provide.',
-                    type: 1,
+                    type: ApplicationCommandOptionType.Subcommand,
                     options: [
                         {
                             name: 'name',
-                            type: 7,
+                            type: ApplicationCommandOptionType.Channel,
                             required: true,
                             description: 'The channel to resuming listening to commands in.',
                         },
@@ -33,16 +34,16 @@ module.exports = class Listen extends Command {
                 {
                     name: 'all',
                     description: 'Resumes responding to commands from all channels.',
-                    type: 1,
+                    type: ApplicationCommandOptionType.Subcommand,
                 },
                 {
                     name: 'only',
                     description: 'Resumes responding to commands from only the channel you provide.',
-                    type: 1,
+                    type: ApplicationCommandType.Subcommand,
                     options: [
                         {
                             name: 'name',
-                            type: 7,
+                            type: ApplicationCommandType.Channel,
                             required: true,
                             description: 'The only channel to listen to commands from.',
                         },

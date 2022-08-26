@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 const { MessageEmbed } = require('discord.js');
+const { ApplicationCommandOptionType, ApplicationCommandType } = require('discord-api-types');
 
 const Command = require('../../structures/Command');
 const Playlist = require('../../models/Playlist');
@@ -19,7 +20,7 @@ module.exports = class View extends Command {
             options: [
                 {
                     name: 'playlist',
-                    type: 3,
+                    type: ApplicationCommandOptionType.String,
                     required: true,
                     description: 'The playlist\'s name.',
                 },

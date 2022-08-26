@@ -27,7 +27,7 @@ module.exports = class Resume extends Command {
 
         const embed = new MessageEmbed()
             .setColor(client.config.colors.default)
-            .setAuthor(`Song is now ${player.playing ? 'resumed' : 'paused'}.`, ctx.author.displayAvatarURL())
+            .setAuthor(`Song is now ${player.playing ? 'resumed' : 'paused'}.`, ctx.author.displayAvatarURL());
         return ctx.sendMessage({ embeds: [embed] });
     }
 };

@@ -1,3 +1,4 @@
+const { ApplicationCommandOptionType } = require('discord-api-types');
 const Command = require('../../structures/Command');
 
 module.exports = class Remove extends Command {
@@ -19,13 +20,13 @@ module.exports = class Remove extends Command {
             options: [
                 {
                     name: 'position',
-                    type: 4,
+                    type: ApplicationCommandOptionType.Integer,
                     required: true,
                     description: 'The position of the song to remove.',
                 },
                 {
                     name: 'position2',
-                    type: 4,
+                    type: ApplicationCommandOptionType.Integer,
                     required: false,
                     description: 'The range of songs to remove between the first and second position.',
                 },

@@ -1,3 +1,4 @@
+const { ApplicationCommandOptionType } = require('discord-api-types');
 const Command = require('../../structures/Command');
 
 module.exports = class Clean extends Command {
@@ -19,7 +20,7 @@ module.exports = class Clean extends Command {
             options: [
                 {
                     name: 'messages',
-                    type: 4,
+                    type: ApplicationCommandOptionType.Integer,
                     required: true,
                     description: 'The amount of messages to clean up.',
                 },

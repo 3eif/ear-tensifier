@@ -1,3 +1,4 @@
+const { ApplicationCommandOptionType } = require('discord-api-types');
 const { MessageEmbed } = require('discord.js');
 
 const Command = require('../../structures/Command');
@@ -17,7 +18,7 @@ module.exports = class Queue extends Command {
             },
             options: [{
                 name: 'page',
-                type: 4,
+                type: ApplicationCommandOptionType.Integer,
                 required: false,
                 description: 'View a certain page of the queue.',
             }],

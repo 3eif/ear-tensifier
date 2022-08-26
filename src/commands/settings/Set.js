@@ -1,3 +1,5 @@
+const { ApplicationCommandType, ApplicationCommandOptionType } = require('discord-api-types');
+
 const Command = require('../../structures/Command');
 const Server = require('../../models/Server');
 
@@ -18,16 +20,16 @@ module.exports = class Set extends Command {
                 {
                     name: 'default',
                     description: 'Sets the default setting for something',
-                    type: 2,
+                    type: ApplicationCommandOptionType.SubcommandGroup,
                     options: [
                         {
                             name: 'volume',
                             description: 'Sets the default volume level of the server',
-                            type: 1,
+                            type: ApplicationCommandOptionType.Subcommand,
                             options: [
                                 {
                                     name: 'level',
-                                    type: 4,
+                                    type: ApplicationCommandOptionType.Integer,
                                     required: true,
                                     description: 'The volume level to set the default to.',
                                 },
@@ -38,17 +40,17 @@ module.exports = class Set extends Command {
                 {
                     name: 'nowplaying',
                     description: 'Whether or not to send now playing messages.',
-                    type: 2,
+                    type: ApplicationCommandOptionType.SubcommandGroup,
                     options: [
                         {
                             name: 'on',
                             description: 'Sends now playing messages.',
-                            type: 1,
+                            type: ApplicationCommandOptionType.Subcommand,
                         },
                         {
                             name: 'off',
                             description: 'Does not send now playing messages.',
-                            type: 1,
+                            type: ApplicationCommandOptionType.Subcommand,
                         },
                     ],
                 },

@@ -1,6 +1,7 @@
 const Command = require('../../structures/Command');
 
 const { MessageEmbed } = require('discord.js');
+const { ApplicationCommandOptionType } = require('discord-api-types');
 
 module.exports = class Volume extends Command {
     constructor(client) {
@@ -18,7 +19,7 @@ module.exports = class Volume extends Command {
             options: [
                 {
                     name: 'volume',
-                    type: 4,
+                    type: ApplicationCommandOptionType.Integer,
                     required: false,
                     description: 'The volume level to set the player to (default is 100).',
                 },

@@ -1,4 +1,5 @@
 const { Track: { TrackPlaylist } } = require('yasha');
+const { ApplicationCommandType, ApplicationCommandOptionType } = require('discord-api-types');
 
 const Command = require('../../structures/Command');
 const QueueHelper = require('../../helpers/QueueHelper');
@@ -24,7 +25,7 @@ module.exports = class Spotify extends Command {
             options: [
                 {
                     name: 'query',
-                    type: 3,
+                    type: ApplicationCommandOptionType.String,
                     required: true,
                     description: 'The query to search for.',
                 },

@@ -1,3 +1,4 @@
+const { ApplicationCommandOptionType } = require('discord-api-types');
 const { MessageEmbed } = require('discord.js');
 
 const Command = require('../../structures/Command');
@@ -20,7 +21,7 @@ module.exports = class SkipTo extends Command {
             options: [
                 {
                     name: 'position',
-                    type: 4,
+                    type: ApplicationCommandOptionType.Integer,
                     required: true,
                     description: 'The position of the song to skip to.',
                 },

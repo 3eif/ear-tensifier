@@ -3,6 +3,7 @@ const { MessageEmbed } = require('discord.js');
 const Command = require('../../structures/Command');
 const Playlist = require('../../models/Playlist');
 const PlaylistTrack = require('../../structures/PlaylistTrack');
+const { ApplicationCommandType, ApplicationCommandOptionType } = require('discord-api-types');
 
 module.exports = class Load extends Command {
     constructor(client) {
@@ -20,7 +21,7 @@ module.exports = class Load extends Command {
             options: [
                 {
                     name: 'playlist',
-                    type: 3,
+                    type: ApplicationCommandOptionType.String,
                     required: true,
                     description: 'The playlist\'s name.',
                 },

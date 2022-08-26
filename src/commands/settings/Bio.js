@@ -1,3 +1,5 @@
+const { ApplicationCommandType } = require('discord-api-types');
+
 const Command = require('../../structures/Command');
 const User = require('../../models/User.js');
 

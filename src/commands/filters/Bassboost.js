@@ -1,3 +1,4 @@
+const { ApplicationCommandOptionType } = require('discord-api-types');
 const { MessageEmbed } = require('discord.js');
 
 const Command = require('../../structures/Command');
@@ -21,11 +22,11 @@ module.exports = class Bassboost extends Command {
                 {
                     name: 'on',
                     description: 'Turns on the bassboost filter.',
-                    type: 1,
+                    type: ApplicationCommandOptionType.Subcommand,
                     options: [
                         {
                             name: 'amount',
-                            type: 10,
+                            type: ApplicationCommandOptionType.Number,
                             required: false,
                             description: 'The amount to bassboost the player.',
                             min_value: -10,
@@ -36,7 +37,7 @@ module.exports = class Bassboost extends Command {
                 {
                     name: 'off',
                     description: 'Turns off the bassboost filter.',
-                    type: 1,
+                    type: ApplicationCommandOptionType.Subcommand,
                 },
             ],
             slashCommand: true,

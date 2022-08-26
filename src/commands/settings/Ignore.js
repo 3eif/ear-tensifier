@@ -1,4 +1,5 @@
 const { MessageEmbed } = require('discord.js');
+const { ApplicationCommandOptionType, ApplicationCommandType } = require('discord-api-types');
 
 const Command = require('../../structures/Command');
 const Server = require('../../models/Server');
@@ -19,11 +20,11 @@ module.exports = class Ignore extends Command {
             options: [{
                 name: 'channel',
                 description: 'Ignores commands coming from the channel you provide.',
-                type: 1,
+                type: ApplicationCommandOptionType.Subcommand,
                 options: [
                     {
                         name: 'name',
-                        type: 7,
+                        type: ApplicationCommandOptionType.Channel,
                         required: true,
                         description: 'The channel to ignore commands from.',
                     },

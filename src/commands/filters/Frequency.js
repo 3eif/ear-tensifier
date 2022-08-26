@@ -1,3 +1,4 @@
+const { ApplicationCommandOptionType } = require('discord-api-types');
 const { MessageEmbed } = require('discord.js');
 
 const Command = require('../../structures/Command');
@@ -22,11 +23,11 @@ module.exports = class Frequency extends Command {
                 {
                     name: 'on',
                     description: 'Sets the tremolo\'s frequency of the player.',
-                    type: 1,
+                    type: ApplicationCommandOptionType.Subcommand,
                     options: [
                         {
                             name: 'amount',
-                            type: 10,
+                            type: ApplicationCommandOptionType.Number,
                             required: true,
                             description: 'The amount to set the frequency to.',
                             min_value: 0.1,
@@ -37,7 +38,7 @@ module.exports = class Frequency extends Command {
                 {
                     name: 'off',
                     description: 'Sets the tremolo\'s frequency back to 5.0Hz.',
-                    type: 1,
+                    type: ApplicationCommandOptionType.Subcommand,
                 },
             ],
             slashCommand: true,

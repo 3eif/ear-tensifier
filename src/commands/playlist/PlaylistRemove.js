@@ -2,6 +2,7 @@ const { MessageEmbed } = require('discord.js');
 
 const Command = require('../../structures/Command');
 const Playlist = require('../../models/Playlist');
+const { ApplicationCommandType, ApplicationCommandOptionType } = require('discord-api-types');
 
 module.exports = class PlaylistRemove extends Command {
     constructor(client) {
@@ -18,13 +19,13 @@ module.exports = class PlaylistRemove extends Command {
             options: [
                 {
                     name: 'playlist',
-                    type: 3,
+                    type: ApplicationCommandOptionType.String,
                     required: true,
                     description: 'The playlist\'s name.',
                 },
                 {
                     name: 'position',
-                    type: 4,
+                    type: ApplicationCommandOptionType.Integer,
                     required: true,
                     description: 'The song to add.',
                 },

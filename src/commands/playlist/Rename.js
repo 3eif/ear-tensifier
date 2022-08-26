@@ -1,4 +1,5 @@
 const { MessageEmbed } = require('discord.js');
+const { ApplicationCommandType, ApplicationCommandOptionType } = require('discord-api-types');
 
 const Command = require('../../structures/Command');
 const Playlist = require('../../models/Playlist');
@@ -17,13 +18,13 @@ module.exports = class Rename extends Command {
             options: [
                 {
                     name: 'current',
-                    type: 3,
+                    type: ApplicationCommandOptionType.String,
                     required: true,
                     description: 'The playlist\'s current name.',
                 },
                 {
                     name: 'new',
-                    type: 3,
+                    type: ApplicationCommandOptionType.String,
                     required: true,
                     description: 'The playlist\'s new name.',
                 },

@@ -1,3 +1,4 @@
+const { ApplicationCommandOptionType } = require('discord-api-types');
 const { MessageEmbed } = require('discord.js');
 
 const Command = require('../../structures/Command');
@@ -18,12 +19,12 @@ module.exports = class Nightcore extends Command {
                 {
                     name: 'on',
                     description: 'Turns on the nightcore filter.',
-                    type: 1,
+                    type: ApplicationCommandOptionType.Subcommand,
                 },
                 {
                     name: 'off',
                     description: 'Turns off the nightcore filter.',
-                    type: 1,
+                    type: ApplicationCommandOptionType.Subcommand,
                 },
             ],
             slashCommand: true,

@@ -1,3 +1,5 @@
+const { ApplicationCommandOptionType } = require('discord-api-types');
+
 const Command = require('../../structures/Command');
 
 module.exports = class Move extends Command {
@@ -18,13 +20,13 @@ module.exports = class Move extends Command {
             options: [
                 {
                     name: 'old',
-                    type: 4,
+                    type: ApplicationCommandOptionType.Integer,
                     required: true,
                     description: 'The old position of the song (moves the song to position 1 if no new position is provided).',
                 },
                 {
                     name: 'new',
-                    type: 4,
+                    type: ApplicationCommandOptionType.Integer,
                     required: false,
                     description: 'The new position of the song.',
                 },

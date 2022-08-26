@@ -1,3 +1,5 @@
+const { ApplicationCommandType } = require('discord-api-types');
+
 module.exports = class Command {
     constructor(client, options) {
         this.client = client;
@@ -22,6 +24,7 @@ module.exports = class Command {
             botPermissions: options.permissions ? (options.permissions.botPermissions || []) : [],
             userPermissions: options.permissions ? (options.permissions.userPermissions || []) : [],
         };
+        this.type = options.type || ApplicationCommandType.ChatInput;
         this.options = options.options || [];
         this.slashCommand = options.slashCommand || false;
         this.guildOnly = options.guildOnly || false;

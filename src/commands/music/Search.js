@@ -4,6 +4,7 @@ const { MessageEmbed, MessageActionRow, MessageSelectMenu, MessageButton } = req
 
 const QueueHelper = require('../../helpers/QueueHelper');
 const Command = require('../../structures/Command');
+const { ApplicationCommandOptionType } = require('discord-api-types');
 
 module.exports = class Search extends Command {
     constructor(client) {
@@ -27,7 +28,7 @@ module.exports = class Search extends Command {
             options: [
                 {
                     name: 'query',
-                    type: 3,
+                    type: ApplicationCommandOptionType.String,
                     required: true,
                     description: 'The query to search for.',
                 },

@@ -2,6 +2,7 @@ const Command = require('../../structures/Command');
 
 const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
 const fs = require('fs');
+const { ApplicationCommandOptionType } = require('discord-api-types');
 const categories = fs.readdirSync('./src/commands/');
 
 
@@ -17,7 +18,7 @@ module.exports = class Help extends Command {
             aliases: ['commands', 'list'],
             options: [{
                 name: 'command',
-                type: 3,
+                type: ApplicationCommandOptionType.String,
                 required: false,
                 description: 'The command to view the help page of.',
             }],

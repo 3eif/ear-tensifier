@@ -1,8 +1,9 @@
-const Command = require('../../structures/Command');
-
-const Playlist = require('../../models/Playlist');
 const { MessageEmbed } = require('discord.js');
 const humanizeDuration = require('humanize-duration');
+const { ApplicationCommandType } = require('discord-api-types');
+
+const Command = require('../../structures/Command');
+const Playlist = require('../../models/Playlist');
 
 module.exports = class Playlists extends Command {
     constructor(client) {
