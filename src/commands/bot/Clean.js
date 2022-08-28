@@ -1,4 +1,4 @@
-const { ApplicationCommandOptionType } = require('discord-api-types');
+const { ApplicationCommandOptionType, PermissionsBitField } = require('discord.js');
 const Command = require('../../structures/Command');
 
 module.exports = class Clean extends Command {
@@ -14,15 +14,15 @@ module.exports = class Clean extends Command {
             args: false,
             slashCommand: true,
             permissions: {
-                userPermissions: ['MANAGE_MESSAGES'],
-                botPermissions: ['MANAGE_MESSAGES'],
+                userPermissions: [PermissionsBitField.Flags.ManageMessages],
+                botPermissions: [PermissionsBitField.Flags.ManageMessages],
             },
             options: [
                 {
                     name: 'messages',
                     type: ApplicationCommandOptionType.Integer,
                     required: true,
-                    description: 'The amount of messages to clean up.',
+                    description: 'The number of messages to clean up.',
                 },
             ],
         });

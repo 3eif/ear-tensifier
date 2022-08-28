@@ -1,5 +1,5 @@
 const { Track: { TrackPlaylist } } = require('yasha');
-const { ApplicationCommandOptionType, ApplicationCommandType } = require('discord-api-types');
+const { ApplicationCommandOptionType, PermissionsBitField } = require('discord.js');
 
 const Command = require('../../structures/Command');
 const QueueHelper = require('../../helpers/QueueHelper');
@@ -31,7 +31,7 @@ module.exports = class Spotify extends Command {
                 },
             ],
             permissions: {
-                botPermissions: ['CONNECT', 'SPEAK'],
+                botPermissions: [PermissionsBitField.Flags.Connect, PermissionsBitField.Flags.Speak],
             },
             slashCommand: true,
         });

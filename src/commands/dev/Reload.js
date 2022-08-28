@@ -3,7 +3,7 @@ const fs = require('fs');
 const Discord = require('discord.js');
 
 const Command = require('../../structures/Command');
-const { ButtonStyle } = require('discord-api-types');
+const { ButtonStyle } = require('discord.js');
 
 module.exports = class Reload extends Command {
     constructor(client) {

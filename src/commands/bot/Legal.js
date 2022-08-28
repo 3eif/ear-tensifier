@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require('@discordjs/builders');
+const { EmbedBuilder } = require('discord.js');
 const Command = require('../../structures/Command');
 
 module.exports = class Legal extends Command {

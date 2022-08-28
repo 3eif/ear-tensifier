@@ -1,8 +1,6 @@
 const { Source } = require('yasha');
 const { TrackPlaylist, Track } = require('yasha/src/Track');
-const { EmbedBuilder } = require('discord.js');
-const { ApplicationCommandOptionType, ButtonStyle } = require('discord-api-types');
-const { ButtonBuilder, SelectMenuBuilder, ActionRowBuilder } = require('@discordjs/builders');
+const { ApplicationCommandOptionType, ButtonStyle, ButtonBuilder, SelectMenuBuilder, ActionRowBuilder, EmbedBuilder, PermissionsBitField } = require('discord.js');
 
 const QueueHelper = require('../../helpers/QueueHelper');
 const Command = require('../../structures/Command');
@@ -35,7 +33,7 @@ module.exports = class Search extends Command {
                 },
             ],
             permissions: {
-                botPermissions: ['CONNECT', 'SPEAK'],
+                botPermissions: [PermissionsBitField.Flags.Connect, PermissionsBitField.Flags.Speak],
             },
             slashCommand: true,
         });
@@ -207,7 +205,7 @@ module.exports = class Search extends Command {
             const embed = new EmbedBuilder()
                 .setAuthor({ name: 'Song Selection.', iconURL: ctx.author.displayAvatarURL() })
                 .setDescription(str)
-                .setFooter({ name: 'Your have 30 seconds to make your selection via the dropdown menu.' })
+                .setFooter({ text: 'Your have 30 seconds to make your selection via the dropdown menu.' })
                 .setColor(client.config.colors.default);
             const message = await ctx.editMessage({ content: null, embeds: [embed], components: [selectMenuRow, buttonRow] });
 

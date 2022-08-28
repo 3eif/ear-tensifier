@@ -14,7 +14,7 @@ module.exports = class Client extends Discord.Client {
                 ...Discord.Options.defaultMakeCacheSettings,
                 MessageManager: {
                     sweepInterval: 300,
-                    sweepFilter: Discord.LimitedCollection.filterByLifetime({
+                    sweepFilter: Discord.Sweepers.filterByLifetime({
                         lifetime: 1800,
                         getComparisonTimestamp: e => e.editedTimestamp || e.createdTimestamp,
                     }),

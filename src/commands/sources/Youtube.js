@@ -1,5 +1,5 @@
 const { Track: { TrackPlaylist } } = require('yasha');
-const { ApplicationCommandType, ApplicationCommandOptionType } = require('discord-api-types');
+const { ApplicationCommandOptionType, PermissionsBitField } = require('discord.js');
 
 
 const Command = require('../../structures/Command');
@@ -31,7 +31,7 @@ module.exports = class Youtube extends Command {
                 },
             ],
             permissions: {
-                botPermissions: ['CONNECT', 'SPEAK'],
+                botPermissions: [PermissionsBitField.Flags.Connect, PermissionsBitField.Flags.Speak],
             },
             slashCommand: true,
         });

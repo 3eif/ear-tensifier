@@ -31,7 +31,7 @@ module.exports = class Playlists extends Command {
                     .setDescription(`**__Your Playlists__**\n\n${str}`)
                     .setColor(client.config.colors.default)
                     .setTimestamp()
-                    .setFooter({ name: `Page ${i + 1}/${pagesNum} | ${p.length} playlists` });
+                    .setFooter({ text: `Page ${i + 1}/${pagesNum} | ${p.length} playlists` });
                 pages.push(embed);
             }
             ctx.messageHelper.paginate(pages);

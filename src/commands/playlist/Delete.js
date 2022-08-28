@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
-const { ApplicationCommandOptionType } = require('discord-api-types');
+const { ApplicationCommandOptionType } = require('discord.js');
 
 const Command = require('../../structures/Command');
 const Playlist = require('../../models/Playlist');

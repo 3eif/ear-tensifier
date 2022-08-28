@@ -1,6 +1,4 @@
-const { ButtonBuilder, ActionRowBuilder } = require('@discordjs/builders');
-const { ButtonStyle } = require('discord-api-types');
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
 
 const DatabaseHelper = require('../../helpers/DatabaseHelper');
 const Event = require('../../structures/Event');
@@ -54,7 +52,7 @@ module.exports = class TrackStart extends Event {
                 .setTitle(title)
                 .setURL(url)
                 .setDescription(`${parsedCurrentDuration}  ${percentage < 0.05 ? this.client.config.emojis.progress7 : this.client.config.emojis.progress1}${this.client.config.emojis.progress2.repeat(part)}${percentage < 0.05 ? '' : this.client.config.emojis.progress3}${this.client.config.emojis.progress5.repeat(12 - part)}${this.client.config.emojis.progress6}  ${parsedDuration}`)
-                .setFooter({ name: requester.username })
+                .setFooter({ text: requester.username })
                 .setTimestamp();
             player.nowPlayingMessage = await player.textChannel.send({ embeds: [embed], components: [buttonRow] });
 

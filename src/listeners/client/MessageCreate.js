@@ -82,11 +82,11 @@ module.exports = class MessageCreate extends Event {
         this.client.logger.command('%s used by %s from %s', commandName, message.author.id, message.guild.id);
 
         const permissionHelpMessage = `If you need help configuring the correct permissions for the bot join the support server: ${this.client.config.server}`;
-        cmd.permissions.botPermissions.concat(['SEND_MESSAGES', 'EMBED_LINKS']);
+        cmd.permissions.botPermissions.concat([Discord.PermissionsBitField.Flags.SendMessages, Discord.PermissionsBitField.Flags.EmbedLinks]);
         if (cmd.permissions.botPermissions.length > 0) {
-            const missingPermissions = cmd.permissions.botPermissions.filter(perm => !message.guild.me.permissions.has(perm));
+            const missingPermissions = cmd.permissions.botPermissions.filter(perm => !message.guild.members.me.permissions.has(perm));
             if (missingPermissions.length > 0) {
-                if (missingPermissions.includes('SEND_MESSAGES')) {
+                if (missingPermissions.includes(Discord.PermissionsBitField.Flags.SendMessages)) {
                     const user = this.client.users.cache.get('id');
                     if (!user) return;
                     else if (!user.dmChannel) await user.createDM();
@@ -106,7 +106,7 @@ module.exports = class MessageCreate extends Event {
         if (!message.guild && cmd.guildOnly) return message.channel.send('I can\'t execute that command inside DMs!. Please run this command in a server.');
 
         if (cmd.voiceRequirements.isInVoiceChannel && !message.member.voice.channel) return messageHelper.sendResponse('noVoiceChannel');
-        else if (cmd.voiceRequirements.isInSameVoiceChannel && message.guild.me.voice.channel && !message.guild.me.voice.channel.equals(message.member.voice.channel)) return messageHelper.sendResponse('sameVoiceChannel');
+        else if (cmd.voiceRequirements.isInSameVoiceChannel && message.guild.members.me.voice.channel && !message.guild.members.me.voice.channel.equals(message.member.voice.channel)) return messageHelper.sendResponse('sameVoiceChannel');
         else if (cmd.voiceRequirements.isPlaying && !this.client.music.players.get(message.guild.id)) return messageHelper.sendResponse('noSongsPlaying');
 
         if (prefix == process.env.PREFIX) {
@@ -122,8 +122,8 @@ module.exports = class MessageCreate extends Event {
             return message.channel.send({ embeds: [embed] });
         }
 
-        if (cmd.permissions.botPermissions.includes(Discord.Permissions.CONNECT) && !message.member.voice.channel.permissionsFor(this.client.user).has(Discord.Permissions.CONNECT)) return messageHelper.sendResponse('noPermissionConnect');
-        if (cmd.permissions.botPermissions.includes(Discord.Permissions.SPEAK) && !message.member.voice.channel.permissionsFor(this.client.user).has(Discord.Permissions.SPEAK)) return messageHelper.sendResponse('noPermissionSpeak');
+        if (cmd.permissions.botPermissions.includes(Discord.PermissionsBitField.Flags.Connect) && !message.member.voice.channel.permissionsFor(this.client.user).has(Discord.PermissionsBitField.Flags.Connect)) return messageHelper.sendResponse('noPermissionConnect');
+        if (cmd.permissions.botPermissions.includes(Discord.PermissionsBitField.Flags.Speak) && !message.member.voice.channel.permissionsFor(this.client.user).has(Discord.PermissionsBitField.Flags.Speak)) return messageHelper.sendResponse('noPermissionSpeak');
 
         if (!this.client.config.devs.includes(message.author.id)) {
             if (!cooldowns.has(commandName)) {

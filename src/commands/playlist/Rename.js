@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
-const { ApplicationCommandOptionType } = require('discord-api-types');
+const { ApplicationCommandOptionType } = require('discord.js');
 
 const Command = require('../../structures/Command');
 const Playlist = require('../../models/Playlist');
@@ -60,7 +60,7 @@ module.exports = class Rename extends Command {
                 const embed = new EmbedBuilder()
                     .setAuthor({ name: p.name, iconURL: ctx.author.displayAvatarURL() })
                     .setDescription(`${client.config.emojis.success} Successfully renamed \`${playlistName}\` to \`${newPlaylistName}\`.`)
-                    .setFooter({ name: `ID: ${p._id}` })
+                    .setFooter({ text: `ID: ${p._id}` })
                     .setColor(client.config.colors.default)
                     .setTimestamp();
                 return ctx.sendMessage({ content: null, embeds: [embed] });

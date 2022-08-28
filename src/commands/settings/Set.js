@@ -1,4 +1,4 @@
-const { ApplicationCommandType, ApplicationCommandOptionType } = require('discord-api-types');
+const { ApplicationCommandOptionType, PermissionsBitField } = require('discord.js');
 
 const Command = require('../../structures/Command');
 const Server = require('../../models/Server');
@@ -14,7 +14,7 @@ module.exports = class Set extends Command {
             },
             args: true,
             permissions: {
-                userPermissions: ['MANAGE_GUILD'],
+                userPermissions: [PermissionsBitField.Flags.ManageGuild],
             },
             options: [
                 {

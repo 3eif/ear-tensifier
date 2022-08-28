@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 const Event = require('../../structures/Event');
 const Context = require('../../structures/Context');
 const MessageHelper = require('../../helpers/MessageHelper');
-const { ButtonStyle, InteractionType } = require('discord-api-types');
+const { ButtonStyle, InteractionType } = require('discord.js');
 
 const cooldowns = new Discord.Collection();
 
@@ -14,7 +14,7 @@ module.exports = class InteractionCreate extends Event {
 
     async run(interaction) {
         if (interaction.isButton()) {
-            if (interaction.guild.me.voice.channel && !interaction.guild.me.voice.channel.equals(interaction.member.voice.channel)) return;
+            if (interaction.guild.members.me.voice.channel && !interaction.guild.members.me.voice.channel.equals(interaction.member.voice.channel)) return;
             const player = this.client.music.players.get(interaction.guild.id);
             if (!player) return;
             switch (interaction.customId) {
@@ -83,11 +83,11 @@ module.exports = class InteractionCreate extends Event {
         this.client.logger.command('%s used by %s from %s', commandName, ctx.author.id, ctx.guild.id);
 
         const permissionHelpMessage = `If you need help configuring the correct permissions for the bot join the support server: ${this.client.config.server}`;
-        cmd.permissions.botPermissions.concat(['SEND_MESSAGES', 'EMBED_LINKS']);
+        cmd.permissions.botPermissions.concat([Discord.PermissionsBitField.Flags.SendMessages, Discord.PermissionsBitField.Flags.EmbedLinks]);
         if (cmd.permissions.botPermissions.length > 0) {
-            const missingPermissions = cmd.permissions.botPermissions.filter(perm => !interaction.guild.me.permissions.has(perm));
+            const missingPermissions = cmd.permissions.botPermissions.filter(perm => !interaction.guild.members.me.permissions.has(perm));
             if (missingPermissions.length > 0) {
-                if (missingPermissions.includes('SEND_MESSAGES')) {
+                if (missingPermissions.includes(Discord.PermissionsBitField.Flags.SendMessages)) {
                     const user = this.client.users.cache.get('id');
                     if (!user) return;
                     else if (!user.dmChannel) await user.createDM();
@@ -105,11 +105,11 @@ module.exports = class InteractionCreate extends Event {
         }
 
         if (cmd.voiceRequirements.isInVoiceChannel && !interaction.member.voice.channel) return messageHelper.sendResponse('noVoiceChannel');
-        else if (cmd.voiceRequirements.isInSameVoiceChannel && interaction.guild.me.voice.channel && !interaction.guild.me.voice.channel.equals(interaction.member.voice.channel)) return messageHelper.sendResponse('sameVoiceChannel');
+        else if (cmd.voiceRequirements.isInSameVoiceChannel && interaction.guild.members.me.voice.channel && !interaction.guild.members.me.voice.channel.equals(interaction.member.voice.channel)) return messageHelper.sendResponse('sameVoiceChannel');
         else if (cmd.voiceRequirements.isPlaying && !this.client.music.players.get(interaction.guild.id)) return messageHelper.sendResponse('noSongsPlaying');
 
-        if (cmd.permissions.botPermissions.includes(Discord.Permissions.CONNECT) && !interaction.member.voice.channel.permissionsFor(this.client.user).has(Discord.Permissions.CONNECT)) return messageHelper.sendResponse('noPermissionConnect');
-        if (cmd.permissions.botPermissions.includes(Discord.Permissions.SPEAK) && !interaction.member.voice.channel.permissionsFor(this.client.user).has(Discord.Permissions.SPEAK)) return messageHelper.sendResponse('noPermissionSpeak');
+        if (cmd.permissions.botPermissions.includes(Discord.PermissionsBitField.Flags.Connect) && !interaction.member.voice.channel.permissionsFor(this.client.user).has(Discord.PermissionsBitField.Flags.Connect)) return messageHelper.sendResponse('noPermissionConnect');
+        if (cmd.permissions.botPermissions.includes(Discord.PermissionsBitField.Flags.Speak) && !interaction.member.voice.channel.permissionsFor(this.client.user).has(Discord.PermissionsBitField.Flags.Speak)) return messageHelper.sendResponse('noPermissionSpeak');
 
         if (!this.client.config.devs.includes(interaction.user.id)) {
             if (!cooldowns.has(commandName)) {

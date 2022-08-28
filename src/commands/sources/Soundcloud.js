@@ -2,7 +2,7 @@ const { Track: { TrackPlaylist } } = require('yasha');
 
 const Command = require('../../structures/Command');
 const QueueHelper = require('../../helpers/QueueHelper');
-const { ApplicationCommandOptionType, ApplicationCommandType } = require('discord-api-types');
+const { ApplicationCommandOptionType, ApplicationCommandType, PermissionsBitField } = require('discord.js');
 
 module.exports = class Soundcloud extends Command {
     constructor(client) {
@@ -31,7 +31,7 @@ module.exports = class Soundcloud extends Command {
                 },
             ],
             permissions: {
-                botPermissions: ['CONNECT', 'SPEAK'],
+                botPermissions: [PermissionsBitField.Flags.Connect, PermissionsBitField.Flags.Speak],
             },
             slashCommand: true,
         });

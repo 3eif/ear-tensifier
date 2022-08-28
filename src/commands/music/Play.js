@@ -2,7 +2,7 @@ const { Track: { TrackPlaylist } } = require('yasha');
 
 const Command = require('../../structures/Command');
 const QueueHelper = require('../../helpers/QueueHelper');
-const { ApplicationCommandType, ApplicationCommandOptionType } = require('discord-api-types');
+const { ApplicationCommandType, ApplicationCommandOptionType, PermissionsBitField } = require('discord.js');
 
 module.exports = class Play extends Command {
 	constructor(client) {
@@ -35,7 +35,7 @@ module.exports = class Play extends Command {
 				},
 			],
 			permissions: {
-				botPermissions: ['CONNECT', 'SPEAK'],
+				botPermissions: [PermissionsBitField.Flags.Connect, PermissionsBitField.Flags.Speak],
 			},
 			slashCommand: true,
 		});

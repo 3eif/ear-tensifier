@@ -1,8 +1,7 @@
 const Server = require('../models/Server.js');
 const User = require('../models/User.js');
 const { emojis } = require('../../config.json');
-const { ButtonStyle } = require('discord-api-types');
-const { ButtonBuilder, ActionRowBuilder } = require('@discordjs/builders');
+const { ButtonStyle, ButtonBuilder, ActionRowBuilder } = require('discord.js');
 
 module.exports = class MessageHelper {
     constructor(client, ctx) {

@@ -1,7 +1,7 @@
 const Command = require('../../structures/Command');
 
 const { EmbedBuilder } = require('discord.js');
-const { ApplicationCommandOptionType } = require('discord-api-types');
+const { ApplicationCommandOptionType } = require('discord.js');
 
 module.exports = class Volume extends Command {
     constructor(client) {

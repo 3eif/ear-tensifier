@@ -1,5 +1,5 @@
-const { EmbedBuilder } = require('discord.js');
-const { ApplicationCommandOptionType } = require('discord-api-types');
+const { EmbedBuilder, PermissionsBitField } = require('discord.js');
+const { ApplicationCommandOptionType } = require('discord.js');
 
 const Command = require('../../structures/Command');
 const Server = require('../../models/Server');
@@ -15,7 +15,7 @@ module.exports = class Ignore extends Command {
             },
             args: true,
             permissions: {
-                userPermissions: ['MANAGE_CHANNELS'],
+                userPermissions: [PermissionsBitField.Flags.ManageChannels],
             },
             options: [{
                 name: 'channel',
@@ -58,7 +58,7 @@ module.exports = class Ignore extends Command {
                 .setAuthor({ name: `${ctx.guild.name}`, iconURL: ctx.guild.iconURL() })
                 .setColor(client.config.colors.default)
                 .setDescription(`I will now ignore commands from <#${channelId}>.`)
-                .setFooter({ name: `Tip: You can make me listen to commands again by doing ${await ctx.messageHelper.getPrefix()}listen` });
+                .setFooter({ text: `Tip: You can make me listen to commands again by doing ${await ctx.messageHelper.getPrefix()}listen` });
             ctx.editMessage({ content: null, embeds: [embed] });
         });
     }

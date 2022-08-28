@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, PermissionsBitField } = require('discord.js');
 
 const Command = require('../../structures/Command');
 const Server = require('../../models/Server');
@@ -14,7 +14,7 @@ module.exports = class Prefix extends Command {
             },
             aliases: ['setprefix'],
             permissions: {
-                userPermissions: ['MANAGE_MESSAGES'],
+                userPermissions: [PermissionsBitField.Flags.ManageGuild],
             },
             options: [
                 {
@@ -48,7 +48,7 @@ module.exports = class Prefix extends Command {
                 .setAuthor({ name: `${ctx.guild.name}`, iconURL: ctx.guild.iconURL() })
                 .setColor(client.config.colors.default)
                 .setDescription(`Successfully set the prefix to \`${f}\``)
-                .setFooter({ name: 'Tip: to add a space to your prefix, add: _' });
+                .setFooter({ text: 'Tip: to add a space to your prefix, add: _' });
             ctx.editMessage({ content: null, embeds: [embed] });
         });
     }

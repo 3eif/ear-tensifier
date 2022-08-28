@@ -33,7 +33,7 @@ module.exports = class Profile extends Command {
                     .setThumbnail(user.user.displayAvatarURL())
                     .addFields({ name: 'User', value: `${user.user.tag}`, inline: true }, { name: 'Bio', value: 'No bio set' })
                     .setColor(client.config.colors.default)
-                    .setFooter({ name: 'Commands Used: 0 | Songs Played: 0' })
+                    .setFooter({ text: 'Commands Used: 0 | Songs Played: 0' })
                     .setTimestamp();
                 return ctx.editMessage({ content: null, embeds: [embed] });
             }
@@ -43,7 +43,7 @@ module.exports = class Profile extends Command {
                     .setThumbnail(user.user.displayAvatarURL())
                     .addFields({ name: 'User', value: `${user.user.tag}`, inline: true }, { name: 'Bio', value: bio })
                     .setColor(client.config.colors.default)
-                    .setFooter({ name: `Commands Used: ${u.commandsUsed} | Songs Played: ${u.songsPlayed}` })
+                    .setFooter({ text: `Commands Used: ${u.commandsUsed} | Songs Played: ${u.songsPlayed}` })
                     .setTimestamp();
                 return ctx.editMessage({ content: null, embeds: [embed] });
             }

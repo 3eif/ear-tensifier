@@ -1,4 +1,4 @@
-const { ApplicationCommandType } = require('discord-api-types');
+const { ApplicationCommandType } = require('discord.js');
 
 module.exports = class Command {
     constructor(client, options) {

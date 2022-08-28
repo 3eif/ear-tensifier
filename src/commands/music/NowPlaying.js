@@ -34,7 +34,7 @@ module.exports = class NowPlaying extends Command {
             .setTitle(title)
             .setURL(url)
             .setDescription(`${parsedCurrentDuration}  ${percentage < 0.05 ? client.config.emojis.progress7 : client.config.emojis.progress1}${client.config.emojis.progress2.repeat(part)}${percentage < 0.05 ? '' : client.config.emojis.progress3}${client.config.emojis.progress5.repeat(12 - part)}${client.config.emojis.progress6}  ${parsedDuration}`)
-            .setFooter({ name: requester.username })
+            .setFooter({ text: requester.username })
             .setTimestamp();
         return ctx.sendMessage({ content: null, embeds: [embed] });
     }

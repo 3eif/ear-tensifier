@@ -13,7 +13,7 @@ module.exports = class GuildDelete extends Event {
 
                 const embed = new EmbedBuilder()
                     .setDescription(`${this.client.config.emojis.removed} Ear Tensifier has been removed from a server.`)
-                    .setFooter({ name: `${totalGuilds} servers` })
+                    .setFooter({ text: `${totalGuilds} servers` })
                     .setTimestamp()
                     .setColor(this.client.config.colors.removed);
                 if (this.client.earTensifiers.includes(this.client.user.id))

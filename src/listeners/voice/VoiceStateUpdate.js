@@ -9,8 +9,8 @@ module.exports = class VoiceStateUpdate extends Event {
     async run(oldState, newState) {
         const player = this.client.music.players.get(oldState.guild.id);
 
-        if (!player || player.stayInVoice || !oldState.guild.me.voice.channel || !newState.guild.me.voice.channel) return;
-        if (newState.guild.me.voice.channel.members.filter(member => !member.user.bot).size >= 1) {
+        if (!player || player.stayInVoice || !oldState.guild.members.me.voice.channel || !newState.guild.members.me.voice.channel) return;
+        if (newState.guild.members.me.voice.channel.members.filter(member => !member.user.bot).size >= 1) {
             if (player.waitingMessage) {
                 player.waitingMessage.delete();
                 player.waitingMessage = null;
@@ -21,7 +21,7 @@ module.exports = class VoiceStateUpdate extends Event {
 
         if (!player.player || player.waitingMessage) return;
         const embed = new EmbedBuilder()
-            .setDescription(`Leaving <#${oldState.guild.me.voice.channel.id}> in ${this.client.config.voiceTimeout / 60 / 1000} minutes because I was left alone.`)
+            .setDescription(`Leaving <#${oldState.guild.members.me.voice.channel.id}> in ${this.client.config.voiceTimeout / 60 / 1000} minutes because I was left alone.`)
             .setColor(this.client.config.colors.default);
         const msg = await player.textChannel.send({ embeds: [embed] });
         player.waitingMessage = msg;
@@ -32,21 +32,21 @@ module.exports = class VoiceStateUpdate extends Event {
         await delay(this.client.config.voiceTimeout);
 
         if (!player.waitingMessage) return;
-        if (!newState.guild.me.voice.channel) return;
-        const voiceMembers = newState.guild.me.voice.channel.members.filter(member => !member.user.bot).size;
+        if (!newState.guild.members.me.voice.channel) return;
+        const voiceMembers = newState.guild.members.me.voice.channel.members.filter(member => !member.user.bot).size;
         if (!voiceMembers || voiceMembers == 0) {
             let newPlayer = this.client.music.players.get(newState.guild.id);
             if (player) {
                 newPlayer.destroy(false);
             }
             else {
-                newPlayer = await this.client.music.newPlayer(oldState.guild, oldState.guild.me.voice.channel, player.textChannel);
+                newPlayer = await this.client.music.newPlayer(oldState.guild, oldState.guild.members.me.voice.channel, player.textChannel);
                 await newPlayer.connect();
                 newPlayer.destroy(false);
             }
 
             const embed2 = new EmbedBuilder()
-                .setDescription(`I left <#${oldState.guild.me.voice.channel.id}> because I was left alone.`)
+                .setDescription(`I left <#${oldState.guild.members.me.voice.channel.id}> because I was left alone.`)
                 .setColor(this.client.config.colors.default);
             return msg.edit({ embeds: [embed2], content: null });
         }

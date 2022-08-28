@@ -1,3 +1,4 @@
+const { PermissionsBitField } = require('discord.js');
 const Command = require('../../structures/Command');
 
 module.exports = class Join extends Command {
@@ -9,7 +10,7 @@ module.exports = class Join extends Command {
             },
             aliases: ['j', 'summon'],
             permissions: {
-                botPermissions: ['CONNECT'],
+                botPermissions: [PermissionsBitField.Flags.Connect],
             },
             voiceRequirements: {
                 isInVoiceChannel: true,

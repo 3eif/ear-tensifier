@@ -1,4 +1,4 @@
-const { ApplicationCommandOptionType } = require('discord-api-types');
+const { ApplicationCommandOptionType } = require('discord.js');
 const { EmbedBuilder } = require('discord.js');
 
 const Command = require('../../structures/Command');
@@ -44,7 +44,7 @@ module.exports = class Earrape extends Command {
         else {
             player.filter.setEarrape(true);
             embed.setAuthor({ name: 'Turned on earrape', iconURL: ctx.author.displayAvatarURL() });
-            embed.setFooter({ name: `You can turn this filter off by using the '${await ctx.messageHelper.getPrefix()}earrape off' command.` });
+            embed.setFooter({ text: `You can turn this filter off by using the '${await ctx.messageHelper.getPrefix()}earrape off' command.` });
         }
         embed.setColor(client.config.colors.default);
         return ctx.sendMessage({ content: null, embeds: [embed] });

@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
-const { ApplicationCommandOptionType } = require('discord-api-types');
+const { ApplicationCommandOptionType } = require('discord.js');
 
 const Command = require('../../structures/Command');
 const Playlist = require('../../models/Playlist');
@@ -75,7 +75,7 @@ module.exports = class Save extends Command {
                 const embed = new EmbedBuilder()
                     .setAuthor({ name: newPlaylist.name, iconURL: ctx.author.displayAvatarURL() })
                     .setDescription(`${client.config.emojis.success} Saved the current queue to playlist: **${newPlaylist.name}**.`)
-                    .setFooter({ name: `ID: ${newPlaylist._id} • ${newPlaylist.tracks.length}/${client.config.max.songsInPlaylist}` })
+                    .setFooter({ text: `ID: ${newPlaylist._id} • ${newPlaylist.tracks.length}/${client.config.max.songsInPlaylist}` })
                     .setColor(client.config.colors.default)
                     .setTimestamp();
                 ctx.editMessage({ content: null, embeds: [embed] });
@@ -91,7 +91,7 @@ module.exports = class Save extends Command {
                 const embed = new EmbedBuilder()
                     .setAuthor({ name: p.name, iconURL: ctx.author.displayAvatarURL() })
                     .setDescription(`${client.config.emojis.success} Saved the queue to an existing playlist with the name: **${p.name}**.`)
-                    .setFooter({ name: `ID: ${p._id} • ${p.tracks.length}/${client.config.max.songsInPlaylist}}` })
+                    .setFooter({ text: `ID: ${p._id} • ${p.tracks.length}/${client.config.max.songsInPlaylist}}` })
                     .setColor(client.config.colors.default)
                     .setTimestamp();
                 ctx.editMessage({ content: null, embeds: [embed] });

@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
-const { ApplicationCommandOptionType } = require('discord-api-types');
+const { ApplicationCommandOptionType } = require('discord.js');
 
 const Command = require('../../structures/Command');
 const Playlist = require('../../models/Playlist');
@@ -62,7 +62,7 @@ module.exports = class PlaylistRemove extends Command {
                 const embed = new EmbedBuilder()
                     .setAuthor({ name: playlist.name, iconURL: ctx.author.displayAvatarURL() })
                     .setDescription(`${client.config.emojis.success} Removed **${songName}** from **${playlist.name}**.`)
-                    .setFooter({ name: `ID: ${playlist._id}` })
+                    .setFooter({ text: `ID: ${playlist._id}` })
                     .setColor(client.config.colors.default)
                     .setTimestamp();
                 return ctx.sendMessage({ content: null, embeds: [embed] });

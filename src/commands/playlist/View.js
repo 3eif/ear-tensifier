@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 const { EmbedBuilder } = require('discord.js');
-const { ApplicationCommandOptionType, ApplicationCommandType } = require('discord-api-types');
+const { ApplicationCommandOptionType, ApplicationCommandType } = require('discord.js');
 
 const Command = require('../../structures/Command');
 const Playlist = require('../../models/Playlist');
@@ -65,7 +65,7 @@ module.exports = class View extends Command {
                     .setDescription(str)
                     .setColor(client.config.colors.default)
                     .setTimestamp()
-                    .setFooter({ name: `Page ${i + 1}/${pagesNum} | ${p.tracks.length} songs | ${formatDuration(totalQueueDuration)} total duration` });
+                    .setFooter({ text: `Page ${i + 1}/${pagesNum} | ${p.tracks.length} songs | ${formatDuration(totalQueueDuration)} total duration` });
                 pages.push(embed);
             }
             return ctx.messageHelper.paginate(pages);

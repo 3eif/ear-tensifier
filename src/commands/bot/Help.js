@@ -1,6 +1,5 @@
 const fs = require('fs');
-const { ApplicationCommandOptionType, ButtonStyle } = require('discord-api-types');
-const { ButtonBuilder, ActionRowBuilder, EmbedBuilder } = require('@discordjs/builders');
+const { ApplicationCommandOptionType, ButtonStyle, ButtonBuilder, ActionRowBuilder, EmbedBuilder } = require('discord.js');
 
 const Command = require('../../structures/Command');
 const categories = fs.readdirSync('./src/commands/');

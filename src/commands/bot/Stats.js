@@ -86,7 +86,7 @@ module.exports = class Stats extends Command {
                                 { name: 'Memory Usage', value: `\`\`\`RSS: ${totalRSS.toLocaleString().replace(/^0+(?!\.|$)/, '')} | ${totalMemory.toLocaleString().replace(/^0+(?!\.|$)/, '')} / ${(os.totalmem() / 1024 / 1024).toLocaleString().replace(/^0+(?!\.|$)/, '')} MB | ${memoryPercentage}% used\`\`\`` },
                                 { name: 'Uptime', value: `\`\`\`${days} days, ${hours} hours, ${mins} minutes, and ${realTotalSecs} seconds\`\`\`` },
                             )
-                            .setFooter({ name: `Latency ${msg.createdTimestamp - ctx.createdTimestamp}ms` })
+                            .setFooter({ text: `Latency ${msg.createdTimestamp - ctx.createdTimestamp}ms` })
                             .setTimestamp();
                         return ctx.editMessage({ content: null, embeds: [statsEmbed] });
                     });

@@ -1,4 +1,4 @@
-const { ApplicationCommandOptionType } = require('discord-api-types');
+const { ApplicationCommandOptionType } = require('discord.js');
 const { EmbedBuilder } = require('discord.js');
 
 const Command = require('../../structures/Command');
@@ -53,7 +53,7 @@ module.exports = class Queue extends Command {
                 .setAuthor({ name: `Queue - ${ctx.guild.name}`, iconURL: ctx.guild.iconURL() })
                 .setColor(client.config.colors.default)
                 .setDescription(`**Now Playing**: [${title}](${url}}) \`[${parsedDuration}]\` • ${user}.\n\n**Up Next**:${str == '' ? '  Nothing' : `\n${str}`}`)
-                .setFooter({ name: `Page ${i + 1}/${pagesNum} | ${player.queue.length} song(s) | ${parsedQueueDuration} total duration` });
+                .setFooter({ text: `Page ${i + 1}/${pagesNum} | ${player.queue.length} song(s) | ${parsedQueueDuration} total duration` });
             pages.push(embed);
         }
 
