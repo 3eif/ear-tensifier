@@ -1,6 +1,6 @@
 const { Track: { TrackPlaylist } } = require('yasha');
 const { EmbedBuilder } = require('discord.js');
-const { ApplicationCommandType, ApplicationCommandOptionType } = require('discord-api-types');
+const { ApplicationCommandOptionType } = require('discord-api-types');
 
 const Command = require('../../structures/Command');
 const Playlist = require('../../models/Playlist');
@@ -130,9 +130,9 @@ module.exports = class Create extends Command {
                 await newPlaylist.save().catch(e => client.logger.error(e));
 
                 const embed = new EmbedBuilder()
-                    .setAuthor(newPlaylist.name, ctx.author.displayAvatarURL())
+                    .setAuthor({ name: newPlaylist.name, iconURL: ctx.author.displayAvatarURL() })
                     .setDescription(`${client.config.emojis.success} Created a playlist with name: **${newPlaylist.name}**.\n${playlistMessage}`)
-                    .setFooter(`ID: ${newPlaylist._id} • ${newPlaylist.tracks.length}/${client.config.max.songsInPlaylist}`)
+                    .setFooter({ name: `ID: ${newPlaylist._id} • ${newPlaylist.tracks.length}/${client.config.max.songsInPlaylist}` })
                     .setColor(client.config.colors.default)
                     .setTimestamp();
                 return ctx.editMessage({ content: null, embeds: [embed] });
@@ -146,9 +146,9 @@ module.exports = class Create extends Command {
                 await playlist.updateOne({ tracks: playlist.tracks }).catch(e => client.logger.error(e));
 
                 const embed = new EmbedBuilder()
-                    .setAuthor(playlist.name, ctx.author.displayAvatarURL())
+                    .setAuthor({ name: playlist.name, iconURL: ctx.author.displayAvatarURL() })
                     .setDescription(`${client.config.emojis.success} Found an existing playlist with the name: **${playlist.name}**.\n${playlistMessage}`)
-                    .setFooter(`ID: ${playlist._id} • ${playlist.tracks.length}/${client.config.max.songsInPlaylist}`)
+                    .setFooter({ name: `ID: ${playlist._id} • ${playlist.tracks.length}/${client.config.max.songsInPlaylist}` })
                     .setColor(client.config.colors.default)
                     .setTimestamp();
                 return ctx.editMessage({ content: null, embeds: [embed] });

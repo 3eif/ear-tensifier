@@ -39,7 +39,7 @@ module.exports = class View extends Command {
 
             if (!p) {
                 const embed = new EmbedBuilder()
-                    .setAuthor(playlistName, ctx.author.displayAvatarURL())
+                    .setAuthor({ name: playlistName, iconURL: ctx.author.displayAvatarURL() })
                     .setDescription(`${client.config.emojis.failure} Could not find a playlist by the name ${playlistName}.\nFor a list of your playlists type \`ear playlists\``)
                     .setTimestamp()
                     .setColor(client.config.colors.default);
@@ -59,13 +59,13 @@ module.exports = class View extends Command {
             for (let i = 0; i < pagesNum; i++) {
                 const str = `${p.tracks.slice(i * 10, i * 10 + 10).map(song => `**${n++}.** [${song.title}](${song.url}) \`[${formatDuration(song.duration)}]\``).join('\n')}`;
                 const embed = new EmbedBuilder()
-                    .setAuthor(ctx.author.tag, ctx.author.displayAvatarURL())
+                    .setAuthor({ name: ctx.author.tag, iconURL: ctx.author.displayAvatarURL() })
                     .setThumbnail(ctx.author.displayAvatarURL())
                     .setTitle(p.name)
                     .setDescription(str)
                     .setColor(client.config.colors.default)
                     .setTimestamp()
-                    .setFooter(`Page ${i + 1}/${pagesNum} | ${p.tracks.length} songs | ${formatDuration(totalQueueDuration)} total duration`);
+                    .setFooter({ name: `Page ${i + 1}/${pagesNum} | ${p.tracks.length} songs | ${formatDuration(totalQueueDuration)} total duration` });
                 pages.push(embed);
             }
             return ctx.messageHelper.paginate(pages);

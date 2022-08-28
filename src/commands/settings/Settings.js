@@ -1,5 +1,4 @@
 const { EmbedBuilder } = require('discord.js');
-const { ApplicationCommandType } = require('discord-api-types');
 
 const Command = require('../../structures/Command');
 const Server = require('../../models/Server');

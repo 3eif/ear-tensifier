@@ -38,11 +38,11 @@ module.exports = class Nightcore extends Command {
 
         if ((ctx.isInteraction && ctx.interaction.options.data[0].name == 'off') || (args[0] && (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off'))) {
             player.filter.setNightcore(false);
-            embed.setAuthor('Turned off nightcore', ctx.author.displayAvatarURL());
+            embed.setAuthor({ name: 'Turned off nightcore', iconURL: ctx.author.displayAvatarURL() });
         }
         else {
             player.filter.setNightcore(true);
-            embed.setAuthor('Turned on nightcore', ctx.author.displayAvatarURL());
+            embed.setAuthor({ name: 'Turned on nightcore', iconURL: ctx.author.displayAvatarURL() });
         }
         embed.setColor(client.config.colors.default);
         return ctx.sendMessage({ content: null, embeds: [embed] });

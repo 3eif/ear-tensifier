@@ -24,7 +24,7 @@ module.exports = class Reset extends Command {
         player.filter.resetAll();
 
         const embed = new EmbedBuilder()
-            .setAuthor('All filters have been reset', ctx.author.displayAvatarURL())
+            .setAuthor({ name: 'All filters have been reset', iconURL: ctx.author.displayAvatarURL() })
             .setColor(client.config.colors.default);
         return ctx.sendMessage({ content: null, embeds: [embed] });
     }

@@ -1,6 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
 const humanizeDuration = require('humanize-duration');
-const { ApplicationCommandType } = require('discord-api-types');
 
 const Command = require('../../structures/Command');
 const Playlist = require('../../models/Playlist');
@@ -28,18 +27,18 @@ module.exports = class Playlists extends Command {
                 const str = `${p.slice(i * 10, i * 10 + 10).map(playlist => `**• ${playlist.name}** | ${playlist.tracks.length} song(s) | ${humanizeDuration(Number(Date.now() - playlist.createdTimestamp), { round: true })} ago`).join('\n')}`;
 
                 const embed = new EmbedBuilder()
-                    .setAuthor(ctx.author.username, ctx.author.displayAvatarURL())
+                    .setAuthor({ name: ctx.author.username, iconURL: ctx.author.displayAvatarURL() })
                     .setDescription(`**__Your Playlists__**\n\n${str}`)
                     .setColor(client.config.colors.default)
                     .setTimestamp()
-                    .setFooter(`Page ${i + 1}/${pagesNum} | ${p.length} playlists`);
+                    .setFooter({ name: `Page ${i + 1}/${pagesNum} | ${p.length} playlists` });
                 pages.push(embed);
             }
             ctx.messageHelper.paginate(pages);
         }).catch(err => {
             client.logger.error(err);
             const embed = new EmbedBuilder()
-                .setAuthor(ctx.author.username, ctx.author.displayAvatarURL())
+                .setAuthor({ name: ctx.author.username, iconURL: ctx.author.displayAvatarURL() })
                 .setDescription(`${client.config.emojis.failure} You don't have any playlists.\nTo create a playlist type: \`ear create <playlist name> <search query/link>\``)
                 .setTimestamp()
                 .setColor(client.config.colors.default);

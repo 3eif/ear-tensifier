@@ -37,7 +37,7 @@ module.exports = class Volume extends Command {
         if (args[0].toString().toLowerCase() == 'reset') {
             player.filter.resetVolume();
             const embed = new EmbedBuilder()
-                .setAuthor(`Volume has been reset to ${volume}%`, ctx.author.displayAvatarURL())
+                .setAuthor({ name: `Volume has been reset to ${volume}%`, iconURL: ctx.author.displayAvatarURL() })
                 .setColor(client.config.colors.default);
             return ctx.sendMessage({ embeds: [embed] });
         }
@@ -55,7 +55,7 @@ module.exports = class Volume extends Command {
         player.filter.setVolume(volume);
 
         const embed = new EmbedBuilder()
-            .setAuthor(`Volume set to ${volume}%`, ctx.author.displayAvatarURL())
+            .setAuthor({ name: `Volume set to ${volume}%`, iconURL: ctx.author.displayAvatarURL() })
             .setColor(client.config.colors.default);
         return ctx.sendMessage({ embeds: [embed] });
     }

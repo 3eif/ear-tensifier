@@ -31,7 +31,7 @@ module.exports = class Charts extends Command {
                 }
 
                 const embed = new EmbedBuilder()
-                    .setAuthor('Top Charts', client.user.displayAvatarURL())
+                    .setAuthor({ name: 'Top Charts', iconURL: client.user.displayAvatarURL() })
                     .setTitle('Top Songs')
                     .setDescription(`${songsArr.join('\n')}`)
                     .setTimestamp()

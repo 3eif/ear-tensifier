@@ -51,7 +51,7 @@ module.exports = class Bassboost extends Command {
         if ((ctx.isInteraction && ctx.interaction.options.data[0].name == 'off') || (args[0] && (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off'))) {
             player.filter.setBassboost(false);
             const embed = new EmbedBuilder()
-                .setAuthor('Turned off bassboost', ctx.author.displayAvatarURL())
+                .setAuthor({ name: 'Turned off bassboost', iconURL: ctx.author.displayAvatarURL() })
                 .setColor(client.config.colors.default);
             return ctx.sendMessage({ content: null, embeds: [embed] });
         }
@@ -59,7 +59,7 @@ module.exports = class Bassboost extends Command {
         if (!args[0] || args[0].toLowerCase() == 'on') {
             player.filter.setBassboost(true);
             const embed = new EmbedBuilder()
-                .setAuthor('Turned on bassboost', ctx.author.displayAvatarURL())
+                .setAuthor({ name: 'Turned on bassboost', iconURL: ctx.author.displayAvatarURL() })
                 .setColor(client.config.colors.default);
             return ctx.sendMessage({ content: null, embeds: [embed] });
         }
@@ -68,7 +68,7 @@ module.exports = class Bassboost extends Command {
 
         player.filter.setBassboost(true, args[0]);
         const embed = new EmbedBuilder()
-            .setAuthor(`Bassboost set to ${args[0]}`, ctx.author.displayAvatarURL())
+            .setAuthor({ name: `Bassboost set to ${args[0]}`, iconURL: ctx.author.displayAvatarURL() })
             .setColor(client.config.colors.default);
         return ctx.sendMessage({ content: null, embeds: [embed] });
     }

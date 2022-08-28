@@ -1,8 +1,8 @@
 const { EmbedBuilder } = require('discord.js');
+const { ApplicationCommandOptionType } = require('discord-api-types');
 
 const Command = require('../../structures/Command');
 const Playlist = require('../../models/Playlist');
-const { ApplicationCommandType, ApplicationCommandOptionType } = require('discord-api-types');
 
 module.exports = class PlaylistRemove extends Command {
     constructor(client) {
@@ -47,7 +47,7 @@ module.exports = class PlaylistRemove extends Command {
 
             if (!playlist) {
                 const embed = new EmbedBuilder()
-                    .setAuthor(playlistName, ctx.author.displayAvatarURL())
+                    .setAuthor({ name: playlistName, iconURL: ctx.author.displayAvatarURL() })
                     .setDescription(`${client.config.emojis.failure} Could not find a playlist by the name ${playlistName}.\nFor a list of your playlists type \`ear playlists\``)
                     .setTimestamp()
                     .setColor(client.config.colors.default);
@@ -60,9 +60,9 @@ module.exports = class PlaylistRemove extends Command {
                 await playlist.updateOne({ tracks: playlist.tracks }).catch(e => client.logger.error(e));
 
                 const embed = new EmbedBuilder()
-                    .setAuthor(playlist.name, ctx.author.displayAvatarURL())
+                    .setAuthor({ name: playlist.name, iconURL: ctx.author.displayAvatarURL() })
                     .setDescription(`${client.config.emojis.success} Removed **${songName}** from **${playlist.name}**.`)
-                    .setFooter(`ID: ${playlist._id}`)
+                    .setFooter({ name: `ID: ${playlist._id}` })
                     .setColor(client.config.colors.default)
                     .setTimestamp();
                 return ctx.sendMessage({ content: null, embeds: [embed] });

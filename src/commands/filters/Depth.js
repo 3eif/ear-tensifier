@@ -52,7 +52,7 @@ module.exports = class Depth extends Command {
         if ((ctx.isInteraction && ctx.interaction.options.data[0].name == 'off') || (args[0] && (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off'))) {
             player.filter.resetDepth();
             const embed = new EmbedBuilder()
-                .setAuthor('Depth has been reset to 0%', ctx.author.displayAvatarURL())
+                .setAuthor({ name: 'Depth has been reset to 0%', iconURL: ctx.author.displayAvatarURL() })
                 .setColor(client.config.colors.default);
             return ctx.sendMessage({ content: null, embeds: [embed] });
         }
@@ -64,7 +64,7 @@ module.exports = class Depth extends Command {
         player.filter.setTremolo(args[0] / 100, player.filter.tremolo.frequency);
 
         const embed = new EmbedBuilder()
-            .setAuthor(`Depth set to ${args[0]}%`, ctx.author.displayAvatarURL())
+            .setAuthor({ name: `Depth set to ${args[0]}%`, iconURL: ctx.author.displayAvatarURL() })
             .setColor(client.config.colors.default);
         return ctx.sendMessage({ content: null, embeds: [embed] });
     }

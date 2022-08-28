@@ -67,7 +67,7 @@ module.exports = class Reload extends Command {
                 );
 
             const embed = new Discord.EmbedBuilder()
-                .setAuthor('Reload File', client.user.displayAvatarURL())
+                .setAuthor({ name: 'Reload File', iconURL: client.user.displayAvatarURL() })
                 .setColor(client.config.colors.default)
                 .setDescription(`📂 **${dir}**` + folders.map(dir => `\n- 📁 ${dir} `).join('') + files.map(dir => `\n- 📄 ${dir} `).join(''));
             const message = await ctx.sendMessage({ embeds: [embed], components: [selectMenuRow, buttonRow] });

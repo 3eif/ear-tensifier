@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
-const { ApplicationCommandType, ApplicationCommandOptionType } = require('discord-api-types');
+const { ApplicationCommandOptionType } = require('discord-api-types');
 
 const Command = require('../../structures/Command');
 const Playlist = require('../../models/Playlist');
@@ -47,7 +47,7 @@ module.exports = class Rename extends Command {
             if (err) client.log(err);
             if (!p) {
                 const embed = new EmbedBuilder()
-                    .setAuthor(playlistName, ctx.author.displayAvatarURL())
+                    .setAuthor({ name: playlistName, iconURL: ctx.author.displayAvatarURL() })
                     .setDescription(`${client.config.emojis.failure} Could not find a playlist by the name ${playlistName}.\nFor a list of your playlists type \`ear playlists\``)
                     .setTimestamp()
                     .setColor(client.config.colors.default);
@@ -58,9 +58,9 @@ module.exports = class Rename extends Command {
                 p.save();
 
                 const embed = new EmbedBuilder()
-                    .setAuthor(p.name, ctx.author.displayAvatarURL())
+                    .setAuthor({ name: p.name, iconURL: ctx.author.displayAvatarURL() })
                     .setDescription(`${client.config.emojis.success} Successfully renamed \`${playlistName}\` to \`${newPlaylistName}\`.`)
-                    .setFooter(`ID: ${p._id}`)
+                    .setFooter({ name: `ID: ${p._id}` })
                     .setColor(client.config.colors.default)
                     .setTimestamp();
                 return ctx.sendMessage({ content: null, embeds: [embed] });

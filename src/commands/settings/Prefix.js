@@ -1,5 +1,4 @@
 const { EmbedBuilder } = require('discord.js');
-const { ApplicationCommandType } = require('discord-api-types');
 
 const Command = require('../../structures/Command');
 const Server = require('../../models/Server');
@@ -46,10 +45,10 @@ module.exports = class Prefix extends Command {
             await s.updateOne({ prefix: f }).catch(e => client.logger.error(e));
 
             const embed = new EmbedBuilder()
-                .setAuthor(`${ctx.guild.name}`, ctx.guild.iconURL())
+                .setAuthor({ name: `${ctx.guild.name}`, iconURL: ctx.guild.iconURL() })
                 .setColor(client.config.colors.default)
                 .setDescription(`Successfully set the prefix to \`${f}\``)
-                .setFooter('Tip: to add a space to your prefix, add: _');
+                .setFooter({ name: 'Tip: to add a space to your prefix, add: _' });
             ctx.editMessage({ content: null, embeds: [embed] });
         });
     }

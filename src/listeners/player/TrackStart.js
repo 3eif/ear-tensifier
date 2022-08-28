@@ -49,12 +49,12 @@ module.exports = class TrackStart extends Event {
         try {
             const embed = new EmbedBuilder()
                 .setColor(this.client.config.colors.default)
-                .setAuthor(author, player.playing ? 'https://eartensifier.net/images/cd.gif' : 'https://eartensifier.net/images/cd.png', url)
+                .setAuthor({ name: author, iconURL: player.playing ? 'https://eartensifier.net/images/cd.gif' : 'https://eartensifier.net/images/cd.png', url: url })
                 .setThumbnail(thumbnail)
                 .setTitle(title)
                 .setURL(url)
                 .setDescription(`${parsedCurrentDuration}  ${percentage < 0.05 ? this.client.config.emojis.progress7 : this.client.config.emojis.progress1}${this.client.config.emojis.progress2.repeat(part)}${percentage < 0.05 ? '' : this.client.config.emojis.progress3}${this.client.config.emojis.progress5.repeat(12 - part)}${this.client.config.emojis.progress6}  ${parsedDuration}`)
-                .setFooter(requester.username)
+                .setFooter({ name: requester.username })
                 .setTimestamp();
             player.nowPlayingMessage = await player.textChannel.send({ embeds: [embed], components: [buttonRow] });
 

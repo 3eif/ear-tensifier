@@ -28,7 +28,7 @@ module.exports = class Previous extends Command {
 
         const embed = new EmbedBuilder()
             .setColor(client.config.colors.default)
-            .setAuthor(`Backing up to ${player.queue.current.title}`, ctx.author.displayAvatarURL());
+            .setAuthor({ name: `Backing up to ${player.queue.current.title}`, iconURL: ctx.author.displayAvatarURL() });
         return ctx.sendMessage({ embeds: [embed] });
     }
 };

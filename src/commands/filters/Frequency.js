@@ -52,7 +52,7 @@ module.exports = class Frequency extends Command {
         if ((ctx.isInteraction && ctx.interaction.options.data[0].name == 'off') || (args[0] && (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off'))) {
             player.filter.resetFrequency();
             const embed = new EmbedBuilder()
-                .setAuthor('Frequency has been reset to 5.0Hz', ctx.author.displayAvatarURL())
+                .setAuthor({ name: 'Frequency has been reset to 5.0Hz', iconURL: ctx.author.displayAvatarURL() })
                 .setColor(client.config.colors.default);
             return ctx.sendMessage({ content: null, embeds: [embed] });
         }
@@ -65,7 +65,7 @@ module.exports = class Frequency extends Command {
 
 
         const embed = new EmbedBuilder()
-            .setAuthor(`Frequency set to ${args[0]}Hz`, ctx.author.displayAvatarURL())
+            .setAuthor({ name: `Frequency set to ${args[0]}Hz`, iconURL: ctx.author.displayAvatarURL() })
             .setColor(client.config.colors.default);
         return ctx.sendMessage({ content: null, embeds: [embed] });
     }

@@ -27,7 +27,7 @@ module.exports = class Pause extends Command {
         player.pause(true);
         const embed = new EmbedBuilder()
             .setColor(client.config.colors.default)
-            .setAuthor(`Song is now ${player.playing ? 'resumed' : 'paused'}.`, ctx.author.displayAvatarURL());
+            .setAuthor({ name: `Song is now ${player.playing ? 'resumed' : 'paused'}.`, iconURL: ctx.author.displayAvatarURL() });
         return ctx.sendMessage({ embeds: [embed] });
     }
 };

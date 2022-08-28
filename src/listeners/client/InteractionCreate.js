@@ -25,7 +25,7 @@ module.exports = class InteractionCreate extends Event {
 
                         const embed = new Discord.EmbedBuilder()
                             .setColor(this.client.config.colors.default)
-                            .setAuthor(`Backing up to ${player.queue.current.title}`, interaction.member.displayAvatarURL());
+                            .setAuthor({ name: `Backing up to ${player.queue.current.title}`, iconURL: interaction.member.displayAvatarURL() });
                         await player.textChannel.send({ embeds: [embed] });
                     }
                     break;
@@ -40,7 +40,7 @@ module.exports = class InteractionCreate extends Event {
 
                     const embed = new Discord.EmbedBuilder()
                         .setColor(this.client.config.colors.default)
-                        .setAuthor(`Song is now ${player.playing ? 'resumed' : 'paused'}.`, interaction.member.displayAvatarURL());
+                        .setAuthor({ name: `Song is now ${player.playing ? 'resumed' : 'paused'}.`, iconURL: interaction.member.displayAvatarURL() });
                     await player.textChannel.send({ embeds: [embed] });
                     await interaction.update({ components: [buttonRow] });
                     break;
@@ -52,7 +52,7 @@ module.exports = class InteractionCreate extends Event {
 
                     const embed = new Discord.EmbedBuilder()
                         .setColor(this.client.config.colors.default)
-                        .setAuthor(`Skipped ${title}`, interaction.member.displayAvatarURL());
+                        .setAuthor({ name: `Skipped ${title}`, iconURL: interaction.member.displayAvatarURL() });
                     await player.textChannel.send({ embeds: [embed] });
                     break;
                 }

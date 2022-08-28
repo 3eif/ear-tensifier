@@ -160,7 +160,7 @@ module.exports = class Player extends TrackPlayer {
 
     pause(pause) {
         if (this.queue.current && this.nowPlayingMessage) {
-            const embed = new EmbedBuilder(this.nowPlayingMessage.embeds[0].setAuthor(this.queue.current.author, this.pause ? 'https://eartensifier.net/images/cd.png' : 'https://eartensifier.net/images/cd.gif', this.queue.current.url));
+            const embed = new EmbedBuilder(this.nowPlayingMessage.embeds[0].setAuthor({ name: this.queue.current.author, iconURL: this.pause ? 'https://eartensifier.net/images/cd.png' : 'https://eartensifier.net/images/cd.gif', url: this.queue.current.url }));
             this.nowPlayingMessage.edit({ content: null, embeds: [embed] });
         }
 

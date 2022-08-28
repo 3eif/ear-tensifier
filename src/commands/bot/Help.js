@@ -32,9 +32,9 @@ module.exports = class Help extends Command {
         const prefix = await ctx.messageHelper.getPrefix();
 
         const embed = new EmbedBuilder()
-            .setAuthor('Commands', client.user.displayAvatarURL())
+            .setAuthor({ name: 'Commands', iconURL: client.user.displayAvatarURL() })
             .setDescription(`A detailed list of commands can be found here: **[eartensifier.net](https://eartensifier.net/#commands)**.\nNeed more help? Join the support server here: **[${client.config.server.replace('https://', '')}](${client.config.server})**.`)
-            .setFooter(`For more information on a command: ${prefix}help <command>`)
+            .setFooter({ text: `For more information on a command: ${prefix}help <command>` })
             .setColor(client.config.colors.default);
 
         if (!args.length) {
@@ -67,7 +67,7 @@ module.exports = class Help extends Command {
 
                 for (let i = 0; i < helpCommands.length; i++) categoryCommands += helpCommands[i];
                 const categoryName = category.charAt(0).toUpperCase() + category.slice(1);
-                embed.addField(`${categoryName} (${commandsFile.length})`, categoryCommands);
+                embed.addFields({ name: `${categoryName} (${commandsFile.length})`, value: categoryCommands });
             });
 
             await ctx.sendMessage({ embeds: [embed], components: [buttons] });

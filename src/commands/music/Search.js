@@ -205,9 +205,9 @@ module.exports = class Search extends Command {
                 );
 
             const embed = new EmbedBuilder()
-                .setAuthor('Song Selection.', ctx.author.displayAvatarURL())
+                .setAuthor({ name: 'Song Selection.', iconURL: ctx.author.displayAvatarURL() })
                 .setDescription(str)
-                .setFooter('Your have 30 seconds to make your selection via the dropdown menu.')
+                .setFooter({ name: 'Your have 30 seconds to make your selection via the dropdown menu.' })
                 .setColor(client.config.colors.default);
             const message = await ctx.editMessage({ content: null, embeds: [embed], components: [selectMenuRow, buttonRow] });
 

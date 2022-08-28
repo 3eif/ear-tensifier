@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
-const { ApplicationCommandOptionType, ApplicationCommandType } = require('discord-api-types');
+const { ApplicationCommandOptionType } = require('discord-api-types');
 
 const Command = require('../../structures/Command');
 const Playlist = require('../../models/Playlist');
@@ -73,9 +73,9 @@ module.exports = class Save extends Command {
                 await newPlaylist.save().catch(e => client.logger.error(e));
 
                 const embed = new EmbedBuilder()
-                    .setAuthor(newPlaylist.name, ctx.author.displayAvatarURL())
+                    .setAuthor({ name: newPlaylist.name, iconURL: ctx.author.displayAvatarURL() })
                     .setDescription(`${client.config.emojis.success} Saved the current queue to playlist: **${newPlaylist.name}**.`)
-                    .setFooter(`ID: ${newPlaylist._id} • ${newPlaylist.tracks.length}/${client.config.max.songsInPlaylist}`)
+                    .setFooter({ name: `ID: ${newPlaylist._id} • ${newPlaylist.tracks.length}/${client.config.max.songsInPlaylist}` })
                     .setColor(client.config.colors.default)
                     .setTimestamp();
                 ctx.editMessage({ content: null, embeds: [embed] });
@@ -89,9 +89,9 @@ module.exports = class Save extends Command {
                 await p.updateOne({ tracks: p.tracks }).catch(e => client.logger.error(e));
 
                 const embed = new EmbedBuilder()
-                    .setAuthor(p.name, ctx.author.displayAvatarURL())
+                    .setAuthor({ name: p.name, iconURL: ctx.author.displayAvatarURL() })
                     .setDescription(`${client.config.emojis.success} Saved the queue to an existing playlist with the name: **${p.name}**.`)
-                    .setFooter(`ID: ${p._id} • ${p.tracks.length}/${client.config.max.songsInPlaylist}`)
+                    .setFooter({ name: `ID: ${p._id} • ${p.tracks.length}/${client.config.max.songsInPlaylist}}` })
                     .setColor(client.config.colors.default)
                     .setTimestamp();
                 ctx.editMessage({ content: null, embeds: [embed] });

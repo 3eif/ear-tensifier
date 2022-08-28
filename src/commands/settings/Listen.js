@@ -119,10 +119,10 @@ module.exports = class Listen extends Command {
                 await s.updateOne({ ignoredChannels: channelsToIgnore }).catch(e => client.logger.error(e));
 
                 const embed = new EmbedBuilder()
-                    .setAuthor(`${ctx.guild.name}`, ctx.guild.iconURL())
+                    .setAuthor({ name: `${ctx.guild.name}`, iconURL: ctx.guild.iconURL() })
                     .setColor(client.config.colors.default)
                     .setDescription(`I will now only listen to commands from <#${channel}>.`)
-                    .setFooter(`Tip: You can make me listen to commands in all channels again by doing ${await ctx.messageHelper.getPrefix()}listenall`);
+                    .setFooter({ name: `Tip: You can make me listen to commands in all channels again by doing ${await ctx.messageHelper.getPrefix()}listenall` });
                 ctx.editMessage({ content: null, embeds: [embed] });
             });
         }
@@ -135,7 +135,7 @@ module.exports = class Listen extends Command {
                 await s.updateOne({ ignoredChannels: [] }).catch(e => client.logger.error(e));
 
                 const embed = new EmbedBuilder()
-                    .setAuthor(`${ctx.guild.name}`, ctx.guild.iconURL())
+                    .setAuthor({ name: `${ctx.guild.name}`, iconURL: ctx.guild.iconURL() })
                     .setColor(client.config.colors.default)
                     .setDescription('I will now listen to commands from all channels.');
                 ctx.editMessage({ content: null, embeds: [embed] });
@@ -159,7 +159,7 @@ module.exports = class Listen extends Command {
                 else return ctx.editMessage('This channel is not being ignored!');
 
                 const embed = new EmbedBuilder()
-                    .setAuthor(`${ctx.guild.name}`, ctx.guild.iconURL())
+                    .setAuthor({ name: `${ctx.guild.name}`, iconURL: ctx.guild.iconURL() })
                     .setColor(client.config.colors.default)
                     .setDescription(`I will now listen to commands from <#${channel}>.`);
                 ctx.editMessage({ content: null, embeds: [embed] });

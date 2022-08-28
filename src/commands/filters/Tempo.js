@@ -52,7 +52,7 @@ module.exports = class Tempo extends Command {
         if ((ctx.isInteraction && ctx.interaction.options.data[0].name == 'off') || (args[0] && (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off'))) {
             player.filter.resetTempo();
             const embed = new EmbedBuilder()
-                .setAuthor('Tempo has been reset to 1x', ctx.author.displayAvatarURL())
+                .setAuthor({ name: 'Tempo has been reset to 1x', iconURL: ctx.author.displayAvatarURL() })
                 .setColor(client.config.colors.default);
             return ctx.sendMessage({ content: null, embeds: [embed] });
         }
@@ -63,7 +63,7 @@ module.exports = class Tempo extends Command {
 
         player.filter.setTempo(args[0]);
         const embed = new EmbedBuilder()
-            .setAuthor(`Tempo set to ${args[0]}x`, ctx.author.displayAvatarURL())
+            .setAuthor({ name: `Tempo set to ${args[0]}x`, iconURL: ctx.author.displayAvatarURL() })
             .setColor(client.config.colors.default);
         return ctx.sendMessage({ content: null, embeds: [embed] });
     }

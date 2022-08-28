@@ -13,7 +13,7 @@ module.exports = class GuildCreate extends Event {
 
                 const embed = new EmbedBuilder()
                     .setDescription(`${this.client.config.emojis.added} Ear Tensifier has been added to a server.`)
-                    .setFooter(`${totalGuilds} servers`)
+                    .setFooter({ name: `${totalGuilds} servers` })
                     .setTimestamp()
                     .setColor(this.client.config.colors.added);
                 if (this.client.earTensifiers.includes(this.client.user.id))

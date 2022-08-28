@@ -50,10 +50,10 @@ module.exports = class Queue extends Command {
         for (let i = 0; i < pagesNum; i++) {
             const str = songStrings.slice(i * 10, i * 10 + 10).join('');
             const embed = new EmbedBuilder()
-                .setAuthor(`Queue - ${ctx.guild.name}`, ctx.guild.iconURL())
+                .setAuthor({ name: `Queue - ${ctx.guild.name}`, iconURL: ctx.guild.iconURL() })
                 .setColor(client.config.colors.default)
                 .setDescription(`**Now Playing**: [${title}](${url}}) \`[${parsedDuration}]\` • ${user}.\n\n**Up Next**:${str == '' ? '  Nothing' : `\n${str}`}`)
-                .setFooter(`Page ${i + 1}/${pagesNum} | ${player.queue.length} song(s) | ${parsedQueueDuration} total duration`);
+                .setFooter({ name: `Page ${i + 1}/${pagesNum} | ${player.queue.length} song(s) | ${parsedQueueDuration} total duration` });
             pages.push(embed);
         }
 

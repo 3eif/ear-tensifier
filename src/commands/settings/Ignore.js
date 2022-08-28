@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
-const { ApplicationCommandOptionType, ApplicationCommandType } = require('discord-api-types');
+const { ApplicationCommandOptionType } = require('discord-api-types');
 
 const Command = require('../../structures/Command');
 const Server = require('../../models/Server');
@@ -55,10 +55,10 @@ module.exports = class Ignore extends Command {
             await s.updateOne({ ignoredChannels: s.ignoredChannels }).catch(e => client.logger.error(e));
 
             const embed = new EmbedBuilder()
-                .setAuthor(`${ctx.guild.name}`, ctx.guild.iconURL())
+                .setAuthor({ name: `${ctx.guild.name}`, iconURL: ctx.guild.iconURL() })
                 .setColor(client.config.colors.default)
                 .setDescription(`I will now ignore commands from <#${channelId}>.`)
-                .setFooter(`Tip: You can make me listen to commands again by doing ${await ctx.messageHelper.getPrefix()}listen`);
+                .setFooter({ name: `Tip: You can make me listen to commands again by doing ${await ctx.messageHelper.getPrefix()}listen` });
             ctx.editMessage({ content: null, embeds: [embed] });
         });
     }

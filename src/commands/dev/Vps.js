@@ -26,7 +26,7 @@ module.exports = class Vps extends Command {
         const mins = Math.floor((totalSeconds / 60) % 60);
 
         const statsEmbed = new EmbedBuilder()
-            .setAuthor('VPS')
+            .setAuthor({ name: 'VPS' })
             .setColor(client.config.colors.default)
             .addFields(
                 { name: 'Host', value: `${os.type()} ${os.release()} (${os.arch()})` },
@@ -37,7 +37,7 @@ module.exports = class Vps extends Command {
                 { name: 'CPU Load', value: `${(os.loadavg()[0]).toFixed(2)}%` },
                 { name: 'CPU Cores', value: `${os.cpus().length}` },
             )
-            .setFooter(`Node Version: ${process.version}`)
+            .setFooter({ name: `Node Version: ${process.version}` })
             .setTimestamp();
         return ctx.sendMessage({ content: null, embeds: [statsEmbed] });
     }

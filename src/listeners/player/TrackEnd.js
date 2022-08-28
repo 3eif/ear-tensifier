@@ -22,7 +22,7 @@ module.exports = class TrackEnd extends Event {
             if (!shouldSend || !player.nowPlayingMessage) return;
 
             const parsedDuration = formatDuration(track.duration);
-            const embed = new EmbedBuilder(player.nowPlayingMessage.embeds[0].setAuthor(track.author, 'https://eartensifier.net/images/cd.png', track.url));
+            const embed = new EmbedBuilder(player.nowPlayingMessage.embeds[0].setAuthor({ name: track.author, iconURL: 'https://eartensifier.net/images/cd.png', url: track.url }));
 
             if (finished) embed.setDescription(`${parsedDuration}  ${this.client.config.emojis.progress1}${this.client.config.emojis.progress2.repeat(13)}${this.client.config.emojis.progress8}  ${parsedDuration}`);
 

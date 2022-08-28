@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require('discord.js');
-const { ApplicationCommandType, ApplicationCommandOptionType } = require('discord-api-types');
+const { ApplicationCommandOptionType } = require('discord-api-types');
 
 const Command = require('../../structures/Command');
 const Playlist = require('../../models/Playlist');
@@ -35,7 +35,7 @@ module.exports = class Delete extends Command {
         }).then(deletedDocument => {
             if (deletedDocument) {
                 const embed = new EmbedBuilder()
-                    .setAuthor(playlistName, ctx.author.displayAvatarURL())
+                    .setAuthor({ name: playlistName, iconURL: ctx.author.displayAvatarURL() })
                     .setDescription(`${client.config.emojis.success} Deleted playlist: \`${playlistName}\``)
                     .setTimestamp()
                     .setColor(client.config.colors.default);
@@ -43,7 +43,7 @@ module.exports = class Delete extends Command {
             }
             else {
                 const embed = new EmbedBuilder()
-                    .setAuthor(playlistName, ctx.author.displayAvatarURL())
+                    .setAuthor({ name: playlistName, iconURL: ctx.author.displayAvatarURL() })
                     .setDescription(`${client.config.emojis.failure} Could not find a playlist by the name ${playlistName}.\nFor a list of your playlists type \`ear playlists\``)
                     .setTimestamp()
                     .setColor(client.config.colors.default);
