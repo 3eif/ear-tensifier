@@ -24,6 +24,7 @@ module.exports = class Load extends Command {
                     type: ApplicationCommandOptionType.String,
                     required: true,
                     description: 'The playlist\'s name.',
+                    autocomplete: true,
                 },
             ],
             slashCommand: true,

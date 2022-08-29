@@ -25,14 +25,17 @@ module.exports = class Save extends Command {
                     type: ApplicationCommandOptionType.String,
                     required: true,
                     description: 'The playlist\'s name.',
+                    max_value: 100,
+                    autocomplete: true,
                 },
             ],
+            slashCommand: true,
         });
     }
     async run(client, ctx, args) {
         await ctx.sendDeferMessage(`${client.config.emojis.typing} Adding song(s) to your playlist (This might take a few seconds.)...`);
 
-        if (args[0].length > 32) return ctx.editMessage('Playlist title must be less than 32 characters!');
+        if (args[0].length > this.options[0].max_value) return ctx.editMessage(`Playlist title must be less than ${this.options[0].max_value} characters!`);
         const playlistName = args.join(' ').replace(/_/g, ' ');
         const player = client.music.players.get(ctx.guild.id);
         const tracksToAdd = [];

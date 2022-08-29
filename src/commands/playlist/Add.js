@@ -9,9 +9,9 @@ const formatDuration = require('../../utils/music/formatDuration');
 module.exports = class Create extends Command {
     constructor(client) {
         super(client, {
-            name: 'create',
+            name: 'add',
             description: {
-                content: 'Creates a playlist.',
+                content: 'Adds a song to one of your playlists.',
                 usage: '<playlist name> <search query/link>',
                 examples: ['DSOTM https://open.spotify.com/album/4LH4d3cOWNNsVw41Gqt2kv?si=ACDwAO26S5iFYzrvaJqVsg'],
             },
@@ -24,6 +24,7 @@ module.exports = class Create extends Command {
                     required: true,
                     description: 'The playlist\'s name.',
                     max_length: 100,
+                    autocomplete: true,
                 },
                 {
                     name: 'query',
@@ -37,7 +38,7 @@ module.exports = class Create extends Command {
     }
 
     async run(client, ctx, args) {
-        await ctx.sendDeferMessage(`${client.config.emojis.typing} Creating your playlist (This might take a few seconds.)...`);
+        await ctx.sendDeferMessage(`${client.config.emojis.typing} Adding song(s) to your playlist (This might take a few seconds.)...`);
 
         if (!args[1] && !ctx.attachments) return ctx.editMessage(`Please specify a search query or link.\nUsage: \`${await ctx.messageHelper.getPrefix()} create <playlist name> <search query/link>\``);
         if (args[0].length > this.options[0].max_length) return ctx.editMessage(`Playlist name must be less than ${this.options[0].max_length} characters!`);
@@ -118,23 +119,11 @@ module.exports = class Create extends Command {
             if (err) client.logger.error(err);
 
             if (!playlist) {
-                const newPlaylist = new Playlist({
-                    name: playlistName,
-                    tracks: [],
-                    creator: ctx.author.id,
-                    createdTimestamp: Date.now(),
-                });
-
-                newPlaylist.tracks = tracksToAdd;
-                newPlaylist.length = clamp(newPlaylist.tracks.length, 0, client.config.max.songsInPlaylist);
-                await newPlaylist.save().catch(e => client.logger.error(e));
-
                 const embed = new EmbedBuilder()
-                    .setAuthor({ name: newPlaylist.name, iconURL: ctx.author.displayAvatarURL() })
-                    .setDescription(`${client.config.emojis.success} Created a playlist with name: **${newPlaylist.name}**.\n${playlistMessage}`)
-                    .setFooter({ text: `ID: ${newPlaylist._id} • ${newPlaylist.tracks.length}/${client.config.max.songsInPlaylist}` })
-                    .setColor(client.config.colors.default)
-                    .setTimestamp();
+                    .setAuthor({ name: playlistName, iconURL: ctx.author.displayAvatarURL() })
+                    .setDescription(`${client.config.emojis.failure} Could not find a playlist by the name ${playlistName}.\nFor a list of your playlists type \`ear playlists\``)
+                    .setTimestamp()
+                    .setColor(client.config.colors.default);
                 return ctx.editMessage({ content: null, embeds: [embed] });
             }
             else {

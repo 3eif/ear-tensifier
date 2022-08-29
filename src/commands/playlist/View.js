@@ -23,6 +23,7 @@ module.exports = class View extends Command {
                     type: ApplicationCommandOptionType.String,
                     required: true,
                     description: 'The playlist\'s name.',
+                    autocomplete: true,
                 },
             ],
             slashCommand: true,

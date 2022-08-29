@@ -20,8 +20,10 @@ module.exports = class Delete extends Command {
                     type: ApplicationCommandOptionType.String,
                     required: true,
                     description: 'The playlist\'s name.',
+                    autocomplete: true,
                 },
             ],
+            slashCommand: true,
         });
     }
     async run(client, ctx, args) {

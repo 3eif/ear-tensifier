@@ -21,14 +21,18 @@ module.exports = class Rename extends Command {
                     type: ApplicationCommandOptionType.String,
                     required: true,
                     description: 'The playlist\'s current name.',
+                    max_length: 100,
+                    autocomplete: true,
                 },
                 {
                     name: 'new',
                     type: ApplicationCommandOptionType.String,
                     required: true,
                     description: 'The playlist\'s new name.',
+                    max_length: 100,
                 },
             ],
+            slashCommand: true,
         });
     }
     async run(client, ctx, args) {
@@ -36,7 +40,7 @@ module.exports = class Rename extends Command {
             return ctx.sendMessage(`Please provide a new name for the playlist.\nUsage: \`${await ctx.messageHelper.getPrefix()}rename <current playlist name> <new playlist name>\``);
         }
 
-        if (args[0].length > 32 || args[1].length > 32) return ctx.sendMessage('Playlist title must be less than 32 characters!');
+        if (args[0].length > this.options[0].max_length || args[1].length > this.options[1].max_length) return ctx.sendMessage(`Playlist title must be less than ${this.options[0].max_value} characters!`);
         const playlistName = args[0].replace(/_/g, ' ');
         const newPlaylistName = args[1].replace(/_/g, ' ');
 
