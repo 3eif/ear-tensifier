@@ -4,7 +4,7 @@ const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const { Client } = require('../structures/Client');
 require('events').defaultMaxListeners = 15;
-require('custom-env').env(true);
+require('dotenv').config();
 
 const debug = false;
 const commands = [];

@@ -1,5 +1,5 @@
 const { EmbedBuilder, PermissionsBitField } = require('discord.js');
-const { ApplicationCommandType, ApplicationCommandOptionType } = require('discord.js');
+const { ApplicationCommandOptionType } = require('discord.js');
 
 const Command = require('../../structures/Command');
 const Server = require('../../models/Server');
@@ -39,11 +39,11 @@ module.exports = class Listen extends Command {
                 {
                     name: 'only',
                     description: 'Resumes responding to commands from only the channel you provide.',
-                    type: ApplicationCommandType.Subcommand,
+                    type: ApplicationCommandOptionType.Subcommand,
                     options: [
                         {
                             name: 'name',
-                            type: ApplicationCommandType.Channel,
+                            type: ApplicationCommandOptionType.Channel,
                             required: true,
                             description: 'The only channel to listen to commands from.',
                         },
