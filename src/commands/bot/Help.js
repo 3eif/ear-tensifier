@@ -19,6 +19,7 @@ module.exports = class Help extends Command {
                 type: ApplicationCommandOptionType.String,
                 required: false,
                 description: 'The command to view the help page of.',
+                autocomplete: true,
             }],
             slashCommand: true,
         });

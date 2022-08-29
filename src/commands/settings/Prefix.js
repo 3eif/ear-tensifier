@@ -1,4 +1,4 @@
-const { EmbedBuilder, PermissionsBitField } = require('discord.js');
+const { EmbedBuilder, PermissionsBitField, ApplicationCommandOptionType } = require('discord.js');
 
 const Command = require('../../structures/Command');
 const Server = require('../../models/Server');
@@ -8,7 +8,7 @@ module.exports = class Prefix extends Command {
         super(client, {
             name: 'prefix',
             description: {
-                content: 'Set the prefix for the server.',
+                content: 'Set or view the prefix of the server.',
                 usage: '<prefix>',
                 examples: ['ear_', '!'],
             },
@@ -19,9 +19,10 @@ module.exports = class Prefix extends Command {
             options: [
                 {
                     name: 'prefix',
-                    type: 3,
+                    type: ApplicationCommandOptionType.String,
                     required: false,
                     description: 'The prefix to set for the server (to add a space to your prefix, add: _).',
+                    max_length: 100,
                 },
             ],
             slashCommand: true,
@@ -33,9 +34,10 @@ module.exports = class Prefix extends Command {
                 if (err) client.logger.error(err);
                 return ctx.sendMessage(`The current prefix is \`${s.prefix}\``);
             });
+            return;
         }
 
-        if (!args[0]) return;
+        if (args[0].length > this.options[0].max_length) return ctx.sendMessage('Prefix must be less than 100 characters long');
 
         const f = args[0].replace(/_/g, ' ');
         await ctx.sendDeferMessage(`${client.config.emojis.typing} Setting prefix to ${f}...`);

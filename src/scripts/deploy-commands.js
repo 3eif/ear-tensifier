@@ -40,7 +40,7 @@ const rest = new REST({ version: '9' }).setToken(process.env.DISCORD_TOKEN);
 
 if (process.env.NODE_ENV === 'development') {
     rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID, '473426453204172811'), { body: commands })
-        .then(() => signale.success('Successfully registered application commands.'))
+        .then(() => signale.success('Successfully registered application commands in guild.'))
         .catch((e) => signale.error(e));
 }
 else {

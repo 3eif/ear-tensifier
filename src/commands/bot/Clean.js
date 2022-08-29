@@ -23,6 +23,7 @@ module.exports = class Clean extends Command {
                     type: ApplicationCommandOptionType.Integer,
                     required: true,
                     description: 'The number of messages to clean up.',
+                    min_value: 0,
                 },
             ],
         });
@@ -33,7 +34,7 @@ module.exports = class Clean extends Command {
 
         if (args[0]) {
             messagesToDelete = parseInt(args[0]);
-            if (isNaN(messagesToDelete) || messagesToDelete < 1) {
+            if (isNaN(messagesToDelete) || messagesToDelete < this.options[0].min_value) {
                 return ctx.sendMessage({ content: `Invalid argument, argument must be a number.\nCorrect Usage: \`${await ctx.messageHelper.getPrefix()}clean <number messages>\`` });
             }
         }

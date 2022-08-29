@@ -1,9 +1,10 @@
 const Discord = require('discord.js');
+const fs = require('fs');
+const { ButtonStyle, InteractionType } = require('discord.js');
 
 const Event = require('../../structures/Event');
 const Context = require('../../structures/Context');
 const MessageHelper = require('../../helpers/MessageHelper');
-const { ButtonStyle, InteractionType } = require('discord.js');
 
 const cooldowns = new Discord.Collection();
 
@@ -58,6 +59,29 @@ module.exports = class InteractionCreate extends Event {
                 }
             }
         }
+
+        if (interaction.isAutocomplete()) {
+            if (interaction.commandName === 'help') {
+                console.log(interaction.commandName);
+                const focusedValue = interaction.options.getFocused();
+                const categories = fs.readdirSync('./src/commands/');
+                const { commands } = this.client;
+                const helpCommands = [];
+                categories.forEach(async (category) => {
+                    if (category == 'dev') return;
+                    const commandsFile = fs.readdirSync(`./src/commands/${category}`).filter(file => file.endsWith('.js'));
+                    for (let i = 0; i < commandsFile.length; i++) {
+                        const command = commands.get(commandsFile[i].split('.')[0].toLowerCase());
+                        if (command && !command.hide) helpCommands.push(command.name);
+                    }
+                });
+                const filtered = helpCommands.filter(choice => choice.startsWith(focusedValue));
+                if (filtered.length > 25) filtered.length = 25;
+
+                await interaction.respond(filtered.map(choice => ({ name: choice, value: choice })));
+            }
+        }
+
         if (interaction.type !== InteractionType.ApplicationCommand) return;
 
         const cmd = this.client.commands.get(interaction.commandName);
