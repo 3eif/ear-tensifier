@@ -24,8 +24,25 @@ module.exports = class Help extends Command {
             slashCommand: true,
         });
     }
-    async run(client, ctx, args) {
 
+    async autocomplete(client, interaction) {
+        const focusedValue = interaction.options.getFocused();
+        const { commands } = client;
+        const helpCommands = [];
+        categories.forEach(async (category) => {
+            if (category == 'dev') return;
+            const commandsFile = fs.readdirSync(`./src/commands/${category}`).filter(file => file.endsWith('.js'));
+            for (let i = 0; i < commandsFile.length; i++) {
+                const command = commands.get(commandsFile[i].split('.')[0].toLowerCase());
+                if (command && !command.hide) helpCommands.push(command.name);
+            }
+        });
+        const filtered = helpCommands.filter(choice => choice.startsWith(focusedValue));
+        if (filtered.length > 25) filtered.length = 25;
+        await interaction.respond(filtered.map(choice => ({ name: choice, value: choice })));
+    }
+
+    async run(client, ctx, args) {
         const { commands } = ctx.client;
         const data = [];
 

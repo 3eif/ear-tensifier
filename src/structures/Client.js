@@ -35,6 +35,7 @@ module.exports = class Client extends Discord.Client {
         });
 
         this.commands = new Discord.Collection();
+        this.buttons = new Discord.Collection();
         this.aliases = new Discord.Collection();
 
         this.statcordSongs = 0;
@@ -105,6 +106,28 @@ module.exports = class Client extends Discord.Client {
         });
     }
 
+    loadComponents() {
+        const componentFolders = fs.readdirSync('./src/components/');
+        for (const component of componentFolders) {
+            const componentFiles = fs.readdirSync(`./src/components/${component}`);
+            switch (component) {
+                case 'buttons':
+                    this.loadButtons(componentFiles);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    loadButtons(buttonFolder) {
+        for (const buttonFile of buttonFolder) {
+            const f = require(`../components/buttons/${buttonFile}`);
+            const button = new f(this, f);
+            this.buttons.set(button.id, button);
+        }
+    }
+
     shardMessage(channelId, message, isEmbed) {
         const channel = this.channels.cache.get(channelId);
         if (channel) {
@@ -146,5 +169,6 @@ module.exports = class Client extends Discord.Client {
 
         this.loadCommands();
         this.loadListeners();
+        this.loadComponents();
     }
 };
