@@ -28,7 +28,7 @@ module.exports = class InteractionCreate extends Event {
             }
         }
         else if (interaction.isAutocomplete()) {
-            const playlistCommandsWithAutocomplete = ['view', 'delete', 'add', 'save', 'rename', 'playlistremove'];
+            const playlistCommandsWithAutocomplete = ['view', 'delete', 'add', 'save', 'rename', 'playlistremove', 'load'];
             if (playlistCommandsWithAutocomplete.includes(interaction.commandName)) {
                 Playlist.find({
                     creator: interaction.user.id,
@@ -45,16 +45,19 @@ module.exports = class InteractionCreate extends Event {
                     return;
                 });
             }
+            else {
+                const { commands } = this.client;
+                const command = commands.get(interaction.commandName);
+                if (!command) return;
 
-            const { commands } = this.client;
-            const command = commands.get(interaction.commandName);
-            if (!command) return;
+                if (command.voiceRequirements.isPlaying && !this.client.music.players.get(interaction.guild.id)) return;
 
-            try {
-                await command.autocomplete(this.client, interaction);
-            }
-            catch (error) {
-                this.client.logger.error(error);
+                try {
+                    await command.autocomplete(this.client, interaction);
+                }
+                catch (error) {
+                    this.client.logger.error(error);
+                }
             }
         }
         else if (interaction.type === InteractionType.ApplicationCommand) {

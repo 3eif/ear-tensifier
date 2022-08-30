@@ -13,6 +13,7 @@ module.exports = class Playlists extends Command {
             },
             args: false,
             slashCommand: true,
+            autocomplete: true,
         });
     }
     async run(client, ctx) {

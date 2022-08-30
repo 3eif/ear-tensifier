@@ -1,17 +1,17 @@
 const { ApplicationCommandOptionType } = require('discord.js');
 const Command = require('../../structures/Command');
 
-module.exports = class Remove extends Command {
+module.exports = class RemoveFrom extends Command {
     constructor(client) {
         super(client, {
-            name: 'remove',
+            name: 'removefrom',
             description: {
-                content: 'Removes a song from the queue',
-                usage: '<song position> [song position 2]',
-                examples: ['1', '1 5'],
+                content: 'Removes a range of songs from the starting position to the ending position.',
+                usage: '<song position> <song position 2>',
+                examples: ['3 5', '1 5'],
             },
             args: true,
-            aliases: ['rm'],
+            aliases: ['removef', 'removerange'],
             voiceRequirements: {
                 isInVoiceChannel: true,
                 isInSameVoiceChannel: true,
@@ -19,10 +19,17 @@ module.exports = class Remove extends Command {
             },
             options: [
                 {
-                    name: 'position',
+                    name: 'position1',
                     type: ApplicationCommandOptionType.String,
                     required: true,
-                    description: 'The position of the song to remove.',
+                    description: 'The starting range.',
+                    autocomplete: true,
+                },
+                {
+                    name: 'position2',
+                    type: ApplicationCommandOptionType.String,
+                    required: true,
+                    description: 'The ending range.',
                     autocomplete: true,
                 },
             ],
@@ -46,15 +53,16 @@ module.exports = class Remove extends Command {
         const player = client.music.players.get(ctx.guild.id);
 
         const pos = args[0].replace('.', '').split(' ')[0];
+        const pos2 = args[1].replace('.', '').split(' ')[0];
 
-        if (isNaN(pos)) return ctx.sendMessage('Invalid number.');
+        if (isNaN(pos) || isNaN(pos2)) return ctx.sendMessage('Invalid number.');
 
-        if (pos == 0) return ctx.sendMessage(`Cannot remove a song that is already playing. To skip the song type: \`${await ctx.messageHelper.getPrefix()}skip\``);
-        if (pos > player.queue.length) return ctx.sendMessage('Song not found.');
+        if (pos == 0 || pos2 == 0) return ctx.sendMessage(`Cannot remove a song that is already playing. To skip the song type: \`${await ctx.messageHelper.getPrefix()}skip\``);
+        if (pos > player.queue.length || args[1] > player.queue.length) return ctx.sendMessage('Song not found.');
+        if (pos > pos2) return ctx.sendMessage('Start amount must be bigger than end.');
 
-        const { title } = player.queue[pos - 1];
-
-        player.queue.splice(pos - 1, 1);
-        return ctx.sendMessage(`Removed **${title}** from the queue`);
+        const songsToRemove = pos2 - pos;
+        player.queue.splice(pos - 1, songsToRemove + 1);
+        return ctx.sendMessage(`Removed **${songsToRemove + 1}** songs from the queue`);
     }
 };
