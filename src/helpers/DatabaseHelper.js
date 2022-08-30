@@ -1,5 +1,5 @@
 const Bot = require('../models/Bot');
-const Song = require('../models/Song');
+// const Song = require('../models/Song');
 const User = require('../models/User');
 const Server = require('../models/Server');
 
@@ -10,7 +10,7 @@ module.exports = class DatabaseHelper {
     }
 
     updateAll() {
-        if (Date.now() > this.client.lastUpdatedDatabase + 600000) {
+        if (Date.now() > this.client.lastUpdatedDatabase + 1200000) {
             const updateBot = new Promise((resolve) => {
                 Bot.findById(this.client.user.id).then(async bot => {
                     if (!bot) {
@@ -36,24 +36,24 @@ module.exports = class DatabaseHelper {
                 });
             });
 
-            const updateSongs = new Promise((resolve) => {
-                for (let i = 0; i < this.client.timesSongsPlayed.length; i++) {
-                    const song = this.client.timesSongsPlayed[i];
-                    if (song.url) {
-                        Song.findById(song.url).then(async s => {
-                            if (!s) {
-                                const newSong = new Song({ _id: song.url, title: song.title, id: song.id, author: song.author, duration: song.duration, thumbnail: song.thumbnail, platform: song.platform, timesPlayed: song.timesPlayed });
-                                await newSong.save().catch(e => this.logger.error(e));
-                            }
-                            else {
-                                s.updateOne({ timesPlayed: s.timesPlayed + song.timesPlayed }).catch(e => this.logger.error(e));
-                            }
-                            if (i == this.client.timesSongsPlayed.length - 1) resolve();
-                        });
-                    }
-                }
-                resolve();
-            });
+            // const updateSongs = new Promise((resolve) => {
+            //     for (let i = 0; i < this.client.timesSongsPlayed.length; i++) {
+            //         const song = this.client.timesSongsPlayed[i];
+            //         if (song.url) {
+            //             Song.findById(song.url).then(async s => {
+            //                 if (!s) {
+            //                     const newSong = new Song({ _id: song.url, title: song.title, id: song.id, author: song.author, duration: song.duration, thumbnail: song.thumbnail, platform: song.platform, timesPlayed: song.timesPlayed });
+            //                     await newSong.save().catch(e => this.logger.error(e));
+            //                 }
+            //                 else {
+            //                     s.updateOne({ timesPlayed: s.timesPlayed + song.timesPlayed }).catch(e => this.logger.error(e));
+            //                 }
+            //                 if (i == this.client.timesSongsPlayed.length - 1) resolve();
+            //             });
+            //         }
+            //     }
+            //     resolve();
+            // });
 
             const updateUsers = new Promise((resolve) => {
                 for (let i = 0; i < this.client.usersStats.length; i++) {
