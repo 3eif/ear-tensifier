@@ -32,6 +32,7 @@ module.exports = class Play extends Command {
 					type: ApplicationCommandOptionType.String,
 					required: true,
 					description: 'The query to search for.',
+					autocomplete: true,
 				},
 			],
 			permissions: {

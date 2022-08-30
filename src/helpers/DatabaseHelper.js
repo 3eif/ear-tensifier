@@ -72,11 +72,11 @@ module.exports = class DatabaseHelper {
                 resolve();
             });
 
-            Promise.all([updateBot, updateSongs, updateUsers]).then(() => {
+            Promise.all([updateBot, updateUsers]).then(() => {
                 this.client.totalCommandsUsed = 0;
                 this.client.totalSongsPlayed = 0;
                 this.client.timesCommandsUsed = [];
-                this.client.timesSongsPlayed = [];
+                // this.client.timesSongsPlayed = [];
                 this.client.usersStats = [];
                 this.client.lastUpdatedDatabase = Date.now();
             });
@@ -112,17 +112,17 @@ module.exports = class DatabaseHelper {
         this.updateAll();
     }
 
-    incrementTimesSongsPlayed(id, title, url, duration, platform, thumbnail, author) {
-        if (!url) return;
-        if (this.client.timesSongsPlayed.find(s => s.url === url)) {
-            this.client.timesSongsPlayed.find(s => s.url === url).timesPlayed += 1;
-        }
-        else {
-            this.client.timesSongsPlayed.push({ _id: url, title: title, id: id, author: author, duration: duration, thumbnail: thumbnail, platform: platform, timesPlayed: 1 });
-        }
+    // incrementTimesSongsPlayed(id, title, url, duration, platform, thumbnail, author) {
+    //     if (!url) return;
+    //     if (this.client.timesSongsPlayed.find(s => s.url === url)) {
+    //         this.client.timesSongsPlayed.find(s => s.url === url).timesPlayed += 1;
+    //     }
+    //     else {
+    //         this.client.timesSongsPlayed.push({ _id: url, title: title, id: id, author: author, duration: duration, thumbnail: thumbnail, platform: platform, timesPlayed: 1 });
+    //     }
 
-        this.updateAll();
-    }
+    //     this.updateAll();
+    // }
 
     incrementUserSongsPlayed(user) {
         if (!user) return;
@@ -134,6 +134,28 @@ module.exports = class DatabaseHelper {
         }
 
         this.updateAll();
+    }
+
+    addToLastPlayedSongs(track, user) {
+        if (!user) return;
+
+        User.findById(user.id, async (err, u) => {
+            if (err) this.client.logger.error(err);
+            if (!u) return;
+            const trackToAdd = {
+                _id: track.id ? track.id : track.url,
+                title: track.title ? track.title : 'Unknown Title',
+                url: track.url,
+                author: track.author ? track.author : 'Unknown Author',
+                duration: track.duration,
+                thumbnail: track.thumbnail,
+                platform: track.platform ? track.platform : 'file',
+                playable: track.playable,
+            };
+            u.lastPlayedSongs.unshift(trackToAdd);
+            if (u.lastPlayedSongs.length > 25) u.pop();
+            u.updateOne({ lastPlayedSongs: u.lastPlayedSongs }).catch(err => this.client.logger.error(err));
+        });
     }
 
     static async getDefaultVolume(server) {

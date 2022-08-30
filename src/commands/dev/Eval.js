@@ -1,4 +1,6 @@
 const { EmbedBuilder, MessageAttachment } = require('discord.js');
+// eslint-disable-next-line no-unused-vars
+const Discord = require('discord.js');
 const util = require('util');
 
 const Command = require('../../structures/Command');

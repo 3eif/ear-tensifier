@@ -1,4 +1,4 @@
-const { EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require('discord.js');
+const { EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle, PermissionsBitField } = require('discord.js');
 
 const DatabaseHelper = require('../../helpers/DatabaseHelper');
 const Event = require('../../structures/Event');
@@ -10,12 +10,13 @@ module.exports = class TrackStart extends Event {
     }
 
     async run(player, track) {
-        const { id, title, url, platform, requester, author, thumbnail } = track;
+        const { title, url, requester, author, thumbnail } = track;
         const duration = player.getDuration() || track.duration;
 
         this.client.databaseHelper.incrementTotalSongsPlayed();
-        this.client.databaseHelper.incrementTimesSongsPlayed(id, title, url, duration, platform, thumbnail, author);
+        // this.client.databaseHelper.incrementTimesSongsPlayed(id, title, url, duration, platform, thumbnail, author);
         this.client.databaseHelper.incrementUserSongsPlayed(requester);
+        this.client.databaseHelper.addToLastPlayedSongs(track, requester);
 
         const shouldSend = await DatabaseHelper.shouldSendNowPlayingMessage(player.textChannel.guild);
         if (!shouldSend) return;
@@ -45,6 +46,7 @@ module.exports = class TrackStart extends Event {
                     .setEmoji(this.client.config.emojis.skip));
 
         try {
+            if (!player.guild.members.me.permissions.has(PermissionsBitField.Flags.SendMessages) || !player.guild.members.me.permissions.has(PermissionsBitField.Flags.EmbedLinks)) return;
             const embed = new EmbedBuilder()
                 .setColor(this.client.config.colors.default)
                 .setAuthor({ name: author, iconURL: player.playing ? 'https://eartensifier.net/images/cd.gif' : 'https://eartensifier.net/images/cd.png', url: url })

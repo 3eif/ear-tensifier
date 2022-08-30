@@ -5,6 +5,7 @@ const Event = require('../../structures/Event');
 const Context = require('../../structures/Context');
 const MessageHelper = require('../../helpers/MessageHelper');
 const Playlist = require('../../models/Playlist');
+const User = require('../../models/User');
 
 const cooldowns = new Discord.Collection();
 
@@ -30,6 +31,7 @@ module.exports = class InteractionCreate extends Event {
         else if (interaction.isAutocomplete()) {
             const playlistCommandsWithAutocomplete = ['view', 'delete', 'add', 'save', 'rename', 'playlistremove', 'load'];
             const queueCommandsWithAutocomplete = ['removefrom', 'remove', 'skipto', 'move'];
+            const playCommandsWithAutocomplete = ['play', 'playskip'];
             if (playlistCommandsWithAutocomplete.includes(interaction.commandName)) {
                 Playlist.find({
                     creator: interaction.user.id,
@@ -60,6 +62,23 @@ module.exports = class InteractionCreate extends Event {
                 const filtered = songs.filter(choice => choice.startsWith(focusedValue));
                 if (filtered.length > 25) filtered.length = 25;
                 await interaction.respond(filtered.map(choice => ({ name: choice, value: choice })));
+            }
+            else if (playCommandsWithAutocomplete.includes(interaction.commandName)) {
+                const focusedValue = interaction.options.getFocused();
+
+                User.findById(interaction.user.id, async (err, u) => {
+                    if (err) this.client.logger.error(err);
+                    if (!u) return;
+                    const songs = [];
+                    for (let i = 0; i < u.lastPlayedSongs.length; i++) {
+                        let s = `${u.lastPlayedSongs[i].title} • ${u.lastPlayedSongs[i].author}`;
+                        if (s.length > 100) s = s.substring(0, 100);
+                        songs.push(s);
+                    }
+                    const filtered = songs.filter(choice => choice.startsWith(focusedValue));
+                    if (filtered.length > 25) filtered.length = 25;
+                    await interaction.respond(filtered.map(choice => ({ name: choice, value: choice })));
+                });
             }
             else {
                 const { commands } = this.client;

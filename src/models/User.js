@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const Track = require('./Track');
 
 const UserSchema = new Schema({
     _id: String,
@@ -7,6 +8,7 @@ const UserSchema = new Schema({
     commandsUsed: { type: Number, default: 0 },
     blacklisted: { type: Boolean, default: false },
     developer: { type: Boolean, default: false },
+    lastPlayedSongs: { type: [Track], default: [] },
 });
 
 module.exports = model('User', UserSchema);

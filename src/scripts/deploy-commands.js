@@ -3,6 +3,7 @@ const signale = require('signale');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const { Client } = require('../structures/Client');
+const { PermissionsBitField } = require('discord.js');
 require('events').defaultMaxListeners = 15;
 require('dotenv').config();
 
@@ -28,6 +29,7 @@ commandFiles.forEach(category => {
                 description: cmd.description.content,
                 options: cmd.options,
             };
+            if (cmd.permissions.userPermissions.length > 0) data.default_member_permissions = cmd.permissions.userPermissions ? PermissionsBitField.resolve(cmd.permissions.userPermissions).toString() : 0;
             commands.push(data);
             if (debug) signale.debug(i + ': ' + JSON.stringify(data));
             else signale.debug(`${i}. ${data.name}: ${data.description}`);

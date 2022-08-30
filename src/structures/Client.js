@@ -53,7 +53,7 @@ module.exports = class Client extends Discord.Client {
         this.totalCommandsUsed = 0;
         this.totalSongsPlayed = 0;
         this.timesCommandsUsed = [];
-        this.timesSongsPlayed = [];
+        // this.timesSongsPlayed = [];
         this.usersStats = [];
         this.lastUpdatedDatabase = Date.now();
     }
