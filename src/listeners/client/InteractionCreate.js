@@ -29,6 +29,7 @@ module.exports = class InteractionCreate extends Event {
         }
         else if (interaction.isAutocomplete()) {
             const playlistCommandsWithAutocomplete = ['view', 'delete', 'add', 'save', 'rename', 'playlistremove', 'load'];
+            const queueCommandsWithAutocomplete = ['removefrom', 'remove', 'skipto', 'move'];
             if (playlistCommandsWithAutocomplete.includes(interaction.commandName)) {
                 Playlist.find({
                     creator: interaction.user.id,
@@ -45,12 +46,25 @@ module.exports = class InteractionCreate extends Event {
                     return;
                 });
             }
+            else if (queueCommandsWithAutocomplete.includes(interaction.commandName)) {
+                if (!this.client.music.players.get(interaction.guild.id)) return;
+
+                const focusedValue = interaction.options.getFocused();
+                const queue = this.client.music.players.get(interaction.guild.id).queue;
+                const songs = [];
+                for (let i = 0; i < queue.length; i++) {
+                    let s = `${i + 1}. ${queue[i].title} • ${queue[i].author}`;
+                    if (s.length > 100) s = s.substring(0, 100);
+                    songs.push(s);
+                }
+                const filtered = songs.filter(choice => choice.startsWith(focusedValue));
+                if (filtered.length > 25) filtered.length = 25;
+                await interaction.respond(filtered.map(choice => ({ name: choice, value: choice })));
+            }
             else {
                 const { commands } = this.client;
                 const command = commands.get(interaction.commandName);
                 if (!command) return;
-
-                if (command.voiceRequirements.isPlaying && !this.client.music.players.get(interaction.guild.id)) return;
 
                 try {
                     await command.autocomplete(this.client, interaction);

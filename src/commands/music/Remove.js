@@ -29,19 +29,6 @@ module.exports = class Remove extends Command {
             slashCommand: true,
         });
     }
-
-    async autocomplete(client, interaction) {
-        const focusedValue = interaction.options.getFocused();
-        const queue = client.music.players.get(interaction.guild.id).queue;
-        const songs = [];
-        for (let i = 0; i < queue.length; i++) {
-            songs.push(`${i + 1}. ${queue[i].title} • ${queue[i].author}`);
-        }
-        const filtered = songs.filter(choice => choice.startsWith(focusedValue));
-        if (filtered.length > 25) filtered.length = 25;
-        await interaction.respond(filtered.map(choice => ({ name: choice, value: choice })));
-    }
-
     async run(client, ctx, args) {
         const player = client.music.players.get(ctx.guild.id);
 
