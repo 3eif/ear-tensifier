@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 
 const Bot = require('../models/Bot');
+const { PermissionsBitField } = require('discord.js');
 const app = express();
 const port = 2872;
 
@@ -23,7 +24,7 @@ module.exports = client => {
                 hide: command.hide,
                 cooldown: command.cooldown,
                 voiceRequirements: command.voiceRequirements,
-                permissions: command.permissions,
+                permissions: PermissionsBitField.resolve(command.permissions).toString(),
                 options: command.options,
                 slashCommand: command.slashCommand,
                 guildOnly: command.guildOnly,
