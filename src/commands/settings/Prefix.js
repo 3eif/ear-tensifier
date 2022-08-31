@@ -25,7 +25,8 @@ module.exports = class Prefix extends Command {
                     max_length: 100,
                 },
             ],
-            slashCommand: true,
+            slashCommand: false,
+            hide: true,
         });
     }
     async run(client, ctx, args) {
