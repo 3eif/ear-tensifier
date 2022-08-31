@@ -12,8 +12,6 @@ const listenersFolder = fs.readdirSync('./src/listeners/');
 const Logger = require('./Logger.js');
 const DatabaseHelper = require('../helpers/DatabaseHelper.js');
 
-const debug = false;
-
 module.exports = class Client extends Discord.Client {
     constructor() {
         super({
@@ -69,7 +67,7 @@ module.exports = class Client extends Discord.Client {
 
     loadCommands() {
         const commands = [];
-        let i = 0;
+        // let i = 0;
         commandsFolder.forEach(category => {
             const categories = fs.readdirSync(`./src/commands/${category}/`).filter(file => file.endsWith('.js'));
             categories.forEach(command => {
@@ -94,9 +92,9 @@ module.exports = class Client extends Discord.Client {
                     };
                     if (cmd.permissions.userPermissions.length > 0) data.default_member_permissions = cmd.permissions.userPermissions ? PermissionsBitField.resolve(cmd.permissions.userPermissions).toString() : 0;
                     commands.push(data);
-                    if (debug) this.logger.debug(i + ': ' + JSON.stringify(data));
-                    else this.logger.debug(`${i}. ${data.name}: ${data.description}`);
-                    i++;
+                    // if (debug) this.logger.debug(i + ': ' + JSON.stringify(data));
+                    // else this.logger.debug(`${i}. ${data.name}: ${data.description}`);
+                    // i++;
                 }
 
                 if (cmd.contextMenu != null) {

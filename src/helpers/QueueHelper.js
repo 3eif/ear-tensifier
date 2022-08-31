@@ -6,7 +6,7 @@ module.exports = class QueueHelper {
         let embedString = 'Queued ';
         if (trackName && !trackLink) embedString += `**${trackName}**`;
         if (trackName && trackLink) embedString += `**[${trackName}](${trackLink})**`;
-        if (trackDuration) embedString += ` [${formatDuration(trackDuration)}]`;
+        if (trackDuration && trackDuration != -1) embedString += ` [${formatDuration(trackDuration)}]`;
         if (tracks) embedString += ` (${tracks} tracks)`;
         if (trackRequester) {
             if (!trackRequester.id) embedString += ` • <@${trackRequester}>`;

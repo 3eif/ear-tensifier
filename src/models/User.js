@@ -8,7 +8,7 @@ const UserSchema = new Schema({
     commandsUsed: { type: Number, default: 0 },
     blacklisted: { type: Boolean, default: false },
     developer: { type: Boolean, default: false },
-    lastPlayedSongs: { type: [Track], default: [] },
+    songHistory: { type: [Track], default: [] },
 });
 
 module.exports = model('User', UserSchema);

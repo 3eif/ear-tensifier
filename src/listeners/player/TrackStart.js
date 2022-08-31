@@ -11,12 +11,12 @@ module.exports = class TrackStart extends Event {
 
     async run(player, track) {
         const { title, url, requester, author, thumbnail } = track;
-        const duration = player.getDuration() || track.duration;
+        const duration = (player.getDuration() || track.duration);
 
         this.client.databaseHelper.incrementTotalSongsPlayed();
         // this.client.databaseHelper.incrementTimesSongsPlayed(id, title, url, duration, platform, thumbnail, author);
         this.client.databaseHelper.incrementUserSongsPlayed(requester);
-        this.client.databaseHelper.addToLastPlayedSongs(track, requester);
+        this.client.databaseHelper.addToSongHistory(track, requester);
 
         const shouldSend = await DatabaseHelper.shouldSendNowPlayingMessage(player.textChannel.guild);
         if (!shouldSend) return;
@@ -53,11 +53,11 @@ module.exports = class TrackStart extends Event {
                 .setThumbnail(thumbnail)
                 .setTitle(title)
                 .setURL(url)
-                .setDescription(`${parsedCurrentDuration}  ${percentage < 0.05 ? this.client.config.emojis.progress7 : this.client.config.emojis.progress1}${this.client.config.emojis.progress2.repeat(part)}${percentage < 0.05 ? '' : this.client.config.emojis.progress3}${this.client.config.emojis.progress5.repeat(12 - part)}${this.client.config.emojis.progress6}  ${parsedDuration}`)
                 .setFooter({ text: requester.username })
                 .setTimestamp();
+            if (duration != -1) embed.setDescription(`${parsedCurrentDuration}  ${percentage < 0.05 ? this.client.config.emojis.progress7 : this.client.config.emojis.progress1}${this.client.config.emojis.progress2.repeat(part)}${percentage < 0.05 ? '' : this.client.config.emojis.progress3}${this.client.config.emojis.progress5.repeat(12 - part)}${this.client.config.emojis.progress6}  ${parsedDuration}`);
             player.nowPlayingMessage = await player.textChannel.send({ embeds: [embed], components: [buttonRow] });
-
+            player.queue.current.duration = duration;
             // if (!player.nowPlayingMessageInterval) player.nowPlayingMessageInterval = setInterval(() => {
             //     if (!player.player || !player.nowPlayingMessage) return clearInterval(player.nowPlayingMessageInterval);
             //     parsedCurrentDuration = formatDuration(player.getTime());

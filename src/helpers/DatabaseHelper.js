@@ -136,7 +136,7 @@ module.exports = class DatabaseHelper {
         this.updateAll();
     }
 
-    addToLastPlayedSongs(track, user) {
+    addToSongHistory(track, user) {
         if (!user) return;
 
         User.findById(user.id, async (err, u) => {
@@ -152,9 +152,9 @@ module.exports = class DatabaseHelper {
                 platform: track.platform ? track.platform : 'file',
                 playable: track.playable,
             };
-            u.lastPlayedSongs.unshift(trackToAdd);
-            if (u.lastPlayedSongs.length > 25) u.pop();
-            u.updateOne({ lastPlayedSongs: u.lastPlayedSongs }).catch(err => this.client.logger.error(err));
+            if (u.songHistory.includes(trackToAdd));
+            u.songHistory.unshift(trackToAdd);
+            u.updateOne({ songHistory: u.songHistory }).catch(err => this.client.logger.error(err));
         });
     }
 

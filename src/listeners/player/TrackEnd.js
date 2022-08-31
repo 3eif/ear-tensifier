@@ -21,7 +21,8 @@ module.exports = class TrackEnd extends Event {
             // }
             if (!shouldSend || !player.nowPlayingMessage) return;
 
-            const parsedDuration = formatDuration(track.duration);
+            const duration = track.duration;
+            const parsedDuration = formatDuration(duration);
 
             const newNowPlayingEmbed = EmbedBuilder.from(player.nowPlayingMessage.embeds[0]);
 

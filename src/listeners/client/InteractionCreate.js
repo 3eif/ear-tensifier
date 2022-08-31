@@ -70,8 +70,8 @@ module.exports = class InteractionCreate extends Event {
                     if (err) this.client.logger.error(err);
                     if (!u) return;
                     const songs = [];
-                    for (let i = 0; i < u.lastPlayedSongs.length; i++) {
-                        let s = `${u.lastPlayedSongs[i].title} • ${u.lastPlayedSongs[i].author}`;
+                    for (let i = 0; i < u.songHistory.length; i++) {
+                        let s = `${u.songHistory[i].title} • ${u.songHistory[i].author}`;
                         if (s.length > 100) s = s.substring(0, 100);
                         if (!songs.includes(s)) songs.push(s);
                     }

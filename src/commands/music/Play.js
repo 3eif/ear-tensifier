@@ -87,7 +87,8 @@ module.exports = class Play extends Command {
 			result = await client.music.search(query, ctx.author, source);
 		}
 		catch (error) {
-			return ctx.editMessage('No results found.');
+			if (query.includes('cdn') || query.includes('discord.com') || query.includes('.mp4') || query.includes('.mp3') || query.includes('.mp3')) return ctx.editMessage('No results found. Use the file command if you want to play a file track.');
+			else return ctx.editMessage('No results found.');
 		}
 
 		if (result instanceof TrackPlaylist) {
