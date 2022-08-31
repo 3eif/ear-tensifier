@@ -22,6 +22,9 @@ module.exports = class Context {
         this.createdAt = ctx.createdAt;
         this.createdTimestamp = ctx.createdTimestamp;
         this.attachments = ctx.attachments;
+
+        this.contextMenuContent = this.contextMenuContext || null;
+
     }
 
     setArgs(args) {

@@ -31,5 +31,9 @@ module.exports = class Command {
         this.acceptsAttachments = options.acceptsAttachments || false;
         this.file = options.file || null;
         this.category = options.category || 'general';
+        this.contextMenu = options.contextMenu ? {
+            name: options.contextMenu.name || options.name,
+            type: options.contextMenu.type || ApplicationCommandType.User,
+        } : null;
     }
 };

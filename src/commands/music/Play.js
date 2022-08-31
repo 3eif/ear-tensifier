@@ -39,13 +39,20 @@ module.exports = class Play extends Command {
 				botPermissions: [PermissionsBitField.Flags.Connect, PermissionsBitField.Flags.Speak],
 			},
 			slashCommand: true,
+			contextMenu: {
+				name: 'Play',
+				type: ApplicationCommandType.Message,
+			},
 		});
 	}
 
 	async run(client, ctx, args) {
 		let query;
 		let source;
-		if (args[0]) {
+		if (ctx.contextMenuContent) {
+			query = ctx.contextMenuContent;
+		}
+		else if (args[0]) {
 			query = args.slice(0).join(' ');
 			if (args[0].toLowerCase() === 'soundcloud' || args[0].toLowerCase() === 'sc') {
 				query = args.slice(1).join(' ');

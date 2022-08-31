@@ -94,11 +94,26 @@ module.exports = class InteractionCreate extends Event {
             }
         }
         else if (interaction.type === InteractionType.ApplicationCommand) {
-            const cmd = this.client.commands.get(interaction.commandName);
-            if (!cmd || !cmd.slashCommand) return;
-            const commandName = cmd.name.toLowerCase();
+            let cmd;
+            let commandName;
 
-            const ctx = new Context(interaction, interaction.options.data);
+            let ctx;
+            let contextCommand;
+            if (interaction.isMessageContextMenuCommand()) {
+                const { contextMenuCommands } = this.client;
+                contextCommand = contextMenuCommands.get(interaction.commandName);
+                if (!contextCommand) return;
+                cmd = contextCommand;
+                commandName = cmd.name.toLowerCase();
+                ctx = new Context(interaction, []);
+                ctx.contextMenuContent = interaction.targetMessage.content;
+            }
+            else {
+                cmd = this.client.commands.get(interaction.commandName);
+                if (!cmd || !cmd.slashCommand) return;
+                commandName = cmd.name.toLowerCase();
+                ctx = new Context(interaction, interaction.options.data);
+            }
             const messageHelper = new MessageHelper(this.client, ctx);
             await messageHelper.createServer();
             ctx.messageHelper = messageHelper;
