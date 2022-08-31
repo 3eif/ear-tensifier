@@ -73,7 +73,7 @@ module.exports = class InteractionCreate extends Event {
                     for (let i = 0; i < u.lastPlayedSongs.length; i++) {
                         let s = `${u.lastPlayedSongs[i].title} • ${u.lastPlayedSongs[i].author}`;
                         if (s.length > 100) s = s.substring(0, 100);
-                        songs.push(s);
+                        if (!songs.includes(s)) songs.push(s);
                     }
                     const filtered = songs.filter(choice => choice.startsWith(focusedValue));
                     if (filtered.length > 25) filtered.length = 25;
