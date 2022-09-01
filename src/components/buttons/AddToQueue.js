@@ -19,7 +19,7 @@ module.exports = class AddToQueue extends Button {
 
         const textInput = new TextInputBuilder()
             .setCustomId('songToAdd')
-            .setLabel('Type another song to queue')
+            .setLabel('Song to add to the queue')
             .setRequired(true)
             .setStyle(TextInputStyle.Short);
 
