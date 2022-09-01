@@ -37,7 +37,7 @@ module.exports = class Depth extends Command {
                 },
                 {
                     name: 'off',
-                    description: 'Sets the tremolo\'s depth back to 50%.',
+                    description: 'Sets the tremolo\'s depth back to 0%.',
                     type: ApplicationCommandOptionType.Subcommand,
                 },
             ],

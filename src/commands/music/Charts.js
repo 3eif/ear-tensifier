@@ -13,6 +13,7 @@ module.exports = class Charts extends Command {
             aliases: ['top', 'chart', 'topcharts', 'topchart'],
             args: false,
             slashCommand: false,
+            hide: true,
         });
     }
 
