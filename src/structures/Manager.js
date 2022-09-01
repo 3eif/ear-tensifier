@@ -1,4 +1,4 @@
-const { Source } = require('yasha');
+const { Source, VoiceConnection } = require('yasha');
 const { Collection } = require('discord.js');
 const EventEmitter = require('events');
 const { TrackPlaylist } = require('yasha/src/Track');
@@ -20,12 +20,13 @@ module.exports = class Manager extends EventEmitter {
     }
 
     async newPlayer(guild, voiceChannel, textChannel, volume) {
+        const dbVolume = await DatabaseHelper.getDefaultVolume(guild);
         const player = new Player({
             manager: this,
             guild: guild,
             voiceChannel: voiceChannel,
             textChannel: textChannel,
-            volume: volume ? volume : await DatabaseHelper.getDefaultVolume(guild),
+            volume: dbVolume ? dbVolume : volume,
         });
 
         this.players.set(player.guild.id, player);
@@ -36,6 +37,10 @@ module.exports = class Manager extends EventEmitter {
 
         player.on('finish', () => {
             this.trackEnd(player, true);
+        });
+
+        player.on(VoiceConnection.Status.Destroyed, () => {
+            if (player) player.destroy(true);
         });
 
         player.on('error', (err) => {

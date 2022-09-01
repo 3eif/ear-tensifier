@@ -1,3 +1,5 @@
+const { ApplicationCommandType } = require('discord.js');
+
 module.exports = class Command {
     constructor(client, options) {
         this.client = client;
@@ -22,11 +24,16 @@ module.exports = class Command {
             botPermissions: options.permissions ? (options.permissions.botPermissions || []) : [],
             userPermissions: options.permissions ? (options.permissions.userPermissions || []) : [],
         };
+        this.type = options.type || ApplicationCommandType.ChatInput;
         this.options = options.options || [];
         this.slashCommand = options.slashCommand || false;
         this.guildOnly = options.guildOnly || false;
         this.acceptsAttachments = options.acceptsAttachments || false;
         this.file = options.file || null;
         this.category = options.category || 'general';
+        this.contextMenu = options.contextMenu ? {
+            name: options.contextMenu.name || options.name,
+            type: options.contextMenu.type || ApplicationCommandType.User,
+        } : null;
     }
 };

@@ -1,6 +1,6 @@
 const { Source } = require('yasha');
 const { TrackPlaylist, Track } = require('yasha/src/Track');
-const { MessageEmbed, MessageActionRow, MessageSelectMenu, MessageButton } = require('discord.js');
+const { ApplicationCommandOptionType, ButtonStyle, ButtonBuilder, SelectMenuBuilder, ActionRowBuilder, EmbedBuilder, PermissionsBitField } = require('discord.js');
 
 const QueueHelper = require('../../helpers/QueueHelper');
 const Command = require('../../structures/Command');
@@ -27,13 +27,13 @@ module.exports = class Search extends Command {
             options: [
                 {
                     name: 'query',
-                    type: 3,
+                    type: ApplicationCommandOptionType.String,
                     required: true,
                     description: 'The query to search for.',
                 },
             ],
             permissions: {
-                botPermissions: ['CONNECT', 'SPEAK'],
+                botPermissions: [PermissionsBitField.Flags.Connect, PermissionsBitField.Flags.Speak],
             },
             slashCommand: true,
         });
@@ -183,9 +183,9 @@ module.exports = class Search extends Command {
 
             let hasReceivedIndexes = false;
 
-            const selectMenuRow = new MessageActionRow()
+            const selectMenuRow = new ActionRowBuilder()
                 .addComponents(
-                    new MessageSelectMenu()
+                    new SelectMenuBuilder()
                         .setCustomId(`${ctx.id}:SELECT_MENU`)
                         .setPlaceholder('Nothing selected')
                         .setMinValues(1)
@@ -193,19 +193,19 @@ module.exports = class Search extends Command {
                         .addOptions(selectMenuArray),
                 );
 
-            const buttonRow = new MessageActionRow()
+            const buttonRow = new ActionRowBuilder()
                 .addComponents(
-                    new MessageButton()
+                    new ButtonBuilder()
                         .setCustomId(`${ctx.id}:BUTTON`)
-                        .setStyle('DANGER')
+                        .setStyle(ButtonStyle.Danger)
                         .setLabel('Cancel')
                         .setEmoji('🗑️'),
                 );
 
-            const embed = new MessageEmbed()
-                .setAuthor('Song Selection.', ctx.author.displayAvatarURL())
+            const embed = new EmbedBuilder()
+                .setAuthor({ name: 'Song Selection.', iconURL: ctx.author.displayAvatarURL() })
                 .setDescription(str)
-                .setFooter('Your have 30 seconds to make your selection via the dropdown menu.')
+                .setFooter({ text: 'Your have 30 seconds to make your selection via the dropdown menu.' })
                 .setColor(client.config.colors.default);
             const message = await ctx.editMessage({ content: null, embeds: [embed], components: [selectMenuRow, buttonRow] });
 

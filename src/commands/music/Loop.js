@@ -1,3 +1,4 @@
+const { ApplicationCommandOptionType } = require('discord.js');
 const Command = require('../../structures/Command');
 
 module.exports = class Loop extends Command {
@@ -19,12 +20,12 @@ module.exports = class Loop extends Command {
                 {
                     name: 'queue',
                     description: 'Loops the queue.',
-                    type: 1,
+                    type: ApplicationCommandOptionType.Subcommand,
                 },
                 {
                     name: 'song',
                     description: 'Loops the current song.',
-                    type: 1,
+                    type: ApplicationCommandOptionType.Subcommand,
                 },
             ],
             slashCommand: true,

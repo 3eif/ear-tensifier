@@ -3,6 +3,7 @@ const fs = require('fs');
 const Discord = require('discord.js');
 
 const Command = require('../../structures/Command');
+const { ButtonStyle } = require('discord.js');
 
 module.exports = class Reload extends Command {
     constructor(client) {
@@ -48,25 +49,25 @@ module.exports = class Reload extends Command {
                 });
             }
 
-            let selectMenuRow = new Discord.MessageActionRow()
+            let selectMenuRow = new Discord.ActionRowBuilder()
                 .addComponents(
-                    new Discord.MessageSelectMenu()
+                    new Discord.SelectMenuBuilder()
                         .setCustomId(`${ctx.message.id}:SELECT_MENU`)
                         .setPlaceholder('Nothing selected')
                         .addOptions(selectMenuArray),
                 );
 
-            let buttonRow = new Discord.MessageActionRow()
+            let buttonRow = new Discord.ActionRowBuilder()
                 .addComponents(
-                    new Discord.MessageButton()
+                    new Discord.ButtonBuilder()
                         .setCustomId(`${ctx.id}:CANCEL_BUTTON`)
-                        .setStyle('SECONDARY')
+                        .setStyle(ButtonStyle.Secondary)
                         .setLabel('Cancel')
                         .setEmoji(client.config.emojis.failure),
                 );
 
-            const embed = new Discord.MessageEmbed()
-                .setAuthor('Reload File', client.user.displayAvatarURL())
+            const embed = new Discord.EmbedBuilder()
+                .setAuthor({ name: 'Reload File', iconURL: client.user.displayAvatarURL() })
                 .setColor(client.config.colors.default)
                 .setDescription(`📂 **${dir}**` + folders.map(dir => `\n- 📁 ${dir} `).join('') + files.map(dir => `\n- 📄 ${dir} `).join(''));
             const message = await ctx.sendMessage({ embeds: [embed], components: [selectMenuRow, buttonRow] });
@@ -129,28 +130,28 @@ module.exports = class Reload extends Command {
                     });
                 }
 
-                selectMenuRow = new Discord.MessageActionRow()
+                selectMenuRow = new Discord.ActionRowBuilder()
                     .addComponents(
-                        new Discord.MessageSelectMenu()
+                        new Discord.SelectMenuBuilder()
                             .setCustomId(`${ctx.message.id}:SELECT_MENU`)
                             .setPlaceholder('Nothing selected')
                             .addOptions(selectMenuArray),
                     );
 
-                buttonRow = new Discord.MessageActionRow();
+                buttonRow = new Discord.ActionRowBuilder();
 
                 if (currentDir != './src') buttonRow.addComponents(
-                    new Discord.MessageButton()
+                    new Discord.ButtonBuilder()
                         .setCustomId(`${ctx.id}:BACK_BUTTON`)
-                        .setStyle('SECONDARY')
+                        .setStyle(ButtonStyle.Secondary)
                         .setLabel('Back')
                         .setEmoji(client.config.emojis.left),
                 );
 
                 buttonRow.addComponents(
-                    new Discord.MessageButton()
+                    new Discord.ButtonBuilder()
                         .setCustomId(`${ctx.id}:CANCEL_BUTTON`)
-                        .setStyle('DANGER')
+                        .setStyle(ButtonStyle.Danger)
                         .setLabel('Cancel')
                         .setEmoji('🗑️'),
                 );

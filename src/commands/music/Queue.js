@@ -1,4 +1,5 @@
-const { MessageEmbed } = require('discord.js');
+const { ApplicationCommandOptionType } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 const Command = require('../../structures/Command');
 const formatDuration = require('../../utils/music/formatDuration');
@@ -17,7 +18,7 @@ module.exports = class Queue extends Command {
             },
             options: [{
                 name: 'page',
-                type: 4,
+                type: ApplicationCommandOptionType.Integer,
                 required: false,
                 description: 'View a certain page of the queue.',
             }],
@@ -48,11 +49,11 @@ module.exports = class Queue extends Command {
         const pages = [];
         for (let i = 0; i < pagesNum; i++) {
             const str = songStrings.slice(i * 10, i * 10 + 10).join('');
-            const embed = new MessageEmbed()
-                .setAuthor(`Queue - ${ctx.guild.name}`, ctx.guild.iconURL())
+            const embed = new EmbedBuilder()
+                .setAuthor({ name: `Queue - ${ctx.guild.name}`, iconURL: ctx.guild.iconURL() })
                 .setColor(client.config.colors.default)
                 .setDescription(`**Now Playing**: [${title}](${url}}) \`[${parsedDuration}]\` • ${user}.\n\n**Up Next**:${str == '' ? '  Nothing' : `\n${str}`}`)
-                .setFooter(`Page ${i + 1}/${pagesNum} | ${player.queue.length} song(s) | ${parsedQueueDuration} total duration`);
+                .setFooter({ text: `Page ${i + 1}/${pagesNum} | ${player.queue.length} song(s) | ${parsedQueueDuration} total duration` });
             pages.push(embed);
         }
 

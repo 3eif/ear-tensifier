@@ -1,8 +1,7 @@
-const { MessageButton, MessageActionRow } = require('discord.js');
-
 const Server = require('../models/Server.js');
 const User = require('../models/User.js');
 const { emojis } = require('../../config.json');
+const { ButtonStyle, ButtonBuilder, ActionRowBuilder } = require('discord.js');
 
 module.exports = class MessageHelper {
     constructor(client, ctx) {
@@ -55,7 +54,7 @@ module.exports = class MessageHelper {
     }
 
     async isBlacklisted() {
-        if(!this.user) return false;
+        if (!this.user) return false;
         if (this.user.blacklisted == null) this.user.blacklisted = false;
         if (!this.user.blacklisted) {
             this.user.commandsUsed += 1;
@@ -109,17 +108,17 @@ module.exports = class MessageHelper {
         if (pages.length < 2) return this.ctx.sendMessage({ embeds: pages });
         let page = 0;
 
-        const buttons = buttonRow ? buttonRow : new MessageActionRow()
+        const buttons = buttonRow ? buttonRow : new ActionRowBuilder()
             .addComponents(
-                new MessageButton()
+                new ButtonBuilder()
                     .setCustomId('back')
                     .setLabel('Back')
-                    .setStyle('PRIMARY')
+                    .setStyle(ButtonStyle.Primary)
                     .setEmoji(emojis.left),
-                new MessageButton()
+                new ButtonBuilder()
                     .setCustomId('next')
                     .setLabel('Next')
-                    .setStyle('PRIMARY')
+                    .setStyle(ButtonStyle.Primary)
                     .setEmoji(emojis.right),
             );
 

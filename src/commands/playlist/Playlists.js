@@ -1,8 +1,8 @@
-const Command = require('../../structures/Command');
-
-const Playlist = require('../../models/Playlist');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const humanizeDuration = require('humanize-duration');
+
+const Command = require('../../structures/Command');
+const Playlist = require('../../models/Playlist');
 
 module.exports = class Playlists extends Command {
     constructor(client) {
@@ -13,6 +13,7 @@ module.exports = class Playlists extends Command {
             },
             args: false,
             slashCommand: true,
+            autocomplete: true,
         });
     }
     async run(client, ctx) {
@@ -26,19 +27,19 @@ module.exports = class Playlists extends Command {
             for (let i = 0; i < pagesNum; i++) {
                 const str = `${p.slice(i * 10, i * 10 + 10).map(playlist => `**• ${playlist.name}** | ${playlist.tracks.length} song(s) | ${humanizeDuration(Number(Date.now() - playlist.createdTimestamp), { round: true })} ago`).join('\n')}`;
 
-                const embed = new MessageEmbed()
-                    .setAuthor(ctx.author.username, ctx.author.displayAvatarURL())
+                const embed = new EmbedBuilder()
+                    .setAuthor({ name: ctx.author.username, iconURL: ctx.author.displayAvatarURL() })
                     .setDescription(`**__Your Playlists__**\n\n${str}`)
                     .setColor(client.config.colors.default)
                     .setTimestamp()
-                    .setFooter(`Page ${i + 1}/${pagesNum} | ${p.length} playlists`);
+                    .setFooter({ text: `Page ${i + 1}/${pagesNum} | ${p.length} playlists` });
                 pages.push(embed);
             }
             ctx.messageHelper.paginate(pages);
         }).catch(err => {
             client.logger.error(err);
-            const embed = new MessageEmbed()
-                .setAuthor(ctx.author.username, ctx.author.displayAvatarURL())
+            const embed = new EmbedBuilder()
+                .setAuthor({ name: ctx.author.username, iconURL: ctx.author.displayAvatarURL() })
                 .setDescription(`${client.config.emojis.failure} You don't have any playlists.\nTo create a playlist type: \`ear create <playlist name> <search query/link>\``)
                 .setTimestamp()
                 .setColor(client.config.colors.default);

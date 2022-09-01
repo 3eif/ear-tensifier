@@ -1,4 +1,5 @@
 const { Track: { TrackPlaylist } } = require('yasha');
+const { ApplicationCommandOptionType, PermissionsBitField } = require('discord.js');
 
 const Command = require('../../structures/Command');
 const QueueHelper = require('../../helpers/QueueHelper');
@@ -24,13 +25,13 @@ module.exports = class Spotify extends Command {
             options: [
                 {
                     name: 'query',
-                    type: 3,
+                    type: ApplicationCommandOptionType.String,
                     required: true,
                     description: 'The query to search for.',
                 },
             ],
             permissions: {
-                botPermissions: ['CONNECT', 'SPEAK'],
+                botPermissions: [PermissionsBitField.Flags.Connect, PermissionsBitField.Flags.Speak],
             },
             slashCommand: true,
         });

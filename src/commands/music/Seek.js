@@ -1,3 +1,4 @@
+const { ApplicationCommandOptionType } = require('discord.js');
 const Command = require('../../structures/Command');
 const formatDuration = require('../../utils/music/formatDuration');
 
@@ -19,7 +20,7 @@ module.exports = class Seek extends Command {
             options: [
                 {
                     name: 'timestamp',
-                    type: 3,
+                    type: ApplicationCommandOptionType.String,
                     required: true,
                     description: 'The timestamp to skip to (format: mm:ss).',
                 },

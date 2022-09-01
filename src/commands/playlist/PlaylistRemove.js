@@ -1,4 +1,5 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
+const { ApplicationCommandOptionType } = require('discord.js');
 
 const Command = require('../../structures/Command');
 const Playlist = require('../../models/Playlist');
@@ -18,13 +19,14 @@ module.exports = class PlaylistRemove extends Command {
             options: [
                 {
                     name: 'playlist',
-                    type: 3,
+                    type: ApplicationCommandOptionType.String,
                     required: true,
                     description: 'The playlist\'s name.',
+                    autocomplete: true,
                 },
                 {
                     name: 'position',
-                    type: 4,
+                    type: ApplicationCommandOptionType.Integer,
                     required: true,
                     description: 'The song to add.',
                 },
@@ -45,8 +47,8 @@ module.exports = class PlaylistRemove extends Command {
             if (err) client.logger.error(err);
 
             if (!playlist) {
-                const embed = new MessageEmbed()
-                    .setAuthor(playlistName, ctx.author.displayAvatarURL())
+                const embed = new EmbedBuilder()
+                    .setAuthor({ name: playlistName, iconURL: ctx.author.displayAvatarURL() })
                     .setDescription(`${client.config.emojis.failure} Could not find a playlist by the name ${playlistName}.\nFor a list of your playlists type \`ear playlists\``)
                     .setTimestamp()
                     .setColor(client.config.colors.default);
@@ -58,10 +60,10 @@ module.exports = class PlaylistRemove extends Command {
                 playlist.tracks.splice(args[1] - 1, 1);
                 await playlist.updateOne({ tracks: playlist.tracks }).catch(e => client.logger.error(e));
 
-                const embed = new MessageEmbed()
-                    .setAuthor(playlist.name, ctx.author.displayAvatarURL())
+                const embed = new EmbedBuilder()
+                    .setAuthor({ name: playlist.name, iconURL: ctx.author.displayAvatarURL() })
                     .setDescription(`${client.config.emojis.success} Removed **${songName}** from **${playlist.name}**.`)
-                    .setFooter(`ID: ${playlist._id}`)
+                    .setFooter({ text: `ID: ${playlist._id}` })
                     .setColor(client.config.colors.default)
                     .setTimestamp();
                 return ctx.sendMessage({ content: null, embeds: [embed] });

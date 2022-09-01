@@ -1,4 +1,5 @@
-const { MessageEmbed } = require('discord.js');
+const { ApplicationCommandOptionType } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 const Command = require('../../structures/Command');
 
@@ -21,11 +22,11 @@ module.exports = class Bassboost extends Command {
                 {
                     name: 'on',
                     description: 'Turns on the bassboost filter.',
-                    type: 1,
+                    type: ApplicationCommandOptionType.Subcommand,
                     options: [
                         {
                             name: 'amount',
-                            type: 10,
+                            type: ApplicationCommandOptionType.Number,
                             required: false,
                             description: 'The amount to bassboost the player.',
                             min_value: -10,
@@ -36,29 +37,27 @@ module.exports = class Bassboost extends Command {
                 {
                     name: 'off',
                     description: 'Turns off the bassboost filter.',
-                    type: 1,
+                    type: ApplicationCommandOptionType.Subcommand,
                 },
             ],
             slashCommand: true,
         });
     }
     async run(client, ctx, args) {
-        if (ctx.guild.id == '441290611904086016') return;
-
         const player = client.music.players.get(ctx.guild.id);
 
         if ((ctx.isInteraction && ctx.interaction.options.data[0].name == 'off') || (args[0] && (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off'))) {
             player.filter.setBassboost(false);
-            const embed = new MessageEmbed()
-                .setAuthor('Turned off bassboost', ctx.author.displayAvatarURL())
+            const embed = new EmbedBuilder()
+                .setAuthor({ name: 'Turned off bassboost', iconURL: ctx.author.displayAvatarURL() })
                 .setColor(client.config.colors.default);
             return ctx.sendMessage({ content: null, embeds: [embed] });
         }
 
         if (!args[0] || args[0].toLowerCase() == 'on') {
             player.filter.setBassboost(true);
-            const embed = new MessageEmbed()
-                .setAuthor('Turned on bassboost', ctx.author.displayAvatarURL())
+            const embed = new EmbedBuilder()
+                .setAuthor({ name: 'Turned on bassboost', iconURL: ctx.author.displayAvatarURL() })
                 .setColor(client.config.colors.default);
             return ctx.sendMessage({ content: null, embeds: [embed] });
         }
@@ -66,8 +65,8 @@ module.exports = class Bassboost extends Command {
         if (isNaN(args[0])) return ctx.sendMessage('Amount must be a real number.');
 
         player.filter.setBassboost(true, args[0]);
-        const embed = new MessageEmbed()
-            .setAuthor(`Bassboost set to ${args[0]}`, ctx.author.displayAvatarURL())
+        const embed = new EmbedBuilder()
+            .setAuthor({ name: `Bassboost set to ${args[0]}`, iconURL: ctx.author.displayAvatarURL() })
             .setColor(client.config.colors.default);
         return ctx.sendMessage({ content: null, embeds: [embed] });
     }

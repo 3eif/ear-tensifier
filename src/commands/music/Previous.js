@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 const Command = require('../../structures/Command');
 
@@ -26,9 +26,9 @@ module.exports = class Previous extends Command {
         player.queue.unshift(player.queue.previous);
         player.skip();
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setColor(client.config.colors.default)
-            .setAuthor(`Backing up to ${player.queue.current.title}`, ctx.author.displayAvatarURL());
+            .setAuthor({ name: `Backing up to ${player.queue.current.title}`, iconURL: ctx.author.displayAvatarURL() });
         return ctx.sendMessage({ embeds: [embed] });
     }
 };

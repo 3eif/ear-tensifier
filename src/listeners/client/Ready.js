@@ -34,7 +34,7 @@ module.exports = class Ready extends Event {
             this.client.logger.ready('%s is online: %s shards, %s servers, and %s members.', this.client.user.username, this.client.shard.count, totalGuilds, totalMembers);
             if (process.env.NODE_ENV == 'production' || process.env.NODE_ENV == 'development') {
                 try {
-                    require('../../api/index.js')(this.client);
+                    // require('../../api/index.js')(this.client);
                     blapi.setLogging({
                         extended: true,
                         logger: this.client.logger,

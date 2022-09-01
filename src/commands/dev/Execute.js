@@ -1,4 +1,4 @@
-const { MessageEmbed, MessageAttachment } = require('discord.js');
+const { EmbedBuilder, MessageAttachment } = require('discord.js');
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
 
@@ -32,9 +32,11 @@ module.exports = class Execute extends Command {
             if (output.includes(process.env.DISCORD_TOKEN)) return ctx.editMessage('Cannot run command since the token will be leaked.');
 
             if (output.length < 1024) {
-                const embed = new MessageEmbed()
-                    .addField('Input', `\`\`\`bash\n${command}\`\`\``)
-                    .addField('Output', `\`\`\`bash\n${output}\`\`\``)
+                const embed = new EmbedBuilder()
+                    .addFields(
+                        { name: 'Input', value: `\`\`\`bash\n${command}\`\`\`` },
+                        { name: 'Output', value: `\`\`\`bash\n${output}\`\`\`` },
+                    )
                     .setColor(client.config.colors.default);
                 ctx.editMessage({ content: null, embeds: [embed] });
             }

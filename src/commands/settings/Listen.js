@@ -1,4 +1,5 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder, PermissionsBitField } = require('discord.js');
+const { ApplicationCommandOptionType } = require('discord.js');
 
 const Command = require('../../structures/Command');
 const Server = require('../../models/Server');
@@ -14,17 +15,17 @@ module.exports = class Listen extends Command {
             },
             args: true,
             permissions: {
-                userPermissions: ['MANAGE_CHANNELS'],
+                userPermissions: [PermissionsBitField.Flags.ManageChannels],
             },
             options: [
                 {
                     name: 'channel',
                     description: 'Resumes responding to commands coming from the channel you provide.',
-                    type: 1,
+                    type: ApplicationCommandOptionType.Subcommand,
                     options: [
                         {
                             name: 'name',
-                            type: 7,
+                            type: ApplicationCommandOptionType.Channel,
                             required: true,
                             description: 'The channel to resuming listening to commands in.',
                         },
@@ -33,16 +34,16 @@ module.exports = class Listen extends Command {
                 {
                     name: 'all',
                     description: 'Resumes responding to commands from all channels.',
-                    type: 1,
+                    type: ApplicationCommandOptionType.Subcommand,
                 },
                 {
                     name: 'only',
                     description: 'Resumes responding to commands from only the channel you provide.',
-                    type: 1,
+                    type: ApplicationCommandOptionType.Subcommand,
                     options: [
                         {
                             name: 'name',
-                            type: 7,
+                            type: ApplicationCommandOptionType.Channel,
                             required: true,
                             description: 'The only channel to listen to commands from.',
                         },
@@ -117,11 +118,11 @@ module.exports = class Listen extends Command {
                 });
                 await s.updateOne({ ignoredChannels: channelsToIgnore }).catch(e => client.logger.error(e));
 
-                const embed = new MessageEmbed()
-                    .setAuthor(`${ctx.guild.name}`, ctx.guild.iconURL())
+                const embed = new EmbedBuilder()
+                    .setAuthor({ name: `${ctx.guild.name}`, iconURL: ctx.guild.iconURL() })
                     .setColor(client.config.colors.default)
                     .setDescription(`I will now only listen to commands from <#${channel}>.`)
-                    .setFooter(`Tip: You can make me listen to commands in all channels again by doing ${await ctx.messageHelper.getPrefix()}listenall`);
+                    .setFooter({ text: `Tip: You can make me listen to commands in all channels again by doing ${await ctx.messageHelper.getPrefix()}listenall` });
                 ctx.editMessage({ content: null, embeds: [embed] });
             });
         }
@@ -133,8 +134,8 @@ module.exports = class Listen extends Command {
                 if (err) client.logger.error(err);
                 await s.updateOne({ ignoredChannels: [] }).catch(e => client.logger.error(e));
 
-                const embed = new MessageEmbed()
-                    .setAuthor(`${ctx.guild.name}`, ctx.guild.iconURL())
+                const embed = new EmbedBuilder()
+                    .setAuthor({ name: `${ctx.guild.name}`, iconURL: ctx.guild.iconURL() })
                     .setColor(client.config.colors.default)
                     .setDescription('I will now listen to commands from all channels.');
                 ctx.editMessage({ content: null, embeds: [embed] });
@@ -157,8 +158,8 @@ module.exports = class Listen extends Command {
                 }
                 else return ctx.editMessage('This channel is not being ignored!');
 
-                const embed = new MessageEmbed()
-                    .setAuthor(`${ctx.guild.name}`, ctx.guild.iconURL())
+                const embed = new EmbedBuilder()
+                    .setAuthor({ name: `${ctx.guild.name}`, iconURL: ctx.guild.iconURL() })
                     .setColor(client.config.colors.default)
                     .setDescription(`I will now listen to commands from <#${channel}>.`);
                 ctx.editMessage({ content: null, embeds: [embed] });
