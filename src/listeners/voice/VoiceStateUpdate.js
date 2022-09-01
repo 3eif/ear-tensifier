@@ -10,6 +10,7 @@ module.exports = class VoiceStateUpdate extends Event {
         const player = this.client.music.players.get(oldState.guild.id);
 
         if (!player || player.stayInVoice || !oldState.guild.members.me.voice.channel || !newState.guild.members.me.voice.channel) return;
+
         if (newState.guild.members.me.voice.channel.members.filter(member => !member.user.bot).size >= 1) {
             if (player.waitingMessage) {
                 player.waitingMessage.delete();
