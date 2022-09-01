@@ -33,6 +33,10 @@ module.exports = class TrackStart extends Event {
         const buttonRow = new ActionRowBuilder()
             .addComponents(
                 new ButtonBuilder()
+                    .setCustomId('LOOP_BUTTON')
+                    .setStyle(!player.queueRepeat && !player.songRepeat ? ButtonStyle.Secondary : ButtonStyle.Succeess)
+                    .setEmoji(player.songRepeat ? this.client.config.emojis.loopsong : this.client.config.emojis.loop),
+                new ButtonBuilder()
                     .setCustomId('PREVIOUS_BUTTON')
                     .setStyle(ButtonStyle.Secondary)
                     .setEmoji(this.client.config.emojis.previous),

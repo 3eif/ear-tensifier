@@ -14,7 +14,7 @@ module.exports = class Pause extends Button {
 
         const buttonRow = interaction.message.components[0];
         player.pause(!player.paused);
-        buttonRow.components[1] = new ButtonBuilder()
+        buttonRow.components[2] = new ButtonBuilder()
             .setCustomId('PAUSE_BUTTON')
             .setStyle(ButtonStyle.Primary)
             .setEmoji(player.paused ? client.config.emojis.resume : client.config.emojis.pause);
