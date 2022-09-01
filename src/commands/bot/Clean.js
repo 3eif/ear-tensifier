@@ -51,13 +51,16 @@ module.exports = class Clean extends Command {
                             deletedMessages++;
                         }
                     });
+                    ctx.sendMessage(`Cleaned ${deletedMessages} bot messages.`);
                 }
-                else ctx.channel.bulkDelete(botMessages);
+                else {
+                    ctx.channel.bulkDelete(botMessages);
+                    ctx.sendMessage(`Cleaned ${botMessages.size} bot messages.`);
+                }
             }).catch(err => {
                 client.logger.error(err);
             });
 
-            ctx.sendMessage(`Cleaned ${deletedMessages} bot messages.`);
         }
     }
 };
