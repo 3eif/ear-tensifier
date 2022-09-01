@@ -43,6 +43,7 @@ module.exports = class Client extends Discord.Client {
         this.commands = new Discord.Collection();
         this.buttons = new Discord.Collection();
         this.contextMenuCommands = new Discord.Collection();
+        this.modals = new Discord.Collection();
         this.aliases = new Discord.Collection();
 
         this.statcordSongs = 0;
@@ -156,6 +157,9 @@ module.exports = class Client extends Discord.Client {
                 case 'buttons':
                     this.loadButtons(componentFiles);
                     break;
+                case 'modals':
+                    this.loadModals(componentFiles);
+                    break;
                 default:
                     break;
             }
@@ -167,6 +171,14 @@ module.exports = class Client extends Discord.Client {
             const f = require(`../components/buttons/${buttonFile}`);
             const button = new f(this, f);
             this.buttons.set(button.id, button);
+        }
+    }
+
+    loadModals(modalFolder) {
+        for (const modalFile of modalFolder) {
+            const f = require(`../components/modals/${modalFile}`);
+            const modal = new f(this, f);
+            this.modals.set(modal.id, modal);
         }
     }
 

@@ -43,7 +43,12 @@ module.exports = class TrackStart extends Event {
                 new ButtonBuilder()
                     .setCustomId('SKIP_BUTTON')
                     .setStyle(ButtonStyle.Secondary)
-                    .setEmoji(this.client.config.emojis.skip));
+                    .setEmoji(this.client.config.emojis.skip),
+                new ButtonBuilder()
+                    .setCustomId('ADD_TO_QUEUE_BUTTON')
+                    .setStyle(ButtonStyle.Secondary)
+                    .setEmoji(this.client.config.emojis.addtoqueue));
+
 
         try {
             if (!player.guild.members.me.permissions.has(PermissionsBitField.Flags.SendMessages) || !player.guild.members.me.permissions.has(PermissionsBitField.Flags.EmbedLinks)) return;

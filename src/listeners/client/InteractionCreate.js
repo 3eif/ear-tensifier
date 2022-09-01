@@ -28,6 +28,18 @@ module.exports = class InteractionCreate extends Event {
                 return this.client.logger.error(error);
             }
         }
+        else if (interaction.type == InteractionType.ModalSubmit) {
+            const { modals } = this.client;
+            const modal = modals.get(interaction.customId);
+            if (!modal) return this.client.logger.error(`${interaction.customId} modal was not found`);
+
+            try {
+                await modal.run(this.client, interaction);
+            }
+            catch (error) {
+                return this.client.logger.error(error);
+            }
+        }
         else if (interaction.isAutocomplete()) {
             const playlistCommandsWithAutocomplete = ['view', 'delete', 'add', 'save', 'rename', 'playlistremove', 'load'];
             const queueCommandsWithAutocomplete = ['removefrom', 'remove', 'skipto', 'move'];
