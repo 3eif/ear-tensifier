@@ -23,7 +23,7 @@ module.exports = class Legal extends Command {
                     name: 'What We Collect', value: `
 • User IDs: Used to store profiles, voting rewards and premium/pro features.
 • Server IDs: Used to store server options such as custom prefixes, and ignored channels.
-• Submitted data. This includes user and server options, and stored playlists.
+• Submitted data. This includes user and server options, songs played, and stored playlists.
         ` }, {
                 name: 'How We Use The Data', value: ` The data is used to make the bot functional and customizable. Without this data custom prefixes, profiles, playlists and more would not be supported. We will not share or sell user's data to any 3rd party companies or individuals. 
         ` }, {
