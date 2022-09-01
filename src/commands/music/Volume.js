@@ -8,7 +8,7 @@ module.exports = class Volume extends Command {
         super(client, {
             name: 'volume',
             description: {
-                content: 'Sets the volume of the player.',
+                content: 'Gets or sets the volume of the player.',
                 usage: '[volume level (default is 100)]',
             },
             voiceRequirements: {
