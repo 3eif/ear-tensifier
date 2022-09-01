@@ -1,5 +1,4 @@
 const Modal = require('../../structures/Modal');
-const Context = require('../../structures/Context');
 const { TrackPlaylist } = require('yasha/src/Track');
 const QueueHelper = require('../../helpers/QueueHelper');
 
@@ -10,50 +9,22 @@ module.exports = class AddToQueue extends Modal {
         });
     }
     async run(client, interaction) {
-        const ctx = new Context(interaction, [interaction.fields.getTextInputValue('songToAdd')]);
-        const args = ctx.args;
-        let query;
-        let source;
-        if (ctx.contextMenuContent) {
-            query = ctx.contextMenuContent;
-        }
-        else if (args[0]) {
-            query = args.slice(0).join(' ');
-            if (args[0].toLowerCase() === 'soundcloud' || args[0].toLowerCase() === 'sc') {
-                query = args.slice(1).join(' ');
-                source = 'soundcloud';
-            }
-            else if (args[0].toLowerCase() === 'spotify' || args[0].toLowerCase() === 'sp') {
-                query = args.slice(1).join(' ');
-                source = 'spotify';
-            }
-            else if (args[0].toLowerCase() === 'youtube' || args[0].toLowerCase() === 'yt') {
-                query = args.slice(1).join(' ');
-                source = 'youtube';
-            }
-            else if (args[0].toLowerCase() === 'applemusic' || args[0].toLowerCase() === 'apple') {
-                query = args.slice(1).join(' ');
-                source = 'apple';
-            }
-        }
+        const query = interaction.fields.getTextInputValue('songToAdd');
 
-        await ctx.sendDeferMessage(`${client.config.emojis.typing} Searching for \`${query}\`...`);
-
-        let player = client.music.players.get(ctx.guild.id);
+        let player = client.music.players.get(interaction.guild.id);
         if (!player) {
-            player = await client.music.newPlayer(ctx.guild, ctx.member.voice.channel, ctx.channel);
+            player = await client.music.newPlayer(interaction.guild, interaction.member.voice.channel, interaction.channel);
             player.connect();
         }
 
-        if (player.queue.length > client.config.max.songsInQueue) return ctx.editMessage(`You have reached the **maximum** amount of songs (${client.config.max.songsInQueue})`);
+        if (player.queue.length > client.config.max.songsInQueue) return interaction.reply({ content: `You have reached the **maximum** amount of songs (${client.config.max.songsInQueue})` });
 
         let result;
         try {
-            result = await client.music.search(query, ctx.author, source);
+            result = await client.music.search(query, interaction.user);
         }
         catch (error) {
-            if (query.includes('cdn') || query.includes('discord.com') || query.includes('.mp4') || query.includes('.mp3') || query.includes('.mp3')) return ctx.editMessage('No results found. Use the file command if you want to play a file track.');
-            else return ctx.editMessage('No results found.');
+            return await interaction.reply({ content: 'No results found.' });
         }
 
         if (result instanceof TrackPlaylist) {
@@ -84,7 +55,7 @@ module.exports = class AddToQueue extends Modal {
 
             if (list.length) {
                 for (const track of list) {
-                    if (!track.requester) track.requester = ctx.author;
+                    if (!track.requester) track.requester = interaction.user;
                     player.queue.add(track);
                 }
             }
@@ -92,7 +63,7 @@ module.exports = class AddToQueue extends Modal {
             const totalDuration = list.reduce((acc, cur) => acc + cur.duration, 0);
 
             if (!player.playing && !player.paused) player.play();
-            return ctx.editMessage({ content: null, embeds: [QueueHelper.queuedEmbed(result.title, result.url, totalDuration, list.length, ctx.author, client.config.colors.default)] });
+            return await interaction.reply({ content: null, embeds: [QueueHelper.queuedEmbed(result.title, result.url, totalDuration, list.length, interaction.user, client.config.colors.default)] });
         }
 
         // console.log(result);
@@ -101,7 +72,7 @@ module.exports = class AddToQueue extends Modal {
         player.queue.add(result);
         if (!player.playing && !player.paused) player.play();
 
-        ctx.editMessage({ content: null, embeds: [QueueHelper.queuedEmbed(result.title, result.url, result.duration, null, ctx.author, client.config.colors.default)] });
+        await interaction.reply({ content: null, embeds: [QueueHelper.queuedEmbed(result.title, result.url, result.duration, null, interaction.user, client.config.colors.default)] });
 
     }
 };
