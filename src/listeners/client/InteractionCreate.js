@@ -159,7 +159,7 @@ module.exports = class InteractionCreate extends Event {
             }
 
             if (cmd.permissions.userPermissions.length > 0) {
-                const missingPermissions = cmd.permissions.userPermissions.filter(perm => !interaction.member.permissions.has(perm));
+                const missingPermissions = new Discord.PermissionsBitField(cmd.permissions.userPermissions.filter(perm => !interaction.member.permissions.has(perm))).toArray();
                 if (missingPermissions.length > 0) {
                     return interaction.reply(`You don't have the required permissions to execute this command. Missing permission(s): **${missingPermissions.join(', ')}**`);
                 }

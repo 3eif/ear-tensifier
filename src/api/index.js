@@ -15,6 +15,10 @@ module.exports = client => {
         client.logger.api('Received get request for /commands');
         const commands = [];
         client.commands.forEach(command => {
+            const permissions = {
+                userPermissions: new PermissionsBitField(command.permissions.userPermissions).toArray(),
+                botPermissions: new PermissionsBitField(command.permissions.botPermissions).toArray(),
+            };
             commands.push({
                 name: command.name,
                 description: command.description,
@@ -24,7 +28,7 @@ module.exports = client => {
                 hide: command.hide,
                 cooldown: command.cooldown,
                 voiceRequirements: command.voiceRequirements,
-                permissions: PermissionsBitField.resolve(command.permissions).toString(),
+                permissions: permissions,
                 options: command.options,
                 slashCommand: command.slashCommand,
                 guildOnly: command.guildOnly,

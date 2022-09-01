@@ -97,7 +97,7 @@ module.exports = class MessageCreate extends Event {
         }
 
         if (cmd.permissions.userPermissions.length > 0) {
-            const missingPermissions = cmd.permissions.userPermissions.filter(perm => !message.member.permissions.has(perm));
+            const missingPermissions = new Discord.PermissionsBitField(cmd.permissions.userPermissions.filter(perm => !message.member.permissions.has(perm))).toArray();
             if (missingPermissions.length > 0) {
                 return message.channel.send(`You don't have the required permissions to execute this command. Missing permission(s): **${missingPermissions.join(', ')}**`);
             }
