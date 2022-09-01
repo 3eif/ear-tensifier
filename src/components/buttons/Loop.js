@@ -15,24 +15,24 @@ module.exports = class Loop extends Button {
         let str;
         let style;
         let emoji;
-        if (!player.queueRepeat && !player.songRepeat) {
+        if (!player.queueRepeat && !player.trackRepeat) {
             player.setQueueRepeat(true);
             str = 'Queue is now being looped.';
-            style = ButtonStyle.Success;
+            style = ButtonStyle.Primary;
             emoji = client.config.emojis.loop;
         }
-        else if (player.queueRepeat && !player.songRepeat) {
+        else if (player.queueRepeat && !player.trackRepeat) {
             player.setQueueRepeat(false);
             player.setTrackRepeat(true);
             str = 'Song is now being looped.';
-            style = ButtonStyle.Success;
+            style = ButtonStyle.Primary;
             emoji = client.config.emojis.loopsong;
         }
-        else if (player.songRepeat) {
+        else if (player.trackRepeat) {
             player.setQueueRepeat(false);
             player.setTrackRepeat(false);
             str = 'Song is no longer being looped.';
-            style = ButtonStyle.Primary;
+            style = ButtonStyle.Secondary;
             emoji = client.config.emojis.loop;
         }
         const buttonRow = interaction.message.components[0];
