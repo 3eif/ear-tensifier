@@ -1,4 +1,4 @@
-const { ApplicationCommandOptionType, PermissionsBitField } = require('discord.js');
+const { ApplicationCommandOptionType, PermissionsBitField, ChannelType } = require('discord.js');
 const Command = require('../../structures/Command');
 
 module.exports = class Clean extends Command {
@@ -21,7 +21,7 @@ module.exports = class Clean extends Command {
                 {
                     name: 'messages',
                     type: ApplicationCommandOptionType.Integer,
-                    required: true,
+                    required: false,
                     description: 'The number of messages to clean up.',
                     min_value: 0,
                 },
@@ -39,15 +39,16 @@ module.exports = class Clean extends Command {
             }
         }
 
-        if (ctx.channel.type == 'GUILD_TEXT') {
+        let deletedMessages = 0;
+        if (ctx.channel.type === ChannelType.GuildText) {
             await ctx.channel.messages.fetch({ limit: 100 }).then(messages => {
                 let botMessages = messages.filter(msg => msg.author == client.user.id);
-                if (messagesToDelete > 0) {
+                if (args[0]) {
                     botMessages = messages.filter(msg => msg.author == client.user.id);
                     botMessages.forEach(msg => {
-                        messagesToDelete--;
-                        if (messagesToDelete > 0) {
+                        if (messagesToDelete > deletedMessages) {
                             msg.delete();
+                            deletedMessages++;
                         }
                     });
                 }
@@ -55,6 +56,8 @@ module.exports = class Clean extends Command {
             }).catch(err => {
                 client.logger.error(err);
             });
+
+            ctx.sendMessage(`Cleaned ${deletedMessages} bot messages.`);
         }
     }
 };
