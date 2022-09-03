@@ -42,8 +42,6 @@ module.exports = class Player extends TrackPlayer {
             },
         );
         this.subscription = this.connection.subscribe(this);
-        this.setVolume(this.volume);
-
         this.connection.on('error', (error) => {
             this.manager.logger.error(error);
         });
@@ -62,6 +60,7 @@ module.exports = class Player extends TrackPlayer {
         }
         this.start();
         this.filter.setAllFilters();
+        this.setVolume(this.volume);
     }
 
     skip() {

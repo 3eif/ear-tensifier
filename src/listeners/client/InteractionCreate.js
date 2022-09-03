@@ -19,7 +19,7 @@ module.exports = class InteractionCreate extends Event {
         if (interaction.isButton()) {
             const { buttons } = this.client;
             const button = buttons.get(interaction.customId);
-            if (!button) return this.client.logger.error(`${interaction.customId} button was not found`);
+            if (!button) return;
 
             try {
                 await button.run(this.client, interaction);
