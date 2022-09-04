@@ -30,7 +30,7 @@ module.exports = class Volume extends Command {
     async run(client, ctx, args) {
         const player = client.music.players.get(ctx.guild.id);
 
-        if (!args[0]) return ctx.sendMessage(`The current volume is set to: **${player.volume}%**`);
+        if (!args[0]) return ctx.sendMessage(`The current volume is set to: **${player.filter.volume}%**`);
 
         if (args[0].toString().toLowerCase() == 'reset') {
             player.filter.resetVolume();

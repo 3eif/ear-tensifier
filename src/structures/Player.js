@@ -60,7 +60,6 @@ module.exports = class Player extends TrackPlayer {
         }
         this.start();
         this.filter.setAllFilters();
-        this.setVolume(this.volume);
     }
 
     skip() {
