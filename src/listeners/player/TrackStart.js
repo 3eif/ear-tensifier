@@ -53,7 +53,6 @@ module.exports = class TrackStart extends Event {
                     .setStyle(ButtonStyle.Secondary)
                     .setEmoji(this.client.config.emojis.addtoqueue));
 
-
         try {
             if (!player.guild.members.me.permissions.has(PermissionsBitField.Flags.SendMessages) || !player.guild.members.me.permissions.has(PermissionsBitField.Flags.EmbedLinks)) return;
             const embed = new EmbedBuilder()
