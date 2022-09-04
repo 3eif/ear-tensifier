@@ -161,7 +161,7 @@ module.exports = class InteractionCreate extends Event {
             if (cmd.permissions.userPermissions.length > 0) {
                 const missingPermissions = new Discord.PermissionsBitField(cmd.permissions.userPermissions.filter(perm => !interaction.member.permissions.has(perm))).toArray();
                 if (missingPermissions.length > 0) {
-                    return interaction.reply(`You don't have the required permissions to execute this command. Missing permission(s): **${missingPermissions.join(', ')}**`);
+                    return interaction.reply({ content: `You don't have the required permissions to execute this command. Missing permission(s): **${missingPermissions.join(', ')}**`, ephemeral: true });
                 }
             }
 
@@ -187,7 +187,7 @@ module.exports = class InteractionCreate extends Event {
                     const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
                     const timeLeft = (expirationTime - now) / 1000;
                     if (now < expirationTime && timeLeft > 0.9) {
-                        return interaction.reply({ content: `Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${commandName}\` command.` });
+                        return interaction.reply({ content: `Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${commandName}\` command.`, ephemeral: true });
                     }
                     timestamps.set(interaction.user.id, now);
                     setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);

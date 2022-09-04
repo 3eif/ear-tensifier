@@ -21,5 +21,6 @@ module.exports = class Previous extends Button {
                 .setAuthor({ name: `Backing up to ${player.queue.current.title}`, iconURL: interaction.member.displayAvatarURL() });
             await player.textChannel.send({ embeds: [embed] });
         }
+        else return interaction.reply({ content: 'There is no previous song.', ephemeral: true });
     }
 };

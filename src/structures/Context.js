@@ -47,6 +47,17 @@ module.exports = class Context {
         }
     }
 
+    sendEphemeralMessage(content) {
+        if (this.isInteraction) {
+            this.msg = this.interaction.reply({ content: content, ephemeral: true });
+            return this.msg;
+        }
+        else {
+            this.msg = this.message.channel.send(content);
+            return this.msg;
+        }
+    }
+
     async sendDeferMessage(content) {
         if (this.isInteraction) {
             this.msg = await this.deferReply({ fetchReply: true });
