@@ -36,7 +36,7 @@ module.exports = class Remove extends Command {
 
         if (isNaN(pos)) return ctx.sendMessage('Invalid number.');
 
-        if (pos == 0) return ctx.sendMessage(`Cannot remove a song that is already playing. To skip the song type: \`${await ctx.messageHelper.getPrefix()}skip\``);
+        if (pos == 0) return ctx.sendMessage('Cannot remove a song that is already playing. To skip the song type: `/skip`');
         if (pos > player.queue.length) return ctx.sendMessage('Song not found.');
 
         const { title } = player.queue[pos - 1];

@@ -39,7 +39,7 @@ module.exports = class Create extends Command {
     async run(client, ctx, args) {
         await ctx.sendDeferMessage(`${client.config.emojis.typing} Creating your playlist (This might take a few seconds.)...`);
 
-        if (!args[1] && !ctx.attachments) return ctx.editMessage(`Please specify a search query or link.\nUsage: \`${await ctx.messageHelper.getPrefix()} create <playlist name> <search query/link>\``);
+        if (!args[1] && !ctx.attachments) return ctx.editMessage('Please specify a search query or link.\nUsage: `/create <playlist name> <search query/link>`');
         if (args[0].length > this.options[0].max_length) return ctx.editMessage(`Playlist name must be less than ${this.options[0].max_length} characters!`);
 
         const tracksToAdd = [];

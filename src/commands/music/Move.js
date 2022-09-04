@@ -40,7 +40,7 @@ module.exports = class Move extends Command {
         const pos = args[0].replace('.', '').split(' ')[0];
 
         if (isNaN(pos)) return ctx.sendMessage('Invalid number.');
-        if (pos === 0) return ctx.sendMessage(`Cannot move a song that is already playing. To skip the current playing song type: \`${await ctx.messageHelper.getPrefix()}skip\``);
+        if (pos === 0) return ctx.sendMessage('Cannot move a song that is already playing. To skip the current playing song type: `/skip`');
 
         const player = client.music.players.get(ctx.guild.id);
         if ((pos > player.queue.length) || (pos && !player.queue[pos - 1])) return ctx.sendMessage('Song not found.');
@@ -54,7 +54,7 @@ module.exports = class Move extends Command {
         else if (args[1]) {
             const pos2 = args[1].replace('.', '').split(' ')[0];
 
-            if (pos2 == 0) return ctx.sendMessage(`Cannot move a song that is already playing. To skip the current playing song type: \`${await ctx.messageHelper.getPrefix()}skip\``);
+            if (pos2 == 0) return ctx.sendMessage('Cannot move a song that is already playing. To skip the current playing song type: `/skip`');
             if ((pos2 > player.queue.length) || !player.queue[pos2 - 1]) return ctx.sendMessage('Song not found.');
             const song = player.queue[pos - 1];
             player.queue.splice(pos - 1, 1);

@@ -36,7 +36,7 @@ module.exports = class PlaylistRemove extends Command {
     }
 
     async run(client, ctx, args) {
-        if (!args[1] || isNaN(args[1])) return ctx.sendMessage(`Please specify the position of the song you want to remove.\nUsage: \`${await ctx.messageHelper.getPrefix()} premove <playlist name> <song position>\``);
+        if (!args[1] || isNaN(args[1])) return ctx.sendMessage('Please specify the position of the song you want to remove.\nUsage: /playlistremove <playlist name> <song position>`');
 
         const playlistName = args[0].replace(/_/g, ' ');
 

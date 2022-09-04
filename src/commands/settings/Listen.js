@@ -122,7 +122,7 @@ module.exports = class Listen extends Command {
                     .setAuthor({ name: `${ctx.guild.name}`, iconURL: ctx.guild.iconURL() })
                     .setColor(client.config.colors.default)
                     .setDescription(`I will now only listen to commands from <#${channel}>.`)
-                    .setFooter({ text: `Tip: You can make me listen to commands in all channels again by doing ${await ctx.messageHelper.getPrefix()}listenall` });
+                    .setFooter({ text: 'Tip: You can make me listen to commands in all channels again by doing /listen all' });
                 ctx.editMessage({ content: null, embeds: [embed] });
             });
         }

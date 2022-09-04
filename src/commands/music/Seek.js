@@ -29,7 +29,7 @@ module.exports = class Seek extends Command {
         });
     }
     async run(client, ctx, args) {
-        if (!args[0].includes(':')) return ctx.sendMessage(`Invalid timestamp. Please provide a timestamp (format: \`mm:ss\`, example: \`1:00\`).\nCorrect Usage: \`${await ctx.messageHelper.getPrefix()}seek <timestamp>\``);
+        if (!args[0].includes(':')) return ctx.sendMessage('Invalid timestamp. Please provide a timestamp (format: `mm:ss`, example: `1:00`).\nCorrect Usage: `/seek <timestamp>`');
 
         const seconds = formatDuration(args[0]);
         const player = client.music.players.get(ctx.guild.id);
