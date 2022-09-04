@@ -29,7 +29,14 @@ module.exports = class TrackEnd extends Event {
             if (finished) newNowPlayingEmbed.setDescription(`${parsedDuration}  ${this.client.config.emojis.progress1}${this.client.config.emojis.progress2.repeat(13)}${this.client.config.emojis.progress8}  ${parsedDuration}`);
             newNowPlayingEmbed.setAuthor({ name: track.author, iconURL: 'https://eartensifier.net/images/cd.png', url: track.url });
 
-            await player.nowPlayingMessage.edit({ components: [], embeds: [newNowPlayingEmbed] });
+            await player.nowPlayingMessage.edit({ content: null, embeds: [newNowPlayingEmbed] });
+
+
+
+            // const newNowPlayingEmbed = EmbedBuilder.from(this.nowPlayingMessage.embeds[0])
+            //     .setAuthor({ name: this.queue.current.author, iconURL: this.pause ? 'https://eartensifier.net/images/cd.png' : 'https://eartensifier.net/images/cd.gif', url: this.queue.current.url });
+
+            // this.nowPlayingMessage.edit({ content: null, embeds: [newNowPlayingEmbed] });
         }
         catch (e) {
             this.client.logger.error(e);
