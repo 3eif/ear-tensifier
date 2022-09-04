@@ -3,6 +3,7 @@ const blapi = require('blapi');
 
 const Event = require('../../structures/Event');
 const Manager = require('../../structures/Manager');
+const { ActivityType } = require('discord.js');
 
 module.exports = class Ready extends Event {
     constructor(...args) {
@@ -18,9 +19,9 @@ module.exports = class Ready extends Event {
         }
         else this.client.logger.warn('MongoDB URL missing');
 
-        const status = `${process.env.PREFIX}help`;
-        const statusType = 'LISTENING';
-        this.client.user.setActivity(`${status}`, { type: `${statusType}` });
+        const status = '/help | eartensifier.net';
+        const statusType = ActivityType.Watching;
+        this.client.user.setPresence({ activities: [{ name: status, type: statusType }], status: 'online' });
 
         this.client.music = new Manager();
         this.client.loadPlayerListeners();
