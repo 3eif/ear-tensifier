@@ -19,6 +19,6 @@ module.exports = class Skip extends Button {
         const embed = new EmbedBuilder()
             .setColor(client.config.colors.default)
             .setAuthor({ name: `Skipped ${title}`, iconURL: interaction.member.displayAvatarURL() });
-        await player.textChannel.send({ embeds: [embed] });
+        await interaction.reply({ embeds: [embed] });
     }
 };

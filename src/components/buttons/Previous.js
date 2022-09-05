@@ -19,7 +19,7 @@ module.exports = class Previous extends Button {
             const embed = new EmbedBuilder()
                 .setColor(client.config.colors.default)
                 .setAuthor({ name: `Backing up to ${player.queue.current.title}`, iconURL: interaction.member.displayAvatarURL() });
-            await player.textChannel.send({ embeds: [embed] });
+            await interaction.reply({ embeds: [embed] });
         }
         else return interaction.reply({ content: 'There is no previous song.', ephemeral: true });
     }
