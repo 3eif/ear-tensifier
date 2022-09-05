@@ -74,7 +74,7 @@ module.exports = class Stats extends Command {
                             .setColor(client.config.colors.default)
                             .setThumbnail(client.user.displayAvatarURL())
                             .addFields(
-                                { name: 'Born On', value: new Date(client.user.createdAt).toLocaleString('en-US', { timezone: 'America/Los_Angeles' }, true) + ' (Pacific Standard Time)' },
+                                { name: 'Born On', value: <t:1532774330:F>, true) + ' (Pacific Standard Time)' },
                                 { name: 'Current Version', value: client.config.version, inline: true },
                                 { name: 'Shard', value: `${client.shard.ids}/${client.shard.count}`, inline: true },
                                 { name: 'Servers', value: `${totalGuilds.toLocaleString()}`, inline: true },
