@@ -153,9 +153,9 @@ module.exports = class InteractionCreate extends Event {
                         const user = this.client.users.cache.get('id');
                         if (!user) return;
                         else if (!user.dmChannel) await user.createDM();
-                        await user.dmChannel.send(`I don't have the required permissions to execute this command. Missing permission(s): **${missingPermissions.join(', ')}**\n${permissionHelpMessage}`);
+                        await user.dmChannel.send(`I don't have the required permissions to execute this command. Missing permission(s): **${missingPerms.join(', ')}**\n${permissionHelpMessage}`);
                     }
-                    return interaction.reply(`I don't have the required permissions to execute this command. Missing permission(s): **${missingPermissions.join(', ')}**\n${permissionHelpMessage}`);
+                    return interaction.reply(`I don't have the required permissions to execute this command. Missing permission(s): **${missingPerms.join(', ')}**\n${permissionHelpMessage}`);
                 }
             }
 
