@@ -1,4 +1,5 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
+const { ApplicationCommandOptionType } = require('discord.js');
 
 const Command = require('../../structures/Command');
 const Playlist = require('../../models/Playlist');
@@ -21,17 +22,20 @@ module.exports = class Save extends Command {
             options: [
                 {
                     name: 'playlist',
-                    type: 3,
+                    type: ApplicationCommandOptionType.String,
                     required: true,
                     description: 'The playlist\'s name.',
+                    max_value: 100,
+                    autocomplete: true,
                 },
             ],
+            slashCommand: true,
         });
     }
     async run(client, ctx, args) {
         await ctx.sendDeferMessage(`${client.config.emojis.typing} Adding song(s) to your playlist (This might take a few seconds.)...`);
 
-        if (args[0].length > 32) return ctx.editMessage('Playlist title must be less than 32 characters!');
+        if (args[0].length > this.options[0].max_value) return ctx.editMessage(`Playlist title must be less than ${this.options[0].max_value} characters!`);
         const playlistName = args.join(' ').replace(/_/g, ' ');
         const player = client.music.players.get(ctx.guild.id);
         const tracksToAdd = [];
@@ -71,10 +75,10 @@ module.exports = class Save extends Command {
                 newPlaylist.tracks.length = clamp(newPlaylist.tracks.length, 0, client.config.max.songsInPlaylist);
                 await newPlaylist.save().catch(e => client.logger.error(e));
 
-                const embed = new MessageEmbed()
-                    .setAuthor(newPlaylist.name, ctx.author.displayAvatarURL())
+                const embed = new EmbedBuilder()
+                    .setAuthor({ name: newPlaylist.name, iconURL: ctx.author.displayAvatarURL() })
                     .setDescription(`${client.config.emojis.success} Saved the current queue to playlist: **${newPlaylist.name}**.`)
-                    .setFooter(`ID: ${newPlaylist._id} • ${newPlaylist.tracks.length}/${client.config.max.songsInPlaylist}`)
+                    .setFooter({ text: `ID: ${newPlaylist._id} • ${newPlaylist.tracks.length}/${client.config.max.songsInPlaylist}` })
                     .setColor(client.config.colors.default)
                     .setTimestamp();
                 ctx.editMessage({ content: null, embeds: [embed] });
@@ -87,10 +91,10 @@ module.exports = class Save extends Command {
                 p.tracks.length = clamp(p.tracks.length, 0, client.config.max.songsInPlaylist);
                 await p.updateOne({ tracks: p.tracks }).catch(e => client.logger.error(e));
 
-                const embed = new MessageEmbed()
-                    .setAuthor(p.name, ctx.author.displayAvatarURL())
+                const embed = new EmbedBuilder()
+                    .setAuthor({ name: p.name, iconURL: ctx.author.displayAvatarURL() })
                     .setDescription(`${client.config.emojis.success} Saved the queue to an existing playlist with the name: **${p.name}**.`)
-                    .setFooter(`ID: ${p._id} • ${p.tracks.length}/${client.config.max.songsInPlaylist}`)
+                    .setFooter({ text: `ID: ${p._id} • ${p.tracks.length}/${client.config.max.songsInPlaylist}}` })
                     .setColor(client.config.colors.default)
                     .setTimestamp();
                 ctx.editMessage({ content: null, embeds: [embed] });

@@ -1,6 +1,6 @@
 const { Source } = require('yasha');
 const { TrackPlaylist, Track } = require('yasha/src/Track');
-const { MessageEmbed, MessageActionRow, MessageSelectMenu, MessageButton } = require('discord.js');
+const { ApplicationCommandOptionType, ButtonStyle, ButtonBuilder, SelectMenuBuilder, ActionRowBuilder, EmbedBuilder, PermissionsBitField, ComponentType } = require('discord.js');
 
 const QueueHelper = require('../../helpers/QueueHelper');
 const Command = require('../../structures/Command');
@@ -27,13 +27,13 @@ module.exports = class Search extends Command {
             options: [
                 {
                     name: 'query',
-                    type: 3,
+                    type: ApplicationCommandOptionType.String,
                     required: true,
                     description: 'The query to search for.',
                 },
             ],
             permissions: {
-                botPermissions: ['CONNECT', 'SPEAK'],
+                botPermissions: [PermissionsBitField.Flags.Connect, PermissionsBitField.Flags.Speak],
             },
             slashCommand: true,
         });
@@ -183,45 +183,46 @@ module.exports = class Search extends Command {
 
             let hasReceivedIndexes = false;
 
-            const selectMenuRow = new MessageActionRow()
+            const selectMenuRow = new ActionRowBuilder()
                 .addComponents(
-                    new MessageSelectMenu()
-                        .setCustomId(`${ctx.id}:SELECT_MENU`)
+                    new SelectMenuBuilder()
+                        .setCustomId('SEARCH_SELECT_MENU')
                         .setPlaceholder('Nothing selected')
                         .setMinValues(1)
                         .setMaxValues(10)
                         .addOptions(selectMenuArray),
                 );
 
-            const buttonRow = new MessageActionRow()
+            const buttonRow = new ActionRowBuilder()
                 .addComponents(
-                    new MessageButton()
-                        .setCustomId(`${ctx.id}:BUTTON`)
-                        .setStyle('DANGER')
+                    new ButtonBuilder()
+                        .setCustomId('SEARCH_CANCEL_BUTTON')
+                        .setStyle(ButtonStyle.Danger)
                         .setLabel('Cancel')
                         .setEmoji('🗑️'),
                 );
 
-            const embed = new MessageEmbed()
-                .setAuthor('Song Selection.', ctx.author.displayAvatarURL())
+            const embed = new EmbedBuilder()
+                .setAuthor({ name: 'Song Selection.', iconURL: ctx.author.displayAvatarURL() })
                 .setDescription(str)
-                .setFooter('Your have 30 seconds to make your selection via the dropdown menu.')
+                .setFooter({ text: 'Your have 30 seconds to make your selection via the dropdown menu.' })
                 .setColor(client.config.colors.default);
             const message = await ctx.editMessage({ content: null, embeds: [embed], components: [selectMenuRow, buttonRow] });
 
-            const buttonCollector = message.createMessageComponentCollector({ componentType: 'BUTTON', time: 30000 });
+            const buttonCollector = message.createMessageComponentCollector({ componentType: ComponentType.Button, time: 120000 });
             buttonCollector.on('collect', interaction => {
                 if (interaction.user.id === ctx.author.id) {
-                    if (interaction.customId == `${ctx.id}:BUTTON`) {
+                    if (interaction.customId == 'SEARCH_CANCEL_BUTTON') {
+
                         hasReceivedIndexes = true;
-                        return interaction.message.delete();
+                        return message.delete();
                     }
                 }
             });
 
-            const selectMenuCollector = message.createMessageComponentCollector({ componentType: 'SELECT_MENU', time: 30000 });
+            const selectMenuCollector = message.createMessageComponentCollector({ componentType: ComponentType.SelectMenu, time: 30000 });
             selectMenuCollector.on('collect', async interaction => {
-                if (interaction.customId != `${ctx.id}:SELECT_MENU`) return;
+                if (interaction.customId != 'SEARCH_SELECT_MENU') return;
                 if (interaction.user.id != ctx.author.id) return;
 
                 const selected = interaction.values.map(s => parseInt(s));
@@ -261,7 +262,7 @@ module.exports = class Search extends Command {
                         ctx.sendFollowUp({
                             content: ' ', embeds: [QueueHelper.queuedEmbed(
                                 track.title,
-                                track.uri,
+                                track.url,
                                 player.getDuration() ? player.getDuration() : track.duration,
                                 null,
                                 track.requester,
@@ -274,7 +275,7 @@ module.exports = class Search extends Command {
                 await interaction.update({ components: [] });
             });
 
-            buttonCollector.on('end', async () => {
+            selectMenuCollector.on('end', async () => {
                 if (!hasReceivedIndexes) return ctx.sendFollowUp('Selection expired.');
             });
         }

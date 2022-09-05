@@ -1,11 +1,10 @@
 /* eslint-disable no-console */
+require('dotenv').config();
 const { AutoPoster } = require('topgg-autoposter');
 const Sentry = require('@sentry/node');
 const Discord = require('discord.js');
 const figlet = require('figlet');
 const Statcord = require('statcord.js');
-
-require('custom-env').env(true);
 
 const Logger = require('./structures/Logger');
 
@@ -25,7 +24,6 @@ if (process.platform != 'linux') {
         darwin: 'macOS',
         win32: 'Windows',
     };
-
     console.error('You must be on linux to run this bot. You are currently using:', alias[process.platform] || process.platform);
 }
 

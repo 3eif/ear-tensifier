@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 const DatabaseHelper = require('../../helpers/DatabaseHelper');
 const Event = require('../../structures/Event');
@@ -9,24 +9,32 @@ module.exports = class TrackEnd extends Event {
         super(...args);
     }
 
-async run(player, track, finished) {
+    async run(player, track, finished) {
         player.queue.previous = track;
 
         const shouldSend = await DatabaseHelper.shouldSendNowPlayingMessage(player.textChannel.guild);
 
         try {
-            if (player.nowPlayingMessageInterval) {
-                clearInterval(player.nowPlayingMessageInterval);
-                player.nowPlayingMessageInterval = null;
-            }
+            // if (player.nowPlayingMessageInterval) {
+            //     clearInterval(player.nowPlayingMessageInterval);
+            //     player.nowPlayingMessageInterval = null;
+            // }
             if (!shouldSend || !player.nowPlayingMessage) return;
 
-            const parsedDuration = formatDuration(track.duration);
-            const embed = new MessageEmbed(player.nowPlayingMessage.embeds[0].setAuthor(track.author, 'https://eartensifier.net/images/cd.png', track.url));
+            const duration = track.duration;
+            const parsedDuration = formatDuration(duration);
 
-            if (finished) embed.setDescription(`${parsedDuration}  ${this.client.config.emojis.progress1}${this.client.config.emojis.progress2.repeat(13)}${this.client.config.emojis.progress8}  ${parsedDuration}`);
+            const newNowPlayingEmbed = EmbedBuilder.from(player.nowPlayingMessage.embeds[0]);
 
-            await player.nowPlayingMessage.edit({ components: [], embeds: [embed] });
+            if (finished) newNowPlayingEmbed.setDescription(`${parsedDuration}  ${this.client.config.emojis.progress1}${this.client.config.emojis.progress2.repeat(13)}${this.client.config.emojis.progress8}  ${parsedDuration}`);
+            newNowPlayingEmbed.setAuthor({ name: track.author, iconURL: 'https://eartensifier.net/images/cd.png', url: track.url });
+
+            await player.nowPlayingMessage.edit({ content: null, embeds: [newNowPlayingEmbed] });
+
+            // const newNowPlayingEmbed = EmbedBuilder.from(this.nowPlayingMessage.embeds[0])
+            //     .setAuthor({ name: this.queue.current.author, iconURL: this.pause ? 'https://eartensifier.net/images/cd.png' : 'https://eartensifier.net/images/cd.gif', url: this.queue.current.url });
+
+            // this.nowPlayingMessage.edit({ content: null, embeds: [newNowPlayingEmbed] });
         }
         catch (e) {
             this.client.logger.error(e);

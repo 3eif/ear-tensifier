@@ -1,5 +1,6 @@
 const { Track: { TrackPlaylist } } = require('yasha');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
+const { ApplicationCommandOptionType } = require('discord.js');
 
 const Command = require('../../structures/Command');
 const Playlist = require('../../models/Playlist');
@@ -10,23 +11,23 @@ module.exports = class Create extends Command {
         super(client, {
             name: 'create',
             description: {
-                content: 'Creates or adds a song to one of your playlists.',
+                content: 'Creates a playlist.',
                 usage: '<playlist name> <search query/link>',
                 examples: ['DSOTM https://open.spotify.com/album/4LH4d3cOWNNsVw41Gqt2kv?si=ACDwAO26S5iFYzrvaJqVsg'],
             },
-            aliases: ['add'],
             args: true,
             acceptsAttachemnts: true,
             options: [
                 {
                     name: 'playlist',
-                    type: 3,
+                    type: ApplicationCommandOptionType.String,
                     required: true,
                     description: 'The playlist\'s name.',
+                    max_length: 100,
                 },
                 {
                     name: 'query',
-                    type: 3,
+                    type: ApplicationCommandOptionType.String,
                     required: true,
                     description: 'The song to add.',
                 },
@@ -36,10 +37,10 @@ module.exports = class Create extends Command {
     }
 
     async run(client, ctx, args) {
-        await ctx.sendDeferMessage(`${client.config.emojis.typing} Adding song(s) to your playlist (This might take a few seconds.)...`);
+        await ctx.sendDeferMessage(`${client.config.emojis.typing} Creating your playlist (This might take a few seconds.)...`);
 
-        if (!args[1] && !ctx.attachments) return ctx.editMessage(`Please specify a search query or link.\nUsage: \`${await ctx.messageHelper.getPrefix()} create <playlist name> <search query/link>\``);
-        if (args[0].length > 32) return ctx.editMessage('Playlist name must be less than 32 characters!');
+        if (!args[1] && !ctx.attachments) return ctx.editMessage('Please specify a search query or link.\nUsage: `/create <playlist name> <search query/link>`');
+        if (args[0].length > this.options[0].max_length) return ctx.editMessage(`Playlist name must be less than ${this.options[0].max_length} characters!`);
 
         const tracksToAdd = [];
         let playlistMessage = '';
@@ -128,10 +129,10 @@ module.exports = class Create extends Command {
                 newPlaylist.length = clamp(newPlaylist.tracks.length, 0, client.config.max.songsInPlaylist);
                 await newPlaylist.save().catch(e => client.logger.error(e));
 
-                const embed = new MessageEmbed()
-                    .setAuthor(newPlaylist.name, ctx.author.displayAvatarURL())
+                const embed = new EmbedBuilder()
+                    .setAuthor({ name: newPlaylist.name, iconURL: ctx.author.displayAvatarURL() })
                     .setDescription(`${client.config.emojis.success} Created a playlist with name: **${newPlaylist.name}**.\n${playlistMessage}`)
-                    .setFooter(`ID: ${newPlaylist._id} • ${newPlaylist.tracks.length}/${client.config.max.songsInPlaylist}`)
+                    .setFooter({ text: `ID: ${newPlaylist._id} • ${newPlaylist.tracks.length}/${client.config.max.songsInPlaylist}` })
                     .setColor(client.config.colors.default)
                     .setTimestamp();
                 return ctx.editMessage({ content: null, embeds: [embed] });
@@ -144,10 +145,10 @@ module.exports = class Create extends Command {
                 playlist.tracks.length = clamp(playlist.tracks.length, 0, client.config.max.songsInPlaylist);
                 await playlist.updateOne({ tracks: playlist.tracks }).catch(e => client.logger.error(e));
 
-                const embed = new MessageEmbed()
-                    .setAuthor(playlist.name, ctx.author.displayAvatarURL())
+                const embed = new EmbedBuilder()
+                    .setAuthor({ name: playlist.name, iconURL: ctx.author.displayAvatarURL() })
                     .setDescription(`${client.config.emojis.success} Found an existing playlist with the name: **${playlist.name}**.\n${playlistMessage}`)
-                    .setFooter(`ID: ${playlist._id} • ${playlist.tracks.length}/${client.config.max.songsInPlaylist}`)
+                    .setFooter({ text: `ID: ${playlist._id} • ${playlist.tracks.length}/${client.config.max.songsInPlaylist}` })
                     .setColor(client.config.colors.default)
                     .setTimestamp();
                 return ctx.editMessage({ content: null, embeds: [embed] });

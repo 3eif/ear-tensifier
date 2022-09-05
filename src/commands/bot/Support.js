@@ -10,7 +10,6 @@ module.exports = class Support extends Command {
             aliases: ['server'],
             args: false,
             slashCommand: true,
-            hide: true,
         });
     }
 

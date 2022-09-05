@@ -1,5 +1,6 @@
 const Command = require('../../structures/Command');
 const User = require('../../models/User.js');
+const { ApplicationCommandOptionType } = require('discord.js');
 
 module.exports = class Bio extends Command {
     constructor(client) {
@@ -13,12 +14,19 @@ module.exports = class Bio extends Command {
             args: true,
             cooldown: '4',
             aliases: ['setbio', 'set-bio', 'bioset'],
+            options: [{
+                name: 'bio',
+                description: 'The bio you want to set on your profile.',
+                type: ApplicationCommandOptionType.String,
+                required: true,
+                max_length: 1000,
+                min_length: 1,
+            }],
+            slashCommand: true,
         });
     }
     async run(client, ctx, args) {
-        if (ctx.guild.id == '441290611904086016') return;
-
-        if (args.join(' ').length > 1000) return ctx.sendMessage('Bio must be less than 1000 characters!');
+        if (args.join(' ').length > this.options[0].max_length) return ctx.sendMessage('Bio must be less than 1000 characters!');
         await ctx.sendDeferMessage(`${client.config.emojis.typing} Setting bio...`);
 
         User.findById(ctx.author.id, async (err, u) => {

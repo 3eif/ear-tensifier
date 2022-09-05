@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 const Command = require('../../structures/Command');
 const Song = require('../../models/Song');
@@ -13,6 +13,7 @@ module.exports = class Charts extends Command {
             aliases: ['top', 'chart', 'topcharts', 'topchart'],
             args: false,
             slashCommand: false,
+            hide: true,
         });
     }
 
@@ -30,8 +31,8 @@ module.exports = class Charts extends Command {
                     songsArr.push(`**${i + 1}.** **[${res[i].title}](${res[i]._id})** (${res[i].timesPlayed.toLocaleString()} plays)`);
                 }
 
-                const embed = new MessageEmbed()
-                    .setAuthor('Top Charts', client.user.displayAvatarURL())
+                const embed = new EmbedBuilder()
+                    .setAuthor({ name: 'Top Charts', iconURL: client.user.displayAvatarURL() })
                     .setTitle('Top Songs')
                     .setDescription(`${songsArr.join('\n')}`)
                     .setTimestamp()

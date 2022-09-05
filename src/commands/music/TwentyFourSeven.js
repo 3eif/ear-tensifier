@@ -16,7 +16,7 @@ module.exports = class TwentyFourSeven extends Command {
     }
     async run(client, ctx) {
         const player = client.music.players.get(ctx.guild.id);
-        if (!player) return ctx.sendMessage('There are no songs currently playing, please play a song to use the command.');
+        if (!player) return ctx.sendEphemeralMessage('There are no songs currently playing, please play a song to use the command.');
 
         if (player.stayInVoice) {
             player.stayInVoice = false;

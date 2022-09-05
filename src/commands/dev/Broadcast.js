@@ -19,10 +19,10 @@ module.exports = class Broadcast extends Command {
         await client.shard.broadcastEval(broadcastMessage, { context: { message: arg } });
 
         function broadcastMessage(c, { message }) {
-            c.music.players.each(p => p.textChannel.send(message));
+            c.music.getPlayingPlayers().each(p => p.textChannel.send(message));
         }
 
-        const players = await client.shard.broadcastEval(c => c.music.players.size);
+        const players = await client.shard.broadcastEval(c => c.music.getPlayingPlayers().size);
         let totalPlayers = 0;
         for (const player of players) {
             totalPlayers += player;

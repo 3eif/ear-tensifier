@@ -1,3 +1,4 @@
+const { ApplicationCommandOptionType } = require('discord.js');
 const Command = require('../../structures/Command');
 
 module.exports = class Remove extends Command {
@@ -10,7 +11,7 @@ module.exports = class Remove extends Command {
                 examples: ['1', '1 5'],
             },
             args: true,
-            aliases: ['removefrom', 'removerange'],
+            aliases: ['rm'],
             voiceRequirements: {
                 isInVoiceChannel: true,
                 isInSameVoiceChannel: true,
@@ -19,15 +20,10 @@ module.exports = class Remove extends Command {
             options: [
                 {
                     name: 'position',
-                    type: 4,
+                    type: ApplicationCommandOptionType.String,
                     required: true,
                     description: 'The position of the song to remove.',
-                },
-                {
-                    name: 'position2',
-                    type: 4,
-                    required: false,
-                    description: 'The range of songs to remove between the first and second position.',
+                    autocomplete: true,
                 },
             ],
             slashCommand: true,
@@ -36,25 +32,16 @@ module.exports = class Remove extends Command {
     async run(client, ctx, args) {
         const player = client.music.players.get(ctx.guild.id);
 
-        if (isNaN(args[0])) return ctx.sendMessage('Invalid number.');
+        const pos = args[0].replace('.', '').split(' ')[0];
 
-        if (!args[1]) {
-            if (args[0] == 0) return ctx.sendMessage(`Cannot remove a song that is already playing. To skip the song type: \`${await ctx.messageHelper.getPrefix()}skip\``);
-            if (args[0] > player.queue.length) return ctx.sendMessage('Song not found.');
+        if (isNaN(pos)) return ctx.sendEphemeralMessage('Invalid number.');
 
-            const { title } = player.queue[args[0] - 1];
+        if (pos == 0) return ctx.sendEphemeralMessage('Cannot remove a song that is already playing. To skip the song type: `/skip`');
+        if (pos > player.queue.length) return ctx.sendEphemeralMessage('Song not found.');
 
-            player.queue.splice(args[0] - 1, 1);
-            return ctx.sendMessage(`Removed **${title}** from the queue`);
-        }
-        else {
-            if (args[0] == 0 || args[1] == 0) return ctx.sendMessage(`Cannot remove a song that is already playing. To skip the song type: \`${await ctx.messageHelper.getPrefix()}skip\``);
-            if (args[0] > player.queue.length || args[1] > player.queue.length) return ctx.sendMessage('Song not found.');
-            if (args[0] > args[1]) return ctx.sendMessage('Start amount must be bigger than end.');
+        const { title } = player.queue[pos - 1];
 
-            const songsToRemove = args[1] - args[0];
-            player.queue.splice(args[0] - 1, songsToRemove + 1);
-            return ctx.sendMessage(`Removed **${songsToRemove + 1}** songs from the queue`);
-        }
+        player.queue.splice(pos - 1, 1);
+        return ctx.sendMessage(`Removed **${title}** from the queue`);
     }
 };

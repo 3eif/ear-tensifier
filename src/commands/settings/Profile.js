@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 const Command = require('../../structures/Command');
 const User = require('../../models/User');
@@ -29,23 +29,21 @@ module.exports = class Profile extends Command {
 
                 newUser.save().catch(e => client.logger.error(e));
 
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setThumbnail(user.user.displayAvatarURL())
-                    .addField('User', `${user.user.tag}`, true)
-                    .addField('Bio', 'No bio set')
+                    .addFields({ name: 'User', value: `${user.user.tag}`, inline: true }, { name: 'Bio', value: 'No bio set' })
                     .setColor(client.config.colors.default)
-                    .setFooter('Commands Used: 0 | Songs Played: 0')
+                    .setFooter({ text: 'Commands Used: 0 | Songs Played: 0' })
                     .setTimestamp();
                 return ctx.editMessage({ content: null, embeds: [embed] });
             }
             else {
                 const bio = u.bio ? u.bio : 'No bio set. To set your bio type `ear bio <desired bio>`';
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setThumbnail(user.user.displayAvatarURL())
-                    .addField('User', `${user.user.tag}`, true)
-                    .addField('Bio', `${bio}`)
+                    .addFields({ name: 'User', value: `${user.user.tag}`, inline: true }, { name: 'Bio', value: bio })
                     .setColor(client.config.colors.default)
-                    .setFooter(`Commands Used: ${u.commandsUsed} | Songs Played: ${u.songsPlayed}`)
+                    .setFooter({ text: `Commands Used: ${u.commandsUsed} | Songs Played: ${u.songsPlayed}` })
                     .setTimestamp();
                 return ctx.editMessage({ content: null, embeds: [embed] });
             }

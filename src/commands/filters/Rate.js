@@ -1,4 +1,5 @@
-const { MessageEmbed } = require('discord.js');
+const { ApplicationCommandOptionType } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 const Command = require('../../structures/Command');
 
@@ -22,11 +23,11 @@ module.exports = class Rate extends Command {
                 {
                     name: 'on',
                     description: 'Sets the rate of the player.',
-                    type: 1,
+                    type: ApplicationCommandOptionType.Subcommand,
                     options: [
                         {
                             name: 'amount',
-                            type: 10,
+                            type: ApplicationCommandOptionType.Number,
                             required: true,
                             description: 'The amount to set the rate to.',
                             min_value: 0,
@@ -37,21 +38,19 @@ module.exports = class Rate extends Command {
                 {
                     name: 'off',
                     description: 'Sets the rate back to 1.',
-                    type: 1,
+                    type: ApplicationCommandOptionType.Subcommand,
                 },
             ],
             slashCommand: true,
         });
     }
     async run(client, ctx, args) {
-        if (ctx.guild.id == '441290611904086016') return;
-
         const player = client.music.players.get(ctx.guild.id);
 
         if ((ctx.isInteraction && ctx.interaction.options.data[0].name == 'off') || (args[0] && (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off'))) {
             player.filter.resetRate();
-            const embed = new MessageEmbed()
-                .setAuthor('Rate has been reset to 1x', ctx.author.displayAvatarURL())
+            const embed = new EmbedBuilder()
+                .setAuthor({ name: 'Rate has been reset to 1x', iconURL: ctx.author.displayAvatarURL() })
                 .setColor(client.config.colors.default);
             return ctx.sendMessage({ content: null, embeds: [embed] });
         }
@@ -61,8 +60,8 @@ module.exports = class Rate extends Command {
         if (args[0] > 3 || args[0] < 0) return ctx.sendMessage('Amount must be between 0 and 3.');
 
         player.filter.setRate(args[0]);
-        const embed = new MessageEmbed()
-            .setAuthor(`Rate set to ${args[0]}x`, ctx.author.displayAvatarURL())
+        const embed = new EmbedBuilder()
+            .setAuthor({ name: `Rate set to ${args[0]}x`, iconURL: ctx.author.displayAvatarURL() })
             .setColor(client.config.colors.default);
         return ctx.sendMessage({ content: null, embeds: [embed] });
     }

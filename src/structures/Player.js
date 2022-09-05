@@ -1,5 +1,5 @@
 const { VoiceConnection, TrackPlayer } = require('yasha');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 const Queue = require('./Queue');
 const Filter = require('./Filter');
@@ -32,6 +32,8 @@ module.exports = class Player extends TrackPlayer {
         this.guild = options.guild;
 
         this.filter = new Filter(this);
+
+        this.leaveTimeout = null;
     }
 
     async connect() {
@@ -42,7 +44,6 @@ module.exports = class Player extends TrackPlayer {
             },
         );
         this.subscription = this.connection.subscribe(this);
-
         this.connection.on('error', (error) => {
             this.manager.logger.error(error);
         });
@@ -59,6 +60,8 @@ module.exports = class Player extends TrackPlayer {
         else {
             super.play(track);
         }
+        clearTimeout(this.leaveTimeout);
+        this.leaveTimeout = null;
         this.start();
         this.filter.setAllFilters();
     }
@@ -114,7 +117,7 @@ module.exports = class Player extends TrackPlayer {
             if (this.stayInVoice && !force) return;
 
             if (this.nowPlayingMessage) {
-                if (this.nowPlayingMessageInterval) clearInterval(this.nowPlayingMessageInterval);
+                // if (this.nowPlayingMessageInterval) clearInterval(this.nowPlayingMessageInterval);
                 // eslint-disable-next-line no-empty-function
                 await this.nowPlayingMessage.edit({ components: [] }).catch(() => { });
             }
@@ -160,8 +163,10 @@ module.exports = class Player extends TrackPlayer {
 
     pause(pause) {
         if (this.queue.current && this.nowPlayingMessage) {
-            const embed = new MessageEmbed(this.nowPlayingMessage.embeds[0].setAuthor(this.queue.current.author, this.pause ? 'https://eartensifier.net/images/cd.png' : 'https://eartensifier.net/images/cd.gif', this.queue.current.url));
-            this.nowPlayingMessage.edit({ content: null, embeds: [embed] });
+            const newNowPlayingEmbed = EmbedBuilder.from(this.nowPlayingMessage.embeds[0])
+                .setAuthor({ name: this.queue.current.author, iconURL: this.pause ? 'https://eartensifier.net/images/cd.png' : 'https://eartensifier.net/images/cd.gif', url: this.queue.current.url });
+
+            this.nowPlayingMessage.edit({ content: null, embeds: [newNowPlayingEmbed] });
         }
 
         if (this.paused === pause || !this.queue.totalSize) return this;

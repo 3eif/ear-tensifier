@@ -1,3 +1,4 @@
+const { ApplicationCommandOptionType, PermissionsBitField, ChannelType } = require('discord.js');
 const Command = require('../../structures/Command');
 
 module.exports = class Clean extends Command {
@@ -13,48 +14,53 @@ module.exports = class Clean extends Command {
             args: false,
             slashCommand: true,
             permissions: {
-                userPermissions: ['MANAGE_MESSAGES'],
-                botPermissions: ['MANAGE_MESSAGES'],
+                userPermissions: [PermissionsBitField.Flags.ManageMessages],
+                botPermissions: [PermissionsBitField.Flags.ManageMessages],
             },
             options: [
                 {
                     name: 'messages',
-                    type: 4,
-                    required: true,
-                    description: 'The amount of messages to clean up.',
+                    type: ApplicationCommandOptionType.Integer,
+                    required: false,
+                    description: 'The number of messages to clean up.',
+                    min_value: 0,
                 },
             ],
         });
     }
 
     async run(client, ctx, args) {
-        if (ctx.guild.id == '441290611904086016') return;
-
         let messagesToDelete = 0;
 
         if (args[0]) {
             messagesToDelete = parseInt(args[0]);
-            if (isNaN(messagesToDelete) || messagesToDelete < 1) {
-                return ctx.sendMessage({ content: `Invalid argument, argument must be a number.\nCorrect Usage: \`${await ctx.messageHelper.getPrefix()}clean <number messages>\`` });
+            if (isNaN(messagesToDelete) || messagesToDelete < this.options[0].min_value) {
+                return ctx.sendMessage({ content: 'Invalid argument, argument must be a number.\nCorrect Usage: `/clean <number messages>`' });
             }
         }
 
-        if (ctx.channel.type == 'GUILD_TEXT') {
+        let deletedMessages = 0;
+        if (ctx.channel.type === ChannelType.GuildText) {
             await ctx.channel.messages.fetch({ limit: 100 }).then(messages => {
                 let botMessages = messages.filter(msg => msg.author == client.user.id);
-                if (messagesToDelete > 0) {
+                if (args[0]) {
                     botMessages = messages.filter(msg => msg.author == client.user.id);
                     botMessages.forEach(msg => {
-                        messagesToDelete--;
-                        if (messagesToDelete > 0) {
+                        if (messagesToDelete > deletedMessages) {
                             msg.delete();
+                            deletedMessages++;
                         }
                     });
+                    ctx.sendMessage(`Cleaned ${deletedMessages} bot messages.`);
                 }
-                else ctx.channel.bulkDelete(botMessages);
+                else {
+                    ctx.channel.bulkDelete(botMessages);
+                    ctx.sendMessage(`Cleaned ${botMessages.size} bot messages.`);
+                }
             }).catch(err => {
                 client.logger.error(err);
             });
+
         }
     }
 };

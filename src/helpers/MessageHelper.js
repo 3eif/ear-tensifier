@@ -1,8 +1,7 @@
-const { MessageButton, MessageActionRow } = require('discord.js');
-
 const Server = require('../models/Server.js');
 const User = require('../models/User.js');
 const { emojis } = require('../../config.json');
+const { ButtonStyle, ButtonBuilder, ActionRowBuilder } = require('discord.js');
 
 module.exports = class MessageHelper {
     constructor(client, ctx) {
@@ -55,7 +54,7 @@ module.exports = class MessageHelper {
     }
 
     async isBlacklisted() {
-        if(!this.user) return false;
+        if (!this.user) return false;
         if (this.user.blacklisted == null) this.user.blacklisted = false;
         if (!this.user.blacklisted) {
             this.user.commandsUsed += 1;
@@ -71,35 +70,35 @@ module.exports = class MessageHelper {
     sendResponse(type) {
         switch (type) {
             case 'sameVoiceChannel': {
-                this.ctx.sendMessage('You are not in the same voice channel as the bot.');
+                this.ctx.sendEphemeralMessage('You are not in the same voice channel as the bot.');
                 break;
             }
             case 'noVoiceChannel': {
-                this.ctx.sendMessage('You need to be in a voice channel to use this command.');
+                this.ctx.sendEphemeralMessage('You need to be in a voice channel to use this command.');
                 break;
             }
             case 'noSongsPlaying': {
-                this.ctx.sendMessage('There are no songs currently playing, please play a song to use the command.');
+                this.ctx.sendEphemeralMessage('There are no songs currently playing, please play a song to use the command.');
                 break;
             }
             case 'botVoiceChannel': {
-                this.ctx.sendMessage('The bot is not currently in a vc.');
+                this.ctx.sendEphemeralMessage('The bot is not currently in a vc.');
                 break;
             }
             case 'noPermissionConnect': {
-                this.ctx.sendMessage('I do not have permission to join your voice channel.');
+                this.ctx.sendEphemeralMessage('I do not have permission to join your voice channel.');
                 break;
             }
             case 'noPermissionSpeak': {
-                this.ctx.sendMessage('I do not have permission to speak in your voice channel.');
+                this.ctx.sendEphemeralMessage('I do not have permission to speak in your voice channel.');
                 break;
             }
             case 'noUser': {
-                this.ctx.sendMessage('Please provide a valid user.');
+                this.ctx.sendEphemeralMessage('Please provide a valid user.');
                 break;
             }
             default: {
-                this.ctx.sendMessage(this.client.error());
+                this.ctx.sendEphemeralMessage(this.client.error());
             }
         }
     }
@@ -109,17 +108,17 @@ module.exports = class MessageHelper {
         if (pages.length < 2) return this.ctx.sendMessage({ embeds: pages });
         let page = 0;
 
-        const buttons = buttonRow ? buttonRow : new MessageActionRow()
+        const buttons = buttonRow ? buttonRow : new ActionRowBuilder()
             .addComponents(
-                new MessageButton()
+                new ButtonBuilder()
                     .setCustomId('back')
                     .setLabel('Back')
-                    .setStyle('PRIMARY')
+                    .setStyle(ButtonStyle.Primary)
                     .setEmoji(emojis.left),
-                new MessageButton()
+                new ButtonBuilder()
                     .setCustomId('next')
                     .setLabel('Next')
-                    .setStyle('PRIMARY')
+                    .setStyle(ButtonStyle.Primary)
                     .setEmoji(emojis.right),
             );
 

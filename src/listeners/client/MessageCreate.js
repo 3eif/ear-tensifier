@@ -4,6 +4,7 @@ const Statcord = require('statcord.js');
 const Event = require('../../structures/Event');
 const MessageHelper = require('../../helpers/MessageHelper');
 const Context = require('../../structures/Context');
+const missingPermissions = require('../../utils/music/missingPermissions');
 
 const cooldowns = new Discord.Collection();
 
@@ -82,48 +83,48 @@ module.exports = class MessageCreate extends Event {
         this.client.logger.command('%s used by %s from %s', commandName, message.author.id, message.guild.id);
 
         const permissionHelpMessage = `If you need help configuring the correct permissions for the bot join the support server: ${this.client.config.server}`;
-        cmd.permissions.botPermissions.concat(['SEND_MESSAGES', 'EMBED_LINKS']);
+        cmd.permissions.botPermissions = cmd.permissions.botPermissions.concat([Discord.PermissionsBitField.Flags.SendMessages, Discord.PermissionsBitField.Flags.EmbedLinks]);
         if (cmd.permissions.botPermissions.length > 0) {
-            const missingPermissions = cmd.permissions.botPermissions.filter(perm => !message.guild.me.permissions.has(perm));
-            if (missingPermissions.length > 0) {
-                if (missingPermissions.includes('SEND_MESSAGES')) {
+            const missingPerms = missingPermissions(cmd.permissions.botPermissions, message.channel, message.guild.members.me);
+            if (missingPerms.length > 0) {
+                if (missingPerms.includes(Discord.PermissionsBitField.Flags.SendMessages)) {
                     const user = this.client.users.cache.get('id');
                     if (!user) return;
                     else if (!user.dmChannel) await user.createDM();
-                    await user.dmChannel.send(`I don't have the required permissions to execute this command. Missing permission(s): **${missingPermissions.join(', ')}**\n${permissionHelpMessage}`);
+                    await user.dmChannel.send(`I don't have the required permissions to execute this command. Missing permission(s): **${missingPerms.join(', ')}**\n${permissionHelpMessage}`);
                 }
-                return message.channel.send(`I don't have the required permissions to execute this command. Missing permission(s): **${missingPermissions.join(', ')}**\n${permissionHelpMessage}`);
+                return message.channel.send(`I don't have the required permissions to execute this command. Missing permission(s): **${missingPerms.join(', ')}**\n${permissionHelpMessage}`);
             }
         }
 
         if (cmd.permissions.userPermissions.length > 0) {
-            const missingPermissions = cmd.permissions.userPermissions.filter(perm => !message.member.permissions.has(perm));
-            if (missingPermissions.length > 0) {
-                return message.channel.send(`You don't have the required permissions to execute this command. Missing permission(s): **${missingPermissions.join(', ')}**`);
+            const missingPerms = missingPermissions(cmd.permissions.userPermissions, message.channel, message.member);
+            if (missingPerms.length > 0) {
+                return message.channel.send(`You don't have the required permissions to execute this command. Missing permission(s): **${missingPerms.join(', ')}**`);
             }
         }
 
         if (!message.guild && cmd.guildOnly) return message.channel.send('I can\'t execute that command inside DMs!. Please run this command in a server.');
 
         if (cmd.voiceRequirements.isInVoiceChannel && !message.member.voice.channel) return messageHelper.sendResponse('noVoiceChannel');
-        else if (cmd.voiceRequirements.isInSameVoiceChannel && message.guild.me.voice.channel && !message.guild.me.voice.channel.equals(message.member.voice.channel)) return messageHelper.sendResponse('sameVoiceChannel');
+        else if (cmd.voiceRequirements.isInSameVoiceChannel && message.guild.members.me.voice.channel && !message.guild.members.me.voice.channel.equals(message.member.voice.channel)) return messageHelper.sendResponse('sameVoiceChannel');
         else if (cmd.voiceRequirements.isPlaying && !this.client.music.players.get(message.guild.id)) return messageHelper.sendResponse('noSongsPlaying');
 
         if (prefix == process.env.PREFIX) {
             if (!args[0] && cmd.args === true && ((cmd.acceptsAttachments && message.attachments.size == 0) || !cmd.acceptsAttachments)) {
-                const embed = new Discord.MessageEmbed()
+                const embed = new Discord.EmbedBuilder()
                     .setDescription(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`ear ${commandName} ${cmd.description.usage}\``);
                 return message.channel.send({ embeds: [embed] });
             }
         }
         else if (!args[0] && cmd.args === true && ((cmd.acceptsAttachments && message.attachments.size == 0) || !cmd.acceptsAttachments)) {
-            const embed = new Discord.MessageEmbed()
+            const embed = new Discord.EmbedBuilder()
                 .setDescription(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`${prefix} ${commandName} ${cmd.description.usage}\` or \`${prefix}${cmd.name} ${cmd.description.usage}\``);
             return message.channel.send({ embeds: [embed] });
         }
 
-        if (cmd.permissions.botPermissions.includes(Discord.Permissions.CONNECT) && !message.member.voice.channel.permissionsFor(this.client.user).has(Discord.Permissions.CONNECT)) return messageHelper.sendResponse('noPermissionConnect');
-        if (cmd.permissions.botPermissions.includes(Discord.Permissions.SPEAK) && !message.member.voice.channel.permissionsFor(this.client.user).has(Discord.Permissions.SPEAK)) return messageHelper.sendResponse('noPermissionSpeak');
+        if (cmd.permissions.botPermissions.includes(Discord.PermissionsBitField.Flags.Connect) && !message.member.voice.channel.permissionsFor(this.client.user).has(Discord.PermissionsBitField.Flags.Connect)) return messageHelper.sendResponse('noPermissionConnect');
+        if (cmd.permissions.botPermissions.includes(Discord.PermissionsBitField.Flags.Speak) && !message.member.voice.channel.permissionsFor(this.client.user).has(Discord.PermissionsBitField.Flags.Speak)) return messageHelper.sendResponse('noPermissionSpeak');
 
         if (!this.client.config.devs.includes(message.author.id)) {
             if (!cooldowns.has(commandName)) {

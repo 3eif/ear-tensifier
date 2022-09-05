@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 const Event = require('../../structures/Event');
 
 module.exports = class GuildCreate extends Event {
@@ -11,9 +11,9 @@ module.exports = class GuildCreate extends Event {
             this.client.shard.fetchClientValues('guilds.cache.size').then(guilds => {
                 const totalGuilds = guilds.reduce((prev, guildCount) => prev + guildCount, 0);
 
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setDescription(`${this.client.config.emojis.added} Ear Tensifier has been added to a server.`)
-                    .setFooter(`${totalGuilds} servers`)
+                    .setFooter({ text: `${totalGuilds} servers` })
                     .setTimestamp()
                     .setColor(this.client.config.colors.added);
                 if (this.client.earTensifiers.includes(this.client.user.id))

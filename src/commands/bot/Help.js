@@ -1,9 +1,8 @@
-const Command = require('../../structures/Command');
-
-const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
 const fs = require('fs');
-const categories = fs.readdirSync('./src/commands/');
+const { ApplicationCommandOptionType, ButtonStyle, ButtonBuilder, ActionRowBuilder, EmbedBuilder } = require('discord.js');
 
+const Command = require('../../structures/Command');
+const categories = fs.readdirSync('./src/commands/');
 
 module.exports = class Help extends Command {
     constructor(client) {
@@ -17,37 +16,52 @@ module.exports = class Help extends Command {
             aliases: ['commands', 'list'],
             options: [{
                 name: 'command',
-                type: 3,
+                type: ApplicationCommandOptionType.String,
                 required: false,
                 description: 'The command to view the help page of.',
+                autocomplete: true,
             }],
             slashCommand: true,
         });
     }
-    async run(client, ctx, args) {
 
+    async autocomplete(client, interaction) {
+        const focusedValue = interaction.options.getFocused();
+        const { commands } = client;
+        const helpCommands = [];
+        categories.forEach(async (category) => {
+            if (category == 'dev') return;
+            const commandsFile = fs.readdirSync(`./src/commands/${category}`).filter(file => file.endsWith('.js'));
+            for (let i = 0; i < commandsFile.length; i++) {
+                const command = commands.get(commandsFile[i].split('.')[0].toLowerCase());
+                if (command && !command.hide) helpCommands.push(command.name);
+            }
+        });
+        const filtered = helpCommands.filter(choice => choice.startsWith(focusedValue));
+        if (filtered.length > 25) filtered.length = 25;
+        await interaction.respond(filtered.map(choice => ({ name: choice, value: choice })));
+    }
+
+    async run(client, ctx, args) {
         const { commands } = ctx.client;
         const data = [];
 
-        const prefix = await ctx.messageHelper.getPrefix();
-
-        const embed = new MessageEmbed()
-            .setAuthor('Commands', client.user.displayAvatarURL())
+        const embed = new EmbedBuilder()
+            .setAuthor({ name: 'Commands', iconURL: client.user.displayAvatarURL() })
             .setDescription(`A detailed list of commands can be found here: **[eartensifier.net](https://eartensifier.net/#commands)**.\nNeed more help? Join the support server here: **[${client.config.server.replace('https://', '')}](${client.config.server})**.`)
-            .setFooter(`For more information on a command: ${prefix}help <command>`)
+            .setFooter({ text: 'For more information on a command: /help <command>' })
             .setColor(client.config.colors.default);
 
         if (!args.length) {
-
-            const buttons = new MessageActionRow()
+            const buttons = new ActionRowBuilder()
                 .addComponents(
-                    new MessageButton()
+                    new ButtonBuilder()
                         .setLabel('Support Server')
-                        .setStyle('LINK')
+                        .setStyle(ButtonStyle.Link)
                         .setURL(client.config.server),
-                    new MessageButton()
+                    new ButtonBuilder()
                         .setLabel('Website')
-                        .setStyle('LINK')
+                        .setStyle(ButtonStyle.Link)
                         .setURL(client.config.website),
                 );
 
@@ -68,7 +82,7 @@ module.exports = class Help extends Command {
 
                 for (let i = 0; i < helpCommands.length; i++) categoryCommands += helpCommands[i];
                 const categoryName = category.charAt(0).toUpperCase() + category.slice(1);
-                embed.addField(`${categoryName} (${commandsFile.length})`, categoryCommands);
+                embed.addFields({ name: `${categoryName} (${commandsFile.length})`, value: categoryCommands });
             });
 
             await ctx.sendMessage({ embeds: [embed], components: [buttons] });
@@ -82,12 +96,12 @@ module.exports = class Help extends Command {
 
             if (command.description.content) data.push(`**Description:** ${command.description.content}`);
 
-            if (command.description.usage == 'No usage provided') data.push(`**Usage:** \`${prefix}${command.name}\``);
-            else data.push(`**Usage:** \`${prefix}${command.name} ${command.description.usage}\``);
+            if (command.description.usage == 'No usage provided') data.push(`**Usage:** \`/${command.name}\``);
+            else data.push(`**Usage:** \`/${command.name} ${command.description.usage}\``);
 
             if (command.description.examples != 'No examples provided') {
                 const examples = [];
-                command.description.examples.forEach(example => examples.push(`\`${prefix}${command.name} ${example}\``));
+                command.description.examples.forEach(example => examples.push(`\`/${command.name} ${example}\``));
                 data.push(`**Examples:** ${examples.join(', ')}`);
             }
 

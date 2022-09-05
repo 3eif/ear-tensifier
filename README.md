@@ -37,6 +37,7 @@ Requirements for Ear Tensifier to run:
 - [Node.js](https://nodejs.org/en/download/) 16.6.0 or newer is required
 - A [MongoDB](https://www.mongodb.com/) instance running
 - A Discord Bot 
+- Install [sange](https://github.com/ilikdoge/sange) dependencies
 - Install [yasha](https://github.com/ilikdoge/yasha) dependencies
 
 ### Installing
