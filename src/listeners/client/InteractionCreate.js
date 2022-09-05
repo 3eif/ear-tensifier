@@ -6,6 +6,7 @@ const Context = require('../../structures/Context');
 const MessageHelper = require('../../helpers/MessageHelper');
 const Playlist = require('../../models/Playlist');
 const User = require('../../models/User');
+const missingPermissions = require('../../utils/music/missingPermissions');
 
 const cooldowns = new Discord.Collection();
 
@@ -19,7 +20,7 @@ module.exports = class InteractionCreate extends Event {
         if (interaction.isButton()) {
             const { buttons } = this.client;
             const button = buttons.get(interaction.customId);
-            if (!button) return;
+            if (!button) return this.client.logger.error(`${interaction.customId} button was not found`);
 
             try {
                 await button.run(this.client, interaction);
@@ -144,11 +145,11 @@ module.exports = class InteractionCreate extends Event {
             this.client.logger.command('%s used by %s from %s', commandName, ctx.author.id, ctx.guild.id);
 
             const permissionHelpMessage = `If you need help configuring the correct permissions for the bot join the support server: ${this.client.config.server}`;
-            cmd.permissions.botPermissions.concat([Discord.PermissionsBitField.Flags.SendMessages, Discord.PermissionsBitField.Flags.EmbedLinks]);
+            cmd.permissions.botPermissions = cmd.permissions.botPermissions.concat([Discord.PermissionsBitField.Flags.SendMessages, Discord.PermissionsBitField.Flags.EmbedLinks]);
             if (cmd.permissions.botPermissions.length > 0) {
-                const missingPermissions = cmd.permissions.botPermissions.filter(perm => !interaction.guild.members.me.permissions.has(perm));
-                if (missingPermissions.length > 0) {
-                    if (missingPermissions.includes(Discord.PermissionsBitField.Flags.SendMessages)) {
+                const missingPerms = missingPermissions(cmd.permissions.botPermissions, interaction.channel, interaction.guild.members.me);
+                if (missingPerms.length > 0) {
+                    if (missingPerms.includes(Discord.PermissionsBitField.Flags.SendMessages)) {
                         const user = this.client.users.cache.get('id');
                         if (!user) return;
                         else if (!user.dmChannel) await user.createDM();
@@ -159,15 +160,15 @@ module.exports = class InteractionCreate extends Event {
             }
 
             if (cmd.permissions.userPermissions.length > 0) {
-                const missingPermissions = new Discord.PermissionsBitField(cmd.permissions.userPermissions.filter(perm => !interaction.member.permissions.has(perm))).toArray();
-                if (missingPermissions.length > 0) {
-                    return interaction.reply({ content: `You don't have the required permissions to execute this command. Missing permission(s): **${missingPermissions.join(', ')}**`, ephemeral: true });
+                const missingPerms = missingPermissions(cmd.permissions.userPermissions, interaction.channel, interaction.member);
+                if (missingPerms.length > 0) {
+                    return interaction.reply({ content: `You don't have the required permissions to execute this command. Missing permission(s): **${missingPerms.join(', ')}**`, ephemeral: true });
                 }
             }
 
             if (cmd.voiceRequirements.isInVoiceChannel && !interaction.member.voice.channel) return messageHelper.sendResponse('noVoiceChannel');
             else if (cmd.voiceRequirements.isInSameVoiceChannel && interaction.guild.members.me.voice.channel && !interaction.guild.members.me.voice.channel.equals(interaction.member.voice.channel)) return messageHelper.sendResponse('sameVoiceChannel');
-            else if (cmd.voiceRequirements.isPlaying && (!this.client.music.players.get(interaction.guild.id) || !this.client.music.players.get(interaction.guild.id).player)) return messageHelper.sendResponse('noSongsPlaying');
+            else if (cmd.voiceRequirements.isPlaying && !this.client.music.players.get(interaction.guild.id)) return messageHelper.sendResponse('noSongsPlaying');
 
             if (cmd.permissions.botPermissions.includes(Discord.PermissionsBitField.Flags.Connect) && !interaction.member.voice.channel.permissionsFor(this.client.user).has(Discord.PermissionsBitField.Flags.Connect)) return messageHelper.sendResponse('noPermissionConnect');
             if (cmd.permissions.botPermissions.includes(Discord.PermissionsBitField.Flags.Speak) && !interaction.member.voice.channel.permissionsFor(this.client.user).has(Discord.PermissionsBitField.Flags.Speak)) return messageHelper.sendResponse('noPermissionSpeak');
@@ -195,7 +196,7 @@ module.exports = class InteractionCreate extends Event {
             }
 
             if (ctx.args.includes('@here') || ctx.args.includes('@everyone')) {
-                return interaction.reply('Your argument included an `@here` or `@everyone` which is an invalid argument type.');
+                return interaction.reply({ content: 'Your argument included an `@here` or `@everyone` which is an invalid argument type.', ephemeral: true });
             }
 
             try {

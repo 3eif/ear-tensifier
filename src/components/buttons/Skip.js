@@ -8,7 +8,7 @@ module.exports = class Skip extends Button {
         });
     }
     async run(client, interaction) {
-        if (interaction.guild.members.me.voice.channel && !interaction.guild.members.me.voice.channel.equals(interaction.member.voice.channel)) return;
+        if (interaction.guild.members.me.voice.channel && !interaction.guild.members.me.voice.channel.equals(interaction.member.voice.channel)) return interaction.reply({ content: 'You must be in the same voice channel as the bot to use this button.', ephemeral: true });
         const player = client.music.players.get(interaction.guild.id);
         if (!player) return;
 

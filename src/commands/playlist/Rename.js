@@ -55,7 +55,7 @@ module.exports = class Rename extends Command {
                     .setDescription(`${client.config.emojis.failure} Could not find a playlist by the name ${playlistName}.\nFor a list of your playlists type \`ear playlists\``)
                     .setTimestamp()
                     .setColor(client.config.colors.default);
-                return ctx.sendMessage({ content: null, embeds: [embed] });
+                return ctx.sendEphemeralMessage({ content: null, embeds: [embed] });
             }
             else {
                 p.name = newPlaylistName;

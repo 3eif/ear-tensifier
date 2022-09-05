@@ -52,7 +52,7 @@ module.exports = class PlaylistRemove extends Command {
                     .setDescription(`${client.config.emojis.failure} Could not find a playlist by the name ${playlistName}.\nFor a list of your playlists type \`ear playlists\``)
                     .setTimestamp()
                     .setColor(client.config.colors.default);
-                return ctx.sendMessage({ content: null, embeds: [embed] });
+                return ctx.sendEphemeralMessage({ content: null, embeds: [embed] });
             }
             else {
                 if (playlist.tracks.length < args[1]) return ctx.sendMessage('That song doesn\'t exist in the playlist.');
