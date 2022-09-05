@@ -97,7 +97,7 @@ module.exports = class Help extends Command {
             if (command.description.content) data.push(`**Description:** ${command.description.content}`);
 
             if (command.description.usage == 'No usage provided') data.push(`**Usage:** \`/${command.name}\``);
-            else data.push(`**Usage:** \`${prefix}${command.name} ${command.description.usage}\``);
+            else data.push(`**Usage:** \`/${command.name} ${command.description.usage}\``);
 
             if (command.description.examples != 'No examples provided') {
                 const examples = [];

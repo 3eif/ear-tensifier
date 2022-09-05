@@ -22,7 +22,7 @@ module.exports = class Resume extends Command {
     async run(client, ctx) {
         const player = client.music.players.get(ctx.guild.id);
 
-        if (!player.paused) return ctx.sendMessage('Song is already resumed.');
+        if (!player.paused) return ctx.sendEphemeralMessage('Song is already resumed.');
         player.pause(false);
 
         const embed = new EmbedBuilder()
