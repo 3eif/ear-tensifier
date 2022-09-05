@@ -23,9 +23,11 @@ module.exports = class Previous extends Command {
     async run(client, ctx) {
         const player = client.music.players.get(ctx.guild.id);
         if (!player.queue.previous) return ctx.sendEphemeralMessage('There is no previous song.');
+        const current = player.queue.current;
         player.queue.unshift(player.queue.previous);
         player.skip();
 
+        player.queue.unshift(current);
         const embed = new EmbedBuilder()
             .setColor(client.config.colors.default)
             .setAuthor({ name: `Backing up to ${player.queue.current.title}`, iconURL: ctx.author.displayAvatarURL() });

@@ -13,8 +13,10 @@ module.exports = class Previous extends Button {
         if (!player) return;
 
         if (player.queue.previous) {
+            const current = player.queue.current;
             player.queue.unshift(player.queue.previous);
             player.skip();
+            player.queue.unshift(current);
 
             const embed = new EmbedBuilder()
                 .setColor(client.config.colors.default)
