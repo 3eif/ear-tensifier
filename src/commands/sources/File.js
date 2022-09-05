@@ -69,8 +69,16 @@ module.exports = class Spotify extends Command {
                 attachmentName = slashCommandAttachment.name;
             }
             else {
-                attachmentLink = ctx.interaction.options.data[0].options[0].value;
+                const url = ctx.interaction.options.data[0].options[0].value;
                 attachmentName = 'Unknown Title';
+                try {
+                    attachmentLink = new URL(url);
+                }
+                catch (e) {
+                    return await ctx.editMessage('Not a valid url');
+                }
+
+                if (url.hostname == 'cdn.discordapp.com' || url.hostname == 'media.discordapp.com') return await ctx.editMessage('File URL must be a valid discord URL.');
             }
         }
         else {
@@ -80,8 +88,16 @@ module.exports = class Spotify extends Command {
                 attachmentName = ctx.message.attachments.first().name;
             }
             else {
-                attachmentLink = args[0];
-                attachmentName = 'Unknown Title Track';
+                const url = args[0];
+                attachmentName = 'Unknown Title';
+                try {
+                    attachmentLink = new URL(url);
+                }
+                catch (e) {
+                    return await ctx.editMessage('Not a valid url');
+                }
+
+                if (url.hostname == 'cdn.discordapp.com' || url.hostname == 'media.discordapp.com') return await ctx.editMessage('File URL must be a valid discord URL.');
             }
         }
 

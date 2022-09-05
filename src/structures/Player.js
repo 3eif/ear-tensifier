@@ -32,6 +32,8 @@ module.exports = class Player extends TrackPlayer {
         this.guild = options.guild;
 
         this.filter = new Filter(this);
+
+        this.leaveTimeout = null;
     }
 
     async connect() {
@@ -58,6 +60,8 @@ module.exports = class Player extends TrackPlayer {
         else {
             super.play(track);
         }
+        clearTimeout(this.leaveTimeout);
+        this.leaveTimeout = null;
         this.start();
         this.filter.setAllFilters();
     }
