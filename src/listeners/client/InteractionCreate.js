@@ -119,7 +119,19 @@ module.exports = class InteractionCreate extends Event {
                 cmd = contextCommand;
                 commandName = cmd.name.toLowerCase();
                 ctx = new Context(interaction, []);
-                ctx.contextMenuContent = interaction.targetMessage.content;
+                const targetMessage = interaction.targetMessage;
+                if (targetMessage.embeds.length > 0) {
+                    const embed = targetMessage.embeds[0].data;
+                    if (embed) {
+                        if (embed.url) ctx.contextMenuContent = embed.url;
+                        else if (embed.title) ctx.contextMenuContent = embed.title;
+                        else if (embed.description) ctx.contextMenuContent = embed.description;
+                    }
+                    else {
+                        return interaction.reply({ content: 'This command cannot be used on this message', ephemeral: true });
+                    }
+                }
+                else ctx.contextMenuContent = targetMessage.content;
             }
             else {
                 cmd = this.client.commands.get(interaction.commandName);
