@@ -44,7 +44,6 @@ module.exports = class Loop extends Button {
         const embed = new EmbedBuilder()
             .setColor(client.config.colors.default)
             .setAuthor({ name: str, iconURL: interaction.member.displayAvatarURL() });
-        await interaction.reply({ embeds: [embed] });
-        await interaction.update({ components: [buttonRow] });
+        await interaction.editReply({ embeds: [embed], components: [buttonRow] });
     }
 };
