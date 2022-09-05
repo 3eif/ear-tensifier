@@ -22,7 +22,6 @@ module.exports = class Pause extends Button {
         const embed = new EmbedBuilder()
             .setColor(client.config.colors.default)
             .setAuthor({ name: `Song is now ${player.playing ? 'resumed' : 'paused'}.`, iconURL: interaction.member.displayAvatarURL() });
-        await interaction.reply({ embeds: [embed] });
-        await interaction.update({ components: [buttonRow] });
+        await interaction.editReply({ embeds: [embed], components: [buttonRow] });
     }
 };
