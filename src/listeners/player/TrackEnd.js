@@ -31,8 +31,6 @@ module.exports = class TrackEnd extends Event {
 
             await player.nowPlayingMessage.edit({ content: null, embeds: [newNowPlayingEmbed] });
 
-
-
             // const newNowPlayingEmbed = EmbedBuilder.from(this.nowPlayingMessage.embeds[0])
             //     .setAuthor({ name: this.queue.current.author, iconURL: this.pause ? 'https://eartensifier.net/images/cd.png' : 'https://eartensifier.net/images/cd.gif', url: this.queue.current.url });
 
