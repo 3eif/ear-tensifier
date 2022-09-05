@@ -1,4 +1,5 @@
-const { MessageEmbed } = require('discord.js');
+const { ApplicationCommandOptionType } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 const Command = require('../../structures/Command');
 
@@ -22,11 +23,11 @@ module.exports = class Frequency extends Command {
                 {
                     name: 'on',
                     description: 'Sets the tremolo\'s frequency of the player.',
-                    type: 1,
+                    type: ApplicationCommandOptionType.Subcommand,
                     options: [
                         {
                             name: 'amount',
-                            type: 10,
+                            type: ApplicationCommandOptionType.Number,
                             required: true,
                             description: 'The amount to set the frequency to.',
                             min_value: 0.1,
@@ -37,21 +38,19 @@ module.exports = class Frequency extends Command {
                 {
                     name: 'off',
                     description: 'Sets the tremolo\'s frequency back to 5.0Hz.',
-                    type: 1,
+                    type: ApplicationCommandOptionType.Subcommand,
                 },
             ],
             slashCommand: true,
         });
     }
     async run(client, ctx, args) {
-        if (ctx.guild.id == '441290611904086016') return;
-
         const player = client.music.players.get(ctx.guild.id);
 
         if ((ctx.isInteraction && ctx.interaction.options.data[0].name == 'off') || (args[0] && (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off'))) {
             player.filter.resetFrequency();
-            const embed = new MessageEmbed()
-                .setAuthor('Frequency has been reset to 5.0Hz', ctx.author.displayAvatarURL())
+            const embed = new EmbedBuilder()
+                .setAuthor({ name: 'Frequency has been reset to 5.0Hz', iconURL: ctx.author.displayAvatarURL() })
                 .setColor(client.config.colors.default);
             return ctx.sendMessage({ content: null, embeds: [embed] });
         }
@@ -63,8 +62,8 @@ module.exports = class Frequency extends Command {
         player.filter.setTremolo(player.filter.tremolo.depth, args[0]);
 
 
-        const embed = new MessageEmbed()
-            .setAuthor(`Frequency set to ${args[0]}Hz`, ctx.author.displayAvatarURL())
+        const embed = new EmbedBuilder()
+            .setAuthor({ name: `Frequency set to ${args[0]}Hz`, iconURL: ctx.author.displayAvatarURL() })
             .setColor(client.config.colors.default);
         return ctx.sendMessage({ content: null, embeds: [embed] });
     }

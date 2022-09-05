@@ -1,5 +1,5 @@
 const Command = require('../../structures/Command');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 module.exports = class Reset extends Command {
     constructor(client) {
@@ -18,13 +18,11 @@ module.exports = class Reset extends Command {
         });
     }
     async run(client, ctx) {
-        if (ctx.guild.id == '441290611904086016') return;
-
         const player = client.music.players.get(ctx.guild.id);
         player.filter.resetAll();
 
-        const embed = new MessageEmbed()
-            .setAuthor('All filters have been reset', ctx.author.displayAvatarURL())
+        const embed = new EmbedBuilder()
+            .setAuthor({ name: 'All filters have been reset', iconURL: ctx.author.displayAvatarURL() })
             .setColor(client.config.colors.default);
         return ctx.sendMessage({ content: null, embeds: [embed] });
     }

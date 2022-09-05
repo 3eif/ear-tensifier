@@ -1,4 +1,5 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder, PermissionsBitField } = require('discord.js');
+const { ApplicationCommandOptionType } = require('discord.js');
 
 const Command = require('../../structures/Command');
 const Server = require('../../models/Server');
@@ -14,16 +15,16 @@ module.exports = class Ignore extends Command {
             },
             args: true,
             permissions: {
-                userPermissions: ['MANAGE_CHANNELS'],
+                userPermissions: [PermissionsBitField.Flags.ManageChannels],
             },
             options: [{
                 name: 'channel',
                 description: 'Ignores commands coming from the channel you provide.',
-                type: 1,
+                type: ApplicationCommandOptionType.Subcommand,
                 options: [
                     {
                         name: 'name',
-                        type: 7,
+                        type: ApplicationCommandOptionType.Channel,
                         required: true,
                         description: 'The channel to ignore commands from.',
                     },
@@ -53,11 +54,11 @@ module.exports = class Ignore extends Command {
             s.ignoredChannels.push(channelId);
             await s.updateOne({ ignoredChannels: s.ignoredChannels }).catch(e => client.logger.error(e));
 
-            const embed = new MessageEmbed()
-                .setAuthor(`${ctx.guild.name}`, ctx.guild.iconURL())
+            const embed = new EmbedBuilder()
+                .setAuthor({ name: `${ctx.guild.name}`, iconURL: ctx.guild.iconURL() })
                 .setColor(client.config.colors.default)
                 .setDescription(`I will now ignore commands from <#${channelId}>.`)
-                .setFooter(`Tip: You can make me listen to commands again by doing ${await ctx.messageHelper.getPrefix()}listen`);
+                .setFooter({ text: 'Tip: You can make me listen to commands again by doing /listen' });
             ctx.editMessage({ content: null, embeds: [embed] });
         });
     }

@@ -1,4 +1,5 @@
-const { MessageEmbed } = require('discord.js');
+const { ApplicationCommandOptionType } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 const Command = require('../../structures/Command');
 
@@ -22,11 +23,11 @@ module.exports = class Depth extends Command {
                 {
                     name: 'on',
                     description: 'Sets the tremolo\'s depth of the player.',
-                    type: 1,
+                    type: ApplicationCommandOptionType.Subcommand,
                     options: [
                         {
                             name: 'amount',
-                            type: 10,
+                            type: ApplicationCommandOptionType.Number,
                             required: true,
                             description: 'The amount to set the depth to.',
                             min_value: 0,
@@ -36,22 +37,20 @@ module.exports = class Depth extends Command {
                 },
                 {
                     name: 'off',
-                    description: 'Sets the tremolo\'s depth back to 50%.',
-                    type: 1,
+                    description: 'Sets the tremolo\'s depth back to 0%.',
+                    type: ApplicationCommandOptionType.Subcommand,
                 },
             ],
             slashCommand: true,
         });
     }
     async run(client, ctx, args) {
-        if (ctx.guild.id == '441290611904086016') return;
-
         const player = client.music.players.get(ctx.guild.id);
 
         if ((ctx.isInteraction && ctx.interaction.options.data[0].name == 'off') || (args[0] && (args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'off'))) {
             player.filter.resetDepth();
-            const embed = new MessageEmbed()
-                .setAuthor('Depth has been reset to 0%', ctx.author.displayAvatarURL())
+            const embed = new EmbedBuilder()
+                .setAuthor({ name: 'Depth has been reset to 0%', iconURL: ctx.author.displayAvatarURL() })
                 .setColor(client.config.colors.default);
             return ctx.sendMessage({ content: null, embeds: [embed] });
         }
@@ -62,8 +61,8 @@ module.exports = class Depth extends Command {
 
         player.filter.setTremolo(args[0] / 100, player.filter.tremolo.frequency);
 
-        const embed = new MessageEmbed()
-            .setAuthor(`Depth set to ${args[0]}%`, ctx.author.displayAvatarURL())
+        const embed = new EmbedBuilder()
+            .setAuthor({ name: `Depth set to ${args[0]}%`, iconURL: ctx.author.displayAvatarURL() })
             .setColor(client.config.colors.default);
         return ctx.sendMessage({ content: null, embeds: [embed] });
     }

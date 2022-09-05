@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 const Command = require('../../structures/Command');
 const Server = require('../../models/Server');
@@ -20,14 +20,16 @@ module.exports = class Settings extends Command {
 
         const server = await Server.findById(ctx.guild.id);
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setColor(client.config.colors.default)
             .setTitle(`Settings - ${ctx.guild.name}`)
             .setThumbnail(ctx.guild.iconURL())
-            .addField('Prefix', server.prefix)
-            .addField('Default Volume', server.defaults.volume.toLocaleString())
-            .addField('Now Playing Messages', server.nowPlayingMessages ? 'Enabled' : 'Disabled')
-            .addField('Ignored Channels', `\n${server.ignoredChannels.length ? server.ignoredChannels.map(channel => `<#${channel}>`).join(', ') : 'None'}`)
+            .addFields(
+                { name: 'Prefix', value: server.prefix },
+                { name: 'Default Volume', value: server.defaults.volume.toLocaleString() },
+                { name: 'Now Playing Messages', value: server.nowPlayingMessages ? 'Enabled' : 'Disabled' },
+                { name: 'Ignored Channels', value: `\n${server.ignoredChannels.length ? server.ignoredChannels.map(channel => `<#${channel}>`).join(', ') : 'None'}` },
+            )
             .setTimestamp();
         ctx.editMessage({ content: null, embeds: [embed] });
     }

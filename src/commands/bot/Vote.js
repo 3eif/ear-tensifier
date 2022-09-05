@@ -10,7 +10,6 @@ module.exports = class Vote extends Command {
             aliases: ['top.gg'],
             args: false,
             slashCommand: true,
-            hide: true,
         });
     }
 

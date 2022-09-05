@@ -1,3 +1,4 @@
+const { ApplicationCommandOptionType } = require('discord.js');
 const Command = require('../../structures/Command');
 const formatDuration = require('../../utils/music/formatDuration');
 
@@ -19,7 +20,7 @@ module.exports = class Seek extends Command {
             options: [
                 {
                     name: 'timestamp',
-                    type: 3,
+                    type: ApplicationCommandOptionType.String,
                     required: true,
                     description: 'The timestamp to skip to (format: mm:ss).',
                 },
@@ -28,11 +29,11 @@ module.exports = class Seek extends Command {
         });
     }
     async run(client, ctx, args) {
-        if (!args[0].includes(':')) return ctx.sendMessage(`Invalid timestamp. Please provide a timestamp (format: \`mm:ss\`, example: \`1:00\`).\nCorrect Usage: \`${await ctx.messageHelper.getPrefix()}seek <timestamp>\``);
+        if (!args[0].includes(':')) return ctx.sendEphemeralMessage('Invalid timestamp. Please provide a timestamp (format: `mm:ss`, example: `1:00`).\nCorrect Usage: `/seek <timestamp>`');
 
         const seconds = formatDuration(args[0]);
         const player = client.music.players.get(ctx.guild.id);
-        if (seconds >= player.queue.current.duration || seconds < 0) return ctx.sendMessage('Cannot seek beyond the length of the song.');
+        if (seconds >= player.queue.current.duration || seconds < 0) return ctx.sendEphemeralMessage('Cannot seek beyond the length of the song.');
         player.seek(seconds);
 
         const parsedDuration = formatDuration(player.getTime());

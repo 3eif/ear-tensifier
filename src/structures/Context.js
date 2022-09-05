@@ -22,6 +22,9 @@ module.exports = class Context {
         this.createdAt = ctx.createdAt;
         this.createdTimestamp = ctx.createdTimestamp;
         this.attachments = ctx.attachments;
+
+        this.contextMenuContent = this.contextMenuContext || null;
+
     }
 
     setArgs(args) {
@@ -36,6 +39,17 @@ module.exports = class Context {
     sendMessage(content) {
         if (this.isInteraction) {
             this.msg = this.interaction.reply(content);
+            return this.msg;
+        }
+        else {
+            this.msg = this.message.channel.send(content);
+            return this.msg;
+        }
+    }
+
+    sendEphemeralMessage(content) {
+        if (this.isInteraction) {
+            this.msg = this.interaction.reply({ content: content, ephemeral: true });
             return this.msg;
         }
         else {

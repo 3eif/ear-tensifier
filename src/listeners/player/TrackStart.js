@@ -1,4 +1,4 @@
-const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
+const { EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle, PermissionsBitField } = require('discord.js');
 
 const DatabaseHelper = require('../../helpers/DatabaseHelper');
 const Event = require('../../structures/Event');
@@ -10,12 +10,13 @@ module.exports = class TrackStart extends Event {
     }
 
     async run(player, track) {
-        const { id, title, url, platform, requester, author, thumbnail } = track;
-        const duration = player.getDuration() || track.duration;
+        const { title, url, requester, author, thumbnail } = track;
+        const duration = (player.getDuration() || track.duration);
 
         this.client.databaseHelper.incrementTotalSongsPlayed();
-        this.client.databaseHelper.incrementTimesSongsPlayed(id, title, url, duration, platform, thumbnail, author);
+        // this.client.databaseHelper.incrementTimesSongsPlayed(id, title, url, duration, platform, thumbnail, author);
         this.client.databaseHelper.incrementUserSongsPlayed(requester);
+        this.client.databaseHelper.addToSongHistory(track, requester);
 
         const shouldSend = await DatabaseHelper.shouldSendNowPlayingMessage(player.textChannel.guild);
         if (!shouldSend) return;
@@ -24,38 +25,47 @@ module.exports = class TrackStart extends Event {
         // if (player.nowPlayingMessageInterval) clearInterval(player.nowPlayingMessageInterval);
 
         const n = 13;
-        let parsedCurrentDuration = formatDuration(0);
-        let parsedDuration = formatDuration(duration);
-        let part = Math.floor((player.getTime() / duration) * n);
-        let percentage = player.getTime() / duration;
+        const parsedCurrentDuration = formatDuration(0);
+        const parsedDuration = formatDuration(duration);
+        const part = Math.floor((player.getTime() / duration) * n);
+        const percentage = player.getTime() / duration;
 
-        const buttonRow = new MessageActionRow()
+        const buttonRow = new ActionRowBuilder()
             .addComponents(
-                new MessageButton()
+                new ButtonBuilder()
+                    .setCustomId('LOOP_BUTTON')
+                    .setStyle(!player.queueRepeat && !player.trackRepeat ? ButtonStyle.Secondary : ButtonStyle.Primary)
+                    .setEmoji(player.trackRepeat ? this.client.config.emojis.loopsong : this.client.config.emojis.loop),
+                new ButtonBuilder()
                     .setCustomId('PREVIOUS_BUTTON')
-                    .setStyle('SECONDARY')
+                    .setStyle(ButtonStyle.Secondary)
                     .setEmoji(this.client.config.emojis.previous),
-                new MessageButton()
+                new ButtonBuilder()
                     .setCustomId('PAUSE_BUTTON')
-                    .setStyle('PRIMARY')
+                    .setStyle(ButtonStyle.Primary)
                     .setEmoji(this.client.config.emojis.pause),
-                new MessageButton()
+                new ButtonBuilder()
                     .setCustomId('SKIP_BUTTON')
-                    .setStyle('SECONDARY')
-                    .setEmoji(this.client.config.emojis.skip));
+                    .setStyle(ButtonStyle.Secondary)
+                    .setEmoji(this.client.config.emojis.skip),
+                new ButtonBuilder()
+                    .setCustomId('ADD_TO_QUEUE_BUTTON')
+                    .setStyle(ButtonStyle.Secondary)
+                    .setEmoji(this.client.config.emojis.addtoqueue));
 
         try {
-            const embed = new MessageEmbed()
+        if (!player.guild.members.me.permissions.has(PermissionsBitField.Flags.SendMessages) || !player.guild.members.me.permissions.has(PermissionsBitField.Flags.EmbedLinks)) return;
+            const embed = new EmbedBuilder()
                 .setColor(this.client.config.colors.default)
-                .setAuthor(author, player.playing ? 'https://eartensifier.net/images/cd.gif' : 'https://eartensifier.net/images/cd.png', url)
+                .setAuthor({ name: author, iconURL: player.playing ? 'https://eartensifier.net/images/cd.gif' : 'https://eartensifier.net/images/cd.png', url: url })
                 .setThumbnail(thumbnail)
                 .setTitle(title)
                 .setURL(url)
-                .setDescription(`${parsedCurrentDuration}  ${percentage < 0.05 ? this.client.config.emojis.progress7 : this.client.config.emojis.progress1}${this.client.config.emojis.progress2.repeat(part)}${percentage < 0.05 ? '' : this.client.config.emojis.progress3}${this.client.config.emojis.progress5.repeat(12 - part)}${this.client.config.emojis.progress6}  ${parsedDuration}`)
-                .setFooter(requester.username)
+                .setFooter({ text: requester.username })
                 .setTimestamp();
+            if (duration != -1) embed.setDescription(`${parsedCurrentDuration}  ${percentage < 0.05 ? this.client.config.emojis.progress7 : this.client.config.emojis.progress1}${this.client.config.emojis.progress2.repeat(part)}${percentage < 0.05 ? '' : this.client.config.emojis.progress3}${this.client.config.emojis.progress5.repeat(12 - part)}${this.client.config.emojis.progress6}  ${parsedDuration}`);
             player.nowPlayingMessage = await player.textChannel.send({ embeds: [embed], components: [buttonRow] });
-
+            player.queue.current.duration = duration;
             // if (!player.nowPlayingMessageInterval) player.nowPlayingMessageInterval = setInterval(() => {
             //     if (!player.player || !player.nowPlayingMessage) return clearInterval(player.nowPlayingMessageInterval);
             //     parsedCurrentDuration = formatDuration(player.getTime());
@@ -63,7 +73,7 @@ module.exports = class TrackStart extends Event {
             //     part = Math.floor((player.getTime() / duration) * n);
             //     percentage = player.getTime() / duration;
 
-            //     const e = new MessageEmbed(embed.setDescription(`${parsedCurrentDuration}  ${percentage < 0.05 ? this.client.config.emojis.progress7 : this.client.config.emojis.progress1}${this.client.config.emojis.progress2.repeat(part)}${percentage < 0.05 ? '' : this.client.config.emojis.progress3}${this.client.config.emojis.progress5.repeat(12 - part)}${this.client.config.emojis.progress6}  ${parsedDuration}`));
+            //     const e = new EmbedBuilder(embed.setDescription(`${parsedCurrentDuration}  ${percentage < 0.05 ? this.client.config.emojis.progress7 : this.client.config.emojis.progress1}${this.client.config.emojis.progress2.repeat(part)}${percentage < 0.05 ? '' : this.client.config.emojis.progress3}${this.client.config.emojis.progress5.repeat(12 - part)}${this.client.config.emojis.progress6}  ${parsedDuration}`));
             //     if (player.nowPlayingMessage) player.nowPlayingMessage.edit({ content: null, embeds: [e] });
             // }, 60000);
         }

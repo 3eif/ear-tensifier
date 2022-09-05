@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 
 const Bot = require('../models/Bot');
+const { PermissionsBitField } = require('discord.js');
 const app = express();
 const port = 2872;
 
@@ -14,6 +15,10 @@ module.exports = client => {
         client.logger.api('Received get request for /commands');
         const commands = [];
         client.commands.forEach(command => {
+            const permissions = {
+                userPermissions: new PermissionsBitField(command.permissions.userPermissions).toArray(),
+                botPermissions: new PermissionsBitField(command.permissions.botPermissions).toArray(),
+            };
             commands.push({
                 name: command.name,
                 description: command.description,
@@ -23,7 +28,7 @@ module.exports = client => {
                 hide: command.hide,
                 cooldown: command.cooldown,
                 voiceRequirements: command.voiceRequirements,
-                permissions: command.permissions,
+                permissions: permissions,
                 options: command.options,
                 slashCommand: command.slashCommand,
                 guildOnly: command.guildOnly,

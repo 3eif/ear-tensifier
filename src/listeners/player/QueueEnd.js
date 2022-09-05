@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 const Event = require('../../structures/Event');
 const config = require('../../../config.json');
@@ -28,14 +28,14 @@ module.exports = class QueueEnd extends Event {
                 break;
         }
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setDescription('Queue ended. ' + msg)
             .setColor(this.client.config.colors.default);
         player.textChannel.send({ embeds: [embed] });
         player.cleanup();
 
-        setTimeout(() => {
-            if (!player.playing) player.destroy(false);
+        player.leaveTimeout = setTimeout(() => {
+            player.destroy(false);
         }, config.leaveTimeout);
     }
 };

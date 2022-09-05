@@ -1,5 +1,5 @@
 const Bot = require('../models/Bot');
-const Song = require('../models/Song');
+// const Song = require('../models/Song');
 const User = require('../models/User');
 const Server = require('../models/Server');
 
@@ -10,7 +10,7 @@ module.exports = class DatabaseHelper {
     }
 
     updateAll() {
-        if (Date.now() > this.client.lastUpdatedDatabase + 600000) {
+        if (Date.now() > this.client.lastUpdatedDatabase + 1200000) {
             const updateBot = new Promise((resolve) => {
                 Bot.findById(this.client.user.id).then(async bot => {
                     if (!bot) {
@@ -36,24 +36,24 @@ module.exports = class DatabaseHelper {
                 });
             });
 
-            const updateSongs = new Promise((resolve) => {
-                for (let i = 0; i < this.client.timesSongsPlayed.length; i++) {
-                    const song = this.client.timesSongsPlayed[i];
-                    if (song.url) {
-                        Song.findById(song.url).then(async s => {
-                            if (!s) {
-                                const newSong = new Song({ _id: song.url, title: song.title, id: song.id, author: song.author, duration: song.duration, thumbnail: song.thumbnail, platform: song.platform, timesPlayed: song.timesPlayed });
-                                await newSong.save().catch(e => this.logger.error(e));
-                            }
-                            else {
-                                s.updateOne({ timesPlayed: s.timesPlayed + song.timesPlayed }).catch(e => this.logger.error(e));
-                            }
-                            if (i == this.client.timesSongsPlayed.length - 1) resolve();
-                        });
-                    }
-                }
-                resolve();
-            });
+            // const updateSongs = new Promise((resolve) => {
+            //     for (let i = 0; i < this.client.timesSongsPlayed.length; i++) {
+            //         const song = this.client.timesSongsPlayed[i];
+            //         if (song.url) {
+            //             Song.findById(song.url).then(async s => {
+            //                 if (!s) {
+            //                     const newSong = new Song({ _id: song.url, title: song.title, id: song.id, author: song.author, duration: song.duration, thumbnail: song.thumbnail, platform: song.platform, timesPlayed: song.timesPlayed });
+            //                     await newSong.save().catch(e => this.logger.error(e));
+            //                 }
+            //                 else {
+            //                     s.updateOne({ timesPlayed: s.timesPlayed + song.timesPlayed }).catch(e => this.logger.error(e));
+            //                 }
+            //                 if (i == this.client.timesSongsPlayed.length - 1) resolve();
+            //             });
+            //         }
+            //     }
+            //     resolve();
+            // });
 
             const updateUsers = new Promise((resolve) => {
                 for (let i = 0; i < this.client.usersStats.length; i++) {
@@ -72,11 +72,11 @@ module.exports = class DatabaseHelper {
                 resolve();
             });
 
-            Promise.all([updateBot, updateSongs, updateUsers]).then(() => {
+            Promise.all([updateBot, updateUsers]).then(() => {
                 this.client.totalCommandsUsed = 0;
                 this.client.totalSongsPlayed = 0;
                 this.client.timesCommandsUsed = [];
-                this.client.timesSongsPlayed = [];
+                // this.client.timesSongsPlayed = [];
                 this.client.usersStats = [];
                 this.client.lastUpdatedDatabase = Date.now();
             });
@@ -112,17 +112,17 @@ module.exports = class DatabaseHelper {
         this.updateAll();
     }
 
-    incrementTimesSongsPlayed(id, title, url, duration, platform, thumbnail, author) {
-        if (!url) return;
-        if (this.client.timesSongsPlayed.find(s => s.url === url)) {
-            this.client.timesSongsPlayed.find(s => s.url === url).timesPlayed += 1;
-        }
-        else {
-            this.client.timesSongsPlayed.push({ _id: url, title: title, id: id, author: author, duration: duration, thumbnail: thumbnail, platform: platform, timesPlayed: 1 });
-        }
+    // incrementTimesSongsPlayed(id, title, url, duration, platform, thumbnail, author) {
+    //     if (!url) return;
+    //     if (this.client.timesSongsPlayed.find(s => s.url === url)) {
+    //         this.client.timesSongsPlayed.find(s => s.url === url).timesPlayed += 1;
+    //     }
+    //     else {
+    //         this.client.timesSongsPlayed.push({ _id: url, title: title, id: id, author: author, duration: duration, thumbnail: thumbnail, platform: platform, timesPlayed: 1 });
+    //     }
 
-        this.updateAll();
-    }
+    //     this.updateAll();
+    // }
 
     incrementUserSongsPlayed(user) {
         if (!user) return;
@@ -134,6 +134,28 @@ module.exports = class DatabaseHelper {
         }
 
         this.updateAll();
+    }
+
+    addToSongHistory(track, user) {
+        if (!user) return;
+
+        User.findById(user.id, async (err, u) => {
+            if (err) this.client.logger.error(err);
+            if (!u) return;
+            const trackToAdd = {
+                _id: track.id ? track.id : track.url,
+                title: track.title ? track.title : 'Unknown Title',
+                url: track.url,
+                author: track.author ? track.author : 'Unknown Author',
+                duration: track.duration,
+                thumbnail: track.thumbnail,
+                platform: track.platform ? track.platform : 'file',
+                playable: track.playable,
+            };
+            if (u.songHistory.includes(trackToAdd));
+            u.songHistory.unshift(trackToAdd);
+            u.updateOne({ songHistory: u.songHistory }).catch(err => this.client.logger.error(err));
+        });
     }
 
     static async getDefaultVolume(server) {

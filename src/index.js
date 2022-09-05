@@ -1,11 +1,10 @@
 /* eslint-disable no-console */
+require('dotenv').config();
 const { AutoPoster } = require('topgg-autoposter');
 const Sentry = require('@sentry/node');
 const Discord = require('discord.js');
 const figlet = require('figlet');
 const Statcord = require('statcord.js');
-
-require('custom-env').env(true);
 
 const Logger = require('./structures/Logger');
 

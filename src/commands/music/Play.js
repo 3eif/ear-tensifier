@@ -2,6 +2,7 @@ const { Track: { TrackPlaylist } } = require('yasha');
 
 const Command = require('../../structures/Command');
 const QueueHelper = require('../../helpers/QueueHelper');
+const { ApplicationCommandType, ApplicationCommandOptionType, PermissionsBitField } = require('discord.js');
 
 module.exports = class Play extends Command {
 	constructor(client) {
@@ -24,25 +25,34 @@ module.exports = class Play extends Command {
 				isInVoiceChannel: true,
 				isInSameVoiceChannel: true,
 			},
+			type: ApplicationCommandType.ChatInput,
 			options: [
 				{
 					name: 'query',
-					type: 3,
+					type: ApplicationCommandOptionType.String,
 					required: true,
 					description: 'The query to search for.',
+					autocomplete: true,
 				},
 			],
 			permissions: {
-				botPermissions: ['CONNECT', 'SPEAK'],
+				botPermissions: [PermissionsBitField.Flags.Connect, PermissionsBitField.Flags.Speak],
 			},
 			slashCommand: true,
+			contextMenu: {
+				name: 'Play',
+				type: ApplicationCommandType.Message,
+			},
 		});
 	}
 
 	async run(client, ctx, args) {
 		let query;
 		let source;
-		if (args[0]) {
+		if (ctx.contextMenuContent) {
+			query = ctx.contextMenuContent;
+		}
+		else if (args[0]) {
 			query = args.slice(0).join(' ');
 			if (args[0].toLowerCase() === 'soundcloud' || args[0].toLowerCase() === 'sc') {
 				query = args.slice(1).join(' ');
@@ -77,7 +87,8 @@ module.exports = class Play extends Command {
 			result = await client.music.search(query, ctx.author, source);
 		}
 		catch (error) {
-			return ctx.editMessage('No results found.');
+			if (query.includes('cdn') || query.includes('media') || query.includes('discord.com') || query.includes('.mp4') || query.includes('.mp3') || query.includes('.mp3')) return ctx.editMessage('No results found. Use the file command if you want to play a file track.');
+			else return ctx.editMessage('No results found.');
 		}
 
 		if (result instanceof TrackPlaylist) {

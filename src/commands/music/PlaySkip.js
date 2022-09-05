@@ -2,6 +2,7 @@ const { Track: { TrackPlaylist } } = require('yasha');
 
 const Command = require('../../structures/Command');
 const QueueHelper = require('../../helpers/QueueHelper');
+const { ApplicationCommandOptionType, PermissionsBitField, ApplicationCommandType } = require('discord.js');
 
 module.exports = class PlaySkip extends Command {
     constructor(client) {
@@ -28,22 +29,30 @@ module.exports = class PlaySkip extends Command {
             options: [
                 {
                     name: 'query',
-                    type: 3,
+                    type: ApplicationCommandOptionType.String,
                     required: true,
                     description: 'The query to search for.',
+                    autocomplete: true,
                 },
             ],
             permissions: {
-                botPermissions: ['CONNECT', 'SPEAK'],
+                botPermissions: [PermissionsBitField.Flags.Connect, PermissionsBitField.Flags.Connect],
             },
             slashCommand: true,
+            contextMenu: {
+                name: 'Playskip',
+                type: ApplicationCommandType.Message,
+            },
         });
     }
 
     async run(client, ctx, args) {
         let query;
         let source;
-        if (args[0]) {
+        if (ctx.contextMenuContent) {
+            query = ctx.contextMenuContent;
+        }
+        else if (args[0]) {
             query = args.slice(0).join(' ');
             if (args[0].toLowerCase() === 'soundcloud' || args[0].toLowerCase() === 'sc') {
                 query = args.slice(1).join(' ');
@@ -57,10 +66,10 @@ module.exports = class PlaySkip extends Command {
                 query = args.slice(1).join(' ');
                 source = 'youtube';
             }
-        }
-        else {
-            query = ctx.attachments.first().url;
-            source = 'file';
+            else if (args[0].toLowerCase() === 'applemusic' || args[0].toLowerCase() === 'apple') {
+                query = args.slice(1).join(' ');
+                source = 'apple';
+            }
         }
 
         await ctx.sendDeferMessage(`${client.config.emojis.typing} Searching for \`${query}\`...`);
