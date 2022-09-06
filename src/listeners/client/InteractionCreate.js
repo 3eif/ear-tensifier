@@ -55,7 +55,7 @@ module.exports = class InteractionCreate extends Event {
                         const content = `
 9월 1일부로, Discord가 Ear Tensifier 및 다른 타사 봇에 메시지 인텐트(Message Intent)를 제거했어요.
 저희가 원해서 한 거거나 바랐던 일이 아니였어요.
-                        
+
 지금부터는 봇이 빗금 명령어를 사용하거나 봇을 멘션할 때만 작동할 거예요. \`ear play\`, \`!play\`를 입력하는 대신 </play:916897958446899209>, </skip:916897958606291034> 명령어를 사용하셔야 해요. 빗금 명령어가 보이지 않거나 작동하지 않는 경우, 또는 일반적인 도움이 더 필요하신 경우 아래 지원 서버에 참가하세요.
 
 Ear Tensifier을 사용해 주셔서 감사드려요.
