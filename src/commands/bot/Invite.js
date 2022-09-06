@@ -14,6 +14,6 @@ module.exports = class Invite extends Command {
     }
 
     async run(client, ctx) {
-        await ctx.sendMessage(`You can invite me using this link: ${client.config.invite}`);
+        await ctx.sendMessage({content: `You can invite me using this link: ${client.config.invite}`, ephemeral:true);
     }
 };
