@@ -56,7 +56,7 @@ module.exports = class MessageCreate extends Event {
         else {
             args = messageContent.split(' ');
             args.shift();
-            if (!command) return;
+            if (args.length == 0) return;
             command = args.shift().toLowerCase();
         }
 
