@@ -88,7 +88,7 @@ module.exports = class Stats extends Command {
                             )
                             .setFooter({ text: `Latency ${msg.createdTimestamp - ctx.createdTimestamp}ms` })
                             .setTimestamp();
-                        return ctx.editMessage({ content: null, embeds: [statsEmbed] });
+                        return ctx.editMessage({ content: null, embeds: [statsEmbed], ephemeral:true });
                     });
                 })
                 .catch(err => client.logger.error(err));
