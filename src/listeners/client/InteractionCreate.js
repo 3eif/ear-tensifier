@@ -16,172 +16,172 @@ module.exports = class InteractionCreate extends Event {
     }
 
     async run(interaction) {
-        async function sendBroadcastMessage(client, title, content, buttons) {
-            if (interaction.message.embeds.length > 0) {
-                const embed = new Discord.EmbedBuilder()
-                    .setColor(client.config.colors.default)
-                    .setTitle(title.replaceAll('\n', ''))
-                    .setDescription(content)
-                    .setTimestamp()
-                    .setImage('https://cdn.discordapp.com/attachments/689277002988912661/1016478133291069470/ezgif-5-e5b1863bc4.gif')
-                    .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL() });
-                await interaction.update({ embeds: [embed], components: buttons });
-            }
-            else await interaction.update({ content: title + '\n\n' + content });
-        }
+//         async function sendBroadcastMessage(client, title, content, buttons) {
+//             if (interaction.message.embeds.length > 0) {
+//                 const embed = new Discord.EmbedBuilder()
+//                     .setColor(client.config.colors.default)
+//                     .setTitle(title.replaceAll('\n', ''))
+//                     .setDescription(content)
+//                     .setTimestamp()
+//                     .setImage('https://cdn.discordapp.com/attachments/689277002988912661/1016478133291069470/ezgif-5-e5b1863bc4.gif')
+//                     .setFooter({ text: interaction.guild.name, iconURL: interaction.guild.iconURL() });
+//                 await interaction.update({ embeds: [embed], components: buttons });
+//             }
+//             else await interaction.update({ content: title + '\n\n' + content });
+//         }
 
-        if (interaction.isButton()) {
-            const broadcastButtons = ['BROADCAST_TRANSLATE_RUSSIAN', 'BROADCAST_TRANSLATE_ENGLISH', 'BROADCAST_TRANSLATE_KOREAN', 'BROADCAST_TRANSLATE_ITALIAN', 'BROADCAST_TRANSLATE_CUSTOM_LANGUAGE'];
-            // TODO: Remove later
-            if (broadcastButtons.includes(interaction.customId)) {
-                const infoButtonRow = new Discord.ActionRowBuilder()
-                    .addComponents(
-                        new Discord.ButtonBuilder()
-                            .setStyle(ButtonStyle.Link)
-                            .setLabel('Slash Command FAQ')
-                            .setURL('https://support.discord.com/hc/en-us/articles/1500000368501-Slash-Commands-FAQ'),
-                        new Discord.ButtonBuilder()
-                            .setLabel('Support Server')
-                            .setStyle(ButtonStyle.Link)
-                            .setURL(this.client.config.server),
-                        new Discord.ButtonBuilder()
-                            .setStyle(ButtonStyle.Link)
-                            .setLabel('Google Translate')
-                            .setURL('https://translate.google.com'));
+//         if (interaction.isButton()) {
+//             const broadcastButtons = ['BROADCAST_TRANSLATE_RUSSIAN', 'BROADCAST_TRANSLATE_ENGLISH', 'BROADCAST_TRANSLATE_KOREAN', 'BROADCAST_TRANSLATE_ITALIAN', 'BROADCAST_TRANSLATE_CUSTOM_LANGUAGE'];
+//             // TODO: Remove later
+//             if (broadcastButtons.includes(interaction.customId)) {
+//                 const infoButtonRow = new Discord.ActionRowBuilder()
+//                     .addComponents(
+//                         new Discord.ButtonBuilder()
+//                             .setStyle(ButtonStyle.Link)
+//                             .setLabel('Slash Command FAQ')
+//                             .setURL('https://support.discord.com/hc/en-us/articles/1500000368501-Slash-Commands-FAQ'),
+//                         new Discord.ButtonBuilder()
+//                             .setLabel('Support Server')
+//                             .setStyle(ButtonStyle.Link)
+//                             .setURL(this.client.config.server),
+//                         new Discord.ButtonBuilder()
+//                             .setStyle(ButtonStyle.Link)
+//                             .setLabel('Google Translate')
+//                             .setURL('https://translate.google.com'));
 
-                switch (interaction.customId) {
-                    case 'BROADCAST_TRANSLATE_KOREAN': {
-                        const title = '**빗금 명령어를 이제 사용해야 해요**';
-                        const content = `
-9월 1일부로, Discord가 Ear Tensifier 및 다른 타사 봇에 메시지 인텐트(Message Intent)를 제거했어요.
-저희가 원해서 한 거거나 바랐던 일이 아니였어요.
+//                 switch (interaction.customId) {
+//                     case 'BROADCAST_TRANSLATE_KOREAN': {
+//                         const title = '**빗금 명령어를 이제 사용해야 해요**';
+//                         const content = `
+// 9월 1일부로, Discord가 Ear Tensifier 및 다른 타사 봇에 메시지 인텐트(Message Intent)를 제거했어요.
+// 저희가 원해서 한 거거나 바랐던 일이 아니였어요.
 
-지금부터는 봇이 빗금 명령어를 사용하거나 봇을 멘션할 때만 작동할 거예요. \`ear play\`, \`!play\`를 입력하는 대신 </play:916897958446899209>, </skip:916897958606291034> 명령어를 사용하셔야 해요. 빗금 명령어가 보이지 않거나 작동하지 않는 경우, 또는 일반적인 도움이 더 필요하신 경우 아래 지원 서버에 참가하세요.
+// 지금부터는 봇이 빗금 명령어를 사용하거나 봇을 멘션할 때만 작동할 거예요. \`ear play\`, \`!play\`를 입력하는 대신 </play:916897958446899209>, </skip:916897958606291034> 명령어를 사용하셔야 해요. 빗금 명령어가 보이지 않거나 작동하지 않는 경우, 또는 일반적인 도움이 더 필요하신 경우 아래 지원 서버에 참가하세요.
 
-Ear Tensifier을 사용해 주셔서 감사드려요.
+// Ear Tensifier을 사용해 주셔서 감사드려요.
 
-요약: 접두사 \`ear\` 대신 \`/\`을 사용해 주세요. </play:916897958446899209>, </skip:916897958606291034> 처럼요. `;
+// 요약: 접두사 \`ear\` 대신 \`/\`을 사용해 주세요. </play:916897958446899209>, </skip:916897958606291034> 처럼요. `;
 
-                        const languageButtonRow = new Discord.ActionRowBuilder()
-                            .addComponents(
-                                new Discord.ButtonBuilder()
-                                    .setCustomId('BROADCAST_TRANSLATE_ITALIAN')
-                                    .setLabel('Italiano')
-                                    .setStyle(ButtonStyle.Secondary)
-                                    .setEmoji('🇮🇹'),
-                                new Discord.ButtonBuilder()
-                                    .setCustomId('BROADCAST_TRANSLATE_RUSSIAN')
-                                    .setLabel('Pусский')
-                                    .setStyle(ButtonStyle.Secondary)
-                                    .setEmoji('🇷🇺'),
-                                new Discord.ButtonBuilder()
-                                    .setCustomId('BROADCAST_TRANSLATE_ENGLISH')
-                                    .setLabel('English')
-                                    .setStyle(ButtonStyle.Secondary)
-                                    .setEmoji('🇺🇸'));
+//                         const languageButtonRow = new Discord.ActionRowBuilder()
+//                             .addComponents(
+//                                 new Discord.ButtonBuilder()
+//                                     .setCustomId('BROADCAST_TRANSLATE_ITALIAN')
+//                                     .setLabel('Italiano')
+//                                     .setStyle(ButtonStyle.Secondary)
+//                                     .setEmoji('🇮🇹'),
+//                                 new Discord.ButtonBuilder()
+//                                     .setCustomId('BROADCAST_TRANSLATE_RUSSIAN')
+//                                     .setLabel('Pусский')
+//                                     .setStyle(ButtonStyle.Secondary)
+//                                     .setEmoji('🇷🇺'),
+//                                 new Discord.ButtonBuilder()
+//                                     .setCustomId('BROADCAST_TRANSLATE_ENGLISH')
+//                                     .setLabel('English')
+//                                     .setStyle(ButtonStyle.Secondary)
+//                                     .setEmoji('🇺🇸'));
 
-                        sendBroadcastMessage(this.client, title, content, [infoButtonRow, languageButtonRow]);
-                        break;
-                    }
-                    case 'BROADCAST_TRANSLATE_ENGLISH': {
-                        const title = '**Normal Commands No Longer Working**';
-                        const content = `
-As of September 1st, Discord has removed the message content privelage from Ear Tensifier and many other bots. This is not something I had a say in or wanted.
+//                         sendBroadcastMessage(this.client, title, content, [infoButtonRow, languageButtonRow]);
+//                         break;
+//                     }
+//                     case 'BROADCAST_TRANSLATE_ENGLISH': {
+//                         const title = '**Normal Commands No Longer Working**';
+//                         const content = `
+// As of September 1st, Discord has removed the message content privelage from Ear Tensifier and many other bots. This is not something I had a say in or wanted.
 
-From now on the bot will only work through slash commands and mentions. Instead of typing \`ear play\` or \`!play\`, type </play:916897958446899209>, </skip:916897958606291034>, instead. If slash commands aren't working or appearing for you, join the support server below.
+// From now on the bot will only work through slash commands and mentions. Instead of typing \`ear play\` or \`!play\`, type </play:916897958446899209>, </skip:916897958606291034>, instead. If slash commands aren't working or appearing for you, join the support server below.
 
-Thank you for using Ear Tensifier.
+// Thank you for using Ear Tensifier.
 
-TLDR: Use \`/\`instead of \`ear\` before each command. E.g: </play:916897958446899209>, </skip:916897958606291034>`;
+// TLDR: Use \`/\`instead of \`ear\` before each command. E.g: </play:916897958446899209>, </skip:916897958606291034>`;
 
-                        const languageButtonRow = new Discord.ActionRowBuilder()
-                            .addComponents(
-                                new Discord.ButtonBuilder()
-                                    .setCustomId('BROADCAST_TRANSLATE_ITALIAN')
-                                    .setLabel('Italiano')
-                                    .setStyle(ButtonStyle.Secondary)
-                                    .setEmoji('🇮🇹'),
-                                new Discord.ButtonBuilder()
-                                    .setCustomId('BROADCAST_TRANSLATE_RUSSIAN')
-                                    .setLabel('Pусский')
-                                    .setStyle(ButtonStyle.Secondary)
-                                    .setEmoji('🇷🇺'),
-                                new Discord.ButtonBuilder()
-                                    .setCustomId('BROADCAST_TRANSLATE_KOREAN')
-                                    .setLabel('한국어')
-                                    .setStyle(ButtonStyle.Secondary)
-                                    .setEmoji('🇰🇷'));
+//                         const languageButtonRow = new Discord.ActionRowBuilder()
+//                             .addComponents(
+//                                 new Discord.ButtonBuilder()
+//                                     .setCustomId('BROADCAST_TRANSLATE_ITALIAN')
+//                                     .setLabel('Italiano')
+//                                     .setStyle(ButtonStyle.Secondary)
+//                                     .setEmoji('🇮🇹'),
+//                                 new Discord.ButtonBuilder()
+//                                     .setCustomId('BROADCAST_TRANSLATE_RUSSIAN')
+//                                     .setLabel('Pусский')
+//                                     .setStyle(ButtonStyle.Secondary)
+//                                     .setEmoji('🇷🇺'),
+//                                 new Discord.ButtonBuilder()
+//                                     .setCustomId('BROADCAST_TRANSLATE_KOREAN')
+//                                     .setLabel('한국어')
+//                                     .setStyle(ButtonStyle.Secondary)
+//                                     .setEmoji('🇰🇷'));
 
-                        sendBroadcastMessage(this.client, title, content, [infoButtonRow, languageButtonRow]);
-                        break;
-                    }
-                    case 'BROADCAST_TRANSLATE_ITALIAN': {
-                        const title = '**I comandi normali non funzionano più**';
-                        const content = `
-Dal 1 settembre, Discord ha rimosso il contenuto dei messaggi privilegiato da Ear Tensifier e molti altri bot. Questo non è qualcosa che mi piace dire o che volevo
+//                         sendBroadcastMessage(this.client, title, content, [infoButtonRow, languageButtonRow]);
+//                         break;
+//                     }
+//                     case 'BROADCAST_TRANSLATE_ITALIAN': {
+//                         const title = '**I comandi normali non funzionano più**';
+//                         const content = `
+// Dal 1 settembre, Discord ha rimosso il contenuto dei messaggi privilegiato da Ear Tensifier e molti altri bot. Questo non è qualcosa che mi piace dire o che volevo
 
-Da ora il bot funzionerà solo con gli slash commands e menzioni. Invece di scrivere \`ear play\` o \`!play\`, scrivi </play:916897958446899209>, </skip:916897958606291034>, invece. Se gli slash command non funzionano o non appaiono, entra nel server di assistenza sotto.
+// Da ora il bot funzionerà solo con gli slash commands e menzioni. Invece di scrivere \`ear play\` o \`!play\`, scrivi </play:916897958446899209>, </skip:916897958606291034>, invece. Se gli slash command non funzionano o non appaiono, entra nel server di assistenza sotto.
 
-Grazie per usare Ear Tensifier.
+// Grazie per usare Ear Tensifier.
 
-TLDR: Usa \`/\` invece di \`ear\` prima di ogni comando. E.g: </play:916897958446899209>, </skip:916897958606291034>`;
+// TLDR: Usa \`/\` invece di \`ear\` prima di ogni comando. E.g: </play:916897958446899209>, </skip:916897958606291034>`;
 
-                        const languageButtonRow = new Discord.ActionRowBuilder()
-                            .addComponents(
-                                new Discord.ButtonBuilder()
-                                    .setCustomId('BROADCAST_TRANSLATE_RUSSIAN')
-                                    .setLabel('Pусский')
-                                    .setStyle(ButtonStyle.Secondary)
-                                    .setEmoji('🇷🇺'),
-                                new Discord.ButtonBuilder()
-                                    .setCustomId('BROADCAST_TRANSLATE_KOREAN')
-                                    .setLabel('한국어')
-                                    .setStyle(ButtonStyle.Secondary)
-                                    .setEmoji('🇰🇷'),
-                                new Discord.ButtonBuilder()
-                                    .setCustomId('BROADCAST_TRANSLATE_ENGLISH')
-                                    .setLabel('English')
-                                    .setStyle(ButtonStyle.Secondary)
-                                    .setEmoji('🇺🇸'));
+//                         const languageButtonRow = new Discord.ActionRowBuilder()
+//                             .addComponents(
+//                                 new Discord.ButtonBuilder()
+//                                     .setCustomId('BROADCAST_TRANSLATE_RUSSIAN')
+//                                     .setLabel('Pусский')
+//                                     .setStyle(ButtonStyle.Secondary)
+//                                     .setEmoji('🇷🇺'),
+//                                 new Discord.ButtonBuilder()
+//                                     .setCustomId('BROADCAST_TRANSLATE_KOREAN')
+//                                     .setLabel('한국어')
+//                                     .setStyle(ButtonStyle.Secondary)
+//                                     .setEmoji('🇰🇷'),
+//                                 new Discord.ButtonBuilder()
+//                                     .setCustomId('BROADCAST_TRANSLATE_ENGLISH')
+//                                     .setLabel('English')
+//                                     .setStyle(ButtonStyle.Secondary)
+//                                     .setEmoji('🇺🇸'));
 
-                        sendBroadcastMessage(this.client, title, content, [infoButtonRow, languageButtonRow]);
-                        break;
-                    }
-                    case 'BROADCAST_TRANSLATE_RUSSIAN': {
-                        const title = '**Обычные команды больше не работают**';
-                        const content = `
-С первого Сентября, Discord не разглашает текст из сообщений для Ear Tensifier и многих других ботов. Это не то на что я мог повлиять, или хотел чтобы случилось.
+//                         sendBroadcastMessage(this.client, title, content, [infoButtonRow, languageButtonRow]);
+//                         break;
+//                     }
+//                     case 'BROADCAST_TRANSLATE_RUSSIAN': {
+//                         const title = '**Обычные команды больше не работают**';
+//                         const content = `
+// С первого Сентября, Discord не разглашает текст из сообщений для Ear Tensifier и многих других ботов. Это не то на что я мог повлиять, или хотел чтобы случилось.
 
-С этого момента, этот бот будет работать только с помощью слеш команд, и упоминаний. 
-Вместо того чтобы писать \`ear play\` или \`!play\`, пишите </play:916897958446899209>, </skip:916897958606291034>. Если слеш команды не работают для тебя, зайди в сервер поддержки ниже
+// С этого момента, этот бот будет работать только с помощью слеш команд, и упоминаний. 
+// Вместо того чтобы писать \`ear play\` или \`!play\`, пишите </play:916897958446899209>, </skip:916897958606291034>. Если слеш команды не работают для тебя, зайди в сервер поддержки ниже
 
-Спасибо за использование Ear Tensifier.
+// Спасибо за использование Ear Tensifier.
 
-Слишком долго, не прочитал: Используй \`/\` заместо \`ear\` перед каждой командой. Например: </play:916897958446899209>, </skip:916897958606291034>`;
+// Слишком долго, не прочитал: Используй \`/\` заместо \`ear\` перед каждой командой. Например: </play:916897958446899209>, </skip:916897958606291034>`;
 
-                        const languageButtonRow = new Discord.ActionRowBuilder()
-                            .addComponents(
-                                new Discord.ButtonBuilder()
-                                    .setCustomId('BROADCAST_TRANSLATE_ITALIAN')
-                                    .setLabel('Italiano')
-                                    .setStyle(ButtonStyle.Secondary)
-                                    .setEmoji('🇮🇹'),
-                                new Discord.ButtonBuilder()
-                                    .setCustomId('BROADCAST_TRANSLATE_KOREAN')
-                                    .setLabel('한국어')
-                                    .setStyle(ButtonStyle.Secondary)
-                                    .setEmoji('🇰🇷'),
-                                new Discord.ButtonBuilder()
-                                    .setCustomId('BROADCAST_TRANSLATE_ENGLISH')
-                                    .setLabel('English')
-                                    .setStyle(ButtonStyle.Secondary)
-                                    .setEmoji('🇺🇸'));
+//                         const languageButtonRow = new Discord.ActionRowBuilder()
+//                             .addComponents(
+//                                 new Discord.ButtonBuilder()
+//                                     .setCustomId('BROADCAST_TRANSLATE_ITALIAN')
+//                                     .setLabel('Italiano')
+//                                     .setStyle(ButtonStyle.Secondary)
+//                                     .setEmoji('🇮🇹'),
+//                                 new Discord.ButtonBuilder()
+//                                     .setCustomId('BROADCAST_TRANSLATE_KOREAN')
+//                                     .setLabel('한국어')
+//                                     .setStyle(ButtonStyle.Secondary)
+//                                     .setEmoji('🇰🇷'),
+//                                 new Discord.ButtonBuilder()
+//                                     .setCustomId('BROADCAST_TRANSLATE_ENGLISH')
+//                                     .setLabel('English')
+//                                     .setStyle(ButtonStyle.Secondary)
+//                                     .setEmoji('🇺🇸'));
 
-                        sendBroadcastMessage(this.client, title, content, [infoButtonRow, languageButtonRow]);
-                        break;
-                    }
-                }
-            }
+//                         sendBroadcastMessage(this.client, title, content, [infoButtonRow, languageButtonRow]);
+//                         break;
+//                     }
+//                 }
+//             }
             // else {
             //     const { buttons } = this.client;
             //     const button = buttons.get(interaction.customId);

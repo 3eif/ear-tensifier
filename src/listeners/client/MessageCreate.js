@@ -15,7 +15,7 @@ module.exports = class MessageCreate extends Event {
 
     async run(message) {
         if (message.author.bot) return;
-        if (message.author.id != '472714545723342848') return;
+        if (message.author.id != '275831434772742144') return;
         if (message.channel.type === 'GUILD_TEXT' && !message.guild.members.cache.get(this.client.user.id)) {
             await message.guild.members.fetch(this.client.user.id);
         }
