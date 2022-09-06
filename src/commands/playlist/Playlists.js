@@ -40,7 +40,7 @@ module.exports = class Playlists extends Command {
             client.logger.error(err);
             const embed = new EmbedBuilder()
                 .setAuthor({ name: ctx.author.username, iconURL: ctx.author.displayAvatarURL() })
-                .setDescription(`${client.config.emojis.failure} You don't have any playlists.\nTo create a playlist type: \`ear create <playlist name> <search query/link>\``)
+                .setDescription(`${client.config.emojis.failure} You don't have any playlists.\nTo create a playlist type: \`/create <playlist name> <search query/link>\``)
                 .setTimestamp()
                 .setColor(client.config.colors.default);
             return ctx.sendMessage({ embeds: [embed] });

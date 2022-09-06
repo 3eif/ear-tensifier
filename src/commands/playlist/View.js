@@ -41,7 +41,7 @@ module.exports = class View extends Command {
             if (!p) {
                 const embed = new EmbedBuilder()
                     .setAuthor({ name: playlistName, iconURL: ctx.author.displayAvatarURL() })
-                    .setDescription(`${client.config.emojis.failure} Could not find a playlist by the name ${playlistName}.\nFor a list of your playlists type \`ear playlists\``)
+                    .setDescription(`${client.config.emojis.failure} Could not find a playlist by the name ${playlistName}.\nFor a list of your playlists type \`/playlists\``)
                     .setTimestamp()
                     .setColor(client.config.colors.default);
                 return ctx.sendEphemeralMessage({ embeds: [embed] });

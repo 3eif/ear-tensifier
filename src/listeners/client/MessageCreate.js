@@ -118,7 +118,7 @@ module.exports = class MessageCreate extends Event {
         if (prefix == process.env.PREFIX) {
             if (!args[0] && cmd.args === true && ((cmd.acceptsAttachments && message.attachments.size == 0) || !cmd.acceptsAttachments)) {
                 const embed = new Discord.EmbedBuilder()
-                    .setDescription(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`ear ${commandName} ${cmd.description.usage}\``);
+                    .setDescription(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`/${commandName} ${cmd.description.usage}\``);
                 return message.channel.send({ embeds: [embed] });
             }
         }
