@@ -14,6 +14,6 @@ module.exports = class Donate extends Command {
     }
 
     async run(client, ctx) {
-        await ctx.sendMessage(`You can support Ear Tensifier here: ${client.config.patreon}`);
+        await ctx.sendMessage({content:`You can support Ear Tensifier here: ${client.config.patreon}`, ephemeral:true});
     }
 };
