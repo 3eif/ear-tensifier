@@ -7,7 +7,7 @@ module.exports = class Invite extends Command {
             description: {
                 content: 'Sends a link to invite Ear Tensifier to another server.',
             },
-            aliases: ['patreon'],
+            aliases: [],
             args: false,
             slashCommand: true,
         });
