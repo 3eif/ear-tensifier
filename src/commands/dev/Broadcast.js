@@ -52,6 +52,9 @@ module.exports = class Broadcast extends Command {
             ];
 
             for (let i = 0; i < guilds.length; i++) {
+                const delay = ms => new Promise(res => setTimeout(res, ms));
+                await delay(250);
+
                 const guild = c.guilds.cache.get(guilds[i]);
                 try {
                     const channels = guild.channels.cache.filter(channel => channel.type === ChannelType.GuildText).filter(ch => ch.permissionsFor(c.user).has(PermissionsBitField.Flags.ViewChannel));
