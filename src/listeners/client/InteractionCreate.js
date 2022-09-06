@@ -152,7 +152,7 @@ module.exports = class InteractionCreate extends Event {
 //                         const content = `
 // С первого Сентября, Discord не разглашает текст из сообщений для Ear Tensifier и многих других ботов. Это не то на что я мог повлиять, или хотел чтобы случилось.
 
-// С этого момента, этот бот будет работать только с помощью слеш команд, и упоминаний. 
+// С этого момента, этот бот будет работать только с помощью слеш команд, и упоминаний.
 // Вместо того чтобы писать \`ear play\` или \`!play\`, пишите </play:916897958446899209>, </skip:916897958606291034>. Если слеш команды не работают для тебя, зайди в сервер поддержки ниже
 
 // Спасибо за использование Ear Tensifier.
@@ -182,208 +182,208 @@ module.exports = class InteractionCreate extends Event {
 //                     }
 //                 }
 //             }
-            // else {
-            //     const { buttons } = this.client;
-            //     const button = buttons.get(interaction.customId);
-            //     if (!button) return;
+//             else {
+//                 const { buttons } = this.client;
+//                 const button = buttons.get(interaction.customId);
+//                 if (!button) return;
 
-            //     try {
-            //         await button.run(this.client, interaction);
-            //     }
-            //     catch (error) {
-            //         return this.client.logger.error(error);
-            //     }
-            // }
-        }
-        // else if (interaction.type == InteractionType.ModalSubmit) {
-        //     const { modals } = this.client;
-        //     const modal = modals.get(interaction.customId);
-        //     if (!modal) return this.client.logger.error(`${interaction.customId} modal was not found`);
+//                 try {
+//                     await button.run(this.client, interaction);
+//                 }
+//                 catch (error) {
+//                     return this.client.logger.error(error);
+//                 }
+//             }
+//         }
+//         else if (interaction.type == InteractionType.ModalSubmit) {
+//             const { modals } = this.client;
+//             const modal = modals.get(interaction.customId);
+//             if (!modal) return this.client.logger.error(`${interaction.customId} modal was not found`);
 
-        //     try {
-        //         await modal.run(this.client, interaction);
-        //     }
-        //     catch (error) {
-        //         return this.client.logger.error(error);
-        //     }
-        // }
-        // else if (interaction.isAutocomplete()) {
-        //     const playlistCommandsWithAutocomplete = ['view', 'delete', 'add', 'save', 'rename', 'playlistremove', 'load'];
-        //     const queueCommandsWithAutocomplete = ['removefrom', 'remove', 'skipto', 'move'];
-        //     const playCommandsWithAutocomplete = ['play', 'playskip'];
-        //     if (playlistCommandsWithAutocomplete.includes(interaction.commandName)) {
-        //         Playlist.find({
-        //             creator: interaction.user.id,
-        //         }).sort({ createdTimestamp: 1 }).then(async (p) => {
-        //             const focusedValue = interaction.options.getFocused();
-        //             const playlists = [];
-        //             for (let i = 0; i < p.length; i++) {
-        //                 playlists.push(p[i].name);
-        //             }
-        //             const filtered = playlists.filter(choice => choice.startsWith(focusedValue));
-        //             if (filtered.length > 25) filtered.length = 25;
-        //             await interaction.respond(filtered.map(choice => ({ name: choice, value: choice })));
-        //         }).catch(() => {
-        //             return;
-        //         });
-        //     }
-        //     else if (queueCommandsWithAutocomplete.includes(interaction.commandName)) {
-        //         if (!this.client.music.players.get(interaction.guild.id)) return;
+//             try {
+//                 await modal.run(this.client, interaction);
+//             }
+//             catch (error) {
+//                 return this.client.logger.error(error);
+//             }
+//         }
+//         else if (interaction.isAutocomplete()) {
+//             const playlistCommandsWithAutocomplete = ['view', 'delete', 'add', 'save', 'rename', 'playlistremove', 'load'];
+//             const queueCommandsWithAutocomplete = ['removefrom', 'remove', 'skipto', 'move'];
+//             const playCommandsWithAutocomplete = ['play', 'playskip'];
+//             if (playlistCommandsWithAutocomplete.includes(interaction.commandName)) {
+//                 Playlist.find({
+//                     creator: interaction.user.id,
+//                 }).sort({ createdTimestamp: 1 }).then(async (p) => {
+//                     const focusedValue = interaction.options.getFocused();
+//                     const playlists = [];
+//                     for (let i = 0; i < p.length; i++) {
+//                         playlists.push(p[i].name);
+//                     }
+//                     const filtered = playlists.filter(choice => choice.startsWith(focusedValue));
+//                     if (filtered.length > 25) filtered.length = 25;
+//                     await interaction.respond(filtered.map(choice => ({ name: choice, value: choice })));
+//                 }).catch(() => {
+//                     return;
+//                 });
+//             }
+//             else if (queueCommandsWithAutocomplete.includes(interaction.commandName)) {
+//                 if (!this.client.music.players.get(interaction.guild.id)) return;
 
-        //         const focusedValue = interaction.options.getFocused();
-        //         const queue = this.client.music.players.get(interaction.guild.id).queue;
-        //         const songs = [];
-        //         for (let i = 0; i < queue.length; i++) {
-        //             let s = `${i + 1}. ${queue[i].title} • ${queue[i].author}`;
-        //             if (s.length > 100) s = s.substring(0, 100);
-        //             songs.push(s);
-        //         }
-        //         const filtered = songs.filter(choice => choice.startsWith(focusedValue));
-        //         if (filtered.length > 25) filtered.length = 25;
-        //         await interaction.respond(filtered.map(choice => ({ name: choice, value: choice })));
-        //     }
-        //     else if (playCommandsWithAutocomplete.includes(interaction.commandName)) {
-        //         const focusedValue = interaction.options.getFocused();
+//                 const focusedValue = interaction.options.getFocused();
+//                 const queue = this.client.music.players.get(interaction.guild.id).queue;
+//                 const songs = [];
+//                 for (let i = 0; i < queue.length; i++) {
+//                     let s = `${i + 1}. ${queue[i].title} • ${queue[i].author}`;
+//                     if (s.length > 100) s = s.substring(0, 100);
+//                     songs.push(s);
+//                 }
+//                 const filtered = songs.filter(choice => choice.startsWith(focusedValue));
+//                 if (filtered.length > 25) filtered.length = 25;
+//                 await interaction.respond(filtered.map(choice => ({ name: choice, value: choice })));
+//             }
+//             else if (playCommandsWithAutocomplete.includes(interaction.commandName)) {
+//                 const focusedValue = interaction.options.getFocused();
 
-        //         User.findById(interaction.user.id, async (err, u) => {
-        //             if (err) this.client.logger.error(err);
-        //             if (!u) return;
-        //             const songs = [];
-        //             for (let i = 0; i < u.songHistory.length; i++) {
-        //                 let s = `${u.songHistory[i].title} • ${u.songHistory[i].author}`;
-        //                 if (s.length > 100) s = s.substring(0, 100);
-        //                 if (!songs.includes(s)) songs.push(s);
-        //             }
-        //             const filtered = songs.filter(choice => choice.startsWith(focusedValue));
-        //             if (filtered.length > 25) filtered.length = 25;
-        //             await interaction.respond(filtered.map(choice => ({ name: choice, value: choice })));
-        //         });
-        //     }
-        //     else {
-        //         const { commands } = this.client;
-        //         const command = commands.get(interaction.commandName);
-        //         if (!command) return;
+//                 User.findById(interaction.user.id, async (err, u) => {
+//                     if (err) this.client.logger.error(err);
+//                     if (!u) return;
+//                     const songs = [];
+//                     for (let i = 0; i < u.songHistory.length; i++) {
+//                         let s = `${u.songHistory[i].title} • ${u.songHistory[i].author}`;
+//                         if (s.length > 100) s = s.substring(0, 100);
+//                         if (!songs.includes(s)) songs.push(s);
+//                     }
+//                     const filtered = songs.filter(choice => choice.startsWith(focusedValue));
+//                     if (filtered.length > 25) filtered.length = 25;
+//                     await interaction.respond(filtered.map(choice => ({ name: choice, value: choice })));
+//                 });
+//             }
+//             else {
+//                 const { commands } = this.client;
+//                 const command = commands.get(interaction.commandName);
+//                 if (!command) return;
 
-        //         try {
-        //             await command.autocomplete(this.client, interaction);
-        //         }
-        //         catch (error) {
-        //             this.client.logger.error(error);
-        //         }
-        //     }
-        // }
-        // else if (interaction.type === InteractionType.ApplicationCommand) {
-        //     let cmd;
-        //     let commandName;
+//                 try {
+//                     await command.autocomplete(this.client, interaction);
+//                 }
+//                 catch (error) {
+//                     this.client.logger.error(error);
+//                 }
+//             }
+//         }
+//         else if (interaction.type === InteractionType.ApplicationCommand) {
+//             let cmd;
+//             let commandName;
 
-        //     let ctx;
-        //     let contextCommand;
-        //     if (interaction.isMessageContextMenuCommand()) {
-        //         const { contextMenuCommands } = this.client;
-        //         contextCommand = contextMenuCommands.get(interaction.commandName);
-        //         if (!contextCommand) return;
-        //         cmd = contextCommand;
-        //         commandName = cmd.name.toLowerCase();
-        //         ctx = new Context(interaction, []);
-        //         const targetMessage = interaction.targetMessage;
-        //         if (targetMessage.embeds.length > 0) {
-        //             const embed = targetMessage.embeds[0].data;
-        //             if (embed) {
-        //                 if (embed.url) ctx.contextMenuContent = embed.url;
-        //                 else if (embed.title) ctx.contextMenuContent = embed.title;
-        //                 else if (embed.description) ctx.contextMenuContent = embed.description;
-        //             }
-        //             else {
-        //                 return interaction.reply({ content: 'This command cannot be used on this message', ephemeral: true });
-        //             }
-        //         }
-        //         else ctx.contextMenuContent = targetMessage.content;
-        //     }
-        //     else {
-        //         cmd = this.client.commands.get(interaction.commandName);
-        //         if (!cmd || !cmd.slashCommand) return;
-        //         commandName = cmd.name.toLowerCase();
-        //         ctx = new Context(interaction, interaction.options.data);
-        //     }
-        //     const messageHelper = new MessageHelper(this.client, ctx);
-        //     await messageHelper.createServer();
-        //     ctx.messageHelper = messageHelper;
+//             let ctx;
+//             let contextCommand;
+//             if (interaction.isMessageContextMenuCommand()) {
+//                 const { contextMenuCommands } = this.client;
+//                 contextCommand = contextMenuCommands.get(interaction.commandName);
+//                 if (!contextCommand) return;
+//                 cmd = contextCommand;
+//                 commandName = cmd.name.toLowerCase();
+//                 ctx = new Context(interaction, []);
+//                 const targetMessage = interaction.targetMessage;
+//                 if (targetMessage.embeds.length > 0) {
+//                     const embed = targetMessage.embeds[0].data;
+//                     if (embed) {
+//                         if (embed.url) ctx.contextMenuContent = embed.url;
+//                         else if (embed.title) ctx.contextMenuContent = embed.title;
+//                         else if (embed.description) ctx.contextMenuContent = embed.description;
+//                     }
+//                     else {
+//                         return interaction.reply({ content: 'This command cannot be used on this message', ephemeral: true });
+//                     }
+//                 }
+//                 else ctx.contextMenuContent = targetMessage.content;
+//             }
+//             else {
+//                 cmd = this.client.commands.get(interaction.commandName);
+//                 if (!cmd || !cmd.slashCommand) return;
+//                 commandName = cmd.name.toLowerCase();
+//                 ctx = new Context(interaction, interaction.options.data);
+//             }
+//             const messageHelper = new MessageHelper(this.client, ctx);
+//             await messageHelper.createServer();
+//             ctx.messageHelper = messageHelper;
 
-        //     if (await messageHelper.isIgnored() || await messageHelper.isBlacklisted()) return;
+//             if (await messageHelper.isIgnored() || await messageHelper.isBlacklisted()) return;
 
-        //     this.client.databaseHelper.incrementTimesCommandUsed(commandName, ctx.author);
-        //     await messageHelper.createUser();
+//             this.client.databaseHelper.incrementTimesCommandUsed(commandName, ctx.author);
+//             await messageHelper.createUser();
 
-        //     if (!cooldowns.has(commandName)) {
-        //         cooldowns.set(commandName, new Discord.Collection());
-        //     }
+//             if (!cooldowns.has(commandName)) {
+//                 cooldowns.set(commandName, new Discord.Collection());
+//             }
 
-        //     if (cmd.permissions.permission === 'dev' && !this.client.config.devs.includes(interaction.user.id)) return;
+//             if (cmd.permissions.permission === 'dev' && !this.client.config.devs.includes(interaction.user.id)) return;
 
-        //     this.client.logger.command('%s used by %s from %s', commandName, ctx.author.id, ctx.guild.id);
+//             this.client.logger.command('%s used by %s from %s', commandName, ctx.author.id, ctx.guild.id);
 
-        //     const permissionHelpMessage = `If you need help configuring the correct permissions for the bot join the support server: ${this.client.config.server}`;
-        //     cmd.permissions.botPermissions = cmd.permissions.botPermissions.concat([Discord.PermissionsBitField.Flags.SendMessages, Discord.PermissionsBitField.Flags.EmbedLinks]);
-        //     if (cmd.permissions.botPermissions.length > 0) {
-        //         const missingPerms = missingPermissions(cmd.permissions.botPermissions, interaction.channel, interaction.guild.members.me);
-        //         if (missingPerms.length > 0) {
-        //             if (missingPerms.includes(Discord.PermissionsBitField.Flags.SendMessages)) {
-        //                 const user = this.client.users.cache.get('id');
-        //                 if (!user) return;
-        //                 else if (!user.dmChannel) await user.createDM();
-        //                 await user.dmChannel.send(`I don't have the required permissions to execute this command. Missing permission(s): **${missingPerms.join(', ')}**\n${permissionHelpMessage}`);
-        //             }
-        //             return interaction.reply(`I don't have the required permissions to execute this command. Missing permission(s): **${missingPerms.join(', ')}**\n${permissionHelpMessage}`);
-        //         }
-        //     }
+//             const permissionHelpMessage = `If you need help configuring the correct permissions for the bot join the support server: ${this.client.config.server}`;
+//             cmd.permissions.botPermissions = cmd.permissions.botPermissions.concat([Discord.PermissionsBitField.Flags.SendMessages, Discord.PermissionsBitField.Flags.EmbedLinks]);
+//             if (cmd.permissions.botPermissions.length > 0) {
+//                 const missingPerms = missingPermissions(cmd.permissions.botPermissions, interaction.channel, interaction.guild.members.me);
+//                 if (missingPerms.length > 0) {
+//                     if (missingPerms.includes(Discord.PermissionsBitField.Flags.SendMessages)) {
+//                         const user = this.client.users.cache.get('id');
+//                         if (!user) return;
+//                         else if (!user.dmChannel) await user.createDM();
+//                         await user.dmChannel.send(`I don't have the required permissions to execute this command. Missing permission(s): **${missingPerms.join(', ')}**\n${permissionHelpMessage}`);
+//                     }
+//                     return interaction.reply(`I don't have the required permissions to execute this command. Missing permission(s): **${missingPerms.join(', ')}**\n${permissionHelpMessage}`);
+//                 }
+//             }
 
-        //     if (cmd.permissions.userPermissions.length > 0) {
-        //         const missingPerms = missingPermissions(cmd.permissions.userPermissions, interaction.channel, interaction.member);
-        //         if (missingPerms.length > 0) {
-        //             return interaction.reply({ content: `You don't have the required permissions to execute this command. Missing permission(s): **${missingPerms.join(', ')}**`, ephemeral: true });
-        //         }
-        //     }
+//             if (cmd.permissions.userPermissions.length > 0) {
+//                 const missingPerms = missingPermissions(cmd.permissions.userPermissions, interaction.channel, interaction.member);
+//                 if (missingPerms.length > 0) {
+//                     return interaction.reply({ content: `You don't have the required permissions to execute this command. Missing permission(s): **${missingPerms.join(', ')}**`, ephemeral: true });
+//                 }
+//             }
 
-        //     if (cmd.voiceRequirements.isInVoiceChannel && !interaction.member.voice.channel) return messageHelper.sendResponse('noVoiceChannel');
-        //     else if (cmd.voiceRequirements.isInSameVoiceChannel && interaction.guild.members.me.voice.channel && !interaction.guild.members.me.voice.channel.equals(interaction.member.voice.channel)) return messageHelper.sendResponse('sameVoiceChannel');
-        //     else if (cmd.voiceRequirements.isPlaying && !this.client.music.players.get(interaction.guild.id)) return messageHelper.sendResponse('noSongsPlaying');
+//             if (cmd.voiceRequirements.isInVoiceChannel && !interaction.member.voice.channel) return messageHelper.sendResponse('noVoiceChannel');
+//             else if (cmd.voiceRequirements.isInSameVoiceChannel && interaction.guild.members.me.voice.channel && !interaction.guild.members.me.voice.channel.equals(interaction.member.voice.channel)) return messageHelper.sendResponse('sameVoiceChannel');
+//             else if (cmd.voiceRequirements.isPlaying && !this.client.music.players.get(interaction.guild.id)) return messageHelper.sendResponse('noSongsPlaying');
 
-        //     if (cmd.permissions.botPermissions.includes(Discord.PermissionsBitField.Flags.Connect) && !interaction.member.voice.channel.permissionsFor(this.client.user).has(Discord.PermissionsBitField.Flags.Connect)) return messageHelper.sendResponse('noPermissionConnect');
-        //     if (cmd.permissions.botPermissions.includes(Discord.PermissionsBitField.Flags.Speak) && !interaction.member.voice.channel.permissionsFor(this.client.user).has(Discord.PermissionsBitField.Flags.Speak)) return messageHelper.sendResponse('noPermissionSpeak');
+//             if (cmd.permissions.botPermissions.includes(Discord.PermissionsBitField.Flags.Connect) && !interaction.member.voice.channel.permissionsFor(this.client.user).has(Discord.PermissionsBitField.Flags.Connect)) return messageHelper.sendResponse('noPermissionConnect');
+//             if (cmd.permissions.botPermissions.includes(Discord.PermissionsBitField.Flags.Speak) && !interaction.member.voice.channel.permissionsFor(this.client.user).has(Discord.PermissionsBitField.Flags.Speak)) return messageHelper.sendResponse('noPermissionSpeak');
 
-        //     if (!this.client.config.devs.includes(interaction.user.id)) {
-        //         if (!cooldowns.has(commandName)) {
-        //             cooldowns.set(commandName, new Discord.Collection());
-        //         }
-        //         const now = Date.now();
-        //         const timestamps = cooldowns.get(commandName);
-        //         const cooldownAmount = Math.floor(cmd.cooldown || 5) * 1000;
-        //         if (!timestamps.has(interaction.user.id)) {
-        //             timestamps.set(interaction.user.id, now);
-        //             setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
-        //         }
-        //         else {
-        //             const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
-        //             const timeLeft = (expirationTime - now) / 1000;
-        //             if (now < expirationTime && timeLeft > 0.9) {
-        //                 return interaction.reply({ content: `Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${commandName}\` command.`, ephemeral: true });
-        //             }
-        //             timestamps.set(interaction.user.id, now);
-        //             setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
-        //         }
-        //     }
+//             if (!this.client.config.devs.includes(interaction.user.id)) {
+//                 if (!cooldowns.has(commandName)) {
+//                     cooldowns.set(commandName, new Discord.Collection());
+//                 }
+//                 const now = Date.now();
+//                 const timestamps = cooldowns.get(commandName);
+//                 const cooldownAmount = Math.floor(cmd.cooldown || 5) * 1000;
+//                 if (!timestamps.has(interaction.user.id)) {
+//                     timestamps.set(interaction.user.id, now);
+//                     setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
+//                 }
+//                 else {
+//                     const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
+//                     const timeLeft = (expirationTime - now) / 1000;
+//                     if (now < expirationTime && timeLeft > 0.9) {
+//                         return interaction.reply({ content: `Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${commandName}\` command.`, ephemeral: true });
+//                     }
+//                     timestamps.set(interaction.user.id, now);
+//                     setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
+//                 }
+//             }
 
-        //     if (ctx.args.includes('@here') || ctx.args.includes('@everyone')) {
-        //         return interaction.reply({ content: 'Your argument included an `@here` or `@everyone` which is an invalid argument type.', ephemeral: true });
-        //     }
+//             if (ctx.args.includes('@here') || ctx.args.includes('@everyone')) {
+//                 return interaction.reply({ content: 'Your argument included an `@here` or `@everyone` which is an invalid argument type.', ephemeral: true });
+//             }
 
-        //     try {
-        //         await cmd.run(this.client, ctx, ctx.args);
-        //     }
-        //     catch (error) {
-        //         this.client.logger.error(error);
-        //         await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
-        //     }
-        // }
+//             try {
+//                 await cmd.run(this.client, ctx, ctx.args);
+//             }
+//             catch (error) {
+//                 this.client.logger.error(error);
+//                 await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+//             }
+//         }
     }
 };
