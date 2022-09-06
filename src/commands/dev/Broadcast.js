@@ -13,7 +13,6 @@ module.exports = class Broadcast extends Command {
         });
     }
     async run(client) {
-        return;
         await client.shard.broadcastEval(broadcastMessage);
 
         async function broadcastMessage(c) {
