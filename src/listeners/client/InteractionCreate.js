@@ -34,7 +34,6 @@ module.exports = class InteractionCreate extends Event {
             const broadcastButtons = ['BROADCAST_TRANSLATE_RUSSIAN', 'BROADCAST_TRANSLATE_ENGLISH', 'BROADCAST_TRANSLATE_KOREAN', 'BROADCAST_TRANSLATE_ITALIAN', 'BROADCAST_TRANSLATE_CUSTOM_LANGUAGE'];
             // TODO: Remove later
             if (broadcastButtons.includes(interaction.customId)) {
-                return;
                 const infoButtonRow = new Discord.ActionRowBuilder()
                     .addComponents(
                         new Discord.ButtonBuilder()
