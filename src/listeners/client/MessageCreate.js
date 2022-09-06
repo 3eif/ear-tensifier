@@ -53,6 +53,11 @@ module.exports = class MessageCreate extends Event {
             command = args.shift().toLowerCase();
             command = command.slice(messageHelper.server.prefix.length);
         }
+        else if (prefix === mentionPrefix) {
+            args = messageContent.split(`<@${this.client.user.id}>`);
+            args.shift();
+            command = args.shift().toLowerCase().replaceAll(' ', '');
+        }
         else {
             args = messageContent.split(' ');
             args.shift();
