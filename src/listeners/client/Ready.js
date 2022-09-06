@@ -20,7 +20,7 @@ module.exports = class Ready extends Event {
         else this.client.logger.warn('MongoDB URL missing');
 
         const status = '/help | eartensifier.net';
-        const statusType = ActivityType.Watching;
+        const statusType = ActivityType.Listening;
         this.client.user.setPresence({ activities: [{ name: status, type: statusType }], status: 'online' });
 
         this.client.music = new Manager();
