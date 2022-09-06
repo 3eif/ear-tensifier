@@ -75,9 +75,9 @@ module.exports = class Broadcast extends Command {
                     const title = '**Normal Commands No Longer Working**';
                     const content = `
 As of September 1st, Discord has removed the message content privelage from Ear Tensifier and many other bots. This is not something I had a say in or wanted.
-           
+
 From now on the bot will only work through slash commands and mentions. Instead of typing \`ear play\` or \`!play\`, type </play:916897958446899209>, </skip:916897958606291034>, instead. If slash commands aren't working or appearing for you, join the support server below.
-                    
+
 Thank you for using Ear Tensifier.
 
 TLDR: Use \`/\`instead of \`ear\` before each command. E.g: </play:916897958446899209>, </skip:916897958606291034>`;

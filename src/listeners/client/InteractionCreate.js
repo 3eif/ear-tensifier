@@ -87,11 +87,11 @@ Ear Tensifier을 사용해 주셔서 감사드려요.
                         const title = '**Normal Commands No Longer Working**';
                         const content = `
 As of September 1st, Discord has removed the message content privelage from Ear Tensifier and many other bots. This is not something I had a say in or wanted.
-               
+
 From now on the bot will only work through slash commands and mentions. Instead of typing \`ear play\` or \`!play\`, type </play:916897958446899209>, </skip:916897958606291034>, instead. If slash commands aren't working or appearing for you, join the support server below.
-                        
+
 Thank you for using Ear Tensifier.
-    
+
 TLDR: Use \`/\`instead of \`ear\` before each command. E.g: </play:916897958446899209>, </skip:916897958606291034>`;
 
                         const languageButtonRow = new Discord.ActionRowBuilder()
@@ -119,11 +119,11 @@ TLDR: Use \`/\`instead of \`ear\` before each command. E.g: </play:9168979584468
                         const title = '**I comandi normali non funzionano più**';
                         const content = `
 Dal 1 settembre, Discord ha rimosso il contenuto dei messaggi privilegiato da Ear Tensifier e molti altri bot. Questo non è qualcosa che mi piace dire o che volevo
-           
+
 Da ora il bot funzionerà solo con gli slash commands e menzioni. Invece di scrivere \`ear play\` o \`!play\`, scrivi </play:916897958446899209>, </skip:916897958606291034>, invece. Se gli slash command non funzionano o non appaiono, entra nel server di assistenza sotto.
-                                            
+
 Grazie per usare Ear Tensifier.
-                        
+
 TLDR: Usa \`/\` invece di \`ear\` prima di ogni comando. E.g: </play:916897958446899209>, </skip:916897958606291034>`;
 
                         const languageButtonRow = new Discord.ActionRowBuilder()
@@ -154,7 +154,7 @@ TLDR: Usa \`/\` invece di \`ear\` prima di ogni comando. E.g: </play:91689795844
 
 С этого момента, этот бот будет работать только с помощью слеш команд, и упоминаний. 
 Вместо того чтобы писать \`ear play\` или \`!play\`, пишите </play:916897958446899209>, </skip:916897958606291034>. Если слеш команды не работают для тебя, зайди в сервер поддержки ниже
-                    
+
 Спасибо за использование Ear Tensifier.
 
 Слишком долго, не прочитал: Используй \`/\` заместо \`ear\` перед каждой командой. Например: </play:916897958446899209>, </skip:916897958606291034>`;
