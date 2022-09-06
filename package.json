@@ -33,7 +33,7 @@
     "blapi": "^2.2.1",
     "cors": "^2.8.5",
     "cpu-stat": "^2.0.1",
-    "discord-api-types": "^0.26.1",
+    "discord-api-types": "^0.37.7",
     "discord.js": "^14.3.0",
     "dotenv": "^16.0.1",
     "dotenv-flow": "^3.2.0",
