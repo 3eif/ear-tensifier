@@ -24,7 +24,7 @@ module.exports = class Leave extends Command {
         }
         else {
             player = await client.music.newPlayer(ctx.guild, ctx.member.voice.channel, ctx.channel);
-            await player.connect();
+            if (ctx.member.voice.channel.joinable) await player.connect();
             player.destroy(true);
         }
 
