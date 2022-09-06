@@ -1,4 +1,4 @@
-const { EmbedBuilder, ButtonStyle } = require('discord.js');
+const { EmbedBuilder, ButtonStyle, ButtonBuilder } = require('discord.js');
 
 const Command = require('../../structures/Command');
 
@@ -27,11 +27,11 @@ module.exports = class Resume extends Command {
 
         if (player.nowPlayingMessage) {
             const buttonRow = player.nowPlayingMessage.components[0];
-            buttonRow.components[2] = new ButtonStyle()
+            buttonRow.components[2] = new ButtonBuilder()
                 .setCustomId('PAUSE_BUTTON')
-                .setStyle(ButtonStyle.Secondary)
+                .setStyle(ButtonStyle.Primary)
                 .setEmoji(client.config.emojis.pause);
-            await player.nowPlayingMessage.edit({ components: [buttonRow] });
+            await player.nowPlayingMessage.edit({ embeds: [player.nowPlayingMessage.embeds[0]], components: [buttonRow] });
         }
 
         const embed = new EmbedBuilder()

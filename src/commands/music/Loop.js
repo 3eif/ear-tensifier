@@ -77,7 +77,7 @@ module.exports = class Loop extends Command {
                 .setCustomId('LOOP_BUTTON')
                 .setStyle(style)
                 .setEmoji(emoji);
-            await player.nowPlayingMessage.edit({ components: [buttonRow] });
+            await player.nowPlayingMessage.edit({ embeds: [player.nowPlayingMessage.embeds[0]], components: [buttonRow] });
         }
 
         const embed = new EmbedBuilder()
