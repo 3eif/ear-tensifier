@@ -53,9 +53,8 @@ module.exports = class TrackStart extends Event {
                     .setStyle(ButtonStyle.Secondary)
                     .setEmoji(this.client.config.emojis.addtoqueue));
 
-
         try {
-            if (!player.guild.members.me.permissions.has(PermissionsBitField.Flags.SendMessages) || !player.guild.members.me.permissions.has(PermissionsBitField.Flags.EmbedLinks)) return;
+        if (!player.guild.members.me.permissions.has(PermissionsBitField.Flags.SendMessages) || !player.guild.members.me.permissions.has(PermissionsBitField.Flags.EmbedLinks)) return;
             const embed = new EmbedBuilder()
                 .setColor(this.client.config.colors.default)
                 .setAuthor({ name: author, iconURL: player.playing ? 'https://eartensifier.net/images/cd.gif' : 'https://eartensifier.net/images/cd.png', url: url })

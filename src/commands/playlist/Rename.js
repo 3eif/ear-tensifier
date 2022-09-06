@@ -37,7 +37,7 @@ module.exports = class Rename extends Command {
     }
     async run(client, ctx, args) {
         if (!args[1]) {
-            return ctx.sendMessage(`Please provide a new name for the playlist.\nUsage: \`${await ctx.messageHelper.getPrefix()}rename <current playlist name> <new playlist name>\``);
+            return ctx.sendMessage('Please provide a new name for the playlist.\nUsage: `/rename <current playlist name> <new playlist name>`');
         }
 
         if (args[0].length > this.options[0].max_length || args[1].length > this.options[1].max_length) return ctx.sendMessage(`Playlist title must be less than ${this.options[0].max_value} characters!`);
@@ -55,7 +55,7 @@ module.exports = class Rename extends Command {
                     .setDescription(`${client.config.emojis.failure} Could not find a playlist by the name ${playlistName}.\nFor a list of your playlists type \`ear playlists\``)
                     .setTimestamp()
                     .setColor(client.config.colors.default);
-                return ctx.sendMessage({ content: null, embeds: [embed] });
+                return ctx.sendEphemeralMessage({ content: null, embeds: [embed] });
             }
             else {
                 p.name = newPlaylistName;

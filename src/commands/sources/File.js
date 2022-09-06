@@ -29,7 +29,7 @@ module.exports = class Spotify extends Command {
                     type: ApplicationCommandOptionType.Subcommand,
                     options: [
                         {
-                            name: 'file',
+                            name: 'attachment',
                             type: ApplicationCommandOptionType.Attachment,
                             required: true,
                             description: 'The attached file to play.',
@@ -42,7 +42,7 @@ module.exports = class Spotify extends Command {
                     type: ApplicationCommandOptionType.Subcommand,
                     options: [
                         {
-                            name: 'file',
+                            name: 'link',
                             type: ApplicationCommandOptionType.String,
                             required: true,
                             description: 'The link to the file to play.',
@@ -70,7 +70,16 @@ module.exports = class Spotify extends Command {
             }
             else {
                 attachmentLink = ctx.interaction.options.data[0].options[0].value;
+                let url;
                 attachmentName = 'Unknown Title';
+                try {
+                    url = new URL(attachmentLink);
+                }
+                catch (e) {
+                    return await ctx.editMessage('Not a valid url');
+                }
+
+                if (!url.hostname == 'cdn.discordapp.com' && !url.hostname == 'media.discordapp.com') return await ctx.editMessage('File URL must be a valid discord URL.');
             }
         }
         else {
@@ -81,7 +90,16 @@ module.exports = class Spotify extends Command {
             }
             else {
                 attachmentLink = args[0];
-                attachmentName = 'Unknown Title Track';
+                let url;
+                attachmentName = 'Unknown Title';
+                try {
+                    url = new URL(attachmentLink);
+                }
+                catch (e) {
+                    return await ctx.editMessage('Not a valid url');
+                }
+
+                if (!url.hostname == 'cdn.discordapp.com' && !url.hostname == 'media.discordapp.com') return await ctx.editMessage('File URL must be a valid discord URL.');
             }
         }
 

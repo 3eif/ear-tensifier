@@ -6,6 +6,7 @@ const Context = require('../../structures/Context');
 const MessageHelper = require('../../helpers/MessageHelper');
 const Playlist = require('../../models/Playlist');
 const User = require('../../models/User');
+const missingPermissions = require('../../utils/music/missingPermissions');
 
 const cooldowns = new Discord.Collection();
 
@@ -118,7 +119,19 @@ module.exports = class InteractionCreate extends Event {
                 cmd = contextCommand;
                 commandName = cmd.name.toLowerCase();
                 ctx = new Context(interaction, []);
-                ctx.contextMenuContent = interaction.targetMessage.content;
+                const targetMessage = interaction.targetMessage;
+                if (targetMessage.embeds.length > 0) {
+                    const embed = targetMessage.embeds[0].data;
+                    if (embed) {
+                        if (embed.url) ctx.contextMenuContent = embed.url;
+                        else if (embed.title) ctx.contextMenuContent = embed.title;
+                        else if (embed.description) ctx.contextMenuContent = embed.description;
+                    }
+                    else {
+                        return interaction.reply({ content: 'This command cannot be used on this message', ephemeral: true });
+                    }
+                }
+                else ctx.contextMenuContent = targetMessage.content;
             }
             else {
                 cmd = this.client.commands.get(interaction.commandName);
@@ -144,24 +157,24 @@ module.exports = class InteractionCreate extends Event {
             this.client.logger.command('%s used by %s from %s', commandName, ctx.author.id, ctx.guild.id);
 
             const permissionHelpMessage = `If you need help configuring the correct permissions for the bot join the support server: ${this.client.config.server}`;
-            cmd.permissions.botPermissions.concat([Discord.PermissionsBitField.Flags.SendMessages, Discord.PermissionsBitField.Flags.EmbedLinks]);
+            cmd.permissions.botPermissions = cmd.permissions.botPermissions.concat([Discord.PermissionsBitField.Flags.SendMessages, Discord.PermissionsBitField.Flags.EmbedLinks]);
             if (cmd.permissions.botPermissions.length > 0) {
-                const missingPermissions = cmd.permissions.botPermissions.filter(perm => !interaction.guild.members.me.permissions.has(perm));
-                if (missingPermissions.length > 0) {
-                    if (missingPermissions.includes(Discord.PermissionsBitField.Flags.SendMessages)) {
+                const missingPerms = missingPermissions(cmd.permissions.botPermissions, interaction.channel, interaction.guild.members.me);
+                if (missingPerms.length > 0) {
+                    if (missingPerms.includes(Discord.PermissionsBitField.Flags.SendMessages)) {
                         const user = this.client.users.cache.get('id');
                         if (!user) return;
                         else if (!user.dmChannel) await user.createDM();
-                        await user.dmChannel.send(`I don't have the required permissions to execute this command. Missing permission(s): **${missingPermissions.toArray().join(', ')}**\n${permissionHelpMessage}`);
+                        await user.dmChannel.send(`I don't have the required permissions to execute this command. Missing permission(s): **${missingPerms.join(', ')}**\n${permissionHelpMessage}`);
                     }
-                    return interaction.reply(`I don't have the required permissions to execute this command. Missing permission(s): **${missingPermissions.toArray().join(', ')}**\n${permissionHelpMessage}`);
+                    return interaction.reply(`I don't have the required permissions to execute this command. Missing permission(s): **${missingPerms.join(', ')}**\n${permissionHelpMessage}`);
                 }
             }
 
             if (cmd.permissions.userPermissions.length > 0) {
-                const missingPermissions = new Discord.PermissionsBitField(cmd.permissions.userPermissions.filter(perm => !interaction.member.permissions.has(perm))).toArray();
-                if (missingPermissions.length > 0) {
-                    return interaction.reply(`You don't have the required permissions to execute this command. Missing permission(s): **${missingPermissions.join(', ')}**`);
+                const missingPerms = missingPermissions(cmd.permissions.userPermissions, interaction.channel, interaction.member);
+                if (missingPerms.length > 0) {
+                    return interaction.reply({ content: `You don't have the required permissions to execute this command. Missing permission(s): **${missingPerms.join(', ')}**`, ephemeral: true });
                 }
             }
 
@@ -187,7 +200,7 @@ module.exports = class InteractionCreate extends Event {
                     const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
                     const timeLeft = (expirationTime - now) / 1000;
                     if (now < expirationTime && timeLeft > 0.9) {
-                        return interaction.reply({ content: `Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${commandName}\` command.` });
+                        return interaction.reply({ content: `Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${commandName}\` command.`, ephemeral: true });
                     }
                     timestamps.set(interaction.user.id, now);
                     setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
@@ -195,7 +208,7 @@ module.exports = class InteractionCreate extends Event {
             }
 
             if (ctx.args.includes('@here') || ctx.args.includes('@everyone')) {
-                return interaction.reply('Your argument included an `@here` or `@everyone` which is an invalid argument type.');
+                return interaction.reply({ content: 'Your argument included an `@here` or `@everyone` which is an invalid argument type.', ephemeral: true });
             }
 
             try {

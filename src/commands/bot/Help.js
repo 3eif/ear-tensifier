@@ -46,12 +46,10 @@ module.exports = class Help extends Command {
         const { commands } = ctx.client;
         const data = [];
 
-        const prefix = await ctx.messageHelper.getPrefix();
-
         const embed = new EmbedBuilder()
             .setAuthor({ name: 'Commands', iconURL: client.user.displayAvatarURL() })
             .setDescription(`A detailed list of commands can be found here: **[eartensifier.net](https://eartensifier.net/#commands)**.\nNeed more help? Join the support server here: **[${client.config.server.replace('https://', '')}](${client.config.server})**.`)
-            .setFooter({ text: `For more information on a command: ${prefix}help <command>` })
+            .setFooter({ text: 'For more information on a command: /help <command>' })
             .setColor(client.config.colors.default);
 
         if (!args.length) {
@@ -98,12 +96,12 @@ module.exports = class Help extends Command {
 
             if (command.description.content) data.push(`**Description:** ${command.description.content}`);
 
-            if (command.description.usage == 'No usage provided') data.push(`**Usage:** \`${prefix}${command.name}\``);
-            else data.push(`**Usage:** \`${prefix}${command.name} ${command.description.usage}\``);
+            if (command.description.usage == 'No usage provided') data.push(`**Usage:** \`/${command.name}\``);
+            else data.push(`**Usage:** \`/${command.name} ${command.description.usage}\``);
 
             if (command.description.examples != 'No examples provided') {
                 const examples = [];
-                command.description.examples.forEach(example => examples.push(`\`${prefix}${command.name} ${example}\``));
+                command.description.examples.forEach(example => examples.push(`\`/${command.name} ${example}\``));
                 data.push(`**Examples:** ${examples.join(', ')}`);
             }
 

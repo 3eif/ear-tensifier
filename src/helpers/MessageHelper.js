@@ -70,35 +70,35 @@ module.exports = class MessageHelper {
     sendResponse(type) {
         switch (type) {
             case 'sameVoiceChannel': {
-                this.ctx.sendMessage('You are not in the same voice channel as the bot.');
+                this.ctx.sendEphemeralMessage('You are not in the same voice channel as the bot.');
                 break;
             }
             case 'noVoiceChannel': {
-                this.ctx.sendMessage('You need to be in a voice channel to use this command.');
+                this.ctx.sendEphemeralMessage('You need to be in a voice channel to use this command.');
                 break;
             }
             case 'noSongsPlaying': {
-                this.ctx.sendMessage('There are no songs currently playing, please play a song to use the command.');
+                this.ctx.sendEphemeralMessage('There are no songs currently playing, please play a song to use the command.');
                 break;
             }
             case 'botVoiceChannel': {
-                this.ctx.sendMessage('The bot is not currently in a vc.');
+                this.ctx.sendEphemeralMessage('The bot is not currently in a vc.');
                 break;
             }
             case 'noPermissionConnect': {
-                this.ctx.sendMessage('I do not have permission to join your voice channel.');
+                this.ctx.sendEphemeralMessage('I do not have permission to join your voice channel.');
                 break;
             }
             case 'noPermissionSpeak': {
-                this.ctx.sendMessage('I do not have permission to speak in your voice channel.');
+                this.ctx.sendEphemeralMessage('I do not have permission to speak in your voice channel.');
                 break;
             }
             case 'noUser': {
-                this.ctx.sendMessage('Please provide a valid user.');
+                this.ctx.sendEphemeralMessage('Please provide a valid user.');
                 break;
             }
             default: {
-                this.ctx.sendMessage(this.client.error());
+                this.ctx.sendEphemeralMessage(this.client.error());
             }
         }
     }

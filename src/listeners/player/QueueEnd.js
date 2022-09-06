@@ -34,8 +34,8 @@ module.exports = class QueueEnd extends Event {
         player.textChannel.send({ embeds: [embed] });
         player.cleanup();
 
-        setTimeout(() => {
-            if (!player.playing) player.destroy(false);
+        player.leaveTimeout = setTimeout(() => {
+            player.destroy(false);
         }, config.leaveTimeout);
     }
 };

@@ -42,7 +42,7 @@ module.exports = class Earrape extends Command {
         else {
             player.filter.setEarrape(true);
             embed.setAuthor({ name: 'Turned on earrape', iconURL: ctx.author.displayAvatarURL() });
-            embed.setFooter({ text: `You can turn this filter off by using the '${await ctx.messageHelper.getPrefix()}earrape off' command.` });
+            embed.setFooter({ text: 'You can turn this filter off by using the \'/ earrape off\' command.' });
         }
         embed.setColor(client.config.colors.default);
         return ctx.sendMessage({ content: null, embeds: [embed] });

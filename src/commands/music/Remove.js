@@ -34,10 +34,10 @@ module.exports = class Remove extends Command {
 
         const pos = args[0].replace('.', '').split(' ')[0];
 
-        if (isNaN(pos)) return ctx.sendMessage('Invalid number.');
+        if (isNaN(pos)) return ctx.sendEphemeralMessage('Invalid number.');
 
-        if (pos == 0) return ctx.sendMessage(`Cannot remove a song that is already playing. To skip the song type: \`${await ctx.messageHelper.getPrefix()}skip\``);
-        if (pos > player.queue.length) return ctx.sendMessage('Song not found.');
+        if (pos == 0) return ctx.sendEphemeralMessage('Cannot remove a song that is already playing. To skip the song type: `/skip`');
+        if (pos > player.queue.length) return ctx.sendEphemeralMessage('Song not found.');
 
         const { title } = player.queue[pos - 1];
 

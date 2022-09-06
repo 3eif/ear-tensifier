@@ -111,16 +111,19 @@ module.exports = class Client extends Discord.Client {
 
         const rest = new REST({ version: '9' }).setToken(process.env.DISCORD_TOKEN);
 
-        if (process.env.NODE_ENV === 'development') {
-            rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID, '473426453204172811'), { body: commands })
-                .then(() => this.logger.success('Successfully registered application commands in guild.'))
-                .catch((e) => signale.error(e));
-        }
-        else {
-            rest.put(Routes.applicationCommands(process.env.CLIENT_ID), { body: commands })
-                .then(() => this.logger.success('Successfully registered application commands.'))
-                .catch((e) => signale.error(e));
-        }
+        // if (process.env.NODE_ENV === 'development') {
+        //     rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID, '473426453204172811'), { body: [] })
+        //         .then(() => this.logger.success('Successfully registered application commands in guild.'))
+        //         .catch((e) => signale.error(e));
+        // }
+
+        //     rest.put(Routes.applicationCommands(process.env.CLIENT_ID), { body: [] })
+        //         .then(() => this.logger.success('Successfully registered application commands.'))
+        //         .catch((e) => signale.error(e));
+        // }
+        rest.put(Routes.applicationCommands(process.env.CLIENT_ID), { body: commands })
+            .then(() => this.logger.success('Successfully registered application commands.'))
+            .catch((e) => signale.error(e));
     }
 
     loadListeners() {

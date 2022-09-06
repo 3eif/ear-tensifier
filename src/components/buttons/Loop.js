@@ -8,7 +8,7 @@ module.exports = class Loop extends Button {
         });
     }
     async run(client, interaction) {
-        if (interaction.guild.members.me.voice.channel && !interaction.guild.members.me.voice.channel.equals(interaction.member.voice.channel)) return;
+        if (interaction.guild.members.me.voice.channel && !interaction.guild.members.me.voice.channel.equals(interaction.member.voice.channel)) return interaction.reply({ content: 'You must be in the same voice channel as the bot to use this button.', ephemeral: true });
         const player = client.music.players.get(interaction.guild.id);
         if (!player) return;
 
@@ -44,7 +44,7 @@ module.exports = class Loop extends Button {
         const embed = new EmbedBuilder()
             .setColor(client.config.colors.default)
             .setAuthor({ name: str, iconURL: interaction.member.displayAvatarURL() });
-        await player.textChannel.send({ embeds: [embed] });
-        await interaction.update({ components: [buttonRow] });
+        await interaction.reply({ embeds: [embed] });
+        await player.nowPlayingMessage.edit({ components: [buttonRow] });
     }
 };

@@ -58,7 +58,7 @@ module.exports = class Ignore extends Command {
                 .setAuthor({ name: `${ctx.guild.name}`, iconURL: ctx.guild.iconURL() })
                 .setColor(client.config.colors.default)
                 .setDescription(`I will now ignore commands from <#${channelId}>.`)
-                .setFooter({ text: `Tip: You can make me listen to commands again by doing ${await ctx.messageHelper.getPrefix()}listen` });
+                .setFooter({ text: 'Tip: You can make me listen to commands again by doing /listen' });
             ctx.editMessage({ content: null, embeds: [embed] });
         });
     }

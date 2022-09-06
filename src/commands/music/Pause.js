@@ -23,7 +23,7 @@ module.exports = class Pause extends Command {
     async run(client, ctx) {
         const player = client.music.players.get(ctx.guild.id);
 
-        if (player.paused) return ctx.sendMessage('Song is already paused.');
+        if (player.paused) return ctx.sendEphemeralMessage('Song is already paused.');
         player.pause(true);
         const embed = new EmbedBuilder()
             .setColor(client.config.colors.default)

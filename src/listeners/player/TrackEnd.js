@@ -30,6 +30,11 @@ module.exports = class TrackEnd extends Event {
             newNowPlayingEmbed.setAuthor({ name: track.author, iconURL: 'https://eartensifier.net/images/cd.png', url: track.url });
 
             await player.nowPlayingMessage.edit({ components: [], embeds: [newNowPlayingEmbed] });
+
+            // const newNowPlayingEmbed = EmbedBuilder.from(this.nowPlayingMessage.embeds[0])
+            //     .setAuthor({ name: this.queue.current.author, iconURL: this.pause ? 'https://eartensifier.net/images/cd.png' : 'https://eartensifier.net/images/cd.gif', url: this.queue.current.url });
+
+            // this.nowPlayingMessage.edit({ content: null, embeds: [newNowPlayingEmbed] });
         }
         catch (e) {
             this.client.logger.error(e);
