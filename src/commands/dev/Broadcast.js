@@ -13,6 +13,7 @@ module.exports = class Broadcast extends Command {
         });
     }
     async run(client) {
+        return;
         await client.shard.broadcastEval(broadcastMessage);
 
         async function broadcastMessage(c) {
@@ -53,7 +54,7 @@ module.exports = class Broadcast extends Command {
 
             for (let i = 0; i < guilds.length; i++) {
                 const delay = ms => new Promise(res => setTimeout(res, ms));
-                await delay(250);
+                await delay(2000);
 
                 const guild = c.guilds.cache.get(guilds[i]);
                 try {
