@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, ButtonStyle } = require('discord.js');
 
 const Command = require('../../structures/Command');
 
@@ -24,6 +24,15 @@ module.exports = class Resume extends Command {
 
         if (!player.paused) return ctx.sendEphemeralMessage('Song is already resumed.');
         player.pause(false);
+
+        if (player.nowPlayingMessage) {
+            const buttonRow = player.nowPlayingMessage.components[0];
+            buttonRow.components[2] = new ButtonStyle()
+                .setCustomId('PAUSE_BUTTON')
+                .setStyle(ButtonStyle.Secondary)
+                .setEmoji(client.config.emojis.pause);
+            await player.nowPlayingMessage.edit({ components: [buttonRow] });
+        }
 
         const embed = new EmbedBuilder()
             .setColor(client.config.colors.default)

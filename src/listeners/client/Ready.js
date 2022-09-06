@@ -37,7 +37,7 @@ module.exports = class Ready extends Event {
                 try {
                     require('../../api/index.js')(this.client);
                     blapi.setLogging({
-                        extended: true,
+                        extended: false,
                         logger: this.client.logger,
                     });
 

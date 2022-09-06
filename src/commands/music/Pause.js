@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 
 const Command = require('../../structures/Command');
 
@@ -25,6 +25,16 @@ module.exports = class Pause extends Command {
 
         if (player.paused) return ctx.sendEphemeralMessage('Song is already paused.');
         player.pause(true);
+
+        if (player.nowPlayingMessage) {
+            const buttonRow = player.nowPlayingMessage.components[0];
+            buttonRow.components[2] = new ButtonBuilder()
+                .setCustomId('PAUSE_BUTTON')
+                .setStyle(ButtonStyle.Secondary)
+                .setEmoji(client.config.emojis.resume);
+            await player.nowPlayingMessage.edit({ components: [buttonRow] });
+        }
+
         const embed = new EmbedBuilder()
             .setColor(client.config.colors.default)
             .setAuthor({ name: `Song is now ${player.playing ? 'resumed' : 'paused'}.`, iconURL: ctx.author.displayAvatarURL() });

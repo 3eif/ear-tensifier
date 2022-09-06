@@ -70,16 +70,19 @@ module.exports = class Loop extends Command {
                 emoji = client.config.emojis.loop;
             }
         }
-        const buttonRow = player.nowPlayingMessage.components[0];
-        buttonRow.components[0] = new ButtonBuilder()
-            .setCustomId('LOOP_BUTTON')
-            .setStyle(style)
-            .setEmoji(emoji);
+
+        if (player.nowPlayingMessage) {
+            const buttonRow = player.nowPlayingMessage.components[0];
+            buttonRow.components[0] = new ButtonBuilder()
+                .setCustomId('LOOP_BUTTON')
+                .setStyle(style)
+                .setEmoji(emoji);
+            await player.nowPlayingMessage.edit({ components: [buttonRow] });
+        }
 
         const embed = new EmbedBuilder()
             .setColor(client.config.colors.default)
             .setAuthor({ name: str, iconURL: ctx.author.displayAvatarURL() });
-        await player.nowPlayingMessage.edit({ components: [buttonRow] });
         return ctx.sendMessage({ embeds: [embed] });
     }
 };
