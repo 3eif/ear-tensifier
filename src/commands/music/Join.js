@@ -22,6 +22,7 @@ module.exports = class Join extends Command {
     async run(client, ctx) {
         const voiceChannel = ctx.member.voice.channel;
         if (!voiceChannel) return ctx.messageHelper.sendResponse('noVoiceChannel');
+        if (ctx.guild.members.me.voice.channel && voiceChannel.id === ctx.guild.members.me.voice.channel.id) return ctx.sendEphemeralMessage('I am already in your voice channel.');
 
         let player = client.music.players.get(ctx.guild.id);
         if (!player) {
