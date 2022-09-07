@@ -36,7 +36,7 @@ module.exports = class PlaylistRemove extends Command {
     }
 
     async run(client, ctx, args) {
-        if (!args[1] || isNaN(args[1])) return ctx.sendMessage(`Please specify the position of the song you want to remove.\nUsage: \`${await ctx.messageHelper.getPrefix()} premove <playlist name> <song position>\``);
+        if (!args[1] || isNaN(args[1])) return ctx.sendMessage('Please specify the position of the song you want to remove.\nUsage: /playlistremove <playlist name> <song position>`');
 
         const playlistName = args[0].replace(/_/g, ' ');
 
@@ -49,10 +49,10 @@ module.exports = class PlaylistRemove extends Command {
             if (!playlist) {
                 const embed = new EmbedBuilder()
                     .setAuthor({ name: playlistName, iconURL: ctx.author.displayAvatarURL() })
-                    .setDescription(`${client.config.emojis.failure} Could not find a playlist by the name ${playlistName}.\nFor a list of your playlists type \`ear playlists\``)
+                    .setDescription(`${client.config.emojis.failure} Could not find a playlist by the name ${playlistName}.\nFor a list of your playlists type \`/playlists\``)
                     .setTimestamp()
                     .setColor(client.config.colors.default);
-                return ctx.sendMessage({ content: null, embeds: [embed] });
+                return ctx.sendEphemeralMessage({ content: null, embeds: [embed] });
             }
             else {
                 if (playlist.tracks.length < args[1]) return ctx.sendMessage('That song doesn\'t exist in the playlist.');

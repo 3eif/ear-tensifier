@@ -42,10 +42,10 @@ module.exports = class RemoveFrom extends Command {
         let pos = args[0].replace('.', '').split(' ')[0];
         let pos2 = args[1].replace('.', '').split(' ')[0];
 
-        if (isNaN(pos) || isNaN(pos2)) return ctx.sendMessage('Invalid number.');
+        if (isNaN(pos) || isNaN(pos2)) return ctx.sendEphemeralMessage('Invalid number.');
 
-        if (pos == 0 || pos2 == 0) return ctx.sendMessage(`Cannot remove a song that is already playing. To skip the song type: \`${await ctx.messageHelper.getPrefix()}skip\``);
-        if (pos > player.queue.length || args[1] > player.queue.length) return ctx.sendMessage('Song not found.');
+        if (pos == 0 || pos2 == 0) return ctx.sendEphemeralMessage('Cannot remove a song that is already playing. To skip the song type: `/skip`');
+        if (pos > player.queue.length || args[1] > player.queue.length) return ctx.sendEphemeralMessage('Song not found.');
         if (pos > pos2) {
             const tempPos = pos;
             pos = pos2;

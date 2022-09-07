@@ -9,7 +9,7 @@ module.exports = class Filter {
         };
         this.defaultTempo = 1;
         this.defaultRate = 1;
-        this.defaultVolume = 100;
+        this.defaultVolume = player.volume || 100;
 
         this.equalizer = [];
         this.tremolo = this.defaultTremolo;

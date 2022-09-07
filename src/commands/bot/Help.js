@@ -46,14 +46,13 @@ module.exports = class Help extends Command {
         const { commands } = ctx.client;
         const data = [];
 
-        const prefix = await ctx.messageHelper.getPrefix();
-
         const embed = new EmbedBuilder()
             .setAuthor({ name: 'Commands', iconURL: client.user.displayAvatarURL() })
             .setDescription(`A detailed list of commands can be found here: **[eartensifier.net](https://eartensifier.net/#commands)**.\nNeed more help? Join the support server here: **[${client.config.server.replace('https://', '')}](${client.config.server})**.`)
-            .setFooter({ text: `For more information on a command: ${prefix}help <command>` })
+            .setFooter({ text: 'For more information on a command: /help <command>' })
             .setColor(client.config.colors.default);
 
+        const slashCommands = await client.application.commands.fetch();
         if (!args.length) {
             const buttons = new ActionRowBuilder()
                 .addComponents(
@@ -77,8 +76,11 @@ module.exports = class Help extends Command {
                 for (let i = 0; i < commandsFile.length; i++) {
                     const command = commands.get(commandsFile[i].split('.')[0].toLowerCase());
                     if (command && !command.hide) {
-                        if (i < commandsFile.length - 1) helpCommands.push(`\`${command.name}\`,  `);
-                        else helpCommands.push(`\`${command.name}\``);
+                        const slashCommand = slashCommands.find(c => c.name == command.name);
+                        if (slashCommand) {
+                            const commandString = `</${slashCommand.name}:${slashCommand.id}>`;
+                            helpCommands.push(`${commandString}  `);
+                        }
                     }
                 }
 
@@ -93,17 +95,18 @@ module.exports = class Help extends Command {
             if (!commands.has(args[0])) return ctx.sendMessage('That\'s not a valid command!');
 
             const command = commands.get(args[0]);
+            const slashCommand = slashCommands.find(c => c.name == command.name);
 
-            data.push(`**Name:** ${command.name}`);
+            data.push(`**Name:** ${slashCommand ? `</${slashCommand.name}:${slashCommand.id}>` : command.name}`);
 
             if (command.description.content) data.push(`**Description:** ${command.description.content}`);
 
-            if (command.description.usage == 'No usage provided') data.push(`**Usage:** \`${prefix}${command.name}\``);
-            else data.push(`**Usage:** \`${prefix}${command.name} ${command.description.usage}\``);
+            if (command.description.usage == 'No usage provided') data.push(`**Usage:** \`/${command.name}\``);
+            else data.push(`**Usage:** \`/${command.name} ${command.description.usage}\``);
 
             if (command.description.examples != 'No examples provided') {
                 const examples = [];
-                command.description.examples.forEach(example => examples.push(`\`${prefix}${command.name} ${example}\``));
+                command.description.examples.forEach(example => examples.push(`\`/${command.name} ${example}\``));
                 data.push(`**Examples:** ${examples.join(', ')}`);
             }
 

@@ -8,21 +8,24 @@ module.exports = class Pause extends Button {
         });
     }
     async run(client, interaction) {
-        if (interaction.guild.members.me.voice.channel && !interaction.guild.members.me.voice.channel.equals(interaction.member.voice.channel)) return;
+        if (interaction.guild.members.me.voice.channel && !interaction.guild.members.me.voice.channel.equals(interaction.member.voice.channel)) return interaction.reply({ content: 'You must be in the same voice channel as the bot to use this button.', ephemeral: true });
         const player = client.music.players.get(interaction.guild.id);
         if (!player) return;
 
-        const buttonRow = interaction.message.components[0];
         player.pause(!player.paused);
-        buttonRow.components[2] = new ButtonBuilder()
-            .setCustomId('PAUSE_BUTTON')
-            .setStyle(ButtonStyle.Primary)
-            .setEmoji(player.paused ? client.config.emojis.resume : client.config.emojis.pause);
+
+        if (player.nowPlayingMessage) {
+            const buttonRow = interaction.message.components[0];
+            buttonRow.components[2] = new ButtonBuilder()
+                .setCustomId('PAUSE_BUTTON')
+                .setStyle(ButtonStyle.Primary)
+                .setEmoji(player.paused ? client.config.emojis.resume : client.config.emojis.pause);
+            await player.nowPlayingMessage.edit({ components: [buttonRow] });
+        }
 
         const embed = new EmbedBuilder()
             .setColor(client.config.colors.default)
             .setAuthor({ name: `Song is now ${player.playing ? 'resumed' : 'paused'}.`, iconURL: interaction.member.displayAvatarURL() });
-        await player.textChannel.send({ embeds: [embed] });
-        await interaction.update({ components: [buttonRow] });
+        await interaction.reply({ embeds: [embed] });
     }
 };

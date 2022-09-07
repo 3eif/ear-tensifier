@@ -33,11 +33,11 @@ module.exports = class SkipTo extends Command {
     async run(client, ctx, args) {
         const pos = args[0].replace('.', '').split(' ')[0];
 
-        if (isNaN(pos)) return ctx.sendMessage('Invalid number.');
-        if (pos === 0) return ctx.sendMessage(`Cannot skip to a song that is already playing. To skip the current playing song type: \`${client.settings.prefix}skip\``);
+        if (isNaN(pos)) return ctx.sendEphemeralMessage('Invalid number.');
+        if (pos === 0) return ctx.sendEphemeralMessage(`Cannot skip to a song that is already playing. To skip the current playing song type: \`${client.settings.prefix}skip\``);
 
         const player = client.music.players.get(ctx.guild.id);
-        if ((pos > player.queue.length) || (pos && !player.queue[pos - 1])) return ctx.sendMessage('Song not found.');
+        if ((pos > player.queue.length) || (pos && !player.queue[pos - 1])) return ctx.sendEphemeralMessage('Song not found.');
         if (pos == 1) player.skip();
         else {
             player.queue.splice(0, pos - 1);

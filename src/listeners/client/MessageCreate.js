@@ -4,6 +4,7 @@ const Statcord = require('statcord.js');
 const Event = require('../../structures/Event');
 const MessageHelper = require('../../helpers/MessageHelper');
 const Context = require('../../structures/Context');
+const missingPermissions = require('../../utils/music/missingPermissions');
 
 const cooldowns = new Discord.Collection();
 
@@ -55,6 +56,7 @@ module.exports = class MessageCreate extends Event {
         else {
             args = messageContent.split(' ');
             args.shift();
+            if (args.length == 0) return;
             command = args.shift().toLowerCase();
         }
 
@@ -82,24 +84,24 @@ module.exports = class MessageCreate extends Event {
         this.client.logger.command('%s used by %s from %s', commandName, message.author.id, message.guild.id);
 
         const permissionHelpMessage = `If you need help configuring the correct permissions for the bot join the support server: ${this.client.config.server}`;
-        cmd.permissions.botPermissions.concat([Discord.PermissionsBitField.Flags.SendMessages, Discord.PermissionsBitField.Flags.EmbedLinks]);
+        cmd.permissions.botPermissions = cmd.permissions.botPermissions.concat([Discord.PermissionsBitField.Flags.SendMessages, Discord.PermissionsBitField.Flags.EmbedLinks]);
         if (cmd.permissions.botPermissions.length > 0) {
-            const missingPermissions = cmd.permissions.botPermissions.filter(perm => !message.guild.members.me.permissions.has(perm));
-            if (missingPermissions.length > 0) {
-                if (missingPermissions.includes(Discord.PermissionsBitField.Flags.SendMessages)) {
+            const missingPerms = missingPermissions(cmd.permissions.botPermissions, message.channel, message.guild.members.me);
+            if (missingPerms.length > 0) {
+                if (missingPerms.includes(Discord.PermissionsBitField.Flags.SendMessages)) {
                     const user = this.client.users.cache.get('id');
                     if (!user) return;
                     else if (!user.dmChannel) await user.createDM();
-                    await user.dmChannel.send(`I don't have the required permissions to execute this command. Missing permission(s): **${missingPermissions.join(', ')}**\n${permissionHelpMessage}`);
+                    await user.dmChannel.send(`I don't have the required permissions to execute this command. Missing permission(s): **${missingPerms.join(', ')}**\n${permissionHelpMessage}`);
                 }
-                return message.channel.send(`I don't have the required permissions to execute this command. Missing permission(s): **${missingPermissions.join(', ')}**\n${permissionHelpMessage}`);
+                return message.channel.send(`I don't have the required permissions to execute this command. Missing permission(s): **${missingPerms.join(', ')}**\n${permissionHelpMessage}`);
             }
         }
 
         if (cmd.permissions.userPermissions.length > 0) {
-            const missingPermissions = new Discord.PermissionsBitField(cmd.permissions.userPermissions.filter(perm => !message.member.permissions.has(perm))).toArray();
-            if (missingPermissions.length > 0) {
-                return message.channel.send(`You don't have the required permissions to execute this command. Missing permission(s): **${missingPermissions.join(', ')}**`);
+            const missingPerms = missingPermissions(cmd.permissions.userPermissions, message.channel, message.member);
+            if (missingPerms.length > 0) {
+                return message.channel.send(`You don't have the required permissions to execute this command. Missing permission(s): **${missingPerms.join(', ')}**`);
             }
         }
 
@@ -112,7 +114,7 @@ module.exports = class MessageCreate extends Event {
         if (prefix == process.env.PREFIX) {
             if (!args[0] && cmd.args === true && ((cmd.acceptsAttachments && message.attachments.size == 0) || !cmd.acceptsAttachments)) {
                 const embed = new Discord.EmbedBuilder()
-                    .setDescription(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`ear ${commandName} ${cmd.description.usage}\``);
+                    .setDescription(`You didn't provide any arguments ${message.author}.\nCorrect Usage: \`/${commandName} ${cmd.description.usage}\``);
                 return message.channel.send({ embeds: [embed] });
             }
         }

@@ -76,6 +76,7 @@ module.exports = class Play extends Command {
 
 		let player = client.music.players.get(ctx.guild.id);
 		if (!player) {
+			if (!ctx.member.voice.channel.joinable) return ctx.editMessage(`I could not join <#${ctx.member.voice.channel.id}> since it was full or I have insufficient permissions to join it.`);
 			player = await client.music.newPlayer(ctx.guild, ctx.member.voice.channel, ctx.channel);
 			player.connect();
 		}
@@ -87,7 +88,7 @@ module.exports = class Play extends Command {
 			result = await client.music.search(query, ctx.author, source);
 		}
 		catch (error) {
-			if (query.includes('cdn') || query.includes('discord.com') || query.includes('.mp4') || query.includes('.mp3') || query.includes('.mp3')) return ctx.editMessage('No results found. Use the file command if you want to play a file track.');
+			if (query.includes('cdn') || query.includes('media') || query.includes('discord.com') || query.includes('.mp4') || query.includes('.mp3') || query.includes('.mp3')) return ctx.editMessage('No results found. Use the file command if you want to play a file track.');
 			else return ctx.editMessage('No results found.');
 		}
 

@@ -1,6 +1,6 @@
 {
     "prefix": "ear ",
-    "version": "2.3.0",
+    "version": "2.4.0",
     "website": "https://eartensifier.net/",
     "server": "https://discord.gg/xKgKMAP",
     "patreon": "https://www.patreon.com/eartensifier",
@@ -38,7 +38,7 @@
         "online": "<:online:908939189888897054>",
         "offline": "<:offline:908939189872132096>",
         "added": "<:earadded:913247304931246192>",
-        "removed": "<:earremoved:913247304801222656>P",
+        "removed": "<:earremoved:913247304801222656>",
         "progress1": "<:1_:913529332868218880>",
         "progress2": "<:2_:913529332859801630>",
         "progress3": "<:3_:913529896276475966>",

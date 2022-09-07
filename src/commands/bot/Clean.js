@@ -35,7 +35,7 @@ module.exports = class Clean extends Command {
         if (args[0]) {
             messagesToDelete = parseInt(args[0]);
             if (isNaN(messagesToDelete) || messagesToDelete < this.options[0].min_value) {
-                return ctx.sendMessage({ content: `Invalid argument, argument must be a number.\nCorrect Usage: \`${await ctx.messageHelper.getPrefix()}clean <number messages>\`` });
+                return ctx.sendMessage({ content: 'Invalid argument, argument must be a number.\nCorrect Usage: `/clean <number messages>`' });
             }
         }
 

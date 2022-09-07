@@ -29,7 +29,7 @@ module.exports = class Queue extends Command {
     async run(client, ctx, args) {
         const player = client.music.players.get(ctx.guild.id);
 
-        if (!player.queue.current) return ctx.sendMessage('There is nothing currently playing.');
+        if (!player.queue.current) return ctx.sendEphemeralMessage('There is nothing currently playing.');
 
         const { title, requester, duration, url } = player.queue.current;
 

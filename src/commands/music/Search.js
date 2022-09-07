@@ -1,6 +1,6 @@
 const { Source } = require('yasha');
 const { TrackPlaylist, Track } = require('yasha/src/Track');
-const { ApplicationCommandOptionType, ButtonStyle, ButtonBuilder, SelectMenuBuilder, ActionRowBuilder, EmbedBuilder, PermissionsBitField } = require('discord.js');
+const { ApplicationCommandOptionType, ButtonStyle, ButtonBuilder, SelectMenuBuilder, ActionRowBuilder, EmbedBuilder, PermissionsBitField, ComponentType } = require('discord.js');
 
 const QueueHelper = require('../../helpers/QueueHelper');
 const Command = require('../../structures/Command');
@@ -71,6 +71,7 @@ module.exports = class Search extends Command {
 
         let player = client.music.players.get(ctx.guild.id);
         if (!player) {
+            if (!ctx.member.voice.channel.joinable) return ctx.editMessage(`I could not join <#${ctx.member.voice.channel.id}> since it was full or I have insufficient permissions to join it.`);
             player = await client.music.newPlayer(ctx.guild, ctx.member.voice.channel, ctx.channel);
             player.connect();
         }
@@ -186,7 +187,7 @@ module.exports = class Search extends Command {
             const selectMenuRow = new ActionRowBuilder()
                 .addComponents(
                     new SelectMenuBuilder()
-                        .setCustomId(`${ctx.id}:SELECT_MENU`)
+                        .setCustomId('SEARCH_SELECT_MENU')
                         .setPlaceholder('Nothing selected')
                         .setMinValues(1)
                         .setMaxValues(10)
@@ -196,7 +197,7 @@ module.exports = class Search extends Command {
             const buttonRow = new ActionRowBuilder()
                 .addComponents(
                     new ButtonBuilder()
-                        .setCustomId(`${ctx.id}:BUTTON`)
+                        .setCustomId('SEARCH_CANCEL_BUTTON')
                         .setStyle(ButtonStyle.Danger)
                         .setLabel('Cancel')
                         .setEmoji('🗑️'),
@@ -209,19 +210,20 @@ module.exports = class Search extends Command {
                 .setColor(client.config.colors.default);
             const message = await ctx.editMessage({ content: null, embeds: [embed], components: [selectMenuRow, buttonRow] });
 
-            const buttonCollector = message.createMessageComponentCollector({ componentType: 'BUTTON', time: 30000 });
+            const buttonCollector = message.createMessageComponentCollector({ componentType: ComponentType.Button, time: 120000 });
             buttonCollector.on('collect', interaction => {
                 if (interaction.user.id === ctx.author.id) {
-                    if (interaction.customId == `${ctx.id}:BUTTON`) {
+                    if (interaction.customId == 'SEARCH_CANCEL_BUTTON') {
+
                         hasReceivedIndexes = true;
-                        return interaction.message.delete();
+                        return message.delete();
                     }
                 }
             });
 
-            const selectMenuCollector = message.createMessageComponentCollector({ componentType: 'SELECT_MENU', time: 30000 });
+            const selectMenuCollector = message.createMessageComponentCollector({ componentType: ComponentType.SelectMenu, time: 30000 });
             selectMenuCollector.on('collect', async interaction => {
-                if (interaction.customId != `${ctx.id}:SELECT_MENU`) return;
+                if (interaction.customId != 'SEARCH_SELECT_MENU') return;
                 if (interaction.user.id != ctx.author.id) return;
 
                 const selected = interaction.values.map(s => parseInt(s));
@@ -261,7 +263,7 @@ module.exports = class Search extends Command {
                         ctx.sendFollowUp({
                             content: ' ', embeds: [QueueHelper.queuedEmbed(
                                 track.title,
-                                track.uri,
+                                track.url,
                                 player.getDuration() ? player.getDuration() : track.duration,
                                 null,
                                 track.requester,
@@ -274,7 +276,7 @@ module.exports = class Search extends Command {
                 await interaction.update({ components: [] });
             });
 
-            buttonCollector.on('end', async () => {
+            selectMenuCollector.on('end', async () => {
                 if (!hasReceivedIndexes) return ctx.sendFollowUp('Selection expired.');
             });
         }
