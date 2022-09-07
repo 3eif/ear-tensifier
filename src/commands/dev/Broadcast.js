@@ -16,6 +16,7 @@ module.exports = class Broadcast extends Command {
     async run(client, ctx, args) {
         const shard = args[0];
         await client.shard.broadcastEval(broadcastMessage, { context: { message: shard } });
+        return ctx.sendMessage(`Broadcasted message to all guilds in shard ${shard}.`);
 
         async function broadcastMessage(c, { message }) {
             if (c.shard.ids.includes(Number(message))) {

@@ -3,6 +3,7 @@ const { EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle, PermissionsB
 const DatabaseHelper = require('../../helpers/DatabaseHelper');
 const Event = require('../../structures/Event');
 const formatDuration = require('../../utils/music/formatDuration');
+const missingPermissions = require('../../utils/music/missingPermissions');
 
 module.exports = class TrackStart extends Event {
     constructor(...args) {
@@ -55,7 +56,8 @@ module.exports = class TrackStart extends Event {
                     .setEmoji(this.client.config.emojis.addtoqueue));
 
         try {
-            if (!player.guild.members.me.permissions.has(PermissionsBitField.Flags.SendMessages) || !player.guild.members.me.permissions.has(PermissionsBitField.Flags.EmbedLinks)) return;
+            const missingPerms = missingPermissions([PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.EmbedLinks], player.textChannel, player.guild.members.me);
+            if (missingPerms.length > 0) return;
             const embed = new EmbedBuilder()
                 .setColor(this.client.config.colors.default)
                 .setAuthor({ name: author, iconURL: player.playing ? 'https://eartensifier.net/images/cd.gif' : 'https://eartensifier.net/images/cd.png', url: url })
