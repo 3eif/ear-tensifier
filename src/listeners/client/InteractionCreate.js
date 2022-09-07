@@ -16,6 +16,7 @@ module.exports = class InteractionCreate extends Event {
     }
 
     async run(interaction) {
+        return;
         async function sendBroadcastMessage(client, title, content, buttons) {
             if (interaction.message.embeds.length > 0) {
                 const embed = new Discord.EmbedBuilder()
