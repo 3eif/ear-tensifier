@@ -1,6 +1,7 @@
 const { ApplicationCommandOptionType } = require('discord.js');
 const Command = require('../../structures/Command');
-const lyricsFinder = require('lyrics-finder');
+const genius = require("genius-lyrics");
+const Genius = new genius.Client(process.env.GENIUS_API);
 const _ = require('lodash');
 const { EmbedBuilder } = require('discord.js');
 
@@ -30,24 +31,20 @@ module.exports = class Lyrics extends Command {
     async run(client, ctx, args) {
         const player = client.music.players.get(ctx.guild.id);
         let SongTitle = args.join(' ');
-        if (!args[0] && !player || !player.queue.current) return ctx.sendMessage('❌ | Nothing is playing right now...');
+        if (!args[0] && !player) return ctx.sendMessage('❌ | Nothing is playing right now...');
         if (!args[0]) SongTitle = player.queue.current.title;
         const FindSongTitle = SongTitle.replace(
             /lyrics|lyric|lyrical|official music video|\(official music video\)|\(Official Video\)|audio|\(audio\)|official|official video|official video hd|official hd video|offical video music|\(offical video music\)|extended|hd|(\[.+\])/gi,
             '',
         );
 
-        let lyrics = await lyricsFinder(FindSongTitle);
-        const pages = [];
-        if (!lyrics)
-            return ctx.sendMessage(`**No lyrics found for -** \`${SongTitle}\``);
-        lyrics = lyrics.split('\n'); // spliting into lines
+        let songs = (await Genius.songs.search(FindSongTitle))[0]
+        const songs_lyrics = await songs.lyrics()
+        if (!songs_lyrics) return ctx.sendMessage(`**No lyrics found for -** \`${SongTitle}\``);
+        lyrics = songs_lyrics.split('\n'); // spliting into lines
         const SplitedLyrics = _.chunk(lyrics, 40); // 45 lines each page
 
-        SplitedLyrics.map((ly) => {
-            let pagesNum = SplitedLyrics.length;
-            if (pagesNum === 0) pagesNum = 1;
-            for (let i = 0; i <= pagesNum; i++) {
+        let Pages = SplitedLyrics.map((ly) => {
                 const em = new EmbedBuilder()
                     .setAuthor({
                         name: `Lyrics for: ${SongTitle}`,
@@ -58,13 +55,12 @@ module.exports = class Lyrics extends Command {
 
                 if (args.join(' ') !== SongTitle)
                     em.setThumbnail(player.queue.current.thumbnail);
-                pages.push(em);
-
-            }
+      
+            return em;
         });
 
 
-        return ctx.messageHelper.paginate(pages);
+        return ctx.messageHelper.paginate(Pages);
 
     }
 };
