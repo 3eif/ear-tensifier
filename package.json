@@ -43,7 +43,7 @@
     "humanize-duration": "^3.27.0",
     "mongoose": "^6.0.12",
     "signale": "^1.4.0",
-    "statcord.js": "^3.4.1",
+    "statcord.js": "^3.4.3",
     "topgg-autoposter": "^2.0.0",
     "yasha": "github:ilikdoge/yasha"
   },
