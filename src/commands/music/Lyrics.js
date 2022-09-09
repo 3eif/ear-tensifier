@@ -41,7 +41,7 @@ module.exports = class Lyrics extends Command {
         let songs = (await Genius.songs.search(FindSongTitle))[0]
         const songs_lyrics = await songs.lyrics()
         if (!songs_lyrics) return ctx.sendMessage(`**No lyrics found for -** \`${SongTitle}\``);
-        lyrics = songs_lyrics.split('\n'); // spliting into lines
+        const lyrics = songs_lyrics.split('\n'); // spliting into lines
         const SplitedLyrics = _.chunk(lyrics, 40); // 45 lines each page
 
         let Pages = SplitedLyrics.map((ly) => {
