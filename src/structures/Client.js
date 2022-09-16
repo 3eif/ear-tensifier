@@ -51,6 +51,7 @@ module.exports = class Client extends Discord.Client {
         this.logger = new Logger({
             displayTimestamp: true,
             displayDate: true,
+            displayFilename: true, //For easier Debugging purposes, mainly to know where the console output is from.
         }, this);
 
         this.databaseHelper = new DatabaseHelper(this);
