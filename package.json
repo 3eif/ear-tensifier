@@ -8,7 +8,7 @@
     "start": "node .",
     "production": "export NODE_ENV=production&&npm start",
     "development": "export NODE_ENV=development&&npm start",
-    "production-inspect": "export ENV=production && npm --node-options --inspect=6844 run production",
+    "production-inspect": "export ENV=production && npm --node-options --inspect=0.0.0.0:6844 run production",
     "ear2": "export NODE_ENV=ear2&&npm start",
     "ear3": "export NODE_ENV=ear3&&npm start",
     "ear4": "export NODE_ENV=ear4&&npm start",
