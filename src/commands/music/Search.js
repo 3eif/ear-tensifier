@@ -40,7 +40,7 @@ module.exports = class Search extends Command {
     }
     async run(client, ctx, args) {
         let query;
-        let source;
+        let source = 'soundcloud';
         if (args[0]) {
             const platform = args[0].toLowerCase();
             query = args.slice(1).join(' ');
@@ -61,6 +61,7 @@ module.exports = class Search extends Command {
                     query = args.slice(0).join(' ');
                     break;
             }
+            source = 'soundcloud';
         }
         else {
             query = ctx.attachments.first().url;

@@ -89,7 +89,7 @@ module.exports = class Play extends Command {
 		}
 		catch (error) {
 			if (query.includes('cdn') || query.includes('media') || query.includes('discord.com') || query.includes('.mp4') || query.includes('.mp3') || query.includes('.mp3')) return ctx.editMessage('No results found. Use the file command if you want to play a file track.');
-			else return ctx.editMessage('No results found.');
+			else return ctx.editMessage('No results found.\n\n:flag_us: **Why did the bot return no search results?**\nDiscord has forced Ear Tensifier to no longer search or play from Youtube so search results might not be as accurate.\n\n:flag_ru: **Почему бот не выдал никаких результатов поиска?**\nDiscord заставил Ear Tensifier не искать и не играть видео с YouTube, и из-за этого результаты могут быть не такими точными\n\n:flag_kr: **봇이 검색 결과를 반환하지 않는 이유는 무엇입니까?**\nDiscord는 Ear Tensifier가 더 이상 Youtube에서 검색하거나 재생하지 못하도록 하여 검색 결과가 정확하지 않을 수 있습니다.');
 		}
 
 		if (result instanceof TrackPlaylist) {

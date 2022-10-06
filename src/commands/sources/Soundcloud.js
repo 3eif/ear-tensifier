@@ -33,7 +33,7 @@ module.exports = class Soundcloud extends Command {
             permissions: {
                 botPermissions: [PermissionsBitField.Flags.Connect, PermissionsBitField.Flags.Speak],
             },
-            slashCommand: true,
+            slashCommand: false,
         });
     }
 
