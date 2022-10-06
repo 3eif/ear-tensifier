@@ -25,6 +25,5 @@ module.exports = class AddToQueue extends Button {
 
         modal.addComponents(new ActionRowBuilder().addComponents(textInput));
         await interaction.showModal(modal);
-
     }
 };
