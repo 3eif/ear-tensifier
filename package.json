@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/Tetracyl/EarTensifier#readme",
   "dependencies": {
-    "axios": "^0.27.2",
+    "axios": "^1.1.0",
     "@discordjs/rest": "^1.1.0",
     "@sentry/node": "^7.12.1",
     "blapi": "^2.2.1",
