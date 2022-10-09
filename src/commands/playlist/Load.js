@@ -27,7 +27,8 @@ module.exports = class Load extends Command {
                     autocomplete: true,
                 },
             ],
-            slashCommand: true,
+            slashCommand: false,
+            enabled: false,
         });
     }
 

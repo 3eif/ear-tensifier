@@ -32,7 +32,8 @@ module.exports = class Create extends Command {
                     description: 'The song to add.',
                 },
             ],
-            slashCommand: true,
+            slashCommand: false,
+            enabled: false,
         });
     }
 

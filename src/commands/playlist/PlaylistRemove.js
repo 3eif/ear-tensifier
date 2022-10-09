@@ -31,7 +31,8 @@ module.exports = class PlaylistRemove extends Command {
                     description: 'The song to add.',
                 },
             ],
-            slashCommand: true,
+            slashCommand: false,
+            enabled: false,
         });
     }
 

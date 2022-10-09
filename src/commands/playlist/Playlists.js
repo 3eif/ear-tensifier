@@ -12,8 +12,8 @@ module.exports = class Playlists extends Command {
                 content: 'View all your playlists.',
             },
             args: false,
-            slashCommand: true,
-            autocomplete: true,
+            slashCommand: false,
+            enabled: false, autocomplete: true,
         });
     }
     async run(client, ctx) {

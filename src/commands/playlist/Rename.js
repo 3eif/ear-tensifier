@@ -32,7 +32,8 @@ module.exports = class Rename extends Command {
                     max_length: 100,
                 },
             ],
-            slashCommand: true,
+            slashCommand: false,
+            enabled: false,
         });
     }
     async run(client, ctx, args) {

@@ -23,8 +23,8 @@ module.exports = class Delete extends Command {
                     autocomplete: true,
                 },
             ],
-            slashCommand: true,
-        });
+            slashCommand: false,
+            enabled: false,        });
     }
     async run(client, ctx, args) {
         await ctx.sendDeferMessage(`${client.config.emojis.typing} Deleting playlist...`);
