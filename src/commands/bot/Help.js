@@ -34,7 +34,7 @@ module.exports = class Help extends Command {
             const commandsFile = fs.readdirSync(`./src/commands/${category}`).filter(file => file.endsWith('.js'));
             for (let i = 0; i < commandsFile.length; i++) {
                 const command = commands.get(commandsFile[i].split('.')[0].toLowerCase());
-                if (command && !command.hide) helpCommands.push(command.name);
+                if (command && !command.hide && command.enabled) helpCommands.push(command.name);
             }
         });
         const filtered = helpCommands.filter(choice => choice.startsWith(focusedValue));
