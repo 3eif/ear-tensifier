@@ -24,7 +24,7 @@ if (process.platform != 'linux') {
         darwin: 'macOS',
         win32: 'Windows',
     };
-    console.error('You must be on linux to run this bot. You are currently using:', alias[process.platform] || process.platform);
+    logger.error('You must be on linux to run this bot. You are currently using:', alias[process.platform] || process.platform);
 }
 
 if (process.env.NODE_ENV == 'production') {
