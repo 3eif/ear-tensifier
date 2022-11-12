@@ -14,7 +14,18 @@ module.exports = class DatabaseHelper {
             const updateBot = new Promise((resolve) => {
                 Bot.findById(this.client.user.id).then(async bot => {
                     if (!bot) {
-                        const newBot = new Bot({ _id: this.client.user.id, username: this.client.name, commands: [], commandsUsed: this.client.totalCommandsUsed, songsPlayed: this.client.totalSongsPlayed });
+                        const newBot = new Bot({
+                            _id: this.client.user.id,
+                            username: this.client.name,
+                            commands: [],
+                            commandsUsed: this.client.totalCommandsUsed,
+                            songsPlayed: this.client.totalSongsPlayed,
+                            websiteData: {
+                                guilds: 0,
+                                users: 0,
+                                players: 0,
+                            },
+                        });
                         await newBot.save().catch(e => this.logger.error(e));
                     }
                     else {

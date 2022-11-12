@@ -68,6 +68,13 @@ module.exports = class Stats extends Command {
                     let totalPlayingPlayers = 0;
                     shardInfo.forEach(s => totalPlayingPlayers += s.playingPlayers);
 
+                    b.websiteData = {
+                        guilds: totalGuilds,
+                        members: totalMembers,
+                        players: totalPlayers,
+                    }
+                    b.save().catch(e => this.client.logger.error(e));
+
                     cpuStat.usagePercent((err, percent) => {
                         const statsEmbed = new EmbedBuilder()
                             .setAuthor({ name: 'Ear Tensifier' })

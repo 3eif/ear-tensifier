@@ -5,6 +5,12 @@ const CommandSchema = new Schema({
 	timesUsed: { type: Number, default: 0 },
 });
 
+const WebsiteData = new Schema({
+	guilds: { type: Number, default: 0 },
+	users: { type: Number, default: 0 },
+	players: { type: Number, default: 0 },
+});
+
 const BotSchema = new Schema({
 	_id: String,
 	username: String,
@@ -12,6 +18,7 @@ const BotSchema = new Schema({
 	commandsUsed: { type: Number, default: 0 },
 	songsPlayed: { type: Number, default: 0 },
 	lastPosted: { type: Number, default: undefined },
+	websiteData: { type: WebsiteData },
 });
 
 module.exports = model('Bot', BotSchema);

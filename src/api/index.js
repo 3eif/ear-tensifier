@@ -40,29 +40,17 @@ module.exports = client => {
 
     app.get('/statistics', async (req, res) => {
         client.logger.api('Received get request for /statistics');
-        const promises = [
-            client.shard.fetchClientValues('guilds.cache.size'),
-            client.shard.broadcastEval(c => c.guilds.cache.reduce((prev, guild) => prev + guild.memberCount, 0)),
-            client.shard.broadcastEval(c => c.music.players.size),
-        ];
+        const bot = await Bot.findById(client.user.id);
 
-        Promise.all(promises)
-            .then(async results => {
-                const totalGuilds = results[0].reduce((prev, guildCount) => prev + guildCount, 0);
-                const totalMembers = results[1].reduce((prev, memberCount) => prev + memberCount, 0);
-                const totalPlayers = results[2].reduce((prev, playerCount) => prev + playerCount, 0);
-                const bot = await Bot.findById(client.user.id);
+        const stats = {
+            guilds: bot.websiteData.guilds,
+            users: bot.websiteData.users,
+            players: bot.websiteData.players,
+            commandsUsed: bot.commandsUsed,
+            songsPlayed: bot.songsPlayed,
+        };
 
-                const stats = {
-                    guilds: totalGuilds,
-                    users: totalMembers,
-                    players: totalPlayers,
-                    commandsUsed: bot.commandsUsed,
-                    songsPlayed: bot.songsPlayed,
-                };
-
-                res.send(stats);
-            }).catch(err => client.logger.error(err));
+        res.send(stats);
     });
 
     app.listen(port, () => {
