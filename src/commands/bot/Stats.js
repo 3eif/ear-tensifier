@@ -70,7 +70,7 @@ module.exports = class Stats extends Command {
 
                     b.websiteData = {
                         guilds: totalGuilds,
-                        members: totalMembers,
+                        users: totalMembers,
                         players: totalPlayers,
                     }
                     b.save().catch(e => this.client.logger.error(e));
