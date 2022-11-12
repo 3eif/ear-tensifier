@@ -23,44 +23,36 @@ module.exports = class Lyrics extends Command {
                 name: 'song',
                 type: ApplicationCommandOptionType.String,
                 required: false,
-                description: 'Enter song name or current song playing.',
+                description: 'Song name to find lyrics for.',
             }],
             slashCommand: true,
         });
     }
     async run(client, ctx, args) {
         const player = client.music.players.get(ctx.guild.id);
-        let SongTitle = args.join(' ');
-        if (!args[0] && !player) return ctx.sendMessage('❌ | Nothing is playing right now...');
-        if (!args[0]) SongTitle = player.queue.current.title;
-        const FindSongTitle = SongTitle.replace(
+        if (!args[0] && !player) return ctx.sendEphemeralMessage('There is nothing currently playing.');
+        let query = args.join(' ');
+        if (!args[0]) query = player.queue.current.title;
+        const getSongTitle = query.replace(
             /lyrics|lyric|lyrical|official music video|\(official music video\)|\(Official Video\)|audio|\(audio\)|official|official video|official video hd|official hd video|offical video music|\(offical video music\)|extended|hd|(\[.+\])/gi,
             '',
         );
 
-        let songs = (await Genius.songs.search(FindSongTitle))[0]
-        const songs_lyrics = await songs.lyrics()
-        if (!songs_lyrics) return ctx.sendMessage(`**No lyrics found for -** \`${SongTitle}\``);
-        const lyrics = songs_lyrics.split('\n'); // spliting into lines
-        const SplitedLyrics = _.chunk(lyrics, 40); // 45 lines each page
+        let songs = (await Genius.songs.search(getSongTitle))[0];
+        const songTitle = songs.title || song.featuredTitle;
+        const songLyrics = await songs.lyrics();
+        if (!songLyrics) return ctx.sendEphemeralMessage(`**No lyrics found for **${songTitle}**`);
+        const lyrics = songLyrics.split('\n');
+        const formattedLyrics = _.chunk(lyrics, 40);
 
-        let Pages = SplitedLyrics.map((ly) => {
-                const em = new EmbedBuilder()
-                    .setAuthor({
-                        name: `Lyrics for: ${SongTitle}`,
-                        iconURL: client.user.displayAvatarURL(),
-                    })
-                    .setColor('#292B2F')
-                    .setDescription(ly.join('\n'));
-
-                if (args.join(' ') !== SongTitle)
-                    em.setThumbnail(player.queue.current.thumbnail);
-      
-            return em;
+        let pages = formattedLyrics.map((ly) => {
+            const embed = new EmbedBuilder()
+                .setAuthor({ name: `Lyrics for ${songTitle}`, iconURL: client.user.displayAvatarURL() })
+                .setDescription(ly.join('\n'))
+                .setThumbnail(songs.thumbnail);
+            return embed;
         });
 
-
-        return ctx.messageHelper.paginate(Pages);
-
+        return ctx.messageHelper.paginate(pages);
     }
 };
