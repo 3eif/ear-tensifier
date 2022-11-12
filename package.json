@@ -1,6 +1,6 @@
 {
   "name": "eartensifier",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "description": "",
   "main": "./src/index.js",
   "scripts": {
@@ -8,6 +8,7 @@
     "start": "node .",
     "production": "export NODE_ENV=production&&npm start",
     "development": "export NODE_ENV=development&&npm start",
+    "production-inspect": "export ENV=production && npm --node-options --inspect=0.0.0.0:6844 run production",
     "ear2": "export NODE_ENV=ear2&&npm start",
     "ear3": "export NODE_ENV=ear3&&npm start",
     "ear4": "export NODE_ENV=ear4&&npm start",
@@ -30,7 +31,7 @@
     "@discordjs/rest": "^1.1.0",
     "@sentry/node": "^7.12.1",
     "axios": "^0.27.2",
-    "blapi": "^2.2.1",
+    "blapi": "^3.0.0",
     "cors": "^2.8.5",
     "cpu-stat": "^2.0.1",
     "discord-api-types": "^0.37.6",
@@ -44,7 +45,7 @@
     "humanize-duration": "^3.27.0",
     "mongoose": "^6.0.12",
     "signale": "^1.4.0",
-    "statcord.js": "^3.4.1",
+    "statcord.js": "^3.4.3",
     "topgg-autoposter": "^2.0.0",
     "yasha": "github:ilikdoge/yasha"
   },

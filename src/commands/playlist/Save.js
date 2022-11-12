@@ -29,7 +29,8 @@ module.exports = class Save extends Command {
                     autocomplete: true,
                 },
             ],
-            slashCommand: true,
+            slashCommand: false,
+            enabled: false,
         });
     }
     async run(client, ctx, args) {

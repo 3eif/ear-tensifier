@@ -24,6 +24,7 @@ module.exports = class Client extends Discord.Client {
                         lifetime: 1800,
                         getComparisonTimestamp: e => e.editedTimestamp || e.createdTimestamp,
                     }),
+                    maxSize: 5,
                 },
             }),
             partials: [

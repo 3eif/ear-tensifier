@@ -119,9 +119,6 @@ module.exports = class Manager extends EventEmitter {
                 case 'spotify':
                     track = (await Source.Spotify.search(query))[0];
                     break;
-                case 'youtube':
-                    track = (await Source.Youtube.search(query))[0];
-                    break;
                 case 'apple':
                     track = (await Source.AppleMusic.search(query))[0];
                     break;
@@ -130,9 +127,9 @@ module.exports = class Manager extends EventEmitter {
                     break;
             }
 
-            if (!track) {
-                track = (await Source.Youtube.search(query))[0];
-                source = 'youtube';
+            if (!track || track.source == 'youtube') {
+                track = (await Source.Soundcloud.search(query))[0];
+                source = 'soundcloud';
             }
 
             if (!track) throw new Error('No track found');

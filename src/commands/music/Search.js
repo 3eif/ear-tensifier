@@ -40,14 +40,11 @@ module.exports = class Search extends Command {
     }
     async run(client, ctx, args) {
         let query;
-        let source;
+        let source = 'soundcloud';
         if (args[0]) {
             const platform = args[0].toLowerCase();
             query = args.slice(1).join(' ');
             switch (platform) {
-                case 'yt' || 'youtube':
-                    source = 'youtube';
-                    break;
                 case 'sc' || 'soundcloud':
                     source = 'soundcloud';
                     break;
@@ -61,6 +58,7 @@ module.exports = class Search extends Command {
                     query = args.slice(0).join(' ');
                     break;
             }
+            source = 'soundcloud';
         }
         else {
             query = ctx.attachments.first().url;
@@ -85,9 +83,6 @@ module.exports = class Search extends Command {
                 case 'spotify':
                     results = await Source.Spotify.search(query);
                     break;
-                case 'youtube':
-                    results = await Source.Youtube.search(query);
-                    break;
                 case 'apple':
                     results = await Source.AppleMusic.search(query);
                     break;
@@ -97,10 +92,14 @@ module.exports = class Search extends Command {
             }
 
             if (!results) {
-                results = await Source.Youtube.search(query);
-                source = 'youtube';
+                results = await Source.Soundcloud.search(query);
+                source = 'soundcloud';
             }
 
+            if (!track || track.source == 'youtube') {
+                track = (await Source.Soundcloud.search(query))[0];
+                source = 'soundcloud';
+            }
             if (!results) return ctx.editMessage('No results found.');
 
             if (results instanceof Track) {

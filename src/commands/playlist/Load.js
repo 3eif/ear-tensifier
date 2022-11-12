@@ -27,7 +27,8 @@ module.exports = class Load extends Command {
                     autocomplete: true,
                 },
             ],
-            slashCommand: true,
+            slashCommand: false,
+            enabled: false,
         });
     }
 
@@ -69,7 +70,7 @@ module.exports = class Load extends Command {
                         duration: track.duration > 10000 ? track.duration / 1000 : track.duration,
                         thumbnail: track.thumbnail,
                         author: track.author,
-                        platform: track.platform || 'youtube',
+                        platform: 'soundcloud',
                         requester: ctx.author,
                     });
                 });
