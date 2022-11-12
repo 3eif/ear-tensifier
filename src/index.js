@@ -15,6 +15,7 @@ const logger = new Logger({
 
 const manager = new Discord.ShardingManager('./src/eartensifier.js', {
     token: process.env.DISCORD_TOKEN,
+    respawn: true,
 });
 
 console.log(figlet.textSync(process.env.CLIENT_USERNAME));
