@@ -2,7 +2,7 @@ const { EmbedBuilder } = require('discord.js');
 
 const DatabaseHelper = require('../../helpers/DatabaseHelper');
 const Event = require('../../structures/Event');
-const formatDuration = require('../../utils/music/formatDuration');
+const formatDuration = require('../../utils/formatDuration');
 
 module.exports = class TrackEnd extends Event {
     constructor(...args) {

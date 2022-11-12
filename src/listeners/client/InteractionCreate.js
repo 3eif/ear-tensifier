@@ -6,7 +6,7 @@ const Context = require('../../structures/Context');
 const MessageHelper = require('../../helpers/MessageHelper');
 const Playlist = require('../../models/Playlist');
 const User = require('../../models/User');
-const missingPermissions = require('../../utils/music/missingPermissions');
+const missingPermissions = require('../../utils/missingPermissions');
 
 const cooldowns = new Discord.Collection();
 

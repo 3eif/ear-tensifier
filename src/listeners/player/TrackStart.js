@@ -2,8 +2,8 @@ const { EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle, PermissionsB
 
 const DatabaseHelper = require('../../helpers/DatabaseHelper');
 const Event = require('../../structures/Event');
-const formatDuration = require('../../utils/music/formatDuration');
-const missingPermissions = require('../../utils/music/missingPermissions');
+const formatDuration = require('../../utils/formatDuration');
+const missingPermissions = require('../../utils/missingPermissions');
 
 module.exports = class TrackStart extends Event {
     constructor(...args) {

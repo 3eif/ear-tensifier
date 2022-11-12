@@ -4,7 +4,7 @@ const Statcord = require('statcord.js');
 const Event = require('../../structures/Event');
 const MessageHelper = require('../../helpers/MessageHelper');
 const Context = require('../../structures/Context');
-const missingPermissions = require('../../utils/music/missingPermissions');
+const missingPermissions = require('../../utils/missingPermissions');
 
 const cooldowns = new Discord.Collection();
 

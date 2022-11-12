@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require('discord.js');
 
 const Command = require('../../structures/Command');
-const formatDuration = require('../../utils/music/formatDuration');
+const formatDuration = require('../../utils/formatDuration');
 
 module.exports = class NowPlaying extends Command {
     constructor(client) {

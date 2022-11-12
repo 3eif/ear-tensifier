@@ -2,7 +2,7 @@ const { ApplicationCommandOptionType } = require('discord.js');
 const { EmbedBuilder } = require('discord.js');
 
 const Command = require('../../structures/Command');
-const formatDuration = require('../../utils/music/formatDuration');
+const formatDuration = require('../../utils/formatDuration');
 
 module.exports = class Queue extends Command {
     constructor(client) {
