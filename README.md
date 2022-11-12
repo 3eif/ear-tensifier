@@ -75,13 +75,14 @@ If you installed and setup eveything correctly then the bot should output someth
             
 
 ## Contributors
-- [2D](https://github.com/MeLike2D): Provided modified lavalink version with filters.
-- [MrAugu](https://github.com/MrAugu): Cleaned up spaghetti code.
-- [Sxmurai](https://github.com/Sxmurai/): Cleaned up spaghetti code.
+- [2D](https://github.com/MeLike2D): Provided modified lavalink version with filters
+- [MrAugu](https://github.com/MrAugu): Cleaned up spaghetti code
+- [Sxmurai](https://github.com/Sxmurai/): Cleaned up spaghetti code
 - [Omar](https://github.com/HysMX): Fixed Youtube playlist bug
-- [lmpham1](https://github.com/lmpham1): Added clean command.
+- [lmpham1](https://github.com/lmpham1): Added clean command
 - [rajamoulimallareddy](https://github.com/rajamoulimallareddy): Updated bot to discord.js v13
 - [ilikdoge](https://github.com/ilikdoge): Helped with implementation of yasha and overall development of bot
+- [Berus](https://github.com/berusvn): Added lyrics command
 
 ## Bot Lists
 [![Bots On Discord](https://bots.ondiscord.xyz/bots/472714545723342848/embed?theme=dark&showGuilds=true)](https://bots.ondiscord.xyz/bots/472714545723342848)
