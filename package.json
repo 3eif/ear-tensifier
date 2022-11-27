@@ -6,7 +6,7 @@
   "scripts": {
     "test": "node ./tests/index.js",
     "start": "node .",
-    "production": "export NODE_ENV=production&&npm start",
+    "production": "export NODE_ENV=production && LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so npm start",
     "development": "export NODE_ENV=development&&npm start",
     "production-inspect": "export ENV=production && npm --node-options --inspect=0.0.0.0:6844 run production",
     "ear2": "export NODE_ENV=ear2&&npm start",
