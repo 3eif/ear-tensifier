@@ -12,12 +12,11 @@ module.exports = class Ready extends Event {
 
     async run() {
         if (process.env.MONGO_URL) {
+            mongoose.set("strictQuery", false);
             mongoose.connect(process.env.MONGO_URL, {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
             }).then(() => this.client.logger.complete('Connected to MongoDB'));
-            
-            mongoose.set('strictQuery', false);
         }
         else this.client.logger.warn('MongoDB URL missing');
 
