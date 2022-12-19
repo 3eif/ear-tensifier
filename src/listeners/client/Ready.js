@@ -16,6 +16,8 @@ module.exports = class Ready extends Event {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
             }).then(() => this.client.logger.complete('Connected to MongoDB'));
+            
+            mongoose.set('strictQuery', false);
         }
         else this.client.logger.warn('MongoDB URL missing');
 
