@@ -123,9 +123,9 @@ module.exports = class Client extends Discord.Client {
         //         .then(() => this.logger.success('Successfully registered application commands.'))
         //         .catch((e) => signale.error(e));
         // }
-        rest.put(Routes.applicationCommands(process.env.CLIENT_ID), { body: commands })
-            .then(() => this.logger.success('Successfully registered application commands.'))
-            .catch((e) => signale.error(e));
+        // rest.put(Routes.applicationCommands(process.env.CLIENT_ID), { body: commands })
+        //     .then(() => this.logger.success('Successfully registered application commands.'))
+        //     .catch((e) => signale.error(e));
     }
 
     loadListeners() {
