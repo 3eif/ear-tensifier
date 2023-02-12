@@ -7,7 +7,6 @@ class Error extends Event {
 
     async run(e) {
         this.client.logger.error('FATAL ERROR OH NO!!!', e.stack);
-        process.exit(-1);
     }
 }
 module.exports = Error;
