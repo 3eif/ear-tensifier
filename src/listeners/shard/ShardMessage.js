@@ -30,7 +30,7 @@ module.exports = class ShardMessage extends Event {
                     case 'all':
                         logger.warn('Rebooting all shards');
                         for (const shard of manager.shards.values()) {
-                            shard.respawn();
+                        shard.respawn();
                         }
                         break;
                     default:

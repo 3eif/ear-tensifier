@@ -230,4 +230,9 @@ module.exports = class Client extends Discord.Client {
         this.loadListeners();
         this.loadComponents();
     }
+
+    destroy() {
+        this.logger.log('THIS SHOULD NOT HAPPEN!!!!', new Error().stack);
+        process.exit(-1);
+    }
 };
