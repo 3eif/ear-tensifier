@@ -28,16 +28,18 @@
   },
   "homepage": "https://github.com/Tetracyl/EarTensifier#readme",
   "dependencies": {
-    "axios": "^1.1.3",
     "@discordjs/rest": "^1.1.0",
     "@sentry/node": "^7.12.1",
+    "axios": "^1.1.3",
     "blapi": "^3.0.0",
+    "bufferutil": "^4.0.7",
     "cors": "^2.8.5",
     "cpu-stat": "^2.0.1",
     "discord-api-types": "^0.37.6",
     "discord.js": "^14.3.0",
     "dotenv": "^16.0.1",
     "dotenv-flow": "^3.2.0",
+    "erlpack": "^0.1.4",
     "express": "^4.17.1",
     "figlet": "^1.5.2",
     "fs": "^0.0.1-security",
@@ -47,7 +49,9 @@
     "signale": "^1.4.0",
     "statcord.js": "^3.4.3",
     "topgg-autoposter": "^2.0.0",
-    "yasha": "github:ilikdoge/yasha"
+    "utf-8-validate": "^6.0.3",
+    "yasha": "github:davidzeng0/yasha",
+    "zlib-sync": "^0.1.8"
   },
   "devDependencies": {
     "eslint": "^8.1.0"
