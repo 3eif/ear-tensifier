@@ -71,7 +71,6 @@ client.on('messageCreate', async (message) => {
         var track = await Source.resolve(title);
 
         if (!track) {
-            var results = await Source.Youtube.search(title);
             var track = await results[0];
         }
 

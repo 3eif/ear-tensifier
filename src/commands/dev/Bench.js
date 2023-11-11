@@ -17,7 +17,6 @@ module.exports = class Bench extends Command {
     }
 
     async run(client, ctx, args) {
-        const results = await Source.Youtube.search('resonance');
         const track = await results[0];
 
         let packets = 0, last_packets = 0;

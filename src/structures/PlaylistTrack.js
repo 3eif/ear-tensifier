@@ -16,8 +16,6 @@ module.exports = class PlaylistTrack {
 
     async getStreams() {
         switch (this.platform.toLowerCase()) {
-            case 'youtube':
-                return Source.Youtube.getStreams(this.id);
             case 'soundcloud':
                 return Source.Soundcloud.getStreams(this.id);
             case 'spotify':
@@ -25,7 +23,7 @@ module.exports = class PlaylistTrack {
             case 'apple':
                 return Source.Apple.getStreams(this.id);
             default:
-                return Source.Youtube.getStreams(this.id);
+                return Source.Soundcloud.getStreams(this.id);
         }
     }
 };

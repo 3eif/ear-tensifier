@@ -14,7 +14,6 @@ module.exports = class Search extends Command {
                 usage: '[source (yt, sc, or sp)] <search query>',
                 examples: [
                     'resonance',
-                    'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
                     'https://open.spotify.com/track/5hVghJ4KaYES3BFUATCYn0?si=44452e03da534c75',
                     'sc resonance',
                 ],
