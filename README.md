@@ -13,6 +13,8 @@
 
 <h1>Ear Tensifier</h1>
 
+> **Disclaimer:** The code provided in this repository is outdated and does not reflect the current live version of Ear Tensifier.
+
 [Ear Tensifier](https://eartensifier.net/) is a powerful discord bot written in JavaScript using the [discord.js](https://github.com/discordjs/discord.js) library and [yasha](https://github.com/ilikdoge/yasha) and [sange](https://github.com/ilikdoge/sange) to deliver audio.
 
 ## Add to Discord
